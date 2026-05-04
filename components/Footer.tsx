@@ -32,6 +32,18 @@ export function Footer() {
             <br />
             <span className="text-white/70">is a 501(c)(3) nonprofit.</span>
           </p>
+          <p className="mt-4 text-xs leading-relaxed text-white/50">
+            Imagery by{' '}
+            <a
+              href="https://www.behance.net/natist"
+              target="_blank"
+              rel="noreferrer"
+              className="underline decoration-from-font underline-offset-4 hover:text-white"
+            >
+              Seungjun Na
+            </a>
+            .
+          </p>
         </div>
 
         <div className="flex flex-col items-start gap-2 text-white md:items-end">
