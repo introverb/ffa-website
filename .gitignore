@@ -7,6 +7,7 @@ out/
 *.log
 .vercel
 next-env.d.ts
+*.tsbuildinfo
 
 # Local-only
 .claude/

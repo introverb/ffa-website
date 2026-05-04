@@ -2,6 +2,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 import { Panel } from '@/components/PageFrame';
 import { Placeholder } from '@/components/Placeholder';
+import { ResearchPitchDialog } from '@/components/ResearchPitchDialog';
 import { STORIES, RESEARCH_AREAS } from '@/lib/content';
 
 export const metadata: Metadata = {
@@ -62,10 +63,7 @@ export default function ResourcesPage() {
               <div className="text-body leading-relaxed text-muted">
                 {r.cta ? (
                   <p>
-                    {r.blurb}{' '}
-                    <Link href={r.cta.href} className="underline decoration-from-font underline-offset-4 text-ink hover:text-sage">
-                      {r.cta.label}
-                    </Link>
+                    {r.blurb} <ResearchPitchDialog triggerLabel={r.cta.label} />
                   </p>
                 ) : (
                   <p>{r.blurb}</p>
