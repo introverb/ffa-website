@@ -4,7 +4,6 @@ import Image from 'next/image';
 const NAV = [
   { href: '/', label: 'Home' },
   { href: '/possibilia', label: 'Possibilia' },
-  { href: '/resources', label: 'Resources' },
   { href: '/contact', label: 'Contact' },
 ];
 

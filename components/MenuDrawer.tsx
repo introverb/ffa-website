@@ -7,7 +7,6 @@ import { MenuButton } from './MenuButton';
 const NAV = [
   { href: '/', label: 'Home' },
   { href: '/possibilia', label: 'Possibilia' },
-  { href: '/resources', label: 'Resources' },
   { href: '/contact', label: 'Contact' },
   { href: '/donate', label: 'Donate' },
 ];

@@ -4,7 +4,6 @@ import { Panel } from './PageFrame';
 
 const NAV = [
   { href: '/possibilia', label: 'Possibilia' },
-  { href: '/resources', label: 'Resources' },
   { href: '/contact', label: 'Contact' },
   { href: '/donate', label: 'Donate' },
 ];
