@@ -60,10 +60,10 @@ export default function PossibiliaPage() {
         <h2 className="text-h2 md:text-h2-lg">We&rsquo;re hiring contributors for Issue 0.</h2>
         <p className="mt-6 max-w-prose text-body-lg leading-relaxed text-white/85">
           Writers, artists, editors, technical advisors, and donors. Read the submission guide
-          on our resources page or send a pitch directly.
+          or send a pitch directly.
         </p>
         <div className="mt-10 flex flex-wrap gap-3">
-          <Link href="/resources" className="btn">How to submit</Link>
+          <Link href="/possibilia-submissions" className="btn">How to submit</Link>
           <Link href="/contact" className="btn-solid">Send a pitch</Link>
         </div>
       </Panel>
