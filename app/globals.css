@@ -1,0 +1,93 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-paper text-ink font-sans;
+    font-weight: 300;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display), 'Eurostile Next Pro', 'Eurostile',
+      Helvetica, Arial, sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.005em;
+  }
+
+  /* Per the design spec, bolded text in body copy also uses the display face
+     (Eurostile Next Pro Semibold / Saira fallback). */
+  b, strong {
+    font-family: var(--font-display), 'Eurostile Next Pro', 'Eurostile',
+      Helvetica, Arial, sans-serif;
+    font-weight: 600;
+  }
+
+  a {
+    @apply transition-colors;
+  }
+}
+
+@layer components {
+  /* Fixed-positioned menu pill that stays equidistant from the hero panel's
+     top-right corner regardless of viewport width. The panel is centered
+     with `max-w-[1500px] mx-auto`, so on viewports wider than 1500px the
+     panel's right edge moves inward — we add `(100vw - 1500px) / 2` to the
+     right offset to compensate, capped at the page padding for narrow
+     viewports. */
+  .menu-pill-position {
+    position: fixed;
+    top: 3rem; /* 48px = 24px page padding (pt-6) + 24px inset */
+    right: 3rem; /* 48px = 24px page padding (px-6) + 24px inset */
+    z-index: 50;
+  }
+  @media (min-width: 768px) {
+    .menu-pill-position {
+      top: 3.5rem; /* 56px = 32px (pt-8) + 24px inset */
+      right: max(4rem, calc((100vw - 1500px) / 2 + 4rem));
+    }
+  }
+
+  .container-wide {
+    @apply mx-auto w-full max-w-wide px-6 md:px-10;
+  }
+
+  .eyebrow {
+    @apply font-meta uppercase tracking-[0.08em] text-muted;
+    font-size: 12px;
+    line-height: 1.4;
+  }
+
+  .rule {
+    @apply border-t border-rule;
+  }
+
+  .link-underline {
+    @apply underline decoration-rule decoration-1 underline-offset-[6px] hover:decoration-sage hover:text-sage;
+  }
+
+  /* Wix-style sage green CTA button */
+  .btn-solid {
+    @apply inline-flex items-center justify-center bg-sage px-7 py-3 text-sm uppercase tracking-[0.12em] text-white transition hover:bg-dark;
+    font-weight: 400;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center border border-sage bg-transparent px-7 py-3 text-sm uppercase tracking-[0.12em] text-sage transition hover:bg-sage hover:text-white;
+    font-weight: 400;
+  }
+
+  /* Section bands — alternate white / cream */
+  .band-cream {
+    @apply bg-cream;
+  }
+  .band-taupe {
+    @apply bg-taupe;
+  }
+}
