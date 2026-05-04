@@ -112,11 +112,14 @@ ${linksHtml}
       );
     }
 
-    // Redirect back to the form with a success flag
-    return NextResponse.redirect(
-      new URL('/possibilia-submissions?sent=1', req.url),
-      303,
-    );
+    // Redirect back to the form with a success flag.
+    // Relative Location avoids the proxy-host issue on Railway, where req.url
+    // resolves to the internal container URL (localhost:8080) rather than the
+    // public domain.
+    return new NextResponse(null, {
+      status: 303,
+      headers: { Location: '/possibilia-submissions?sent=1' },
+    });
   } catch (err) {
     console.error('Submission error:', err);
     return NextResponse.json(
