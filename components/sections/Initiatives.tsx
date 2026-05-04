@@ -55,9 +55,6 @@ export function Initiatives() {
                     ))}
                   <p className={i.note ? 'mt-8' : ''}>{i.blurb}</p>
                 </div>
-                {i.imageCredit && (
-                  <p className="mt-8 text-sm italic text-muted">image by {i.imageCredit}</p>
-                )}
               </div>
               <div>
                 <Placeholder src={i.image} alt={i.title} ratio="square" />
