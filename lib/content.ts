@@ -106,10 +106,10 @@ export const INITIATIVES = [
   {
     n: '02',
     title: 'Industrial Garden',
-    status: 'Summer 2026 — Proposal Exhibit',
+    status: 'Summer 2027 — Proposal Exhibit',
     note: 'On Support:',
     blurb:
-      'A venue for education, artisanship, and prototyping — a gathering ground for artists, writers, and engineers to build the work the magazine imagines.',
+      'Industrial Garden is a community maker space we’re proposing for New York City — a self-sustaining hub where local craftspeople and hard tech founders share professional-grade equipment, workspace, and each other. Across three floors of industry, members access machines, workstations, and collaborative offices on demand, supported by a profit-sharing membership that rewards staying rather than rushing to leave. More than a co-working space and less than an incubator, the Garden is built on the conviction that the places where the future gets made should themselves be beautiful.',
     image: '/images/initiative-garden.jpg',
     href: '/contact',
   },
