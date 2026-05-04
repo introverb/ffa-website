@@ -49,21 +49,9 @@ export const RESEARCH_AREAS = [
   },
   {
     n: '03',
-    title: 'Early Autos and Scaling the Future of Transport',
-    blurb:
-      'How transportation technologies move from prototype to civilization-scale infrastructure.',
-  },
-  {
-    n: '04',
-    title: 'Upgrading Cities: The Evolution of Urban Environments',
-    blurb:
-      'Architectural, civic, and ecological proposals for retrofitting cities toward a more livable century.',
-  },
-  {
-    n: '05',
     title: 'TBD: Researchers Wanted',
     blurb: 'Have an idea for us to peruse/pursue? Want to do a case study with us?',
-    cta: { label: 'Drop us a line!', href: '/contact' },
+    cta: { label: 'Drop us a line!' },
   },
 ];
 
