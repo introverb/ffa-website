@@ -47,30 +47,14 @@ const OTHER_WAYS = [
 export default function DonatePage() {
   return (
     <>
-      <Panel variant="white" className="md:p-16">
+      <Panel id="donate" variant="white" className="md:p-16">
         <p className="text-sm underline decoration-from-font underline-offset-4 text-muted">
           Donate
         </p>
         <h1 className="mt-6 max-w-4xl text-h2 leading-[1.05] md:text-h2-lg">
-          Fund a more optimistic future.
+          Become a patron of the Arts &amp; Sciences.
         </h1>
-        <p className="mt-6 max-w-prose text-body-lg leading-relaxed text-ink/80">
-          The Foundation for Future Aesthetics is a 501(c)(3) nonprofit. Every dollar pays
-          contributors, funds programs, and brings new work into the world. Donations are
-          tax-deductible to the extent allowed by law.
-        </p>
-        <div className="mt-8 flex flex-wrap gap-3">
-          <a href="#donate" className="btn-solid">
-            Donate now
-          </a>
-          <Link href="/contact" className="btn">
-            Discuss a major gift
-          </Link>
-        </div>
-      </Panel>
-
-      <Panel id="donate" variant="white" className="md:p-16">
-        <div className="grid gap-10 md:grid-cols-3">
+        <div className="mt-12 grid gap-10 md:grid-cols-3">
           {TIERS.map((t) => (
             <div key={t.name} className="rounded-2xl bg-cream p-10">
               <p className="text-sm uppercase tracking-[0.08em] text-sage">{t.name}</p>
@@ -133,6 +117,25 @@ export default function DonatePage() {
           </Link>{' '}
           and we&rsquo;ll route you to the right place.
         </p>
+      </Panel>
+
+      <Panel variant="white" className="md:p-16">
+        <h2 className="max-w-4xl text-h2 leading-[1.05] md:text-h2-lg">
+          Fund a more optimistic future.
+        </h2>
+        <p className="mt-6 max-w-prose text-body-lg leading-relaxed text-ink/80">
+          The Foundation for Future Aesthetics is a 501(c)(3) nonprofit. Every dollar pays
+          contributors, funds programs, and brings new work into the world. Donations are
+          tax-deductible to the extent allowed by law.
+        </p>
+        <div className="mt-8 flex flex-wrap gap-3">
+          <a href="#donate" className="btn-solid">
+            Donate now
+          </a>
+          <Link href="/contact" className="btn">
+            Discuss a major gift
+          </Link>
+        </div>
       </Panel>
     </>
   );
