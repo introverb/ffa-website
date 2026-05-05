@@ -18,13 +18,16 @@ export function MagazineCallout() {
             Possibilia Magazine &mdash; Issue 0
           </p>
           <h2 className="mt-6 text-h2 leading-[1.1] md:text-h2-lg">
-            Help us build a home for optimistic, realistic science fiction.
+            We&rsquo;re building the home of optimistic, realistic, sci-fi.
           </h2>
           <p className="mt-8 max-w-prose text-body leading-relaxed text-white/85">
-            We&rsquo;re assembling Issue 0 of Possibilia &mdash; fiction, criticism, and
-            original artwork imagining a future worth building. We&rsquo;re looking for
-            contributors across every role: writers, artists, donors, field experts, and
-            friends of the project.
+            Science fiction worth emulating. Original short stories of tomorrow. Nonfiction
+            companion essays from working scientists. Artwork commissioned from a variety of
+            creators.
+          </p>
+          <p className="mt-4 max-w-prose text-body leading-relaxed text-white/85">
+            We&rsquo;re looking for contributors across every role: writers, artists, field
+            experts, partners, donors, and friends of the project.
           </p>
           <Link
             href="/possibilia"
