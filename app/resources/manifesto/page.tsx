@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default function ManifestoPage() {
   return (
     <Panel variant="white" full>
-      <div className="relative aspect-[2/1]">
+      <div className="relative aspect-[5/2]">
         <Image
           src="/images/manifesto.jpg"
           alt="Manifesto banner"
