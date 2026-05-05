@@ -23,8 +23,11 @@ type PageHeaderProps = {
 
 export function PageHeader({ eyebrow, title, body, cta }: PageHeaderProps) {
   return (
-    <Panel variant="white" full className="relative min-h-[400px]">
-      {/* Background: blurred hero.jpg + paper-tinted overlay */}
+    <Panel variant="white" full className="relative min-h-[360px]">
+      {/* Background: blurred hero.jpg + paper-tinted overlay. Overlay is
+          dialed back from 85% to 45% so the image's color and texture come
+          through clearly behind the masthead/text, while still keeping
+          enough contrast for legibility. */}
       <div aria-hidden className="absolute inset-0 overflow-hidden rounded-3xl">
         <Image
           src="/images/hero.jpg"
@@ -34,7 +37,7 @@ export function PageHeader({ eyebrow, title, body, cta }: PageHeaderProps) {
           className="scale-125 object-cover blur-3xl"
           priority
         />
-        <div className="absolute inset-0 bg-paper/85" />
+        <div className="absolute inset-0 bg-paper/45" />
       </div>
 
       {/* Content */}

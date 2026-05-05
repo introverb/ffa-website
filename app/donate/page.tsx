@@ -58,16 +58,6 @@ export default function DonatePage() {
             Donations are tax-deductible to the extent allowed by law.
           </p>
         }
-        cta={
-          <>
-            <a href="#donate" className="btn-solid w-full">
-              Donate now
-            </a>
-            <Link href="/contact" className="btn w-full">
-              Discuss a major gift
-            </Link>
-          </>
-        }
       />
 
       <Panel id="donate" variant="white" className="md:p-16">

@@ -31,11 +31,12 @@ export function Initiatives() {
       {INITIATIVES.map((i, idx) => (
         <div
           key={i.n}
-          // bg-paper wrapper hides the corner peek between adjacent cards;
-          // the last card needs rounded-b-3xl so the wrapper's bottom edge
-          // matches the panel's rounded corners (otherwise the wrapper's
-          // square bottom shows through where nothing covers it).
-          className={`sticky bg-paper ${idx === INITIATIVES.length - 1 ? 'rounded-b-3xl' : ''}`}
+          // No wrapper background — cards are just sticky containers, the
+          // panel inside provides its own rounded shape and bg. This means
+          // a small taupe peek can show in corner triangles between
+          // adjacent rounded cards, which the user prefers over the
+          // rectangular wrapper look.
+          className="sticky"
           style={{ top: `${7 + idx * 1.5}rem` }}
         >
           <Panel
