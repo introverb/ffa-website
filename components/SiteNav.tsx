@@ -7,6 +7,7 @@ import { usePathname } from 'next/navigation';
 const NAV = [
   { href: '/possibilia', label: 'Possibilia' },
   { href: '/resources', label: 'Resources' },
+  { href: '/partnerships', label: 'Partnerships' },
   { href: '/donate', label: 'Donate' },
   { href: '/contact', label: 'Contact' },
 ];
