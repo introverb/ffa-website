@@ -8,10 +8,16 @@ export function MagazineCallout() {
   return (
     <Panel variant="dark" className="md:p-20">
       <div className="grid gap-14 md:grid-cols-2 md:items-stretch">
-        <div className="flex min-h-[260px] items-center justify-center overflow-hidden rounded-md bg-white/10">
-          <p className="font-meta text-xs uppercase tracking-[0.18em] text-white/60">
-            Video coming soon
-          </p>
+        <div className="overflow-hidden rounded-md bg-white/10">
+          <video
+            src="/images/possibilia-video.mp4"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            className="h-full w-full object-cover"
+          />
         </div>
         <div className="text-white">
           <p className="text-sm uppercase tracking-[0.12em] text-white/70">

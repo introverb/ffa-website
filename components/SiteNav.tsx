@@ -32,7 +32,7 @@ export function SiteNav() {
         <Link
           href="/"
           aria-label="Home — Foundation for Future Aesthetics"
-          className="group flex shrink-0 items-center"
+          className="group flex shrink-0 items-center gap-2.5"
         >
           <Image
             src="/images/logo.svg"
@@ -42,6 +42,9 @@ export function SiteNav() {
             className="h-6 w-auto opacity-55 brightness-0 invert transition-opacity group-hover:opacity-100 md:h-7"
             priority
           />
+          <span className="hidden font-heading text-xs font-semibold tracking-tight text-white/55 transition-colors group-hover:text-white lg:inline">
+            Foundation for Future Aesthetics
+          </span>
         </Link>
         <ul className="flex items-center gap-4 text-xs uppercase tracking-[0.12em] sm:gap-6 md:gap-10 md:text-sm">
           {NAV.map((item) => (

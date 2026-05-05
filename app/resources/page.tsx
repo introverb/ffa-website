@@ -35,7 +35,12 @@ export default function ResourcesPage() {
       <PageHeader
         eyebrow="Resources"
         title="Reading and writing."
-        body={<p>The thinking behind the foundation, and the practical guide for joining it.</p>}
+        body={
+          <p>
+            Original articles, partnership announcements, collaborations, and the practical
+            guides for joining the work. New posts land here periodically.
+          </p>
+        }
       />
 
       <Panel variant="white" className="md:p-16">

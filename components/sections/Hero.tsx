@@ -30,7 +30,7 @@ export function Hero() {
       {/* Wordmark, bottom-right corner — 24px inset to mirror the menu pill's
           tolerance at the top-right corner. */}
       <div className="absolute bottom-6 right-6 z-20">
-        <p className="font-heading text-sm font-semibold uppercase tracking-wider text-white drop-shadow md:text-base">
+        <p className="font-heading text-base font-semibold tracking-tight text-white drop-shadow md:text-lg">
           Foundation for Future Aesthetics
         </p>
       </div>

@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import type { Metadata } from 'next';
 import { Panel } from '@/components/PageFrame';
 import { PageHeader } from '@/components/PageHeader';
@@ -30,6 +31,15 @@ export default function ContactPage({
       <Panel variant="white" full>
         <div className="grid md:grid-cols-[1fr_480px]">
           <div className="p-8 md:p-12">
+            <p className="mb-5 text-sm text-muted">
+              Submitting work for Possibilia?{' '}
+              <Link
+                href="/possibilia-submissions"
+                className="underline decoration-from-font underline-offset-4 text-ink hover:text-sage"
+              >
+                Use the submissions form &rarr;
+              </Link>
+            </p>
             {sent ? (
               <div className="rounded-2xl border border-sage/40 bg-sage-light/30 p-8 md:p-10">
                 <p className="eyebrow text-sage">Message received</p>
@@ -58,12 +68,16 @@ export default function ContactPage({
                     id="topic"
                     name="topic"
                     required
+                    defaultValue="Partnership"
                     className="mt-3 w-full border border-rule bg-paper px-3 py-3 text-body"
                   >
-                    <option>Pitch</option>
-                    <option>Research</option>
                     <option>Partnership</option>
+                    <option>Pitch</option>
                     <option>Press</option>
+                    <option>Donor-advised fund grant</option>
+                    <option>Stock or crypto donation</option>
+                    <option>Bequest / planned giving</option>
+                    <option>Research</option>
                     <option>Something else</option>
                   </select>
                 </div>

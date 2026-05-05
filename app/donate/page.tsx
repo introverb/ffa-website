@@ -13,20 +13,18 @@ const TIERS = [
   {
     name: 'Patron',
     amount: '$500',
-    blurb:
-      'Sponsor one piece in an editorial package — a Possibilia short story, a commissioned illustration, or a companion essay.',
+    blurb: 'Underwrite one piece — a Possibilia story, illustration, or companion essay.',
   },
   {
     name: 'Editorial Sponsor',
     amount: '$1,500',
     blurb:
-      'Underwrite a complete editorial package: a Possibilia story, the original artwork commissioned to accompany it, and the companion essay that grounds the fiction in real research.',
+      'Underwrite a full editorial package — story, artwork, and companion essay — plus listing as an event sponsor.',
   },
   {
     name: 'Founding Sponsor',
     amount: '$5,000+',
-    blurb:
-      'Underwrite a full issue of Possibilia, sponsor an exhibition, or seed funding for a foundation initiative. Recognition options included.',
+    blurb: 'Underwrite a full issue of Possibilia, an exhibition, or a foundation initiative.',
   },
 ];
 
@@ -65,21 +63,27 @@ export default function DonatePage() {
         </h2>
         <div className="mt-12 grid gap-10 md:grid-cols-3">
           {TIERS.map((t) => (
-            <div key={t.name} className="rounded-2xl bg-cream p-10">
-              <p className="text-sm uppercase tracking-[0.08em] text-sage">{t.name}</p>
-              <p className="mt-5 text-h2 md:text-h2-lg">{t.amount}</p>
-              <p className="mt-5 text-body leading-relaxed text-ink/80">{t.blurb}</p>
+            <div
+              key={t.name}
+              className="flex flex-col justify-between rounded-2xl bg-cream p-10"
+            >
+              <div>
+                <p className="text-sm uppercase tracking-[0.08em] text-sage">{t.name}</p>
+                <p className="mt-5 text-h2 md:text-h2-lg">{t.amount}</p>
+                <p className="mt-5 text-body leading-relaxed text-ink/80">{t.blurb}</p>
+              </div>
               <a
                 href="https://www.every.org/futureaesthetics"
                 target="_blank"
                 rel="noreferrer"
-                className="btn-solid mt-8 inline-block"
+                className="btn-solid mt-8 self-start"
               >
                 Give {t.amount.replace('+', '')}
               </a>
             </div>
           ))}
         </div>
+        <p className="mt-8 text-sm text-muted">All tiers include recognition.</p>
       </Panel>
 
       <Panel variant="white" className="md:p-16">

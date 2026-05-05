@@ -40,6 +40,9 @@ export function HomepageOutro() {
             sizes="(max-width: 768px) 100vw, 370px"
             className="object-cover"
           />
+          <p className="absolute bottom-4 right-4 text-xs italic text-white/90 drop-shadow">
+            Possibilia by Dylan Weiler
+          </p>
         </div>
         <div className="p-8 md:p-12">
           <p className="eyebrow">Resources</p>
