@@ -31,7 +31,10 @@ export function Mission() {
             alt="Future-facing collage"
             fill
             sizes="(max-width: 768px) 100vw, 450px"
-            className="object-cover"
+            // X anchor at 10% biases the visible region ~50px left of center
+            // (when the row stretches past 540 to fit the text). Tunable —
+            // lower % pans further left, 50% is centered.
+            className="object-cover md:object-[10%_50%]"
           />
         </div>
       </div>
