@@ -4,42 +4,33 @@ import { Panel } from '@/components/PageFrame';
 import { Placeholder } from '@/components/Placeholder';
 import { INITIATIVES } from '@/lib/content';
 
-// Initiatives band — the header (astronaut image) plus three sticky-stacking
-// cards. The whole band is one tall container so that every element shares
-// the same sticky context: the header pins at the top, then each card pins
-// just below it, sliding up over whatever's behind. Progressive `top` values
-// make the stack look like a fanned-out deck rather than dead-stacked cards.
+// Initiatives band — the astronaut header (in-flow, scrolls naturally) plus
+// three sticky-stacking cards beneath it. The header used to be sticky too,
+// but with the SiteNav pinned at the top it left a thin sliver of the
+// astronaut image peeking between the nav and the topmost card. Letting the
+// header scroll out of view once it's done its job keeps the deck stack
+// clean.
 //
-// All offsets are shifted down by 5rem from the original deck so they pin
-// below the SiteNav pill (which sits at top-6/8). Relative spacing between
-// header → card 0 → card 1 → card 2 is preserved (2rem header peek, 1.5rem
-// per card increment).
-//
-// All structural CSS — no JS, no animation library:
-//   - Header is sticky `top: 5rem`. As you scroll into the band the header
-//     pins just below the SiteNav.
-//   - Card 0 is sticky `top: 7rem`. The header peeks 2rem above it.
-//   - Cards 1 and 2 pin at `top: 8.5rem` and `top: 10rem`, each peeking
+// The deck:
+//   - Card 0 is sticky `top: 8.5rem`. That clears the SiteNav (~76px) with
+//     comfortable breathing room.
+//   - Cards 1 and 2 pin at `top: 10rem` and `top: 11.5rem`, each peeking
 //     1.5rem (24px) above the next.
-//   - Top-edge drop shadow on the cards makes each layer cast a soft shadow
-//     upward onto whatever it's covering.
+//   - bg-paper on each sticky wrapper hides the corner peek between
+//     adjacent rounded cards.
+//   - Top-edge drop shadow makes each layer cast softly upward.
 //   - 30vh spacer at the bottom so the last card has room to scroll into
-//     view before the next section starts.
+//     view before the next section.
 export function Initiatives() {
   return (
     <div className="relative">
-      <div className="sticky top-[5rem]">
-        <InitiativesHeader />
-      </div>
+      <InitiativesHeader />
 
       {INITIATIVES.map((i, idx) => (
         <div
           key={i.n}
-          // bg-paper fills the wrapper behind the panel so the rounded-corner
-          // cutouts on each card show paper-white instead of the taupe page bg —
-          // hides the dark peek where adjacent cards' corners meet.
           className="sticky bg-paper"
-          style={{ top: `${7 + idx * 1.5}rem` }}
+          style={{ top: `${8.5 + idx * 1.5}rem` }}
         >
           <Panel
             variant="white"
