@@ -53,9 +53,8 @@ export default function DonatePage() {
         title={<>Become a patron of the Arts &amp; Sciences.</>}
         body={
           <p>
-            The Foundation for Future Aesthetics is a 501(c)(3) nonprofit. Every dollar
-            pays contributors, funds programs, and brings new work into the world.
-            Donations are tax-deductible to the extent allowed by law.
+            A 501(c)(3) nonprofit. Tax-deductible donations fund our contributors,
+            programs, and exhibitions.
           </p>
         }
       />

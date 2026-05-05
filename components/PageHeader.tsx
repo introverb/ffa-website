@@ -23,7 +23,7 @@ type PageHeaderProps = {
 
 export function PageHeader({ eyebrow, title, body, cta }: PageHeaderProps) {
   return (
-    <Panel variant="white" full className="relative min-h-[360px]">
+    <Panel variant="white" full className="relative md:h-[410px]">
       {/* Background: blurred hero.jpg + paper-tinted overlay. Overlay
           dialed back to 35% so the image's color and texture read
           prominently behind the masthead/text, while still keeping
