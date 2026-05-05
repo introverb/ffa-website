@@ -72,14 +72,14 @@
     @apply underline decoration-rule decoration-1 underline-offset-[6px] hover:decoration-sage hover:text-sage;
   }
 
-  /* Wix-style sage green CTA button */
+  /* Wix-style sage green CTA button — corner radius matches image / Placeholder. */
   .btn-solid {
-    @apply inline-flex items-center justify-center bg-sage px-7 py-3 text-sm uppercase tracking-[0.12em] text-white transition hover:bg-dark;
+    @apply inline-flex items-center justify-center rounded-md bg-sage px-7 py-3 text-sm uppercase tracking-[0.12em] text-white transition hover:bg-dark;
     font-weight: 400;
   }
 
   .btn {
-    @apply inline-flex items-center justify-center border border-sage bg-transparent px-7 py-3 text-sm uppercase tracking-[0.12em] text-sage transition hover:bg-sage hover:text-white;
+    @apply inline-flex items-center justify-center rounded-md border border-sage bg-transparent px-7 py-3 text-sm uppercase tracking-[0.12em] text-sage transition hover:bg-sage hover:text-white;
     font-weight: 400;
   }
 
