@@ -11,10 +11,10 @@ const NAV = [
   { href: '/contact', label: 'Contact' },
 ];
 
-// Sticky elongated pill sitting at the top of every page. Stretches to
-// match the surrounding panels' width (rendered inside PageFrame's
-// max-w container). Glassy black backdrop matches the look of the
-// previous menu pill; logo is brightness-0 invert to read white on dark.
+// Sticky elongated pill at the top of every page. Stretches to match
+// surrounding panel width. Frosted, translucent — subtle in its default
+// state with everything (logo, text) at reduced opacity, lifting to
+// full white on hover.
 export function SiteNav() {
   const pathname = usePathname();
 
@@ -27,18 +27,18 @@ export function SiteNav() {
       aria-label="Site navigation"
       className="sticky top-6 z-50 md:top-8"
     >
-      <div className="flex items-center justify-between gap-4 rounded-full border border-white/85 bg-black/35 px-5 py-2.5 text-white backdrop-blur-md md:px-7 md:py-3">
+      <div className="flex items-center justify-between gap-4 rounded-full border border-white/25 bg-black/20 px-5 py-2.5 backdrop-blur-md md:px-7 md:py-3">
         <Link
           href="/"
           aria-label="Home — Foundation for Future Aesthetics"
-          className="flex shrink-0 items-center"
+          className="group flex shrink-0 items-center"
         >
           <Image
             src="/images/logo.svg"
             alt=""
             width={28}
             height={24}
-            className="h-6 w-auto brightness-0 invert md:h-7"
+            className="h-6 w-auto opacity-55 brightness-0 invert transition-opacity group-hover:opacity-100 md:h-7"
             priority
           />
         </Link>
@@ -47,8 +47,8 @@ export function SiteNav() {
             <li key={item.href}>
               <Link
                 href={item.href}
-                className={`transition hover:text-sage-light ${
-                  isActive(item.href) ? 'text-white' : 'text-white/75'
+                className={`transition-colors hover:text-white ${
+                  isActive(item.href) ? 'text-white/80' : 'text-white/55'
                 }`}
               >
                 {item.label}

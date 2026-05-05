@@ -10,13 +10,16 @@ import { INITIATIVES } from '@/lib/content';
 // just below it, sliding up over whatever's behind. Progressive `top` values
 // make the stack look like a fanned-out deck rather than dead-stacked cards.
 //
+// All offsets are shifted down by 5rem from the original deck so they pin
+// below the SiteNav pill (which sits at top-6/8). Relative spacing between
+// header → card 0 → card 1 → card 2 is preserved (2rem header peek, 1.5rem
+// per card increment).
+//
 // All structural CSS — no JS, no animation library:
-//   - Header is sticky `top: 0`. As you scroll into the band the header
-//     pins to the very top.
-//   - Card 0 is sticky `top: 2rem`. When its natural position scrolls past
-//     2rem from viewport-top, it pins. The header stays at `top: 0`, so
-//     32px of the header still peeks above the card.
-//   - Cards 1 and 2 pin at `top: 3.5rem` and `top: 5rem`, each peeking
+//   - Header is sticky `top: 5rem`. As you scroll into the band the header
+//     pins just below the SiteNav.
+//   - Card 0 is sticky `top: 7rem`. The header peeks 2rem above it.
+//   - Cards 1 and 2 pin at `top: 8.5rem` and `top: 10rem`, each peeking
 //     1.5rem (24px) above the next.
 //   - Top-edge drop shadow on the cards makes each layer cast a soft shadow
 //     upward onto whatever it's covering.
@@ -25,7 +28,7 @@ import { INITIATIVES } from '@/lib/content';
 export function Initiatives() {
   return (
     <div className="relative">
-      <div className="sticky top-0">
+      <div className="sticky top-[5rem]">
         <InitiativesHeader />
       </div>
 
@@ -36,7 +39,7 @@ export function Initiatives() {
           // cutouts on each card show paper-white instead of the taupe page bg —
           // hides the dark peek where adjacent cards' corners meet.
           className="sticky bg-paper"
-          style={{ top: `${2 + idx * 1.5}rem` }}
+          style={{ top: `${7 + idx * 1.5}rem` }}
         >
           <Panel
             variant="white"
