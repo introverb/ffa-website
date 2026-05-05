@@ -11,6 +11,7 @@ export const SITE = {
 
 // Stories aren't featured on the live homepage — kept here so the resources
 // page and dynamic /resources/[slug] route still have something to render.
+// The Manifesto lives at its own dedicated route, so it isn't in this list.
 export const STORIES = [
   {
     slug: 'submit-to-possibilia',
@@ -20,15 +21,6 @@ export const STORIES = [
     excerpt:
       'A practical guide for writers and artists who want to contribute to our debut issue — what we publish, how to format submissions, and what we pay.',
     image: '/images/story-submit.jpg',
-  },
-  {
-    slug: 'manifesto',
-    title: 'Manifesto: forging our future through optimistic science fiction',
-    date: '2024-07-09',
-    author: 'Olli Payne',
-    excerpt:
-      'Why we believe the stories we tell about tomorrow shape the world we actually build — and how an optimistic, realistic aesthetic can reset the canon.',
-    image: '/images/story-manifesto.jpg',
   },
 ];
 
