@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { Panel } from '@/components/PageFrame';
 import { Placeholder } from '@/components/Placeholder';
 import { Accordion } from '@/components/Accordion';
@@ -303,6 +304,25 @@ export default function PossibiliaSubmissionsPage({
           empowered to shape the future. We&rsquo;re not just telling stories — we&rsquo;re
           crafting blueprints for tomorrow. Happy imagining.
         </p>
+      </Panel>
+
+      <Panel variant="white" className="md:p-16">
+        <p className="eyebrow">Recommended reading</p>
+        <Link href="/resources/manifesto" className="group mt-6 block">
+          <h2 className="text-h3 leading-tight md:text-h3-lg group-hover:text-sage">
+            Manifesto: forging our future through optimistic science fiction
+          </h2>
+          <p className="mt-3 text-sm uppercase tracking-[0.08em] text-muted">
+            July 9, 2024 · Olli Payne
+          </p>
+          <p className="mt-4 max-w-prose text-body leading-relaxed text-muted">
+            Why we believe the stories we tell about tomorrow shape the world we actually build
+            &mdash; and how an optimistic, realistic aesthetic can reset the canon.
+          </p>
+          <p className="mt-6 text-sm underline decoration-from-font underline-offset-4 text-ink group-hover:text-sage">
+            Read the manifesto →
+          </p>
+        </Link>
       </Panel>
     </>
   );
