@@ -7,7 +7,7 @@ import { PROJECTS } from '@/lib/content';
 export const metadata: Metadata = {
   title: 'Possibilia',
   description:
-    'Possibilia is the foundation’s magazine — fiction, criticism, and original artwork imagining an optimistic, realistic future.',
+    'Possibilia is the foundation’s magazine — fiction, companion pieces, and original artwork imagining an optimistic, realistic future.',
 };
 
 export default function PossibiliaPage() {
@@ -21,7 +21,7 @@ export default function PossibiliaPage() {
           A magazine for the future we&rsquo;d actually want to live in.
         </h1>
         <p className="mt-10 max-w-prose text-body-lg leading-relaxed text-ink/80">
-          Possibilia publishes fiction, essays, criticism, and original artwork that imagine an
+          Possibilia publishes fiction, companion pieces, and original artwork that imagine an
           optimistic and realistic future. Issue 0 is in production. We&rsquo;re looking for
           contributors across every role.
         </p>
@@ -38,7 +38,7 @@ export default function PossibiliaPage() {
       <Panel variant="white" className="md:p-20">
         <div className="grid gap-14 md:grid-cols-3">
           <Pillar title="Fiction" body="Original short fiction set in a believable, recognizably better tomorrow. We pay professional rates and consider new voices alongside established writers." />
-          <Pillar title="Criticism & essays" body="Long-form writing on the aesthetics of the future across film, architecture, design, and games — the canon and the cracks in it." />
+          <Pillar title="Companion pieces" body="Nonfiction by working scientists, researchers, and field experts — companion essays that ground each story in the real research and ongoing work behind it." />
           <Pillar title="Artwork" body="Cover art, interior illustration, photography, and graphic essays. We commission and pay; we do not run uncredited generative work." />
         </div>
       </Panel>
