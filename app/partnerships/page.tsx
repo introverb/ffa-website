@@ -15,6 +15,7 @@ export default function PartnershipsPage() {
       <PageHeader
         eyebrow="Partnerships"
         title="Build the future with us."
+        image="/images/initiatives-hero.jpg"
         body={
           <p>
             The foundation partners with research labs, frontier-tech companies, and
@@ -72,8 +73,9 @@ export default function PartnershipsPage() {
               that could bring it into being &mdash; a curated, traveling show. We&rsquo;re
               opening sponsorship for the inaugural run.
             </p>
+            {/* TODO: link to /ours once that page is built. */}
             <Link href="/contact" className="btn mt-8 inline-block">
-              Request a brief
+              Event details
             </Link>
           </div>
 

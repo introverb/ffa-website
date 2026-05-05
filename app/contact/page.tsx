@@ -20,6 +20,7 @@ export default function ContactPage({
       <PageHeader
         eyebrow="Contact"
         title="Get in touch."
+        image="/images/contact.jpg"
         body={
           <p>
             Tell us a little about what you&rsquo;re working on. We read every message and
@@ -73,6 +74,7 @@ export default function ContactPage({
                   >
                     <option>Partnership</option>
                     <option>Pitch</option>
+                    <option>Open position inquiry</option>
                     <option>Press</option>
                     <option>Donor-advised fund grant</option>
                     <option>Stock or crypto donation</option>

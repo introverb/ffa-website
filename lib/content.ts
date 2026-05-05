@@ -5,7 +5,7 @@ export const SITE = {
   name: 'Foundation for Future Aesthetics',
   short: 'FFA',
   tagline:
-    'The Foundation for Future Aesthetics curates, promotes, and supports visions of an optimistic and realistic future expressed through the arts.',
+    'The Foundation for Future Aesthetics curates, promotes, and supports optimistic and realistic visions of the future expressed through the arts and sciences.',
   twitter: 'https://twitter.com/possibiliamag',
 };
 

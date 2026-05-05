@@ -18,14 +18,17 @@ const RESOURCES = [
       'Why the stories we tell about tomorrow shape the world we actually build. The aesthetic case for an optimistic, realistic canon.',
     image: '/images/manifesto.jpg',
     ratio: '5/2' as const,
+    objectPosition: undefined,
   },
   {
     href: '/possibilia-submissions',
     title: 'Submissions Guide',
     blurb:
-      'How to pitch fiction, companion pieces, and original artwork for Possibilia, Issue 0 — track-by-track requirements and what we look for.',
+      'How to pitch fiction, companion pieces, and original artwork for Possibilia Magazine — track-by-track requirements and what we look for.',
     image: '/images/possibilia-submissions.png',
     ratio: '5/2' as const,
+    // Crop biased upward (~25% from top instead of centered)
+    objectPosition: 'center 25%',
   },
 ];
 
@@ -35,6 +38,7 @@ export default function ResourcesPage() {
       <PageHeader
         eyebrow="Resources"
         title="Reading and writing."
+        image="/images/manifesto.jpg"
         body={
           <p>
             Original articles, partnership announcements, collaborations, and the practical
@@ -48,7 +52,12 @@ export default function ResourcesPage() {
           {RESOURCES.map((r) => (
             <li key={r.href}>
               <Link href={r.href} className="group block">
-                <Placeholder src={r.image} alt={r.title} ratio={r.ratio} />
+                <Placeholder
+                  src={r.image}
+                  alt={r.title}
+                  ratio={r.ratio}
+                  objectPosition={r.objectPosition}
+                />
                 <h2 className="mt-6 text-h4 leading-tight md:text-h3 group-hover:text-sage">
                   {r.title}
                 </h2>

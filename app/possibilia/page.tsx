@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { Panel } from '@/components/PageFrame';
+import { PageHeader } from '@/components/PageHeader';
 import { Placeholder } from '@/components/Placeholder';
 import { PROJECTS } from '@/lib/content';
 
@@ -13,39 +14,22 @@ export const metadata: Metadata = {
 export default function PossibiliaPage() {
   return (
     <>
-      <Panel variant="white" className="md:p-20">
-        <p className="text-sm underline decoration-from-font underline-offset-4 text-muted">
-          Possibilia · Issue 0
-        </p>
-        <h1 className="mt-8 max-w-4xl text-h1 leading-[1.05] md:text-h1-lg">
-          A magazine for the future we&rsquo;d actually want to live in.
-        </h1>
-        <p className="mt-10 max-w-prose text-body-lg leading-relaxed text-ink/80">
-          Possibilia publishes fiction, companion pieces, and original artwork that imagine an
-          optimistic and realistic future. Issue 0 is in production. We&rsquo;re looking for
-          contributors across every role.
-        </p>
-        <div className="mt-10 flex flex-wrap gap-3">
-          <Link href="/contact" className="btn-solid">Pitch us</Link>
-          <Link href="/donate" className="btn">Sponsor an issue</Link>
-        </div>
-      </Panel>
+      <PageHeader
+        eyebrow="Possibilia · Issue 0"
+        title="A magazine for the future we’d actually want to live in."
+        image="/images/initiative-possibilia.jpg"
+      />
 
-      <Panel variant="image" full className="aspect-[16/9]">
-        <Placeholder src="/images/possibilia-hero.jpg" alt="Possibilia hero" ratio="16/9" priority />
-      </Panel>
-
-      <Panel variant="white" className="md:p-20">
-        <div className="grid gap-14 md:grid-cols-3">
-          <Pillar title="Fiction" body="Original short fiction set in a believable, recognizably better tomorrow. We pay professional rates and consider new voices alongside established writers." />
-          <Pillar title="Companion pieces" body="Nonfiction by working scientists, researchers, and field experts — companion essays that ground each story in the real research and ongoing work behind it." />
-          <Pillar title="Artwork" body="Cover art, interior illustration, photography, and graphic essays. We commission and pay; we do not run uncredited generative work." />
-        </div>
-      </Panel>
-
+      {/* "Recently published" — placeholder framing. PROJECTS data still
+          contains the early-build project tiles; the real feed will be
+          published stories, art, and companion pieces from the magazine. */}
       <Panel variant="white" className="md:p-16">
-        <p className="text-sm underline decoration-from-font underline-offset-4 text-muted">Featured projects</p>
-        <h2 className="mt-6 text-h2 md:text-h2-lg">From the foundation&rsquo;s files.</h2>
+        <p className="text-sm underline decoration-from-font underline-offset-4 text-muted">
+          Recently published
+        </p>
+        <h2 className="mt-6 text-h2 leading-[1.05] md:text-h2-lg">
+          Stories, art, and essays.
+        </h2>
         <div className="mt-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           {PROJECTS.map((p) => (
             <div key={p.title}>
@@ -56,15 +40,35 @@ export default function PossibiliaPage() {
         </div>
       </Panel>
 
+      {/* Seeking contributors — black panel housing the three editorial
+          pillars (Fiction / Companion pieces / Artwork) that used to live
+          in their own panel. CTAs are submit + sponsor; "send a pitch"
+          lived here previously and was cut. */}
       <Panel variant="dark" className="md:p-16">
-        <h2 className="text-h2 md:text-h2-lg">We&rsquo;re hiring contributors for Issue 0.</h2>
-        <p className="mt-6 max-w-prose text-body-lg leading-relaxed text-white/85">
-          Writers, artists, editors, technical advisors, and donors. Read the submission guide
-          or send a pitch directly.
-        </p>
-        <div className="mt-10 flex flex-wrap gap-3">
-          <Link href="/possibilia-submissions" className="btn">How to submit</Link>
-          <Link href="/contact" className="btn-solid">Send a pitch</Link>
+        <h2 className="text-h2 leading-[1.05] md:text-h2-lg">
+          We&rsquo;re seeking contributors for print and online publication.
+        </h2>
+        <div className="mt-12 grid gap-12 md:grid-cols-3">
+          <DarkPillar
+            title="Fiction"
+            body="Original short fiction set in a believable, recognizably better tomorrow. We pay professional rates and consider new voices alongside established writers."
+          />
+          <DarkPillar
+            title="Companion pieces"
+            body="Nonfiction by working scientists, researchers, and field experts — companion essays that ground each story in the real research and ongoing work behind it."
+          />
+          <DarkPillar
+            title="Artwork"
+            body="Cover art, interior illustration, photography, and graphic essays. We commission and pay; we do not run uncredited generative work."
+          />
+        </div>
+        <div className="mt-12 flex flex-wrap gap-3">
+          <Link href="/possibilia-submissions" className="btn">
+            How to submit
+          </Link>
+          <Link href="/donate#donate" className="btn-solid">
+            Sponsor a story
+          </Link>
         </div>
       </Panel>
 
@@ -78,8 +82,8 @@ export default function PossibiliaPage() {
             July 9, 2024 · Olli Payne
           </p>
           <p className="mt-4 max-w-prose text-body leading-relaxed text-muted">
-            Why we believe the stories we tell about tomorrow shape the world we actually build
-            &mdash; and how an optimistic, realistic aesthetic can reset the canon.
+            Why we believe the stories we tell about tomorrow shape the world we actually
+            build &mdash; and how an optimistic, realistic aesthetic can reset the canon.
           </p>
           <p className="mt-6 text-sm underline decoration-from-font underline-offset-4 text-ink group-hover:text-sage">
             Read the manifesto →
@@ -90,11 +94,11 @@ export default function PossibiliaPage() {
   );
 }
 
-function Pillar({ title, body }: { title: string; body: string }) {
+function DarkPillar({ title, body }: { title: string; body: string }) {
   return (
     <div>
       <h3 className="text-h4">{title}</h3>
-      <p className="mt-4 text-body leading-relaxed text-muted">{body}</p>
+      <p className="mt-4 text-body leading-relaxed text-white/75">{body}</p>
     </div>
   );
 }

@@ -49,6 +49,7 @@ export default function DonatePage() {
       <PageHeader
         eyebrow="Donate"
         title={<>Become a patron of the Arts &amp; Sciences.</>}
+        image="/images/mission.jpg"
         body={
           <p>
             A 501(c)(3) nonprofit. Tax-deductible donations fund our contributors,

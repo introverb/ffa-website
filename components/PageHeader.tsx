@@ -17,20 +17,27 @@ import { Panel } from './PageFrame';
 type PageHeaderProps = {
   eyebrow: string;
   title: React.ReactNode;
-  body: React.ReactNode;
+  body?: React.ReactNode;
+  /** Background image — heavily frosted. Defaults to hero.jpg. */
+  image?: string;
   cta?: React.ReactNode;
 };
 
-export function PageHeader({ eyebrow, title, body, cta }: PageHeaderProps) {
+export function PageHeader({
+  eyebrow,
+  title,
+  body,
+  image = '/images/hero.jpg',
+  cta,
+}: PageHeaderProps) {
   return (
     <Panel variant="white" full className="relative md:h-[410px]">
-      {/* Background: blurred hero.jpg + paper-tinted overlay. Overlay
-          dialed back to 35% so the image's color and texture read
-          prominently behind the masthead/text, while still keeping
-          enough contrast for legibility. */}
+      {/* Background: blurred image + paper-tinted overlay. Each page
+          can pass a different image so the frosted signature varies
+          subtly across the site while keeping the same treatment. */}
       <div aria-hidden className="absolute inset-0 overflow-hidden rounded-3xl">
         <Image
-          src="/images/hero.jpg"
+          src={image}
           alt=""
           fill
           sizes="100vw"
@@ -62,9 +69,11 @@ export function PageHeader({ eyebrow, title, body, cta }: PageHeaderProps) {
             <h1 className="mt-5 max-w-3xl text-h2 leading-[1.05] md:text-h2-lg">
               {title}
             </h1>
-            <div className="mt-5 max-w-prose text-body-lg leading-relaxed text-ink/80">
-              {body}
-            </div>
+            {body && (
+              <div className="mt-5 max-w-prose text-body-lg leading-relaxed text-ink/80">
+                {body}
+              </div>
+            )}
           </div>
           {cta && <div className="flex flex-col gap-4">{cta}</div>}
         </div>
