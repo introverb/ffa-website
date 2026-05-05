@@ -3,7 +3,7 @@ import { Saira } from 'next/font/google';
 import './globals.css';
 import { PageFrame } from '@/components/PageFrame';
 import { Footer } from '@/components/Footer';
-import { MenuDrawer } from '@/components/MenuDrawer';
+import { HomeButton } from '@/components/HomeButton';
 
 // Display face — used for headings and bolded text. Saira is a temporary
 // stand-in for Eurostile Next Pro Semibold; both are geometric sans with a
@@ -53,7 +53,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={display.variable}>
       <body>
-        <MenuDrawer />
+        <HomeButton />
         <PageFrame>
           {children}
           <Footer />
