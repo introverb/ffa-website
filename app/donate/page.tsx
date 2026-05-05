@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { Panel } from '@/components/PageFrame';
+import { PageHeader } from '@/components/PageHeader';
 
 export const metadata: Metadata = {
   title: 'Donate',
@@ -47,31 +48,27 @@ const OTHER_WAYS = [
 export default function DonatePage() {
   return (
     <>
-      <Panel variant="white" className="md:p-16">
-        <div className="grid gap-10 md:grid-cols-[1fr_240px] md:items-start">
-          <div>
-            <p className="text-sm underline decoration-from-font underline-offset-4 text-muted">
-              Donate
-            </p>
-            <h1 className="mt-6 max-w-3xl text-h2 leading-[1.05] md:text-h2-lg">
-              Become a patron of the Arts &amp; Sciences.
-            </h1>
-            <p className="mt-6 max-w-prose text-body-lg leading-relaxed text-ink/80">
-              The Foundation for Future Aesthetics is a 501(c)(3) nonprofit. Every dollar
-              pays contributors, funds programs, and brings new work into the world.
-              Donations are tax-deductible to the extent allowed by law.
-            </p>
-          </div>
-          <div className="flex flex-col gap-4">
+      <PageHeader
+        eyebrow="Donate"
+        title={<>Become a patron of the Arts &amp; Sciences.</>}
+        body={
+          <p>
+            The Foundation for Future Aesthetics is a 501(c)(3) nonprofit. Every dollar
+            pays contributors, funds programs, and brings new work into the world.
+            Donations are tax-deductible to the extent allowed by law.
+          </p>
+        }
+        cta={
+          <>
             <a href="#donate" className="btn-solid w-full">
               Donate now
             </a>
             <Link href="/contact" className="btn w-full">
               Discuss a major gift
             </Link>
-          </div>
-        </div>
-      </Panel>
+          </>
+        }
+      />
 
       <Panel id="donate" variant="white" className="md:p-16">
         <h2 className="max-w-4xl text-h2 leading-[1.05] md:text-h2-lg">

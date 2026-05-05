@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { Panel } from '@/components/PageFrame';
+import { PageHeader } from '@/components/PageHeader';
 
 export const metadata: Metadata = {
   title: 'Partnerships',
@@ -11,28 +12,18 @@ export const metadata: Metadata = {
 export default function PartnershipsPage() {
   return (
     <>
-      <Panel variant="white" className="md:p-16">
-        <p className="text-sm underline decoration-from-font underline-offset-4 text-muted">
-          Partnerships
-        </p>
-        <h1 className="mt-6 max-w-4xl text-h2 leading-[1.05] md:text-h2-lg">
-          Build the future with us.
-        </h1>
-        <p className="mt-6 max-w-prose text-body-lg leading-relaxed text-ink/80">
-          The foundation partners with research labs, frontier-tech companies, and
-          forward-looking organizations to bring their work into the optimistic-future canon
-          &mdash; through Possibilia, the OURS exhibition program, and the Industrial Garden
-          initiative.
-        </p>
-        <div className="mt-8 flex flex-wrap gap-3">
-          <Link href="#editorial" className="btn-solid">
-            Editorial partnerships
-          </Link>
-          <Link href="/contact" className="btn">
-            Discuss a partnership
-          </Link>
-        </div>
-      </Panel>
+      <PageHeader
+        eyebrow="Partnerships"
+        title="Build the future with us."
+        body={
+          <p>
+            The foundation partners with research labs, frontier-tech companies, and
+            forward-looking organizations to bring their work into the optimistic-future
+            canon &mdash; through Possibilia, the OURS exhibition program, and the
+            Industrial Garden initiative.
+          </p>
+        }
+      />
 
       <Panel id="editorial" variant="white" className="md:p-20">
         <div className="grid gap-12 md:grid-cols-[1fr_1.4fr] md:items-start">

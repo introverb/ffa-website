@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { Panel } from '@/components/PageFrame';
+import { PageHeader } from '@/components/PageHeader';
 import { Placeholder } from '@/components/Placeholder';
 
 export const metadata: Metadata = {
@@ -31,17 +32,11 @@ const RESOURCES = [
 export default function ResourcesPage() {
   return (
     <>
-      <Panel variant="white" className="md:p-16">
-        <p className="text-sm underline decoration-from-font underline-offset-4 text-muted">
-          Resources
-        </p>
-        <h1 className="mt-6 max-w-4xl text-h2 leading-[1.05] md:text-h2-lg">
-          Reading and writing.
-        </h1>
-        <p className="mt-6 max-w-prose text-body-lg leading-relaxed text-ink/80">
-          The thinking behind the foundation, and the practical guide for joining it.
-        </p>
-      </Panel>
+      <PageHeader
+        eyebrow="Resources"
+        title="Reading and writing."
+        body={<p>The thinking behind the foundation, and the practical guide for joining it.</p>}
+      />
 
       <Panel variant="white" className="md:p-16">
         <ul className="grid gap-12 md:grid-cols-2">
