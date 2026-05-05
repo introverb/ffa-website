@@ -31,14 +31,14 @@ const RESOURCES = [
 export default function ResourcesPage() {
   return (
     <>
-      <Panel variant="white" className="md:p-20">
+      <Panel variant="white" className="md:p-16">
         <p className="text-sm underline decoration-from-font underline-offset-4 text-muted">
           Resources
         </p>
-        <h1 className="mt-8 max-w-4xl text-h1 leading-[1.05] md:text-h1-lg">
+        <h1 className="mt-6 max-w-4xl text-h2 leading-[1.05] md:text-h2-lg">
           Reading and writing.
         </h1>
-        <p className="mt-10 max-w-prose text-body-lg leading-relaxed text-ink/80">
+        <p className="mt-6 max-w-prose text-body-lg leading-relaxed text-ink/80">
           The thinking behind the foundation, and the practical guide for joining it.
         </p>
       </Panel>
