@@ -7,7 +7,12 @@ export const metadata: Metadata = {
   description: 'Reach the Foundation for Future Aesthetics — pitches, partnerships, and press.',
 };
 
-export default function ContactPage() {
+export default function ContactPage({
+  searchParams,
+}: {
+  searchParams: { sent?: string };
+}) {
+  const sent = searchParams?.sent === '1';
   return (
     <Panel variant="white" full>
       <div className="grid md:grid-cols-[1fr_480px]">
@@ -23,55 +28,62 @@ export default function ContactPage() {
             within two weeks, usually faster.
           </p>
 
-          <form
-            action="https://formspree.io/f/your-form-id"
-            method="POST"
-            className="mt-10 rounded-2xl bg-cream p-8 md:p-10"
-          >
-            <Field id="name" label="Your name" required />
-            <Field id="email" label="Email" type="email" required />
-            <Field id="role" label="Role / affiliation (optional)" />
-            <div className="mt-6">
-              <label
-                htmlFor="topic"
-                className="block text-sm uppercase tracking-[0.08em] text-ink/80"
-              >
-                What&rsquo;s this about?
-              </label>
-              <select
-                id="topic"
-                name="topic"
-                className="mt-3 w-full border border-rule bg-paper px-3 py-3 text-body"
-              >
-                <option>Pitch</option>
-                <option>Research</option>
-                <option>Partnership</option>
-                <option>Press</option>
-                <option>Something else</option>
-              </select>
+          {sent ? (
+            <div className="mt-10 rounded-2xl border border-sage/40 bg-sage-light/30 p-8 md:p-10">
+              <p className="eyebrow text-sage">Message received</p>
+              <p className="mt-3 text-h6 leading-snug text-ink">
+                Thanks &mdash; we got your note and will reply within two weeks, usually faster.
+              </p>
             </div>
-            <div className="mt-6">
-              <label
-                htmlFor="message"
-                className="block text-sm uppercase tracking-[0.08em] text-ink/80"
-              >
-                Your message
-              </label>
-              <textarea
-                id="message"
-                name="message"
-                rows={6}
-                required
-                className="mt-3 w-full border border-rule bg-paper px-3 py-3 text-body"
-              />
-            </div>
-            <button type="submit" className="btn-solid mt-8">
-              Send message
-            </button>
-            <p className="mt-5 text-sm text-muted">
-              Form posts to Formspree by default — replace the action URL with your endpoint.
-            </p>
-          </form>
+          ) : (
+            <form
+              action="/api/contact"
+              method="POST"
+              className="mt-10 rounded-2xl bg-cream p-8 md:p-10"
+            >
+              <Field id="name" label="Your name" required />
+              <Field id="email" label="Email" type="email" required />
+              <Field id="role" label="Role / affiliation (optional)" />
+              <div className="mt-6">
+                <label
+                  htmlFor="topic"
+                  className="block text-sm uppercase tracking-[0.08em] text-ink/80"
+                >
+                  What&rsquo;s this about?
+                </label>
+                <select
+                  id="topic"
+                  name="topic"
+                  required
+                  className="mt-3 w-full border border-rule bg-paper px-3 py-3 text-body"
+                >
+                  <option>Pitch</option>
+                  <option>Research</option>
+                  <option>Partnership</option>
+                  <option>Press</option>
+                  <option>Something else</option>
+                </select>
+              </div>
+              <div className="mt-6">
+                <label
+                  htmlFor="message"
+                  className="block text-sm uppercase tracking-[0.08em] text-ink/80"
+                >
+                  Your message
+                </label>
+                <textarea
+                  id="message"
+                  name="message"
+                  rows={6}
+                  required
+                  className="mt-3 w-full border border-rule bg-paper px-3 py-3 text-body"
+                />
+              </div>
+              <button type="submit" className="btn-solid mt-8">
+                Send message
+              </button>
+            </form>
+          )}
         </div>
 
         <div className="relative aspect-[3/2] md:aspect-auto">
