@@ -54,7 +54,7 @@ export default function DonatePage() {
               Donate
             </p>
             <h1 className="mt-6 max-w-3xl text-h2 leading-[1.05] md:text-h2-lg">
-              Fund a more optimistic future.
+              Become a patron of the Arts &amp; Sciences.
             </h1>
             <p className="mt-6 max-w-prose text-body-lg leading-relaxed text-ink/80">
               The Foundation for Future Aesthetics is a 501(c)(3) nonprofit. Every dollar
@@ -75,7 +75,7 @@ export default function DonatePage() {
 
       <Panel id="donate" variant="white" className="md:p-16">
         <h2 className="max-w-4xl text-h2 leading-[1.05] md:text-h2-lg">
-          Become a patron of the Arts &amp; Sciences.
+          Fund a more optimistic future.
         </h2>
         <div className="mt-12 grid gap-10 md:grid-cols-3">
           {TIERS.map((t) => (
