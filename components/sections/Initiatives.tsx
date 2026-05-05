@@ -4,18 +4,18 @@ import { Panel } from '@/components/PageFrame';
 import { Placeholder } from '@/components/Placeholder';
 import { INITIATIVES } from '@/lib/content';
 
-// Initiatives band — the astronaut header (in-flow, scrolls naturally) plus
-// three sticky-stacking cards beneath it. The header used to be sticky too,
-// but with the SiteNav pinned at the top it left a thin sliver of the
-// astronaut image peeking between the nav and the topmost card. Letting the
-// header scroll out of view once it's done its job keeps the deck stack
-// clean.
+// Initiatives band — the astronaut header plus three sticky-stacking cards.
+// Header pins just below the SiteNav so the deck reads as one continuous
+// stack: header sits behind, cards slide up and over it as you scroll.
 //
-// The deck:
-//   - Card 0 is sticky `top: 8.5rem`. That clears the SiteNav (~76px) with
-//     comfortable breathing room.
-//   - Cards 1 and 2 pin at `top: 10rem` and `top: 11.5rem`, each peeking
-//     1.5rem (24px) above the next.
+// Offsets are shifted down by 5rem from the original deck so they pin
+// below the SiteNav pill (which sits at top-6/8). Relative spacing in the
+// stack is preserved (2rem header peek, 1.5rem per card).
+//
+//   - Header pins at top-[5rem] (just under the SiteNav).
+//   - Card 0 pins at top-[7rem]; the header peeks 2rem above it.
+//   - Cards 1 and 2 pin at top-[8.5rem] and top-[10rem]; each peeks
+//     1.5rem above the next.
 //   - bg-paper on each sticky wrapper hides the corner peek between
 //     adjacent rounded cards.
 //   - Top-edge drop shadow makes each layer cast softly upward.
@@ -24,13 +24,15 @@ import { INITIATIVES } from '@/lib/content';
 export function Initiatives() {
   return (
     <div className="relative">
-      <InitiativesHeader />
+      <div className="sticky top-[5rem]">
+        <InitiativesHeader />
+      </div>
 
       {INITIATIVES.map((i, idx) => (
         <div
           key={i.n}
           className="sticky bg-paper"
-          style={{ top: `${8.5 + idx * 1.5}rem` }}
+          style={{ top: `${7 + idx * 1.5}rem` }}
         >
           <Panel
             variant="white"
