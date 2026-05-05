@@ -31,7 +31,11 @@ export function Initiatives() {
       {INITIATIVES.map((i, idx) => (
         <div
           key={i.n}
-          className="sticky bg-paper"
+          // bg-paper wrapper hides the corner peek between adjacent cards;
+          // the last card needs rounded-b-3xl so the wrapper's bottom edge
+          // matches the panel's rounded corners (otherwise the wrapper's
+          // square bottom shows through where nothing covers it).
+          className={`sticky bg-paper ${idx === INITIATIVES.length - 1 ? 'rounded-b-3xl' : ''}`}
           style={{ top: `${7 + idx * 1.5}rem` }}
         >
           <Panel
