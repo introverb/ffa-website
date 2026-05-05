@@ -32,7 +32,10 @@ export function Initiatives() {
       {INITIATIVES.map((i, idx) => (
         <div
           key={i.n}
-          className="sticky"
+          // bg-paper fills the wrapper behind the panel so the rounded-corner
+          // cutouts on each card show paper-white instead of the taupe page bg —
+          // hides the dark peek where adjacent cards' corners meet.
+          className="sticky bg-paper"
           style={{ top: `${2 + idx * 1.5}rem` }}
         >
           <Panel

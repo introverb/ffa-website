@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Image from 'next/image';
 import type { Metadata } from 'next';
 import { Panel } from '@/components/PageFrame';
 
@@ -10,17 +10,23 @@ export const metadata: Metadata = {
 
 export default function ManifestoPage() {
   return (
-    <Panel variant="white" className="md:p-20">
-      <div className="mx-auto max-w-3xl">
-        <Link
-          href="/resources"
-          className="text-sm underline decoration-from-font underline-offset-4 text-muted hover:text-sage"
-        >
-          ← Back to resources
-        </Link>
-        <p className="mt-10 text-sm uppercase tracking-[0.08em] text-sage">
-          July 9, 2024 · Olli Payne
-        </p>
+    <>
+      <Panel variant="image" full className="aspect-[2/1]">
+        <Image
+          src="/images/manifesto.jpg"
+          alt="Manifesto banner"
+          fill
+          sizes="100vw"
+          className="object-cover"
+          priority
+        />
+      </Panel>
+
+      <Panel variant="white" className="md:p-20">
+        <div className="mx-auto max-w-3xl">
+          <p className="text-sm uppercase tracking-[0.08em] text-sage">
+            July 9, 2024 · Olli Payne
+          </p>
         <h1 className="mt-4 text-h2 leading-tight md:text-h2-lg">
           Manifesto: forging our future through optimistic science fiction
         </h1>
@@ -320,7 +326,8 @@ export default function ManifestoPage() {
             the kind of world you wish to build.
           </p>
         </article>
-      </div>
-    </Panel>
+        </div>
+      </Panel>
+    </>
   );
 }
