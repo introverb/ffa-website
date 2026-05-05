@@ -8,7 +8,6 @@ const NAV = [
   { href: '/', label: 'Home' },
   { href: '/possibilia', label: 'Possibilia' },
   { href: '/contact', label: 'Contact' },
-  { href: '/donate', label: 'Donate' },
 ];
 
 // Right-side slide-in drawer with stacked nav items (matches the Wix site).
