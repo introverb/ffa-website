@@ -8,7 +8,7 @@ type Props = {
   src?: string;
   alt: string;
   className?: string;
-  ratio?: 'square' | '4/3' | '16/9' | '3/4' | '4/5';
+  ratio?: 'square' | '4/3' | '16/9' | '3/4' | '4/5' | '5/2';
   priority?: boolean;
 };
 
@@ -18,6 +18,7 @@ const RATIO: Record<NonNullable<Props['ratio']>, string> = {
   '16/9': 'aspect-[16/9]',
   '3/4': 'aspect-[3/4]',
   '4/5': 'aspect-[4/5]',
+  '5/2': 'aspect-[5/2]',
 };
 
 export function Placeholder({ src, alt, className = '', ratio = '4/3', priority }: Props) {

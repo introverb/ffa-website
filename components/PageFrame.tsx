@@ -1,11 +1,18 @@
+import { SiteNav } from './SiteNav';
+
 // Outer frame — taupe wrapper with consistent inset that creates the
-// "panels float on a colored mat" feeling of the live Wix site.
+// "panels float on a colored mat" feeling of the live Wix site. The
+// SiteNav lives inside this container so its pill width matches the
+// panels below it.
 
 export function PageFrame({ children }: { children: React.ReactNode }) {
   return (
     <div className="bg-taupe min-h-screen">
       <div className="mx-auto max-w-[1500px] px-6 pt-6 pb-6 md:px-10 md:pt-8 md:pb-8">
-        <div className="space-y-6 md:space-y-8">{children}</div>
+        <div className="space-y-6 md:space-y-8">
+          <SiteNav />
+          {children}
+        </div>
       </div>
     </div>
   );
