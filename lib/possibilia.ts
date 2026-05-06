@@ -45,9 +45,20 @@ export type PackageMeta = {
     src: string;
   };
   /** Optional interview / conversation about the package. Renders as its
-   *  own panel below the companion piece, with chapter timestamps if given. */
+   *  own panel below the companion piece.
+   *
+   *  Supply *one* of `src` or `youtubeId`:
+   *    - `src` → renders an inline <audio> player with optional chapter
+   *      jump-buttons beneath it.
+   *    - `youtubeId` → renders an embedded YouTube video (used when the
+   *      conversation is too large to ship through Git LFS, or when
+   *      we'd rather not pay LFS bandwidth on every redeploy).
+   */
   interview?: {
-    src: string;
+    /** Audio source path under /public, e.g. `/possibilia/<slug>/interview.mp3`. */
+    src?: string;
+    /** YouTube video ID — the 11-char string after `v=` in the watch URL. */
+    youtubeId?: string;
     title?: string;
     description?: string;
     chapters?: AudioChapter[];

@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { Panel } from '@/components/PageFrame';
 import { PageHeader } from '@/components/PageHeader';
 import { ChapterizedAudio } from '@/components/ChapterizedAudio';
+import { YouTubeEmbed } from '@/components/YouTubeEmbed';
 import {
   getPackageSlugs,
   hasCompanion,
@@ -136,10 +137,17 @@ export default async function PossibiliaPackagePage({ params }: Params) {
               </p>
             )}
             <div className="mt-8">
-              <ChapterizedAudio
-                src={meta.interview.src}
-                chapters={meta.interview.chapters}
-              />
+              {meta.interview.youtubeId ? (
+                <YouTubeEmbed
+                  videoId={meta.interview.youtubeId}
+                  title={meta.interview.title}
+                />
+              ) : meta.interview.src ? (
+                <ChapterizedAudio
+                  src={meta.interview.src}
+                  chapters={meta.interview.chapters}
+                />
+              ) : null}
             </div>
           </div>
         </Panel>
