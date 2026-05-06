@@ -108,6 +108,12 @@ export default async function PossibiliaPackagePage({ params }: Params) {
             <p className="text-sm uppercase tracking-[0.08em] text-sage">
               Companion piece{meta.companionAuthor ? ` · ${meta.companionAuthor}` : ''}
             </p>
+            {meta.companionAudio && (
+              <div className="mt-8">
+                <p className="mb-3 text-eyebrow text-muted">Listen</p>
+                <ChapterizedAudio src={meta.companionAudio.src} />
+              </div>
+            )}
             <article className="mt-8">
               <Companion />
             </article>

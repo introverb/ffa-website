@@ -38,6 +38,12 @@ export type PackageMeta = {
   storyAudio?: {
     src: string;
   };
+  /** Optional audio recording of the companion piece (full narration).
+   *  Renders an inline player at the top of the companion panel, mirroring
+   *  the story-audio treatment. */
+  companionAudio?: {
+    src: string;
+  };
   /** Optional interview / conversation about the package. Renders as its
    *  own panel below the companion piece, with chapter timestamps if given. */
   interview?: {
