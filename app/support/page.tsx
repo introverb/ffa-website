@@ -107,9 +107,11 @@ export default function SupportPage() {
               We can prepare a tailored brief for your contact within a week. Send a name,
               an email, and a sentence about why you think it&rsquo;s a fit.
             </p>
-            <Link href="/contact" className="btn-solid mt-auto pt-10 inline-block self-start">
-              Make an introduction
-            </Link>
+            <div className="mt-auto pt-10">
+              <Link href="/contact" className="btn-solid">
+                Make an introduction
+              </Link>
+            </div>
           </div>
         </div>
       </Panel>

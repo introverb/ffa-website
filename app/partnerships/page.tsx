@@ -52,9 +52,11 @@ export default function PartnershipsPage() {
               organizations, and frontier-tech companies whose work belongs in the canon
               that the next generation of writers and scientists will read.
             </p>
-            <Link href="/contact" className="btn-solid mt-auto pt-10 inline-block self-start">
-              Talk to us
-            </Link>
+            <div className="mt-auto pt-10">
+              <Link href="/contact" className="btn-solid">
+                Talk to us
+              </Link>
+            </div>
           </div>
         </div>
       </Panel>
@@ -73,9 +75,11 @@ export default function PartnershipsPage() {
               that could bring it into being, a curated, traveling show. We&rsquo;re
               opening sponsorship for the inaugural run.
             </p>
-            <Link href="/ours" className="btn mt-auto pt-8 inline-block self-start">
-              Event details
-            </Link>
+            <div className="mt-auto pt-8">
+              <Link href="/ours" className="btn">
+                Event details
+              </Link>
+            </div>
           </div>
 
           <div className="flex flex-col rounded-2xl bg-cream p-10 md:p-12">
@@ -91,9 +95,11 @@ export default function PartnershipsPage() {
               creators and hard-tech founders. Sponsorship opens as we move from proposal to
               exhibit.
             </p>
-            <Link href="/contact" className="btn mt-auto pt-8 inline-block self-start">
-              Request a brief
-            </Link>
+            <div className="mt-auto pt-8">
+              <Link href="/contact" className="btn">
+                Request a brief
+              </Link>
+            </div>
           </div>
         </div>
       </Panel>
