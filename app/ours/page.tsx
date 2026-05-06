@@ -135,7 +135,7 @@ export default function OursPage({
 
             <EngagementCard
               title="Recommend a speaker"
-              blurb="We&rsquo;re still building the lineup. If someone you know belongs in this room offering a 15–30 minute provocation, we&rsquo;d love to hear about them."
+              blurb="We&rsquo;re still building the lineup. If someone you know belongs in this room offering a 15–30 minute talk, we&rsquo;d love to hear about them."
               sent={sent === 'speaker'}
               sentMessage="Thanks — we&rsquo;ll consider your recommendation and follow up if we want to know more."
             >
