@@ -94,7 +94,10 @@ export default async function PossibiliaPackagePage({ params }: Params) {
           </p>
           {meta.storyAudio && (
             <div className="mt-8">
-              <p className="mb-3 text-eyebrow text-muted">Listen</p>
+              {/* TODO: revert to "Listen" once Railway LFS pull is working
+                  and the mp3s in /public/possibilia/ stop coming through
+                  as 133-byte pointer files. */}
+              <p className="mb-3 text-eyebrow text-muted">Audio coming soon</p>
               <ChapterizedAudio src={meta.storyAudio.src} />
             </div>
           )}
@@ -112,7 +115,10 @@ export default async function PossibiliaPackagePage({ params }: Params) {
             </p>
             {meta.companionAudio && (
               <div className="mt-8">
-                <p className="mb-3 text-eyebrow text-muted">Listen</p>
+                {/* TODO: revert to "Listen" once Railway LFS pull is working
+                  and the mp3s in /public/possibilia/ stop coming through
+                  as 133-byte pointer files. */}
+              <p className="mb-3 text-eyebrow text-muted">Audio coming soon</p>
                 <ChapterizedAudio src={meta.companionAudio.src} />
               </div>
             )}
