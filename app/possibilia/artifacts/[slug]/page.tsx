@@ -1,8 +1,10 @@
+import { Fragment } from 'react';
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { Panel } from '@/components/PageFrame';
 import { PageHeader } from '@/components/PageHeader';
+import { ChapterizedAudio } from '@/components/ChapterizedAudio';
 import { getArtifactSlugs, type ArtifactMeta } from '@/lib/possibilia';
 
 type Params = { params: { slug: string } };
@@ -38,18 +40,57 @@ async function safeMeta(slug: string): Promise<ArtifactMeta | null> {
   }
 }
 
-// Renders a single Artifact from Tomorrow. Structure:
-//   1. PageHeader (peek treatment — hero reveals on the right of the
-//      masthead, matching the story pages)
-//   2. Optional full-bleed `featureImage` panel for centerpiece artwork
-//      that should dominate the page (a pamphlet, poster, print piece)
-//   3. Body text panel with the artifact MDX content (max-w-3xl)
+// Full-bleed image panel — used by both single-body and multi-section
+// artifact layouts. width/height on Image are aspect hints; w-full
+// h-auto + unoptimized images means the file's intrinsic ratio drives
+// layout.
+function FeaturePanel({ src, alt, priority }: { src: string; alt: string; priority?: boolean }) {
+  return (
+    <Panel variant="white" full className="overflow-hidden">
+      <Image
+        src={src}
+        alt={alt}
+        width={2400}
+        height={1800}
+        sizes="100vw"
+        priority={priority}
+        className="block h-auto w-full"
+      />
+    </Panel>
+  );
+}
+
+// Renders a single Artifact from Tomorrow.
+//
+// Two layouts:
+//   - Single-body (default): PageHeader → optional featureImage panel
+//     → body MDX (artifact.mdx, max-w-3xl). Used for TAEPDECK, Inside,
+//     etc.
+//   - Multi-section: PageHeader → for each section, a header panel
+//     (eyebrow + h2 title) → optional featureImage → body panel
+//     (audio + section MDX, max-w-3xl). Used for collection artifacts
+//     like "The Long Way Home" that bundle several mini-pieces.
 export default async function ArtifactPage({ params }: Params) {
   const meta = await safeMeta(params.slug);
   if (!meta) notFound();
 
-  const Body = (await import(`@/content/artifacts/${params.slug}/artifact.mdx`))
-    .default;
+  // Pre-load every section body MDX in parallel so we can render
+  // them inline below.
+  const sectionBodies = meta.sections
+    ? await Promise.all(
+        meta.sections.map(async (s) => {
+          const mod = await import(
+            `@/content/artifacts/${params.slug}/${s.bodyFile}.mdx`
+          );
+          return mod.default as React.ComponentType;
+        }),
+      )
+    : null;
+
+  const SingleBody = !meta.sections
+    ? (await import(`@/content/artifacts/${params.slug}/artifact.mdx`))
+        .default
+    : null;
 
   return (
     <>
@@ -75,30 +116,70 @@ export default async function ArtifactPage({ params }: Params) {
         }
       />
 
-      {meta.featureImage && (
-        <Panel variant="white" full className="overflow-hidden">
-          {/* Full-bleed feature image. width/height are aspect hints;
-              w-full h-auto + unoptimized images means the file's
-              intrinsic ratio drives layout. */}
-          <Image
-            src={meta.featureImage.src}
-            alt={meta.featureImage.alt}
-            width={2400}
-            height={1800}
-            sizes="100vw"
-            priority
-            className="block h-auto w-full"
-          />
+      {/* Single-body layout: optional feature image, then the body. */}
+      {SingleBody && meta.featureImage && (
+        <FeaturePanel
+          src={meta.featureImage.src}
+          alt={meta.featureImage.alt}
+          priority
+        />
+      )}
+      {SingleBody && (
+        <Panel variant="white" className="md:p-20">
+          <div className="mx-auto max-w-3xl">
+            <article>
+              <SingleBody />
+            </article>
+          </div>
         </Panel>
       )}
 
-      <Panel variant="white" className="md:p-20">
-        <div className="mx-auto max-w-3xl">
-          <article>
-            <Body />
-          </article>
-        </div>
-      </Panel>
+      {/* Multi-section layout: each section gets its own
+          header panel + featureImage + body. */}
+      {meta.sections &&
+        sectionBodies &&
+        meta.sections.map((section, i) => {
+          const SectionBody = sectionBodies[i];
+          return (
+            <Fragment key={section.bodyFile}>
+              <Panel variant="white" className="md:p-16">
+                <div className="mx-auto max-w-3xl">
+                  {section.eyebrow && (
+                    <p className="text-sm uppercase tracking-[0.08em] text-sage">
+                      {section.eyebrow}
+                    </p>
+                  )}
+                  <h2 className="mt-6 text-h2 leading-[1.05] md:text-h2-lg">
+                    {section.title}
+                  </h2>
+                </div>
+              </Panel>
+
+              {section.featureImage && (
+                <FeaturePanel
+                  src={section.featureImage.src}
+                  alt={section.featureImage.alt}
+                  priority={i === 0}
+                />
+              )}
+
+              <Panel variant="white" className="md:p-20">
+                <div className="mx-auto max-w-3xl">
+                  {section.audio && (
+                    <div className="mb-10">
+                      <p className="mb-3 text-eyebrow text-muted">Listen along</p>
+                      <ChapterizedAudio src={section.audio.src} />
+                    </div>
+                  )}
+                  <article>
+                    <SectionBody />
+                  </article>
+                </div>
+              </Panel>
+            </Fragment>
+          );
+        })}
     </>
   );
 }
+

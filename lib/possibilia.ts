@@ -149,6 +149,26 @@ export type ArtifactMeta = {
     src: string;
     alt: string;
   };
+  /** Optional multi-section layout. When set, the route renders each
+   *  section as its own block (eyebrow + title + featureImage + body
+   *  + optional audio), and ignores the top-level body MDX. Use for
+   *  collection artifacts that bundle multiple mini-pieces under one
+   *  page (e.g. "The Long Way Home" with two place vignettes). */
+  sections?: Array<{
+    /** Section title shown as h2 above the body. */
+    title: string;
+    /** Optional categorical eyebrow above the title (e.g. "An Urban
+     *  Futurism Artifact"). */
+    eyebrow?: string;
+    /** Optional full-bleed feature image for this section. */
+    featureImage?: { src: string; alt: string };
+    /** Filename (without .mdx) of the section body, located at
+     *  content/artifacts/<slug>/<bodyFile>.mdx. */
+    bodyFile: string;
+    /** Optional audio (mp3 path under /public) rendered above the
+     *  section body with a "Listen along" eyebrow. */
+    audio?: { src: string };
+  }>;
 };
 
 const ARTIFACTS_DIR = path.join(process.cwd(), 'content/artifacts');
