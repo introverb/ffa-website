@@ -48,13 +48,23 @@ export function PageHeader({
     <Panel variant="white" full className="relative md:h-[410px]">
       {imageMode === 'peek' ? (
         <div aria-hidden className="absolute inset-0 overflow-hidden rounded-3xl">
-          {/* Solid paper base — guarantees pristine contrast behind the
-              text column on the left. */}
-          <div className="absolute inset-0 bg-paper" />
-          {/* Image layer, masked so it's invisible on the left and
-              fades in across the right edge. The text column never
-              shares pixels with the visible image, so legibility holds
-              even at the smaller viewport sizes. */}
+          {/* Base layer: heavily-frosted hero (matches the default
+              `frosted` treatment so the left side under the text reads
+              identically to the rest of the site's mastheads). */}
+          <Image
+            src={image}
+            alt=""
+            fill
+            sizes="100vw"
+            className="scale-125 object-cover blur-3xl"
+            priority
+          />
+          {/* Paper veil sits on the frosted layer for legibility. */}
+          <div className="absolute inset-0 bg-paper/35" />
+          {/* Reveal layer: the same image without blur, masked so it's
+              invisible on the left and fades in across the right edge.
+              Paint order = frosted-blur + paper veil + crisp image; the
+              mask only paints the crisp image where text isn't. */}
           <div
             className="absolute inset-0"
             style={{
@@ -69,13 +79,9 @@ export function PageHeader({
               alt=""
               fill
               sizes="100vw"
-              priority
               className="scale-105 object-cover"
             />
           </div>
-          {/* Whisper of paper warmth at the very right edge — softens
-              the image into the panel and unifies the warm tone. */}
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-paper/10" />
         </div>
       ) : (
         <div aria-hidden className="absolute inset-0 overflow-hidden rounded-3xl">

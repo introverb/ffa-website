@@ -80,7 +80,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     hr: () => (
       <p
         aria-hidden
-        className="mt-20 mb-12 text-center text-h6 tracking-[0.5em] text-muted"
+        className="mt-14 mb-10 text-center text-h6 tracking-[0.5em] text-muted"
       >
         * * *
       </p>

@@ -12,11 +12,18 @@ export const meta: PackageMeta = {
   hero: {
     src: '/possibilia/ponds/the-ponds-in-our-eyes.jpg',
     alt: 'Ponds — cover artwork',
+    artist: 'Michael Simmons',
   },
-  // Drop the audio file at /public/possibilia/ponds/story.mp3
-  // and the inline player at the top of the story panel will activate.
+  // The mp3 in /public/possibilia/ponds/story.mp3 is the story narration
+  // and lives at the top of the story panel.
+  storyAudio: {
+    src: '/possibilia/ponds/story.mp3',
+  },
+  // Interview is a video — uploaded to YouTube to keep video out of
+  // the LFS budget. The panel renders with the "Video coming soon"
+  // placeholder until `youtubeId` is set.
   interview: {
-    src: '/possibilia/ponds/interview.mp3',
+    kind: 'video',
     title: 'Ponds: Haptic Feedback and Sensory Substitution',
     description:
       'A conversation between author Orion Ruffin-Green and Possibilia editor Charles Rosenbauer on haptic feedback, sensory substitution, and the technologies of intimacy.',

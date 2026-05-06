@@ -12,6 +12,7 @@ export const meta: PackageMeta = {
   hero: {
     src: '/possibilia/touch-me-in-the-third-place/the-third-place.png',
     alt: 'Touch Me in the Third Place — cover artwork',
+    artist: 'Colby Green',
   },
   // Drop the audio file at /public/possibilia/touch-me-in-the-third-place/story.mp3
   // and the inline player at the top of the story panel will activate.

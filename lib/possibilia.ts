@@ -63,6 +63,10 @@ export type PackageMeta = {
     src?: string;
     /** YouTube video ID — the 11-char string after `v=` in the watch URL. */
     youtubeId?: string;
+    /** Custom poster image shown before the user clicks play. Defaults
+     *  to the package hero. Use this when the hero doesn't read well
+     *  as a video thumbnail and a custom still serves better. */
+    posterSrc?: string;
     title?: string;
     description?: string;
     chapters?: AudioChapter[];

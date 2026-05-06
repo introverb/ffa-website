@@ -94,10 +94,7 @@ export default async function PossibiliaPackagePage({ params }: Params) {
           </p>
           {meta.storyAudio && (
             <div className="mt-8">
-              {/* TODO: revert to "Listen" once Railway LFS pull is working
-                  and the mp3s in /public/possibilia/ stop coming through
-                  as 133-byte pointer files. */}
-              <p className="mb-3 text-eyebrow text-muted">Audio coming soon</p>
+              <p className="mb-3 text-eyebrow text-muted">Listen along</p>
               <ChapterizedAudio src={meta.storyAudio.src} />
             </div>
           )}
@@ -115,10 +112,7 @@ export default async function PossibiliaPackagePage({ params }: Params) {
             </p>
             {meta.companionAudio && (
               <div className="mt-8">
-                {/* TODO: revert to "Listen" once Railway LFS pull is working
-                  and the mp3s in /public/possibilia/ stop coming through
-                  as 133-byte pointer files. */}
-              <p className="mb-3 text-eyebrow text-muted">Audio coming soon</p>
+                <p className="mb-3 text-eyebrow text-muted">Listen along</p>
                 <ChapterizedAudio src={meta.companionAudio.src} />
               </div>
             )}
@@ -144,23 +138,21 @@ export default async function PossibiliaPackagePage({ params }: Params) {
               </p>
             )}
             <div className="mt-8">
-              {/* TODO: "Audio coming soon" eyebrow stays for audio
-                  interviews until we've eyeballed playback on Cyber
-                  Robot + Ponds and confirmed it works. Once confirmed,
-                  remove this whole conditional eyebrow block. The
-                  YouTube case already suppresses itself via the
-                  !youtubeId guard. */}
-              {!meta.interview.youtubeId && (
-                <p className="mb-3 text-eyebrow text-muted">
-                  {meta.interview.kind === 'video'
-                    ? 'Video coming soon'
-                    : 'Audio coming soon'}
-                </p>
+              {/* Audio interviews → "Listen along" eyebrow.
+                  Video interviews waiting on a youtubeId →
+                  "Video coming soon" placeholder.
+                  Once youtubeId is set, the eyebrow disappears and the
+                  YouTube embed renders below. */}
+              {meta.interview.youtubeId ? null : meta.interview.src ? (
+                <p className="mb-3 text-eyebrow text-muted">Listen along</p>
+              ) : (
+                <p className="mb-3 text-eyebrow text-muted">Video coming soon</p>
               )}
               {meta.interview.youtubeId ? (
                 <YouTubeEmbed
                   videoId={meta.interview.youtubeId}
                   title={meta.interview.title}
+                  poster={meta.interview.posterSrc ?? meta.hero.src}
                 />
               ) : meta.interview.src ? (
                 <ChapterizedAudio
