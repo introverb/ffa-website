@@ -1,17 +1,17 @@
 # Dockerfile for Railway.
 #
-# We dropped to an explicit Dockerfile because Nixpacks (and now
-# Railpack) wasn't reliably running `git lfs pull` during deploy —
-# every audio file in /public/possibilia/ was shipping as the 133-byte
-# LFS pointer text and the <audio> element silently failed. A Dockerfile
-# is the one path Railway always honors unmodified, so the LFS pull
-# happens deterministically in the build.
+# Drops to an explicit Dockerfile because Nixpacks/Railpack wasn't
+# reliably running `git lfs pull` during deploy — every audio file in
+# /public/possibilia/ was shipping as the 133-byte LFS pointer text and
+# the <audio> element silently failed. With a Dockerfile present,
+# Railway should use this exclusively, so the LFS pull happens
+# deterministically before the Next.js build.
 
 # ---------- deps + LFS ----------
 FROM node:20-bookworm-slim AS builder
 
-# git-lfs needs git itself + curl. ca-certificates so HTTPS to GitHub
-# LFS works. --no-install-recommends keeps the layer small.
+# git-lfs needs git itself + ca-certificates so HTTPS to GitHub LFS
+# works. --no-install-recommends keeps the layer small.
 RUN apt-get update \
   && apt-get install -y --no-install-recommends \
     git \
@@ -23,18 +23,19 @@ WORKDIR /app
 
 # Copy everything (including .git) so `git lfs pull` can resolve
 # pointers against the remote. .dockerignore keeps node_modules and
-# .next out of the build context so this stays cheap.
+# .next out of the build context.
 COPY . .
 
-# Auth for the LFS pull. The repo is currently private, so without a
-# token `git lfs pull` returns 401 and we end up shipping pointer files.
-# Two paths both work:
-#   - Repo is public → no token needed, git lfs pull just works.
-#   - Repo is private → set GITHUB_TOKEN in Railway's service env
-#     (a fine-grained PAT scoped to this repo with `contents:read` is
-#     enough). Railway forwards env vars as build args, and the
-#     conditional below rewrites github.com URLs to include the token
-#     only when it's actually set.
+# Diagnostic marker — lets us confirm from production that this
+# Dockerfile is actually the build path Railway is using. Reachable at
+# /_build-marker.txt on the deployed site. If the URL 404s, Railway is
+# bypassing the Dockerfile and using Nixpacks/Railpack instead.
+RUN echo "via Dockerfile @ $(date -u +%Y-%m-%dT%H:%M:%SZ)" > public/_build-marker.txt
+
+# Auth for the LFS pull. Public repo → no token needed. Private repo
+# → set GITHUB_TOKEN in Railway's service env (fine-grained PAT with
+# contents:read on this repo). The token only ever lives in this
+# builder layer's git config; we unset it before the layer commits.
 ARG GITHUB_TOKEN=""
 RUN if [ -n "$GITHUB_TOKEN" ]; then \
       git config --global url."https://x-access-token:${GITHUB_TOKEN}@github.com/".insteadOf "https://github.com/"; \
@@ -42,6 +43,25 @@ RUN if [ -n "$GITHUB_TOKEN" ]; then \
   && git lfs install --local \
   && git lfs pull \
   && git config --global --unset-all url."https://x-access-token:${GITHUB_TOKEN}@github.com/".insteadOf || true
+
+# Hard-fail the build if LFS pull didn't actually resolve the
+# pointers. Without this, a silent LFS failure produces a successful
+# build that ships pointer files — exactly the symptom we're trying
+# to fix. Better to break the deploy and see it in Railway logs than
+# to ship dead audio.
+RUN set -e; \
+    SAMPLE=public/possibilia/cyber-robot-ai-wartime/story.mp3; \
+    if [ ! -f "$SAMPLE" ]; then \
+      echo "FATAL: $SAMPLE missing — repo state is wrong"; exit 1; \
+    fi; \
+    SIZE=$(wc -c < "$SAMPLE"); \
+    if [ "$SIZE" -lt 1000 ]; then \
+      echo "FATAL: LFS pull failed — $SAMPLE is $SIZE bytes (pointer file). Contents:"; \
+      cat "$SAMPLE"; \
+      exit 1; \
+    fi; \
+    echo "OK: LFS pull succeeded — $SAMPLE is $SIZE bytes"; \
+    echo "lfs ok @ $(date -u +%Y-%m-%dT%H:%M:%SZ); $SAMPLE = $SIZE bytes" > public/_lfs-marker.txt
 
 RUN npm ci --include=dev
 
