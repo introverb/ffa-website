@@ -24,7 +24,7 @@ const RESOURCES = [
     href: '/support',
     title: 'Support the foundation',
     blurb:
-      'Every dollar pays contributors and funds the programs that bring this work into the world. We’re a 501(c)(3) nonprofit.',
+      'The Medici funded Botticelli and Galileo from the same purse. Take the modern equivalent — back the artists, writers, and researchers building a better century. We’re a 501(c)(3); fully tax-deductible.',
   },
 ];
 

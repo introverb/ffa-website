@@ -21,8 +21,8 @@ export function Mission() {
           <p className="mt-10 max-w-prose text-body leading-relaxed text-muted">
             The aesthetics of the future shape the future itself. The images and stories a
             civilization circulates about its tomorrow influence what it builds, what it funds,
-            and what it considers worth attempting. We exist to make better such images more
-            abundant.
+            and what it considers worth attempting. We&rsquo;re funding the writers, artists,
+            and scientists making a better one.
           </p>
         </div>
         <div className="relative aspect-[5/6] md:aspect-auto">

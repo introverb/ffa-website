@@ -88,7 +88,7 @@ export const INITIATIVES = [
     title: 'OURS: Exhibition & Salon',
     status: 'August 2026',
     blurb:
-      'A gallery exhibition and salon series pairing speculative artwork with the research and engineering that could bring it into being.',
+      'A one-night exhibition and salon in New York that puts speculative artwork on the walls and the people building it into reality at the lectern. Five short provocations, ten works, forty-to-sixty guests. August 2026.',
     image: '/images/initiative-exhibitions.jpg',
     href: '/ours',
   },

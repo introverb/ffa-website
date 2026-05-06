@@ -10,8 +10,8 @@ export const metadata: Metadata = {
 };
 
 const FORMAT = [
-  { label: '3–5 speakers', body: '15–30 minute provocations: open questions, not finished arguments.' },
-  { label: '5–10 works of art', body: 'Original pieces from a curated roster of artists across mediums and aesthetics.' },
+  { label: '5 speakers', body: 'Short provocations: open questions, not finished arguments.' },
+  { label: '10 works of art', body: 'Original pieces from a curated roster of artists across mediums and aesthetics.' },
   { label: '40–60 guests', body: 'Drinks, mingling, and unhurried conversation in the spaces between.' },
   { label: 'New York City', body: 'August 2026 · SOMMWHERE, NYC.' },
 ];
