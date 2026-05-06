@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import { Panel } from '@/components/PageFrame';
 import { PageHeader } from '@/components/PageHeader';
 
@@ -29,7 +30,7 @@ export default function OursPage({
         image="/images/initiative-exhibitions.jpg"
         body={
           <p>
-            An evening for the artists, scientists, writers, and builders who believe what
+            An evening for the artists, scientists, and builders who believe what
             comes next is ours to draw.
           </p>
         }
@@ -65,7 +66,7 @@ export default function OursPage({
         <div className="mt-20 border-t border-rule pt-16">
           <p className="text-sm uppercase tracking-[0.08em] text-sage">The format</p>
           <h2 className="mt-6 text-h2 leading-[1.05] md:text-h2-lg">
-            An intimate evening, end to end.
+            An intimate discussion of what&rsquo;s to come.
           </h2>
           <ul className="mt-12 grid gap-12 text-body leading-relaxed text-ink/80 md:grid-cols-2 lg:grid-cols-4">
             {FORMAT.map((f) => (
@@ -94,6 +95,7 @@ export default function OursPage({
               blurb="The room is intimate; the list is closed but accepting requests. Tell us a bit about yourself and we&rsquo;ll get back when invitations go out."
               sent={sent === 'guestlist'}
               sentMessage="Thanks, you&rsquo;re on the radar. We&rsquo;ll reach back when invitations go out."
+              bgImage="/images/initiative-exhibitions.jpg"
             >
               <input type="hidden" name="type" value="guestlist" />
               <Field id="g-name" name="name" label="Your name" required />
@@ -113,6 +115,7 @@ export default function OursPage({
               blurb="Five open slots in the exhibition. Mediums open. Send a portfolio and a short pitch and we&rsquo;ll review."
               sent={sent === 'artwork'}
               sentMessage="Thanks, we&rsquo;ve got your submission and will reach back as we curate."
+              bgImage="/images/initiative-possibilia.jpg"
             >
               <input type="hidden" name="type" value="artwork" />
               <Field id="a-name" name="name" label="Your name" required />
@@ -138,6 +141,7 @@ export default function OursPage({
               blurb="We&rsquo;re still building the lineup. If someone you know belongs in this room offering a 15–30 minute talk, we&rsquo;d love to hear about them."
               sent={sent === 'speaker'}
               sentMessage="Thanks, we&rsquo;ll consider your recommendation and follow up if we want to know more."
+              bgImage="/images/initiative-garden.jpg"
             >
               <input type="hidden" name="type" value="speaker" />
               <Field id="s-yourname" name="your_name" label="Your name" required />
@@ -174,33 +178,51 @@ export default function OursPage({
   );
 }
 
-// Black submission card. Form labels are white on dark; inputs keep
-// white-bg + dark text for legibility. Card is flex-col + flex-1 form
-// so the submit button anchors to the same margin from the bottom of
-// each card regardless of how many fields the form has.
+// Engagement submission card. Background is one of the initiative
+// images, heavily frosted (blur-2xl) with a paper-tinted veil so
+// dark text stays readable. Each card uses a different image so
+// the trio carries visual variety. Form layout is flex-col + flex-1
+// so the submit button anchors to the same margin from the bottom
+// of each card regardless of how many fields the form has.
 function EngagementCard({
   title,
   blurb,
   sent,
   sentMessage,
+  bgImage,
   children,
 }: {
   title: string;
   blurb: string;
   sent: boolean;
   sentMessage: string;
+  bgImage: string;
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-col rounded-2xl bg-dark p-8 text-white md:p-10">
+    <div className="relative flex flex-col overflow-hidden rounded-2xl p-8 text-ink md:p-10">
+      {/* Frosted background — image scaled past edges so the heavy
+          blur doesn't leave soft borders, then a paper veil for
+          contrast. */}
+      <div aria-hidden className="absolute inset-0 -z-10">
+        <Image
+          src={bgImage}
+          alt=""
+          fill
+          sizes="(max-width: 768px) 100vw, 33vw"
+          className="scale-125 object-cover blur-2xl"
+        />
+        <div className="absolute inset-0 bg-paper/65" />
+      </div>
+
       <h3 className="text-h5 leading-tight md:text-h4">{title}</h3>
       <p
-        className="mt-3 text-body leading-relaxed text-white/75"
+        className="mt-3 text-body leading-relaxed text-ink/80"
         dangerouslySetInnerHTML={{ __html: blurb }}
       />
       <div className="mt-6 flex flex-1 flex-col">
         {sent ? (
-          <div className="rounded-xl border border-sage/40 bg-sage-light/30 p-6">
+          <div className="rounded-xl border border-sage/40 bg-sage-light/40 p-6">
             <p className="eyebrow text-sage">Received</p>
             <p
               className="mt-3 text-body leading-snug text-ink"
@@ -232,16 +254,16 @@ function Field({
 }) {
   return (
     <div>
-      <label htmlFor={id} className="block text-eyebrow text-white/80">
+      <label htmlFor={id} className="block text-eyebrow text-ink/70">
         {label}
-        {required && <span className="ml-1 text-sage-light">*</span>}
+        {required && <span className="ml-1 text-sage">*</span>}
       </label>
       <input
         id={id}
         name={name}
         type={type}
         required={required}
-        className="mt-2 w-full rounded border border-white/20 bg-paper px-3 py-2 text-body text-ink"
+        className="mt-2 w-full rounded border border-ink/15 bg-paper px-3 py-2 text-body text-ink"
       />
     </div>
   );
@@ -260,16 +282,16 @@ function TextareaField({
 }) {
   return (
     <div>
-      <label htmlFor={id} className="block text-eyebrow text-white/80">
+      <label htmlFor={id} className="block text-eyebrow text-ink/70">
         {label}
-        {required && <span className="ml-1 text-sage-light">*</span>}
+        {required && <span className="ml-1 text-sage">*</span>}
       </label>
       <textarea
         id={id}
         name={name}
         required={required}
         rows={4}
-        className="mt-2 w-full rounded border border-white/20 bg-paper px-3 py-2 text-body text-ink"
+        className="mt-2 w-full rounded border border-ink/15 bg-paper px-3 py-2 text-body text-ink"
       />
     </div>
   );

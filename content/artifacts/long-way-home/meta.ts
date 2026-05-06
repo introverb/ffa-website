@@ -13,6 +13,7 @@ export const meta: ArtifactMeta = {
     src: '/possibilia/artifacts/long-way-home/lesath.jpg',
     alt: 'The Long Way Home, cover artwork',
     objectPosition: 'center 35%',
+    artist: 'Andres Osorio and Olli Payne',
   },
   // Two sections, each rendered as its own block (eyebrow + h2 +
   // featureImage + body). Brushcross also gets an inline audio

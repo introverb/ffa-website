@@ -20,10 +20,15 @@ function formatDate(iso: string) {
 }
 
 export default async function PossibiliaPage() {
-  const [packages, artifacts] = await Promise.all([
+  // Helpers sort newest-first; the listings page reverses to
+  // oldest-first so readers can move through the issue in the
+  // order it was assembled.
+  const [packagesNewestFirst, artifactsNewestFirst] = await Promise.all([
     getAllPackages(),
     getAllArtifacts(),
   ]);
+  const packages = [...packagesNewestFirst].reverse();
+  const artifacts = [...artifactsNewestFirst].reverse();
 
   return (
     <>
@@ -39,7 +44,7 @@ export default async function PossibiliaPage() {
           piece. Listings here are sorted newest-first by meta.date. */}
       <Panel variant="white" className="md:p-16">
         <p className="text-sm underline decoration-from-font underline-offset-4 text-muted">
-          Recently published
+          Sneak peek of Issue 0
         </p>
         <h2 className="mt-6 text-h2 leading-[1.05] md:text-h2-lg">
           Stories, art, and essays.

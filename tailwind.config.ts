@@ -14,6 +14,11 @@ const config: Config = {
         sage: '#718676',
         'sage-light': '#BDD6C3',
         dark: '#151414',
+        // Warm dark brown for accent panels (Long Way Home section
+        // titles, anywhere we want a saddle/leather feeling that
+        // reads as warmer than the near-black `dark` or the cool
+        // `ink` grey).
+        leather: '#5A4632',
         rule: '#D8D2C6',
       },
       fontFamily: {
