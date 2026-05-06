@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import type { Metadata } from 'next';
 import { Panel } from '@/components/PageFrame';
 import { PageHeader } from '@/components/PageHeader';
@@ -13,7 +12,7 @@ const FORMAT = [
   { label: '3–5 speakers', body: '15–30 minute provocations — open questions, not finished arguments.' },
   { label: '5–10 works of art', body: 'Original pieces from a curated roster of artists across mediums and aesthetics.' },
   { label: '40–60 guests', body: 'Drinks, mingling, and unhurried conversation in the spaces between.' },
-  { label: 'New York City', body: 'August 2026 · venue to be announced.' },
+  { label: 'New York City', body: 'August 2026 · SOMMWHERE, NYC.' },
 ];
 
 export default function OursPage({
@@ -86,8 +85,8 @@ export default function OursPage({
           Tell us where you fit and we&rsquo;ll be in touch.
         </p>
 
-        <div className="mt-14 grid gap-12 md:grid-cols-3">
-          <EngagementCard
+        <div className="mt-14 space-y-14">
+          <EngagementSection
             title="Sign up for the guestlist"
             blurb="The room is intimate; the list is closed but accepting requests. Tell us a bit about yourself and we&rsquo;ll get back when invitations go out."
             sent={sent === 'guestlist'}
@@ -100,14 +99,15 @@ export default function OursPage({
             <TextareaField
               id="g-why"
               name="why"
-              label="What draws you to this? (optional)"
+              label="What draws you to this?"
+              required
             />
             <Submit label="Request an invite" />
-          </EngagementCard>
+          </EngagementSection>
 
-          <EngagementCard
+          <EngagementSection
             title="Submit artwork for exhibition"
-            blurb="We&rsquo;re curating five to ten pieces of original work. Mediums open. Send a portfolio and a short pitch and we&rsquo;ll review."
+            blurb="Five open slots in the exhibition. Mediums open. Send a portfolio and a short pitch and we&rsquo;ll review."
             sent={sent === 'artwork'}
             sentMessage="Thanks — we&rsquo;ve got your submission and will reach back as we curate."
           >
@@ -128,9 +128,9 @@ export default function OursPage({
               required
             />
             <Submit label="Submit work" />
-          </EngagementCard>
+          </EngagementSection>
 
-          <EngagementCard
+          <EngagementSection
             title="Recommend a speaker"
             blurb="We&rsquo;re still building the lineup. If someone you know belongs in this room offering a 15–30 minute provocation, we&rsquo;d love to hear about them."
             sent={sent === 'speaker'}
@@ -163,33 +163,18 @@ export default function OursPage({
               required
             />
             <Submit label="Send recommendation" />
-          </EngagementCard>
+          </EngagementSection>
         </div>
       </Panel>
 
-      <Panel variant="white" className="md:p-16">
-        <p className="eyebrow">Recommended reading</p>
-        <Link href="/resources/manifesto" className="group mt-6 block">
-          <h2 className="text-h3 leading-tight md:text-h3-lg group-hover:text-sage">
-            Manifesto: forging our future through optimistic science fiction
-          </h2>
-          <p className="mt-3 text-sm uppercase tracking-[0.08em] text-muted">
-            July 9, 2024 · Olli Payne
-          </p>
-          <p className="mt-4 max-w-prose text-body leading-relaxed text-muted">
-            The argument behind FFA, and the foundation for the conversations OURS is built
-            around.
-          </p>
-          <p className="mt-6 text-sm underline decoration-from-font underline-offset-4 text-ink group-hover:text-sage">
-            Read the manifesto →
-          </p>
-        </Link>
-      </Panel>
     </>
   );
 }
 
-function EngagementCard({
+// Section subheader + blurb in white-panel context, then the form lives
+// in a black-box submission card beneath. Form labels are white on dark;
+// inputs stay white-bg with dark text for legibility.
+function EngagementSection({
   title,
   blurb,
   sent,
@@ -203,18 +188,18 @@ function EngagementCard({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-col rounded-2xl bg-cream p-8 md:p-10">
-      <h3 className="text-h5 leading-tight md:text-h4">{title}</h3>
+    <section>
+      <h3 className="text-h4 leading-tight">{title}</h3>
       <p
-        className="mt-3 text-body leading-relaxed text-ink/75"
+        className="mt-3 max-w-prose text-body leading-relaxed text-muted"
         dangerouslySetInnerHTML={{ __html: blurb }}
       />
-      <div className="mt-6">
+      <div className="mt-6 rounded-2xl bg-dark p-8 text-white md:p-10">
         {sent ? (
-          <div className="rounded-xl border border-sage/40 bg-sage-light/30 p-6">
-            <p className="eyebrow text-sage">Received</p>
+          <div>
+            <p className="eyebrow text-sage-light">Received</p>
             <p
-              className="mt-3 text-body leading-snug text-ink"
+              className="mt-3 text-body leading-snug text-white"
               dangerouslySetInnerHTML={{ __html: sentMessage }}
             />
           </div>
@@ -224,7 +209,7 @@ function EngagementCard({
           </form>
         )}
       </div>
-    </div>
+    </section>
   );
 }
 
@@ -243,16 +228,16 @@ function Field({
 }) {
   return (
     <div>
-      <label htmlFor={id} className="block text-eyebrow text-ink/80">
+      <label htmlFor={id} className="block text-eyebrow text-white/80">
         {label}
-        {required && <span className="ml-1 text-sage">*</span>}
+        {required && <span className="ml-1 text-sage-light">*</span>}
       </label>
       <input
         id={id}
         name={name}
         type={type}
         required={required}
-        className="mt-2 w-full rounded border border-rule bg-paper px-3 py-2 text-body"
+        className="mt-2 w-full rounded border border-white/20 bg-paper px-3 py-2 text-body text-ink"
       />
     </div>
   );
@@ -271,16 +256,16 @@ function TextareaField({
 }) {
   return (
     <div>
-      <label htmlFor={id} className="block text-eyebrow text-ink/80">
+      <label htmlFor={id} className="block text-eyebrow text-white/80">
         {label}
-        {required && <span className="ml-1 text-sage">*</span>}
+        {required && <span className="ml-1 text-sage-light">*</span>}
       </label>
       <textarea
         id={id}
         name={name}
         required={required}
         rows={4}
-        className="mt-2 w-full rounded border border-rule bg-paper px-3 py-2 text-body"
+        className="mt-2 w-full rounded border border-white/20 bg-paper px-3 py-2 text-body text-ink"
       />
     </div>
   );

@@ -87,7 +87,9 @@ function compose(
     const email = field(data, 'email');
     const city = field(data, 'city');
     const why = field(data, 'why');
-    if (!name || !email) return { error: 'Name and email are required.' };
+    if (!name || !email || !why) {
+      return { error: 'Name, email, and what draws you are required.' };
+    }
     return {
       subject: `OURS guestlist — ${name}`,
       replyTo: email,
@@ -98,14 +100,15 @@ Email: ${email}
 City: ${city || '(not provided)'}
 
 Why interested:
-${why || '(not provided)'}`,
+${why}`,
       html: `<h2 style="margin:0 0 16px;font-family:Helvetica,Arial,sans-serif;">OURS guestlist signup</h2>
 <table cellpadding="6" cellspacing="0" style="font-family:Helvetica,Arial,sans-serif;border-collapse:collapse;">
   <tr><td><strong>Name:</strong></td><td>${escapeHtml(name)}</td></tr>
   <tr><td><strong>Email:</strong></td><td><a href="mailto:${escapeHtml(email)}">${escapeHtml(email)}</a></td></tr>
   <tr><td><strong>City:</strong></td><td>${city ? escapeHtml(city) : '<em>(not provided)</em>'}</td></tr>
 </table>
-${why ? `<h3 style="font-family:Helvetica,Arial,sans-serif;">Why interested</h3><p style="font-family:Helvetica,Arial,sans-serif;white-space:pre-wrap;">${escapeHtml(why)}</p>` : ''}`,
+<h3 style="font-family:Helvetica,Arial,sans-serif;">Why interested</h3>
+<p style="font-family:Helvetica,Arial,sans-serif;white-space:pre-wrap;">${escapeHtml(why)}</p>`,
     };
   }
 
