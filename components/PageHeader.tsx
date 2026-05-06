@@ -2,25 +2,38 @@ import Image from 'next/image';
 import { Panel } from './PageFrame';
 
 // Shared header panel for sub-pages (Resources, Partnerships, Donate,
-// Contact). Standardizes:
-//   - Frosted hero.jpg as a shared visual signature across all sub-pages
+// Contact, Possibilia stories + artifacts). Standardizes:
+//   - Hero artwork as a shared visual signature across the site
 //   - Editorial masthead row (Foundation · year) above a hairline rule
 //   - Existing eyebrow + h1 + body copy
 //   - Optional CTA slot pinned to the right column at 240px wide
 //   - A consistent min-height so all four pages feel like the same kind
 //     of header regardless of body length
 //
-// The frosted bg is hero.jpg blurred heavily (blur-3xl) and scaled past
-// the panel edges so the blur doesn't leave soft borders. A bg-paper/85
-// overlay keeps text contrast strong; you can sense the warmth/texture
-// of the underlying image without recognizing the subject.
+// Two image treatments — pick via `imageMode`:
+//
+// `frosted` (default): hero.jpg is blurred heavily (blur-3xl) and scaled
+// past the panel edges so the blur doesn't leave soft borders. A
+// bg-paper/35 overlay keeps text contrast strong; you can sense the
+// warmth/texture of the underlying image without recognizing the
+// subject. Used for top-level sub-pages where the image is just an
+// atmospheric signature.
+//
+// `peek`: solid paper background behind the text column, the actual
+// hero image fades in via a horizontal CSS mask gradient on the right
+// ~40% of the panel. Text never sits on top of visible-image area, so
+// readability is never compromised — and you get a real glimpse of the
+// artwork. Used on Possibilia story pages and Artifact pages, where the
+// hero is editorial cover art that earns its own visual presence.
 type PageHeaderProps = {
   eyebrow: string;
   title: React.ReactNode;
   body?: React.ReactNode;
-  /** Background image — heavily frosted. Defaults to hero.jpg. */
+  /** Background image. Defaults to hero.jpg. */
   image?: string;
   cta?: React.ReactNode;
+  /** Image treatment — frosted atmospheric (default) or peek reveal. */
+  imageMode?: 'frosted' | 'peek';
 };
 
 export function PageHeader({
@@ -29,23 +42,54 @@ export function PageHeader({
   body,
   image = '/images/hero.jpg',
   cta,
+  imageMode = 'frosted',
 }: PageHeaderProps) {
   return (
     <Panel variant="white" full className="relative md:h-[410px]">
-      {/* Background: blurred image + paper-tinted overlay. Each page
-          can pass a different image so the frosted signature varies
-          subtly across the site while keeping the same treatment. */}
-      <div aria-hidden className="absolute inset-0 overflow-hidden rounded-3xl">
-        <Image
-          src={image}
-          alt=""
-          fill
-          sizes="100vw"
-          className="scale-125 object-cover blur-3xl"
-          priority
-        />
-        <div className="absolute inset-0 bg-paper/35" />
-      </div>
+      {imageMode === 'peek' ? (
+        <div aria-hidden className="absolute inset-0 overflow-hidden rounded-3xl">
+          {/* Solid paper base — guarantees pristine contrast behind the
+              text column on the left. */}
+          <div className="absolute inset-0 bg-paper" />
+          {/* Image layer, masked so it's invisible on the left and
+              fades in across the right edge. The text column never
+              shares pixels with the visible image, so legibility holds
+              even at the smaller viewport sizes. */}
+          <div
+            className="absolute inset-0"
+            style={{
+              WebkitMaskImage:
+                'linear-gradient(to right, transparent 60%, black 100%)',
+              maskImage:
+                'linear-gradient(to right, transparent 60%, black 100%)',
+            }}
+          >
+            <Image
+              src={image}
+              alt=""
+              fill
+              sizes="100vw"
+              priority
+              className="scale-105 object-cover"
+            />
+          </div>
+          {/* Whisper of paper warmth at the very right edge — softens
+              the image into the panel and unifies the warm tone. */}
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-paper/10" />
+        </div>
+      ) : (
+        <div aria-hidden className="absolute inset-0 overflow-hidden rounded-3xl">
+          <Image
+            src={image}
+            alt=""
+            fill
+            sizes="100vw"
+            className="scale-125 object-cover blur-3xl"
+            priority
+          />
+          <div className="absolute inset-0 bg-paper/35" />
+        </div>
+      )}
 
       {/* Content */}
       <div className="relative p-8 md:p-12">

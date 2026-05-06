@@ -61,6 +61,7 @@ export default async function PossibiliaPackagePage({ params }: Params) {
         eyebrow={`Possibilia · ${meta.issue}`}
         title={meta.title}
         image={meta.hero.src}
+        imageMode="peek"
         body={
           <p className="text-sm uppercase tracking-[0.08em] text-sage">
             {formatDate(meta.date)}

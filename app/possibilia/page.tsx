@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { Panel } from '@/components/PageFrame';
 import { PageHeader } from '@/components/PageHeader';
 import { Placeholder } from '@/components/Placeholder';
-import { getAllPackages } from '@/lib/possibilia';
+import { getAllPackages, getAllArtifacts } from '@/lib/possibilia';
 
 export const metadata: Metadata = {
   title: 'Possibilia',
@@ -20,7 +20,10 @@ function formatDate(iso: string) {
 }
 
 export default async function PossibiliaPage() {
-  const packages = await getAllPackages();
+  const [packages, artifacts] = await Promise.all([
+    getAllPackages(),
+    getAllArtifacts(),
+  ]);
 
   return (
     <>
@@ -77,6 +80,58 @@ export default async function PossibiliaPage() {
                   </h3>
                   <p className="mt-3 max-w-prose text-body leading-relaxed text-muted">
                     {p.excerpt}
+                  </p>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
+      </Panel>
+
+      {/* Artifacts from Tomorrow — short pieces, ephemera, and visual
+          experiments by the editorial team. Each artifact has its own
+          page at /possibilia/artifacts/<slug>, mirroring the story-page
+          treatment so the editorial frame stays consistent. */}
+      <Panel variant="white" className="md:p-16">
+        <p className="text-sm underline decoration-from-font underline-offset-4 text-muted">
+          Artifacts from Tomorrow
+        </p>
+        <h2 className="mt-6 text-h2 leading-[1.05] md:text-h2-lg">
+          Tidbits, ephemera, and other curiosities.
+        </h2>
+        {artifacts.length === 0 ? (
+          <p className="mt-10 max-w-prose text-body leading-relaxed text-muted">
+            Coming soon — short pieces, images, and experiments from the editorial team.
+          </p>
+        ) : (
+          <ul className="mt-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
+            {artifacts.map((a) => (
+              <li key={a.slug}>
+                <Link
+                  href={`/possibilia/artifacts/${a.slug}`}
+                  className="group block"
+                >
+                  <Placeholder
+                    src={a.hero.src}
+                    alt={a.hero.alt}
+                    ratio="4/3"
+                  />
+                  <p className="mt-5 text-sm uppercase tracking-[0.08em] text-muted">
+                    {formatDate(a.date)}
+                    <br />
+                    By {a.author}
+                    {a.hero.artist && (
+                      <>
+                        <br />
+                        Art by {a.hero.artist}
+                      </>
+                    )}
+                  </p>
+                  <h3 className="mt-2 text-h5 leading-tight group-hover:text-sage md:text-h4">
+                    {a.title}
+                  </h3>
+                  <p className="mt-3 max-w-prose text-body leading-relaxed text-muted">
+                    {a.excerpt}
                   </p>
                 </Link>
               </li>

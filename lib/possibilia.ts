@@ -100,3 +100,57 @@ export async function hasCompanion(slug: string): Promise<boolean> {
     return false;
   }
 }
+
+// ---------- Artifacts from Tomorrow ----------
+//
+// "Artifacts from Tomorrow" are short pieces, ephemera, and visual
+// experiments by the editorial team — sibling content to Possibilia
+// stories but lighter-weight. Each one is a single MDX body (no
+// story/companion split, no required audio), rendered through the same
+// PageHeader treatment as the stories so they share an editorial frame.
+// Lives at /possibilia/artifacts/[slug].
+
+/** Shape every artifact's meta.ts must export. */
+export type ArtifactMeta = {
+  /** Slug = folder name under content/artifacts. */
+  slug: string;
+  /** Artifact title. */
+  title: string;
+  /** ISO date (YYYY-MM-DD) for sorting + display. */
+  date: string;
+  /** Maker / author byline. */
+  author: string;
+  /** 1–2 line teaser shown on the listings page. */
+  excerpt: string;
+  /** Hero artwork that goes into the page header. */
+  hero: {
+    src: string;
+    alt: string;
+    artist?: string;
+  };
+};
+
+const ARTIFACTS_DIR = path.join(process.cwd(), 'content/artifacts');
+
+/** Returns every artifact slug, in the order they appear on disk. */
+export async function getArtifactSlugs(): Promise<string[]> {
+  let entries: import('node:fs').Dirent[];
+  try {
+    entries = await fs.readdir(ARTIFACTS_DIR, { withFileTypes: true });
+  } catch {
+    return [];
+  }
+  return entries.filter((e) => e.isDirectory()).map((e) => e.name);
+}
+
+/** Reads + returns every artifact's meta, sorted newest-first by date. */
+export async function getAllArtifacts(): Promise<ArtifactMeta[]> {
+  const slugs = await getArtifactSlugs();
+  const artifacts = await Promise.all(
+    slugs.map(async (slug) => {
+      const mod = await import(`@/content/artifacts/${slug}/meta`);
+      return mod.meta as ArtifactMeta;
+    }),
+  );
+  return artifacts.sort((a, b) => b.date.localeCompare(a.date));
+}
