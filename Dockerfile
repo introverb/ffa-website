@@ -26,10 +26,22 @@ WORKDIR /app
 # .next out of the build context so this stays cheap.
 COPY . .
 
-# Resolve LFS pointer files into actual binaries before the Next.js
-# build copies /public/ into the production output.
-RUN git lfs install --local \
-  && git lfs pull
+# Auth for the LFS pull. The repo is currently private, so without a
+# token `git lfs pull` returns 401 and we end up shipping pointer files.
+# Two paths both work:
+#   - Repo is public → no token needed, git lfs pull just works.
+#   - Repo is private → set GITHUB_TOKEN in Railway's service env
+#     (a fine-grained PAT scoped to this repo with `contents:read` is
+#     enough). Railway forwards env vars as build args, and the
+#     conditional below rewrites github.com URLs to include the token
+#     only when it's actually set.
+ARG GITHUB_TOKEN=""
+RUN if [ -n "$GITHUB_TOKEN" ]; then \
+      git config --global url."https://x-access-token:${GITHUB_TOKEN}@github.com/".insteadOf "https://github.com/"; \
+    fi \
+  && git lfs install --local \
+  && git lfs pull \
+  && git config --global --unset-all url."https://x-access-token:${GITHUB_TOKEN}@github.com/".insteadOf || true
 
 RUN npm ci --include=dev
 
