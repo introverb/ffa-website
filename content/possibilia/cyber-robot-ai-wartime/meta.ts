@@ -10,10 +10,11 @@ export const meta: PackageMeta = {
   excerpt:
     'The year is 2056. AI-powered robotic legions hurtle across a vast battlefield in a clash of startling proportion and lasting international consequences.',
   hero: {
-    // Using "The Prince of Liechtenstein" as the frosted page-header
-    // background — more color than Legions, which still opens the story
-    // panel itself.
-    src: '/possibilia/cyber-robot-ai-wartime/prince-of-liechtenstein.jpg',
+    // Using "Cyber Technician" (proxy-war-technician) as the frosted
+    // page-header background — the human-machine intimacy reads as a
+    // stronger thematic frame than the wider Legions or Liechtenstein
+    // battlefields, which still appear in the story panel itself.
+    src: '/possibilia/cyber-robot-ai-wartime/proxy-war-technician.jpg',
     alt: 'Cyber Robot AI Wartime — cover artwork',
     artist: 'Andres Osorio',
   },

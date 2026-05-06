@@ -56,7 +56,21 @@ export default async function PossibiliaPage() {
                     ratio="4/3"
                   />
                   <p className="mt-5 text-sm uppercase tracking-[0.08em] text-muted">
-                    {formatDate(p.date)} · {p.storyAuthor}
+                    {formatDate(p.date)}
+                    <br />
+                    Story by {p.storyAuthor}
+                    {p.companionAuthor && (
+                      <>
+                        <br />
+                        Essay by {p.companionAuthor}
+                      </>
+                    )}
+                    {p.hero.artist && (
+                      <>
+                        <br />
+                        Art by {p.hero.artist}
+                      </>
+                    )}
                   </p>
                   <h3 className="mt-2 text-h5 leading-tight group-hover:text-sage md:text-h4">
                     {p.title}

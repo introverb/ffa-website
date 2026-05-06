@@ -75,6 +75,12 @@ export default async function PossibiliaPackagePage({ params }: Params) {
                 {' · '}Cover by {meta.hero.artist}
               </>
             )}
+            {meta.interview && (
+              <>
+                <br />
+                Keep scrolling for a conversation with the author
+              </>
+            )}
           </p>
         }
       />

@@ -74,11 +74,13 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     ),
     // Markdown horizontal rules render as a centered "* * *" instead of a
     // line — story authors writing scene breaks get the typographic mark
-    // that reads as a deliberate pause rather than a divider.
+    // that reads as a deliberate pause rather than a divider. Extra top
+    // margin gives a clearer breath above the mark so the scene break
+    // reads as a real pause, not a paragraph divider.
     hr: () => (
       <p
         aria-hidden
-        className="my-12 text-center text-h6 tracking-[0.5em] text-muted"
+        className="mt-20 mb-12 text-center text-h6 tracking-[0.5em] text-muted"
       >
         * * *
       </p>
