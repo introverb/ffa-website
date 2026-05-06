@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { Panel } from '@/components/PageFrame';
 import { PageHeader } from '@/components/PageHeader';
@@ -37,10 +38,12 @@ async function safeMeta(slug: string): Promise<ArtifactMeta | null> {
   }
 }
 
-// Renders a single Artifact from Tomorrow. Mirrors the Possibilia story
-// page structure but simpler: header + a single MDX body panel. The
-// header uses the peek treatment so the hero image reveals on the right
-// edge of the masthead, matching the story pages.
+// Renders a single Artifact from Tomorrow. Structure:
+//   1. PageHeader (peek treatment — hero reveals on the right of the
+//      masthead, matching the story pages)
+//   2. Optional full-bleed `featureImage` panel for centerpiece artwork
+//      that should dominate the page (a pamphlet, poster, print piece)
+//   3. Body text panel with the artifact MDX content (max-w-3xl)
 export default async function ArtifactPage({ params }: Params) {
   const meta = await safeMeta(params.slug);
   if (!meta) notFound();
@@ -60,15 +63,34 @@ export default async function ArtifactPage({ params }: Params) {
           <p className="text-sm uppercase tracking-[0.08em] text-sage">
             {formatDate(meta.date)}
             <br />
-            By {meta.author}
-            {meta.hero.artist && (
-              <>
-                {' · '}Cover by {meta.hero.artist}
-              </>
-            )}
+            <span className="md:whitespace-nowrap">
+              By {meta.author}
+              {meta.hero.artist && (
+                <>
+                  {' · '}Art by {meta.hero.artist}
+                </>
+              )}
+            </span>
           </p>
         }
       />
+
+      {meta.featureImage && (
+        <Panel variant="white" full className="overflow-hidden">
+          {/* Full-bleed feature image. width/height are aspect hints;
+              w-full h-auto + unoptimized images means the file's
+              intrinsic ratio drives layout. */}
+          <Image
+            src={meta.featureImage.src}
+            alt={meta.featureImage.alt}
+            width={2400}
+            height={1800}
+            sizes="100vw"
+            priority
+            className="block h-auto w-full"
+          />
+        </Panel>
+      )}
 
       <Panel variant="white" className="md:p-20">
         <div className="mx-auto max-w-3xl">

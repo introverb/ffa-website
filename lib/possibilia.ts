@@ -141,6 +141,14 @@ export type ArtifactMeta = {
     artist?: string;
     objectPosition?: string;
   };
+  /** Optional full-bleed feature image, rendered as its own panel
+   *  between the PageHeader and the body text. Use for centerpiece
+   *  artwork that should read as huge on the page (e.g. a poster,
+   *  pamphlet, or print piece that the artifact is showing off). */
+  featureImage?: {
+    src: string;
+    alt: string;
+  };
 };
 
 const ARTIFACTS_DIR = path.join(process.cwd(), 'content/artifacts');
