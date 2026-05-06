@@ -85,20 +85,20 @@ export const INITIATIVES = [
   },
   {
     n: '02',
+    title: 'OURS: Exhibition & Salon',
+    status: 'August 2026',
+    blurb:
+      'A gallery exhibition and salon series pairing speculative artwork with the research and engineering that could bring it into being.',
+    image: '/images/initiative-exhibitions.jpg',
+    href: '/ours',
+  },
+  {
+    n: '03',
     title: 'Industrial Garden',
     status: 'Summer 2027 — Proposal Exhibit',
     blurb:
       'A gallery-style mixed-medium art exhibit of design plans for Industrial Garden — the foundation’s proposed maker space in New York City, where local craftspeople and hard tech founders will share professional-grade equipment and workspace. We’re seeking founding funders to back the venture from the exhibit forward.',
     image: '/images/initiative-garden.jpg',
-    href: '/contact',
-  },
-  {
-    n: '03',
-    title: 'OURS: Exhibition & Salon',
-    status: 'Fall 2026',
-    blurb:
-      'A gallery exhibition and salon series pairing speculative artwork with the research and engineering that could bring it into being.',
-    image: '/images/initiative-exhibitions.jpg',
     href: '/contact',
   },
 ];

@@ -4,7 +4,7 @@ import { Panel } from '@/components/PageFrame';
 import { PageHeader } from '@/components/PageHeader';
 
 export const metadata: Metadata = {
-  title: 'Donate',
+  title: 'Support',
   description:
     'Support the Foundation for Future Aesthetics — a 501(c)(3) nonprofit. Sponsor a story, an editorial package, or a full issue. All donations are tax-deductible.',
 };
@@ -24,7 +24,7 @@ const TIERS = [
   {
     name: 'Founding Sponsor',
     amount: '$5,000+',
-    blurb: 'Underwrite a full issue of Possibilia, an exhibition, or a foundation initiative.',
+    blurb: 'Underwrite a full issue of Possibilia, an exhibition, or fund your own initiative.',
   },
 ];
 
@@ -43,11 +43,11 @@ const OTHER_WAYS = [
   },
 ];
 
-export default function DonatePage() {
+export default function SupportPage() {
   return (
     <>
       <PageHeader
-        eyebrow="Donate"
+        eyebrow="Support"
         title={<>Become a patron of the Arts &amp; Sciences.</>}
         image="/images/mission.jpg"
         body={

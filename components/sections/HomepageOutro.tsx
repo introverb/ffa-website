@@ -21,7 +21,7 @@ const RESOURCES = [
       'We’re commissioning fiction, companion pieces, and original artwork. Read the guide, then send your pitch — we respond within four weeks.',
   },
   {
-    href: '/donate',
+    href: '/support',
     title: 'Support the foundation',
     blurb:
       'Every dollar pays contributors and funds the programs that bring this work into the world. We’re a 501(c)(3) nonprofit.',

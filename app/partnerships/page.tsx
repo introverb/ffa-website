@@ -73,8 +73,7 @@ export default function PartnershipsPage() {
               that could bring it into being &mdash; a curated, traveling show. We&rsquo;re
               opening sponsorship for the inaugural run.
             </p>
-            {/* TODO: link to /ours once that page is built. */}
-            <Link href="/contact" className="btn mt-8 inline-block">
+            <Link href="/ours" className="btn mt-8 inline-block">
               Event details
             </Link>
           </div>

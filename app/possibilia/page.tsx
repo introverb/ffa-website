@@ -15,7 +15,7 @@ export default function PossibiliaPage() {
   return (
     <>
       <PageHeader
-        eyebrow="Possibilia · Issue 0"
+        eyebrow="Possibilia Magazine"
         title="A magazine for the future we’d actually want to live in."
         image="/images/initiative-possibilia.jpg"
       />
@@ -66,7 +66,7 @@ export default function PossibiliaPage() {
           <Link href="/possibilia-submissions" className="btn">
             How to submit
           </Link>
-          <Link href="/donate#donate" className="btn-solid">
+          <Link href="/support#donate" className="btn-solid">
             Sponsor a story
           </Link>
         </div>

@@ -5,7 +5,7 @@ import { Panel } from './PageFrame';
 const NAV = [
   { href: '/possibilia', label: 'Possibilia' },
   { href: '/contact', label: 'Contact' },
-  { href: '/donate', label: 'Donate' },
+  { href: '/support', label: 'Support' },
 ];
 
 // Minimal black footer panel — logo + 501c3 line on the left,
