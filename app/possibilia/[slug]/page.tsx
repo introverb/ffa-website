@@ -144,6 +144,18 @@ export default async function PossibiliaPackagePage({ params }: Params) {
               </p>
             )}
             <div className="mt-8">
+              {/* TODO: this "X coming soon" eyebrow is temporary —
+                  (a) audio interviews (Cyber Robot, Ponds) are silent
+                      until Railway's LFS pull starts working;
+                  (b) video interviews (Touch Me) are silent until the
+                      youtubeId is wired in.
+                  Remove the eyebrow per-package once that interview's
+                  media actually plays. */}
+              <p className="mb-3 text-eyebrow text-muted">
+                {meta.interview.kind === 'video'
+                  ? 'Video coming soon'
+                  : 'Audio coming soon'}
+              </p>
               {meta.interview.youtubeId ? (
                 <YouTubeEmbed
                   videoId={meta.interview.youtubeId}

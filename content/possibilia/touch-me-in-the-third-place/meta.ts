@@ -23,8 +23,15 @@ export const meta: PackageMeta = {
   companionAudio: {
     src: '/possibilia/touch-me-in-the-third-place/companion.mp3',
   },
-  // TODO: interview is a video for this one. The source AVI is too large +
-  // unplayable in browsers; need a re-encoded MP4 (H.264) before we can wire
-  // it up. Once that's available, drop it next to the audio files and add an
-  // `interview` block here.
+  // Interview is a video — uploaded to YouTube to keep video out of
+  // Git LFS bandwidth budget. The block is wired up now so the panel
+  // renders with a "Video coming soon" placeholder; once the YouTube
+  // upload is live, add `youtubeId: '<11-char-id>'` and the placeholder
+  // turns into the embedded player.
+  interview: {
+    kind: 'video',
+    title: 'The Third Place: The Post-Post-"Art Movement"',
+    description:
+      'The Possibilia editors spend some time with Tay talking about the essence of art, recent stagnation, and a direction for the future.',
+  },
 };

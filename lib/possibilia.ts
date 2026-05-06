@@ -55,6 +55,10 @@ export type PackageMeta = {
    *      we'd rather not pay LFS bandwidth on every redeploy).
    */
   interview?: {
+    /** Whether the interview is audio or video. Drives the placeholder
+     *  eyebrow when media isn't yet available ("Audio coming soon" vs
+     *  "Video coming soon"). Defaults to 'audio'. */
+    kind?: 'audio' | 'video';
     /** Audio source path under /public, e.g. `/possibilia/<slug>/interview.mp3`. */
     src?: string;
     /** YouTube video ID — the 11-char string after `v=` in the watch URL. */
