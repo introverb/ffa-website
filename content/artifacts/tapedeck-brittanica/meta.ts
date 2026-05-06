@@ -4,7 +4,7 @@ export const meta: ArtifactMeta = {
   slug: 'tapedeck-brittanica',
   title: 'TAEPDECK BRITANNICA',
   date: '2024-06-01',
-  author: 'Charles Rosenbauer',
+  author: 'the Possibilia Editorial Team',
   excerpt:
     'Internal product notes for a fictional petabyte-scale tape archive built for the inner solar system. A Britannica for the cosmos, in cassette form.',
   hero: {
@@ -13,7 +13,9 @@ export const meta: ArtifactMeta = {
     // full-bleed treatment immediately below.
     src: '/possibilia/artifacts/tapedeck-brittanica/concept-art.jpg',
     alt: 'TAEPDECK BRITANNICA, concept art',
-    artist: 'Andres Osorio',
+    // Per-section author credits live in the body (Charles for the
+    // notes, Andres for the concept art); the page-header byline is
+    // a single editorial-team credit.
   },
   // The pamphlet is the centerpiece artifact: tall, dense, meant to
   // be read up close. Full-bleed panel makes it as large as the page
