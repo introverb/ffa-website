@@ -138,31 +138,17 @@ function NavDropdown({
         aria-expanded={open}
         aria-haspopup="menu"
         onClick={() => setOpen((o) => !o)}
-        className={`inline-flex items-center gap-1.5 transition-colors hover:text-white ${
+        className={`uppercase tracking-[0.12em] transition-colors hover:text-white ${
           activeParent ? 'text-white/80' : 'text-white/55'
         }`}
       >
         {label}
-        <svg
-          aria-hidden
-          viewBox="0 0 12 8"
-          width="10"
-          height="7"
-          className={`transition-transform ${open ? 'rotate-180' : ''}`}
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="M1 1.5l5 5 5-5" />
-        </svg>
       </button>
       {open && (
         <ul
           role="menu"
           aria-label={label}
-          className="absolute right-0 top-full mt-3 min-w-[10rem] rounded-2xl border border-white/25 bg-black/35 p-2 text-xs uppercase tracking-[0.12em] backdrop-blur-md md:text-sm"
+          className="absolute left-1/2 top-full mt-1 flex -translate-x-1/2 items-center gap-4 whitespace-nowrap rounded-full border border-white/25 bg-black/20 px-5 py-2.5 text-xs uppercase tracking-[0.12em] backdrop-blur-md sm:gap-6 md:gap-8 md:px-7 md:py-3 md:text-sm"
         >
           {items.map((item) => (
             <li key={item.href} role="none">
@@ -170,7 +156,7 @@ function NavDropdown({
                 href={item.href}
                 role="menuitem"
                 onClick={() => setOpen(false)}
-                className="block rounded-xl px-4 py-2 text-white/70 transition-colors hover:bg-white/10 hover:text-white"
+                className="text-white/55 transition-colors hover:text-white"
               >
                 {item.label}
               </Link>
