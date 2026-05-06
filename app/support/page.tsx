@@ -92,7 +92,7 @@ export default function SupportPage() {
           <div>
             <p className="text-sm uppercase tracking-[0.08em] text-sage">Refer us</p>
             <h2 className="mt-6 text-h2 leading-[1.05] md:text-h2-lg">
-              Know a fund we should know?
+              Open a door for us.
             </h2>
           </div>
           <div className="text-body-lg leading-relaxed text-ink/85">
