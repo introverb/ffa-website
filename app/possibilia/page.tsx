@@ -8,7 +8,7 @@ import { getAllPackages, getAllArtifacts } from '@/lib/possibilia';
 export const metadata: Metadata = {
   title: 'Possibilia',
   description:
-    'Possibilia is the foundation’s magazine - fiction, companion pieces, and original artwork imagining an optimistic, realistic future.',
+    'Possibilia is the foundation’s magazine: fiction, companion pieces, and original artwork imagining an optimistic, realistic future.',
 };
 
 function formatDate(iso: string) {
@@ -101,7 +101,7 @@ export default async function PossibiliaPage() {
         </h2>
         {artifacts.length === 0 ? (
           <p className="mt-10 max-w-prose text-body leading-relaxed text-muted">
-            Coming soon - short pieces, images, and experiments from the editorial team.
+            Coming soon: short pieces, images, and experiments from the editorial team.
           </p>
         ) : (
           <ul className="mt-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
@@ -155,7 +155,7 @@ export default async function PossibiliaPage() {
           />
           <DarkPillar
             title="Companion pieces"
-            body="Nonfiction by working scientists, researchers, and field experts - companion essays that ground each story in the real research and ongoing work behind it."
+            body="Nonfiction by working scientists, researchers, and field experts: companion essays that ground each story in the real research and ongoing work behind it."
           />
           <DarkPillar
             title="Artwork"

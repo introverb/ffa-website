@@ -31,7 +31,7 @@ const display = Saira({
 export const metadata: Metadata = {
   title: {
     default: 'Foundation for Future Aesthetics',
-    template: '%s - Foundation for Future Aesthetics',
+    template: '%s · Foundation for Future Aesthetics',
   },
   description:
     'A nonprofit curating, promoting, and supporting visions of an optimistic and realistic future expressed through the arts.',

@@ -8,7 +8,7 @@ export const meta: PackageMeta = {
   storyAuthor: 'Taylor Stuckey',
   companionAuthor: 'Eli Dourado',
   excerpt:
-    'On THE THIRD PLACE - a mile-long community center suspended in the clouds - a young director sets out to film a documentary about its most famous muse, who turns out to be very much alive and watching.',
+    'On THE THIRD PLACE, a mile-long community center suspended in the clouds, a young director sets out to film a documentary about its most famous muse, who turns out to be very much alive and watching.',
   hero: {
     src: '/possibilia/touch-me-in-the-third-place/the-third-place.png',
     alt: 'Touch Me in the Third Place, cover artwork',

@@ -6,7 +6,7 @@ import { PageHeader } from '@/components/PageHeader';
 
 export const metadata: Metadata = {
   title: 'Contact',
-  description: 'Reach the Foundation for Future Aesthetics - pitches, partnerships, and press.',
+  description: 'Reach the Foundation for Future Aesthetics: pitches, partnerships, and press.',
 };
 
 export default function ContactPage({

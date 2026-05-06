@@ -8,7 +8,7 @@ export const meta: PackageMeta = {
   storyAuthor: 'Orion Ruffin-Green',
   companionAuthor: 'Anna-Sofia Lesiv',
   excerpt:
-    'A sculptor in the asteroid Beltway holds his family close across the light-seconds - through a haptic uplink, and through the green ponds his mother carried from Earth.',
+    'A sculptor in the asteroid Beltway holds his family close across the light-seconds, through a haptic uplink, and through the green ponds his mother carried from Earth.',
   hero: {
     src: '/possibilia/ponds/the-ponds-in-our-eyes.jpg',
     alt: 'Ponds, cover artwork',

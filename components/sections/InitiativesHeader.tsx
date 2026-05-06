@@ -21,7 +21,7 @@ export function InitiativesHeader() {
           Our Initiatives
         </h2>
         <p className="mt-10 max-w-md text-body leading-relaxed text-white/95 drop-shadow">
-          A thoughtful, strategic approach to setting concrete goals - paired with the programs
+          A thoughtful, strategic approach to setting concrete goals, paired with the programs
           that will help us get there.
         </p>
       </div>

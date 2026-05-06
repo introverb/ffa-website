@@ -6,7 +6,7 @@ import { PageHeader } from '@/components/PageHeader';
 export const metadata: Metadata = {
   title: 'Partnerships',
   description:
-    'Partner with the Foundation for Future Aesthetics - through Possibilia editorial features, exhibition sponsorship, and our Industrial Garden initiative.',
+    'Partner with the Foundation for Future Aesthetics through Possibilia editorial features, exhibition sponsorship, and our Industrial Garden initiative.',
 };
 
 export default function PartnershipsPage() {

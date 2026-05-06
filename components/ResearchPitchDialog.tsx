@@ -124,7 +124,7 @@ export function ResearchPitchDialog({ triggerLabel }: { triggerLabel: string }) 
                   overWord ? 'text-red-600' : 'text-muted'
                 }`}
               >
-                {pitchWords} / {MAX_WORDS} words{overWord && ' - please trim'}
+                {pitchWords} / {MAX_WORDS} words{overWord && ' (please trim)'}
               </p>
             </div>
 

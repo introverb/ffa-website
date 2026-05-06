@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const meta = await safeMeta(params.slug);
   if (!meta) return { title: 'Possibilia' };
   return {
-    title: `${meta.title} - Possibilia`,
+    title: `${meta.title} · Possibilia`,
     description: meta.excerpt,
   };
 }

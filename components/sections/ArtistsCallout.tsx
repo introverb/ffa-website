@@ -13,7 +13,7 @@ export function ArtistsCallout() {
         <div className="text-body-lg leading-relaxed text-ink/85">
           <p>
             Some imagery on this site was generated with AI while we build out our roster of
-            collaborators. AI tools are useful, but they are tools - they don&rsquo;t replace the
+            collaborators. AI tools are useful, but they are tools; they don&rsquo;t replace the
             judgement, taste, or intentionality of a human artist. As we grow we are commissioning
             and replacing this work with original pieces.
           </p>

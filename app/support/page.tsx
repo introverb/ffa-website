@@ -6,20 +6,20 @@ import { PageHeader } from '@/components/PageHeader';
 export const metadata: Metadata = {
   title: 'Support',
   description:
-    'Support the Foundation for Future Aesthetics - a 501(c)(3) nonprofit. Sponsor a story, an editorial package, or a full issue. All donations are tax-deductible.',
+    'Support the Foundation for Future Aesthetics, a 501(c)(3) nonprofit. Sponsor a story, an editorial package, or a full issue. All donations are tax-deductible.',
 };
 
 const TIERS = [
   {
     name: 'Patron',
     amount: '$500',
-    blurb: 'Underwrite one piece - a Possibilia story, illustration, or companion essay.',
+    blurb: 'Underwrite one piece: a Possibilia story, illustration, or companion essay.',
   },
   {
     name: 'Editorial Sponsor',
     amount: '$1,500',
     blurb:
-      'Underwrite a full editorial package - story, artwork, and companion essay - plus listing as an event sponsor.',
+      'Underwrite a full editorial package (story, artwork, and companion essay), plus listing as an event sponsor.',
   },
   {
     name: 'Founding Sponsor',
