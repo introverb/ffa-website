@@ -61,10 +61,20 @@ export default async function PossibiliaPackagePage({ params }: Params) {
         title={meta.title}
         image={meta.hero.src}
         body={
-          <p>
-            <span className="text-sm uppercase tracking-[0.08em] text-sage">
-              {formatDate(meta.date)} · {meta.storyAuthor}
-            </span>
+          <p className="text-sm uppercase tracking-[0.08em] text-sage">
+            {formatDate(meta.date)}
+            <br />
+            Story by {meta.storyAuthor}
+            {meta.companionAuthor && (
+              <>
+                {' · '}Companion by {meta.companionAuthor}
+              </>
+            )}
+            {meta.hero.artist && (
+              <>
+                {' · '}Cover by {meta.hero.artist}
+              </>
+            )}
           </p>
         }
       />
@@ -123,15 +133,6 @@ export default async function PossibiliaPackagePage({ params }: Params) {
         </Panel>
       )}
 
-      {meta.hero.artist && (
-        <Panel variant="white" className="md:p-12">
-          <div className="mx-auto max-w-3xl">
-            <p className="text-sm uppercase tracking-[0.08em] text-muted">
-              Cover artwork by {meta.hero.artist}
-            </p>
-          </div>
-        </Panel>
-      )}
     </>
   );
 }

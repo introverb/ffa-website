@@ -72,22 +72,38 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
         {children}
       </ol>
     ),
-    hr: () => <hr className="my-12 border-rule" />,
-    // Pass-through Image component so MDX <img> tags use Next's image
-    // pipeline. We disabled the optimizer globally so this is mostly for
-    // sizing + lazy-loading defaults. MDX gives us standard HTML img
-    // props, so we adapt them to Next's Image API.
+    // Markdown horizontal rules render as a centered "* * *" instead of a
+    // line — story authors writing scene breaks get the typographic mark
+    // that reads as a deliberate pause rather than a divider.
+    hr: () => (
+      <p
+        aria-hidden
+        className="my-12 text-center text-h6 tracking-[0.5em] text-muted"
+      >
+        * * *
+      </p>
+    ),
+    // Markdown images render as a figure + figcaption, where the alt text
+    // doubles as the visible caption (italic, muted) below the artwork.
+    // Story authors only need to write `![Caption](path)` — no extra HTML.
     img: ({ src, alt, width, height, ...rest }) => {
       if (!src || typeof src !== 'string') return null;
       return (
-        <Image
-          src={src}
-          alt={alt ?? ''}
-          width={width ? Number(width) : 1600}
-          height={height ? Number(height) : 1000}
-          className="my-8 h-auto w-full rounded-md"
-          {...rest}
-        />
+        <figure className="my-10">
+          <Image
+            src={src}
+            alt={alt ?? ''}
+            width={width ? Number(width) : 1600}
+            height={height ? Number(height) : 1000}
+            className="h-auto w-full rounded-md"
+            {...rest}
+          />
+          {alt && (
+            <figcaption className="mt-3 text-center text-sm italic text-muted">
+              {alt}
+            </figcaption>
+          )}
+        </figure>
       );
     },
     ...components,
