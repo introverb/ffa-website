@@ -1,0 +1,22 @@
+# Railway / Nixpacks build config.
+#
+# Without this, Railway clones the repo but doesn't pull LFS-tracked
+# binary assets (story audio, interview audio/video). Result: every
+# .mp3 in /public/possibilia/ ships as a 133-byte LFS pointer file,
+# the <audio> element tries to play that, and the player silently
+# fails. Forcing `git lfs pull` here resolves the pointers into real
+# audio before Next.js bundles `public/`.
+
+[phases.setup]
+# `"..."` keeps Nixpacks' auto-detected packages and adds git-lfs on top.
+nixPkgs = ["...", "git-lfs"]
+
+[phases.install]
+# Same idea — keep the auto-detected install command, just run an LFS
+# pull first so the binary assets exist on disk by the time the build
+# starts copying `public/` into the production image.
+cmds = [
+  "git lfs install --local",
+  "git lfs pull",
+  "npm ci",
+]
