@@ -1,0 +1,9 @@
+# Keep the build context lean.
+node_modules
+.next
+.git/objects/pack/*.pack.tmp
+.claude
+.env*
+*.log
+npm-debug.log*
+.DS_Store
