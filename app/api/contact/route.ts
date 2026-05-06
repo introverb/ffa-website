@@ -63,7 +63,7 @@ ${message}`;
         'FFA Contact <onboarding@resend.dev>',
       to: process.env.POSSIBILIA_TO_EMAIL || 'ollipayne182@gmail.com',
       replyTo: email,
-      subject: `Contact form — ${topic} from ${name}`,
+      subject: `Contact form - ${topic} from ${name}`,
       text,
       html,
     });

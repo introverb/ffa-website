@@ -1,5 +1,5 @@
 // Central content for the site. Swap in your final copy and image paths here.
-// Images go in /public/images/ — reference them as "/images/filename.jpg".
+// Images go in /public/images/ - reference them as "/images/filename.jpg".
 
 export const SITE = {
   name: 'Foundation for Future Aesthetics',
@@ -9,7 +9,7 @@ export const SITE = {
   twitter: 'https://twitter.com/possibiliamag',
 };
 
-// Stories aren't featured on the live homepage — kept here so the resources
+// Stories aren't featured on the live homepage - kept here so the resources
 // page and dynamic /resources/[slug] route still have something to render.
 // The Manifesto lives at its own dedicated route, so it isn't in this list.
 export const STORIES = [
@@ -19,12 +19,12 @@ export const STORIES = [
     date: '2024-07-09',
     author: 'Olli Payne',
     excerpt:
-      'A practical guide for writers and artists who want to contribute to our debut issue — what we publish, how to format submissions, and what we pay.',
+      'A practical guide for writers and artists who want to contribute to our debut issue - what we publish, how to format submissions, and what we pay.',
     image: '/images/story-submit.jpg',
   },
 ];
 
-// Titles match the live site exactly. Blurbs are paraphrased — replace with
+// Titles match the live site exactly. Blurbs are paraphrased - replace with
 // your final copy when ready.
 export const RESEARCH_AREAS = [
   {
@@ -47,7 +47,7 @@ export const RESEARCH_AREAS = [
   },
 ];
 
-// Projects exist on the Possibilia page only — not on the live homepage.
+// Projects exist on the Possibilia page only - not on the live homepage.
 export const PROJECTS = [
   {
     title: 'Silverstone Community Center',
@@ -75,7 +75,7 @@ export const INITIATIVES = [
   {
     n: '01',
     title: 'Possibilia Magazine',
-    status: 'In Development — Issue 0',
+    status: 'In Development - Issue 0',
     note: 'Submissions are open!',
     noteHref: '/possibilia-submissions',
     blurb:
@@ -95,9 +95,9 @@ export const INITIATIVES = [
   {
     n: '03',
     title: 'Industrial Garden',
-    status: 'Summer 2027 — Proposal Exhibit',
+    status: 'Summer 2027 - Proposal Exhibit',
     blurb:
-      'A gallery-style mixed-medium art exhibit of design plans for Industrial Garden — the foundation’s proposed maker space in New York City, where local craftspeople and hard tech founders will share professional-grade equipment and workspace. We’re seeking founding funders to back the venture from the exhibit forward.',
+      'A gallery-style mixed-medium art exhibit of design plans for Industrial Garden - the foundation’s proposed maker space in New York City, where local craftspeople and hard tech founders will share professional-grade equipment and workspace. We’re seeking founding funders to back the venture from the exhibit forward.',
     image: '/images/initiative-garden.jpg',
     href: '/contact',
   },

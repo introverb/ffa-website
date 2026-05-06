@@ -8,11 +8,12 @@ export const meta: PackageMeta = {
   storyAuthor: 'Taylor Stuckey',
   companionAuthor: 'Eli Dourado',
   excerpt:
-    'On THE THIRD PLACE — a mile-long community center suspended in the clouds — a young director sets out to film a documentary about its most famous muse, who turns out to be very much alive and watching.',
+    'On THE THIRD PLACE - a mile-long community center suspended in the clouds - a young director sets out to film a documentary about its most famous muse, who turns out to be very much alive and watching.',
   hero: {
     src: '/possibilia/touch-me-in-the-third-place/the-third-place.png',
-    alt: 'Touch Me in the Third Place — cover artwork',
+    alt: 'Touch Me in the Third Place, cover artwork',
     artist: 'Colby Green',
+    objectPosition: 'center 25%',
   },
   // Drop the audio file at /public/possibilia/touch-me-in-the-third-place/story.mp3
   // and the inline player at the top of the story panel will activate.
@@ -24,7 +25,7 @@ export const meta: PackageMeta = {
   companionAudio: {
     src: '/possibilia/touch-me-in-the-third-place/companion.mp3',
   },
-  // Interview is a video — hosted on YouTube to keep video out of the
+  // Interview is a video - hosted on YouTube to keep video out of the
   // Git LFS bandwidth budget. The interview panel renders the embedded
   // player from this id; the "Video coming soon" placeholder is gated
   // behind `!youtubeId`, so it disappears as soon as this is set.

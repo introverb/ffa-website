@@ -16,7 +16,7 @@ export type AudioChapter = {
 export type PackageMeta = {
   /** Slug = folder name. Must match. */
   slug: string;
-  /** Issue identifier — e.g. "Issue 0", "Issue 1". */
+  /** Issue identifier - e.g. "Issue 0", "Issue 1". */
   issue: string;
   /** Package title (e.g. the story's title). */
   title: string;
@@ -33,6 +33,10 @@ export type PackageMeta = {
     src: string;
     alt: string;
     artist?: string;
+    /** Optional CSS object-position for the peek-revealed image, e.g.
+     *  `'center 25%'` to shift the visible portion toward the top of
+     *  the source image. Defaults to centered. */
+    objectPosition?: string;
   };
   /** Optional audio recording of the story (full narration). */
   storyAudio?: {
@@ -61,7 +65,7 @@ export type PackageMeta = {
     kind?: 'audio' | 'video';
     /** Audio source path under /public, e.g. `/possibilia/<slug>/interview.mp3`. */
     src?: string;
-    /** YouTube video ID — the 11-char string after `v=` in the watch URL. */
+    /** YouTube video ID - the 11-char string after `v=` in the watch URL. */
     youtubeId?: string;
     /** Custom poster image shown before the user clicks play. Defaults
      *  to the package hero. Use this when the hero doesn't read well
@@ -112,7 +116,7 @@ export async function hasCompanion(slug: string): Promise<boolean> {
 // ---------- Artifacts from Tomorrow ----------
 //
 // "Artifacts from Tomorrow" are short pieces, ephemera, and visual
-// experiments by the editorial team — sibling content to Possibilia
+// experiments by the editorial team - sibling content to Possibilia
 // stories but lighter-weight. Each one is a single MDX body (no
 // story/companion split, no required audio), rendered through the same
 // PageHeader treatment as the stories so they share an editorial frame.
@@ -135,6 +139,7 @@ export type ArtifactMeta = {
     src: string;
     alt: string;
     artist?: string;
+    objectPosition?: string;
   };
 };
 

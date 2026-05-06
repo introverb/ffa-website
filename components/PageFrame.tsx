@@ -1,6 +1,6 @@
 import { SiteNav } from './SiteNav';
 
-// Outer frame — taupe wrapper with consistent inset that creates the
+// Outer frame - taupe wrapper with consistent inset that creates the
 // "panels float on a colored mat" feeling of the live Wix site. The
 // SiteNav lives inside this container so its pill width matches the
 // panels below it.
@@ -18,7 +18,7 @@ export function PageFrame({ children }: { children: React.ReactNode }) {
   );
 }
 
-// Each section becomes a "panel" — white rounded card with generous padding.
+// Each section becomes a "panel" - white rounded card with generous padding.
 // Use `dark` for the black-background variants (Possibilia callout, footer).
 export function Panel({
   children,

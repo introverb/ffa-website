@@ -44,7 +44,7 @@ export default function StoryPage({ params }: Params) {
           <p className="text-h6 text-ink">{story.excerpt}</p>
           <p>
             The body of this article lives in <code>app/resources/[slug]/page.tsx</code>. Replace
-            this placeholder with your final copy — either inline, by importing MDX, or by wiring
+            this placeholder with your final copy - either inline, by importing MDX, or by wiring
             this route to a CMS such as Contentful, Sanity, or Notion.
           </p>
           <p>

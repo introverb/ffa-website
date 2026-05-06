@@ -1,7 +1,7 @@
 import { Resend } from 'resend';
 import { NextRequest, NextResponse } from 'next/server';
 
-// Research pitch endpoint — short popup form on /resources for the
+// Research pitch endpoint - short popup form on /resources for the
 // "TBD: Researchers Wanted" entry. Reuses the Possibilia env vars; the
 // subject line differentiates pitches from submissions in your inbox.
 //
@@ -70,7 +70,7 @@ ${pitch}`;
         'FFA Research <onboarding@resend.dev>',
       to: process.env.POSSIBILIA_TO_EMAIL || 'ollipayne182@gmail.com',
       replyTo: email,
-      subject: `Research pitch — ${subject} (${name})`,
+      subject: `Research pitch - ${subject} (${name})`,
       text,
       html,
     });

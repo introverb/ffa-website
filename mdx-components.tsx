@@ -4,7 +4,7 @@ import Image from 'next/image';
 // Default component overrides for MDX content. Editorial pages (Possibilia
 // stories + companion pieces) lean on these to inherit the site's typography
 // instead of unstyled HTML defaults. Story authors writing markdown don't
-// have to think about classes — they just write paragraphs and headings,
+// have to think about classes - they just write paragraphs and headings,
 // and FFA's editorial type kicks in automatically.
 //
 // Override per-story by passing `components` to the MDX component at render
@@ -73,7 +73,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       </ol>
     ),
     // Markdown horizontal rules render as a centered "* * *" instead of a
-    // line — story authors writing scene breaks get the typographic mark
+    // line - story authors writing scene breaks get the typographic mark
     // that reads as a deliberate pause rather than a divider. Extra top
     // margin gives a clearer breath above the mark so the scene break
     // reads as a real pause, not a paragraph divider.
@@ -87,7 +87,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     ),
     // Markdown images render as a figure + figcaption, where the alt text
     // doubles as the visible caption (italic, muted) below the artwork.
-    // Story authors only need to write `![Caption](path)` — no extra HTML.
+    // Story authors only need to write `![Caption](path)` - no extra HTML.
     img: ({ src, alt, width, height, ...rest }) => {
       if (!src || typeof src !== 'string') return null;
       return (

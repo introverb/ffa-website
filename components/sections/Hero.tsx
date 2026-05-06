@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { Panel } from '@/components/PageFrame';
 
-// Hero panel — 2:1 landscape. The source hero.jpg is 16:9, so we anchor the
+// Hero panel - 2:1 landscape. The source hero.jpg is 16:9, so we anchor the
 // background to the top (`bg-top`) and let the bottom of the image crop off
 // inside the shorter 2:1 frame.
 export function Hero() {
@@ -27,7 +27,7 @@ export function Hero() {
         />
       </div>
 
-      {/* Wordmark, bottom-right corner — 24px inset to mirror the menu pill's
+      {/* Wordmark, bottom-right corner - 24px inset to mirror the menu pill's
           tolerance at the top-right corner. */}
       <div className="absolute bottom-6 right-6 z-20">
         <p className="font-heading text-base font-semibold tracking-tight text-white drop-shadow md:text-lg">

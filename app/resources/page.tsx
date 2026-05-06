@@ -24,7 +24,7 @@ const RESOURCES = [
     href: '/possibilia-submissions',
     title: 'Submissions Guide',
     blurb:
-      'How to pitch fiction, companion pieces, and original artwork for Possibilia Magazine — track-by-track requirements and what we look for.',
+      'How to pitch fiction, companion pieces, and original artwork for Possibilia Magazine - track-by-track requirements and what we look for.',
     image: '/images/possibilia-submissions.png',
     ratio: '5/2' as const,
     // Crop biased upward (~25% from top instead of centered)

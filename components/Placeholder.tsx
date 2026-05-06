@@ -1,4 +1,4 @@
-// Lightweight placeholder for image slots — renders a tasteful gradient when
+// Lightweight placeholder for image slots - renders a tasteful gradient when
 // the file at `src` is missing. Drop real images into /public/images/ and the
 // real image will load automatically.
 
@@ -10,7 +10,7 @@ type Props = {
   className?: string;
   ratio?: 'square' | '4/3' | '16/9' | '3/4' | '4/5' | '5/2';
   priority?: boolean;
-  /** CSS object-position value — biases the crop. Default 'center'. */
+  /** CSS object-position value - biases the crop. Default 'center'. */
   objectPosition?: string;
 };
 

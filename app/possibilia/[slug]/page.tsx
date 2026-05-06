@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const meta = await safeMeta(params.slug);
   if (!meta) return { title: 'Possibilia' };
   return {
-    title: `${meta.title} — Possibilia`,
+    title: `${meta.title} - Possibilia`,
     description: meta.excerpt,
   };
 }
@@ -61,22 +61,25 @@ export default async function PossibiliaPackagePage({ params }: Params) {
         eyebrow={`Possibilia · ${meta.issue}`}
         title={meta.title}
         image={meta.hero.src}
+        imagePosition={meta.hero.objectPosition}
         imageMode="peek"
         body={
           <p className="text-sm uppercase tracking-[0.08em] text-sage">
             {formatDate(meta.date)}
             <br />
-            Story by {meta.storyAuthor}
-            {meta.companionAuthor && (
-              <>
-                {' · '}Companion by {meta.companionAuthor}
-              </>
-            )}
-            {meta.hero.artist && (
-              <>
-                {' · '}Cover by {meta.hero.artist}
-              </>
-            )}
+            <span className="md:whitespace-nowrap">
+              Story by {meta.storyAuthor}
+              {meta.companionAuthor && (
+                <>
+                  {' · '}Companion by {meta.companionAuthor}
+                </>
+              )}
+              {meta.hero.artist && (
+                <>
+                  {' · '}Cover by {meta.hero.artist}
+                </>
+              )}
+            </span>
             {meta.interview && (
               <>
                 <br />

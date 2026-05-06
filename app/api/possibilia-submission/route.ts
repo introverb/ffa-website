@@ -6,11 +6,11 @@ import { NextRequest, NextResponse } from 'next/server';
 // and any uploaded files attached, then redirects back with ?sent=1.
 //
 // Required env vars (set these on your host / .env.local):
-//   RESEND_API_KEY          — from https://resend.com (Settings → API Keys)
-//   POSSIBILIA_FROM_EMAIL   — sender address; must be on a domain verified in Resend.
+//   RESEND_API_KEY          - from https://resend.com (Settings → API Keys)
+//   POSSIBILIA_FROM_EMAIL   - sender address; must be on a domain verified in Resend.
 //                             For testing without domain verification you can use
 //                             "onboarding@resend.dev".
-//   POSSIBILIA_TO_EMAIL     — destination inbox (e.g. submissions@futureaesthetics.foundation
+//   POSSIBILIA_TO_EMAIL     - destination inbox (e.g. submissions@futureaesthetics.foundation
 //                             or your personal email).
 
 export const runtime = 'nodejs';
@@ -98,7 +98,7 @@ ${linksHtml}
         'Possibilia Submissions <onboarding@resend.dev>',
       to: process.env.POSSIBILIA_TO_EMAIL || 'ollipayne182@gmail.com',
       replyTo: email,
-      subject: `Possibilia submission — ${type} from ${name}`,
+      subject: `Possibilia submission - ${type} from ${name}`,
       text,
       html,
       attachments,

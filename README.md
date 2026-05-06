@@ -1,4 +1,4 @@
-# Foundation for Future Aesthetics — website
+# Foundation for Future Aesthetics - website
 
 A rebuild of [futureaesthetics.foundation](https://www.futureaesthetics.foundation/) in Next.js
 14 (App Router) + TypeScript + Tailwind CSS.
@@ -23,7 +23,7 @@ npm start
 
 ```
 app/                       # Next.js App Router pages
-  layout.tsx               # Root layout — header, footer, fonts
+  layout.tsx               # Root layout - header, footer, fonts
   page.tsx                 # Home
   possibilia/page.tsx      # Magazine
   resources/page.tsx       # Essays + research index
@@ -34,10 +34,10 @@ app/                       # Next.js App Router pages
 components/
   Header.tsx               # Sticky nav
   Footer.tsx               # Site footer
-  Placeholder.tsx          # Image slot — gradient fallback when file is missing
+  Placeholder.tsx          # Image slot - gradient fallback when file is missing
   sections/                # Homepage sections, one file each
 lib/
-  content.ts               # All editable copy in one place — change here, not in components
+  content.ts               # All editable copy in one place - change here, not in components
 public/images/             # Drop image assets here (see /public/images/README.md)
 tailwind.config.ts         # Design tokens (colors, fonts, max-widths)
 ```
@@ -46,11 +46,11 @@ tailwind.config.ts         # Design tokens (colors, fonts, max-widths)
 
 Most copy lives in [`lib/content.ts`](./lib/content.ts):
 
-- `SITE` — name, tagline, social
-- `STORIES` — homepage + resources cards
-- `RESEARCH_AREAS` — the numbered list
-- `PROJECTS` — project tiles
-- `INITIATIVES` — magazine / makerspace / exhibitions cards
+- `SITE` - name, tagline, social
+- `STORIES` - homepage + resources cards
+- `RESEARCH_AREAS` - the numbered list
+- `PROJECTS` - project tiles
+- `INITIATIVES` - magazine / makerspace / exhibitions cards
 
 Page-level copy (Possibilia, Donate, Contact) lives in each route's `page.tsx`.
 
@@ -67,11 +67,11 @@ For the logo, replace the circular placeholder in `components/Header.tsx` and
 
 A few stubs need real endpoints/IDs:
 
-- **Contact form** — `app/contact/page.tsx` posts to a Formspree URL by default. Replace the
+- **Contact form** - `app/contact/page.tsx` posts to a Formspree URL by default. Replace the
   `action` with your Formspree form ID, a Resend API route, or a Next.js Route Handler.
-- **Donate links** — `app/donate/page.tsx` links to `every.org/futureaesthetics`. Swap to
+- **Donate links** - `app/donate/page.tsx` links to `every.org/futureaesthetics`. Swap to
   Stripe Payment Links, DonorBox, or your processor of choice.
-- **Twitter / X** — `lib/content.ts` has the `@possibiliamag` URL; update if it changes.
+- **Twitter / X** - `lib/content.ts` has the `@possibiliamag` URL; update if it changes.
 
 ## Design tokens
 
@@ -87,7 +87,7 @@ Defined in [`tailwind.config.ts`](./tailwind.config.ts):
 | `rule`      | `#d8cfc1`  | hairlines and borders                      |
 
 Fonts: serif body via system fallback stack (Iowan / Palatino / Source Serif), sans for nav and
-metadata. Swap in `next/font` Google Fonts in `app/layout.tsx` if you want a specific face — the
+metadata. Swap in `next/font` Google Fonts in `app/layout.tsx` if you want a specific face - the
 CSS variables `--font-serif` and `--font-sans` are already wired through `tailwind.config.ts`.
 
 ## Deploying

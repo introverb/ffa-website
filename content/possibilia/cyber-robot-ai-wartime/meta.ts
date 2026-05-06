@@ -10,12 +10,13 @@ export const meta: PackageMeta = {
   excerpt:
     'The year is 2056. AI-powered robotic legions hurtle across a vast battlefield in a clash of startling proportion and lasting international consequences.',
   hero: {
-    // "The Prince of Liechtenstein" as the page-header artwork — pairs
+    // "The Prince of Liechtenstein" as the page-header artwork - pairs
     // well with the new peek-reveal treatment, where the image's
     // composition reads through on the right side of the masthead.
     src: '/possibilia/cyber-robot-ai-wartime/prince-of-liechtenstein.jpg',
-    alt: 'Cyber Robot AI Wartime — cover artwork',
+    alt: 'Cyber Robot AI Wartime, cover artwork',
     artist: 'Andres Osorio',
+    objectPosition: 'center 40%',
   },
   // Drop the audio file at /public/possibilia/cyber-robot-ai-wartime/story.mp3
   // and the inline player at the top of the story panel will activate.

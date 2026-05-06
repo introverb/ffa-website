@@ -8,7 +8,7 @@ const NAV = [
   { href: '/support', label: 'Support' },
 ];
 
-// Minimal black footer panel — logo + 501c3 line on the left,
+// Minimal black footer panel - logo + 501c3 line on the left,
 // stacked nav links on the right, X icon below.
 export function Footer() {
   return (

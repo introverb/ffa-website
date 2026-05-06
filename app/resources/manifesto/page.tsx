@@ -5,7 +5,7 @@ import { Panel } from '@/components/PageFrame';
 export const metadata: Metadata = {
   title: 'Manifesto: forging our future through optimistic science fiction',
   description:
-    'Why we believe the stories we tell about tomorrow shape the world we actually build — and how an optimistic, realistic aesthetic can reset the canon.',
+    'Why we believe the stories we tell about tomorrow shape the world we actually build - and how an optimistic, realistic aesthetic can reset the canon.',
 };
 
 export default function ManifestoPage() {
@@ -42,7 +42,7 @@ export default function ManifestoPage() {
               At this critical time in history, when technology has shown vast and incredible
               potential to create and destroy, we have allowed our cultural narratives to be
               dominated by dystopian visions and apocalyptic fears. This pervasive pessimism is
-              not merely entertainment &mdash; it is a self-fulfilling prophecy that threatens
+              not merely entertainment, it is a self-fulfilling prophecy that threatens
               to undermine our collective will to overcome the obstacles we face.
             </p>
             <p className="mt-6">
@@ -129,7 +129,7 @@ export default function ManifestoPage() {
             </ul>
             <p className="mt-8">
               We assert that optimistic, scientifically grounded science fiction is not merely
-              predictive &mdash; it is prescriptive. By envisioning positive futures, we create
+              predictive, it is prescriptive. By envisioning positive futures, we create
               roadmaps for their realization. As we face unprecedented global challenges, the
               role of inspirational sci-fi in driving innovation becomes more crucial than
               ever.
@@ -142,7 +142,7 @@ export default function ManifestoPage() {
               Our world is filled with brilliant minds and groundbreaking innovations, yet our
               fiction often fails to reflect this reality, instead wallowing in visions of
               decline and disaster. This imbalance must be corrected. Optimism is not naivety
-              &mdash; it is a powerful force for change.
+             , it is a powerful force for change.
             </p>
             <p className="mt-6">
               We need stories that acknowledge our challenges while showcasing our capacity to
@@ -157,7 +157,7 @@ export default function ManifestoPage() {
             <p className="mt-6">
               By rekindling our collective sense of possibility, we can diffuse the paralyzing
               effects of defeatism and apathy. Optimistic narratives are not just entertainment
-              &mdash; they are blueprints for the future we aspire to build. They serve as
+             , they are blueprints for the future we aspire to build. They serve as
               catalysts for innovation, sparking the imagination of scientists, policymakers,
               and citizens alike. When we envision a better world, we take the first step
               toward creating it. Through stories that balance hope with realism, we can
@@ -216,8 +216,8 @@ export default function ManifestoPage() {
               developments. By consulting experts, understanding historical examples of how
               past innovations have transformed society, and considering interdisciplinary
               impacts, storytellers can craft more credible and thought-provoking narratives.
-              Exploring the concept of adjacent possibilities &mdash; innovations that become
-              feasible once certain technological thresholds are crossed &mdash; can further
+              Exploring the concept of adjacent possibilities, innovations that become
+              feasible once certain technological thresholds are crossed, can further
               enrich these visions of the future.
             </p>
             <p className="mt-6">

@@ -79,7 +79,7 @@ export function ResearchPitchDialog({ triggerLabel }: { triggerLabel: string }) 
           <div>
             <p className="eyebrow text-sage">Pitch received</p>
             <h3 className="mt-3 text-h5 leading-snug text-ink md:text-h4">
-              Thanks &mdash; we got it and will reach back soon.
+              Thanks, we got it and will reach back soon.
             </h3>
             <button type="button" onClick={close} className="btn-solid mt-8">
               Close
@@ -124,7 +124,7 @@ export function ResearchPitchDialog({ triggerLabel }: { triggerLabel: string }) 
                   overWord ? 'text-red-600' : 'text-muted'
                 }`}
               >
-                {pitchWords} / {MAX_WORDS} words{overWord && ' — please trim'}
+                {pitchWords} / {MAX_WORDS} words{overWord && ' - please trim'}
               </p>
             </div>
 

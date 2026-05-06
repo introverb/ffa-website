@@ -10,7 +10,7 @@ import { Panel } from './PageFrame';
 //   - A consistent min-height so all four pages feel like the same kind
 //     of header regardless of body length
 //
-// Two image treatments — pick via `imageMode`:
+// Two image treatments - pick via `imageMode`:
 //
 // `frosted` (default): hero.jpg is blurred heavily (blur-3xl) and scaled
 // past the panel edges so the blur doesn't leave soft borders. A
@@ -22,7 +22,7 @@ import { Panel } from './PageFrame';
 // `peek`: solid paper background behind the text column, the actual
 // hero image fades in via a horizontal CSS mask gradient on the right
 // ~40% of the panel. Text never sits on top of visible-image area, so
-// readability is never compromised — and you get a real glimpse of the
+// readability is never compromised - and you get a real glimpse of the
 // artwork. Used on Possibilia story pages and Artifact pages, where the
 // hero is editorial cover art that earns its own visual presence.
 type PageHeaderProps = {
@@ -31,8 +31,12 @@ type PageHeaderProps = {
   body?: React.ReactNode;
   /** Background image. Defaults to hero.jpg. */
   image?: string;
+  /** CSS object-position for the peek-revealed image (e.g. `'center 25%'`).
+   *  Only applies in 'peek' mode; the frosted layer stays centered.
+   *  Defaults to centered. */
+  imagePosition?: string;
   cta?: React.ReactNode;
-  /** Image treatment — frosted atmospheric (default) or peek reveal. */
+  /** Image treatment, frosted atmospheric (default) or peek reveal. */
   imageMode?: 'frosted' | 'peek';
 };
 
@@ -41,6 +45,7 @@ export function PageHeader({
   title,
   body,
   image = '/images/hero.jpg',
+  imagePosition,
   cta,
   imageMode = 'frosted',
 }: PageHeaderProps) {
@@ -80,6 +85,7 @@ export function PageHeader({
               fill
               sizes="100vw"
               className="scale-105 object-cover"
+              style={imagePosition ? { objectPosition: imagePosition } : undefined}
             />
           </div>
         </div>

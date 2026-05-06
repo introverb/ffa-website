@@ -14,7 +14,7 @@ const NAV = [
 ];
 
 // Sticky elongated pill at the top of every page. Stretches to match
-// surrounding panel width. Frosted, translucent — subtle in its default
+// surrounding panel width. Frosted, translucent - subtle in its default
 // state with everything (logo, text) at reduced opacity, lifting to
 // full white on hover.
 export function SiteNav() {
@@ -32,7 +32,7 @@ export function SiteNav() {
       <div className="flex items-center justify-between gap-4 rounded-full border border-white/25 bg-black/20 px-5 py-2.5 backdrop-blur-md md:px-7 md:py-3">
         <Link
           href="/"
-          aria-label="Home — Foundation for Future Aesthetics"
+          aria-label="Home - Foundation for Future Aesthetics"
           className="group flex shrink-0 items-center gap-2.5"
         >
           <Image

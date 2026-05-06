@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const meta = await safeMeta(params.slug);
   if (!meta) return { title: 'Artifacts from Tomorrow' };
   return {
-    title: `${meta.title} — Artifacts from Tomorrow`,
+    title: `${meta.title} - Artifacts from Tomorrow`,
     description: meta.excerpt,
   };
 }
@@ -54,6 +54,7 @@ export default async function ArtifactPage({ params }: Params) {
         eyebrow="Possibilia · Artifacts from Tomorrow"
         title={meta.title}
         image={meta.hero.src}
+        imagePosition={meta.hero.objectPosition}
         imageMode="peek"
         body={
           <p className="text-sm uppercase tracking-[0.08em] text-sage">

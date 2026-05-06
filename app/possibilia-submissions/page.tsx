@@ -7,7 +7,7 @@ import { Accordion } from '@/components/Accordion';
 export const metadata: Metadata = {
   title: 'Possibilia Submissions',
   description:
-    'How to submit fiction, nonfiction, and artwork to Possibilia Magazine — Issue 0 is in development.',
+    'How to submit fiction, nonfiction, and artwork to Possibilia Magazine - Issue 0 is in development.',
 };
 
 export default function PossibiliaSubmissionsPage({
@@ -22,12 +22,12 @@ export default function PossibiliaSubmissionsPage({
         <Panel variant="white" className="border border-sage/40 bg-sage-light/20 md:p-8">
           <p className="eyebrow text-sage">Submission received</p>
           <p className="mt-3 text-h6 leading-snug text-ink">
-            Thanks — we&rsquo;ve got your submission and will reach back within four weeks.
+            Thanks - we&rsquo;ve got your submission and will reach back within four weeks.
           </p>
         </Panel>
       )}
 
-      {/* Submissions box — full image on the left, compact form on the right */}
+      {/* Submissions box - full image on the left, compact form on the right */}
       <Panel
         variant="white"
         full
@@ -59,7 +59,7 @@ export default function PossibiliaSubmissionsPage({
         </div>
       </Panel>
 
-      {/* Submissions Guide — three categories as accordions */}
+      {/* Submissions Guide - three categories as accordions */}
       <Panel variant="white" className="md:p-20">
         <h2 className="text-h2 leading-[1.05] md:text-h2-lg">Submissions Guide</h2>
         <p className="mt-6 max-w-prose text-body-lg leading-relaxed text-ink/85">
@@ -68,7 +68,7 @@ export default function PossibiliaSubmissionsPage({
         </p>
 
         <div className="mt-8">
-          <Accordion title="Writers — fiction">
+          <Accordion title="Writers - fiction">
             <h3 className="text-h6 text-ink">The role of short stories in Possibilia Magazine</h3>
             <p>
               Throughout history, the relationship between science fiction and technological
@@ -127,7 +127,7 @@ export default function PossibiliaSubmissionsPage({
             </ul>
           </Accordion>
 
-          <Accordion title="Writers — nonfiction">
+          <Accordion title="Writers - nonfiction">
             <h3 className="text-h6 text-ink">The role of nonfiction in Possibilia Magazine</h3>
             <p>
               One of the goals of Possibilia is to inform and educate readers about the reality
@@ -248,7 +248,7 @@ export default function PossibiliaSubmissionsPage({
             <ul className="ml-6 list-disc space-y-2 marker:text-sage">
               <li>Showcase human ingenuity in addressing real-world problems</li>
               <li>
-                Think outside the box — consider interdisciplinary approaches, explore niche or
+                Think outside the box - consider interdisciplinary approaches, explore niche or
                 neglected technology, find unexplored areas of potential
               </li>
               <li>Illustrate both technological and social innovations</li>
@@ -259,7 +259,7 @@ export default function PossibiliaSubmissionsPage({
             <ul className="ml-6 list-disc space-y-2 marker:text-sage">
               <li>Address moral implications of new technologies and social structures</li>
               <li>
-                Present nuanced dilemmas — whether ethical or concrete technological — without
+                Present nuanced dilemmas - whether ethical or concrete technological - without
                 easy answers
               </li>
               <li>Show characters wrestling with complex decisions</li>
@@ -291,7 +291,7 @@ export default function PossibiliaSubmissionsPage({
           </Accordion>
         </div>
 
-        {/* Closing bookend — display font, larger size */}
+        {/* Closing bookend - display font, larger size */}
         <p
           className="mt-20 max-w-3xl text-h4 leading-snug text-ink"
           style={{
@@ -301,7 +301,7 @@ export default function PossibiliaSubmissionsPage({
           }}
         >
           Remember, a Possibilia story should leave readers feeling informed, inspired, and
-          empowered to shape the future. We&rsquo;re not just telling stories — we&rsquo;re
+          empowered to shape the future. We&rsquo;re not just telling stories - we&rsquo;re
           crafting blueprints for tomorrow. Happy imagining.
         </p>
       </Panel>
@@ -317,7 +317,7 @@ export default function PossibiliaSubmissionsPage({
           </p>
           <p className="mt-4 max-w-prose text-body leading-relaxed text-muted">
             Why we believe the stories we tell about tomorrow shape the world we actually build
-            &mdash; and how an optimistic, realistic aesthetic can reset the canon.
+           , and how an optimistic, realistic aesthetic can reset the canon.
           </p>
           <p className="mt-6 text-sm underline decoration-from-font underline-offset-4 text-ink group-hover:text-sage">
             Read the manifesto →
@@ -363,12 +363,12 @@ function SubmissionForm() {
         required
         textarea
         rows={3}
-        help="Story summary, artistic vision, pitch — what are you proposing?"
+        help="Story summary, artistic vision, pitch - what are you proposing?"
       />
 
       <FieldGroup
         label="Links"
-        help="Up to 3 — Google Docs, portfolio, examples, or social"
+        help="Up to 3 - Google Docs, portfolio, examples, or social"
       >
         <div className="space-y-2">
           {[1, 2, 3].map((n) => (
@@ -385,7 +385,7 @@ function SubmissionForm() {
 
       <FieldGroup
         label="Submissions"
-        help="Up to 5 files — manuscripts, portfolio pieces, or supporting documents (PDF, DOCX, JPG, PNG). For Google Docs, paste the link above."
+        help="Up to 5 files - manuscripts, portfolio pieces, or supporting documents (PDF, DOCX, JPG, PNG). For Google Docs, paste the link above."
       >
         <input
           type="file"

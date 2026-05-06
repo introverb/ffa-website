@@ -17,7 +17,7 @@ import Image from 'next/image';
 //    immediately.
 //
 // Once playing, YouTube's chrome (controls, logo on hover) does come
-// back — that's a YouTube TOS limitation we can't get around without
+// back - that's a YouTube TOS limitation we can't get around without
 // switching to a paid host like Vimeo Pro. But the *first impression*
 // of the panel is fully custom, which is what reads.
 //

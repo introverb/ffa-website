@@ -6,7 +6,7 @@ import { PageHeader } from '@/components/PageHeader';
 
 export const metadata: Metadata = {
   title: 'Contact',
-  description: 'Reach the Foundation for Future Aesthetics — pitches, partnerships, and press.',
+  description: 'Reach the Foundation for Future Aesthetics - pitches, partnerships, and press.',
 };
 
 export default function ContactPage({
@@ -45,7 +45,7 @@ export default function ContactPage({
               <div className="rounded-2xl border border-sage/40 bg-sage-light/30 p-8 md:p-10">
                 <p className="eyebrow text-sage">Message received</p>
                 <p className="mt-3 text-h6 leading-snug text-ink">
-                  Thanks &mdash; we got your note and will reply within two weeks, usually
+                  Thanks, we got your note and will reply within two weeks, usually
                   faster.
                 </p>
               </div>

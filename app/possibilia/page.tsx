@@ -8,7 +8,7 @@ import { getAllPackages, getAllArtifacts } from '@/lib/possibilia';
 export const metadata: Metadata = {
   title: 'Possibilia',
   description:
-    'Possibilia is the foundation’s magazine — fiction, companion pieces, and original artwork imagining an optimistic, realistic future.',
+    'Possibilia is the foundation’s magazine - fiction, companion pieces, and original artwork imagining an optimistic, realistic future.',
 };
 
 function formatDate(iso: string) {
@@ -33,7 +33,7 @@ export default async function PossibiliaPage() {
         image="/images/initiative-possibilia.jpg"
       />
 
-      {/* Recently published — driven by content/possibilia/<slug>/meta.ts.
+      {/* Recently published - driven by content/possibilia/<slug>/meta.ts.
           Each package is a story + (optional) companion essay + artwork
           credit; the dynamic route at /possibilia/[slug] renders the full
           piece. Listings here are sorted newest-first by meta.date. */}
@@ -88,7 +88,7 @@ export default async function PossibiliaPage() {
         )}
       </Panel>
 
-      {/* Artifacts from Tomorrow — short pieces, ephemera, and visual
+      {/* Artifacts from Tomorrow - short pieces, ephemera, and visual
           experiments by the editorial team. Each artifact has its own
           page at /possibilia/artifacts/<slug>, mirroring the story-page
           treatment so the editorial frame stays consistent. */}
@@ -101,7 +101,7 @@ export default async function PossibiliaPage() {
         </h2>
         {artifacts.length === 0 ? (
           <p className="mt-10 max-w-prose text-body leading-relaxed text-muted">
-            Coming soon — short pieces, images, and experiments from the editorial team.
+            Coming soon - short pieces, images, and experiments from the editorial team.
           </p>
         ) : (
           <ul className="mt-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
@@ -140,7 +140,7 @@ export default async function PossibiliaPage() {
         )}
       </Panel>
 
-      {/* Seeking contributors — black panel housing the three editorial
+      {/* Seeking contributors - black panel housing the three editorial
           pillars (Fiction / Companion pieces / Artwork) that used to live
           in their own panel. CTAs are submit + sponsor; "send a pitch"
           lived here previously and was cut. */}
@@ -155,7 +155,7 @@ export default async function PossibiliaPage() {
           />
           <DarkPillar
             title="Companion pieces"
-            body="Nonfiction by working scientists, researchers, and field experts — companion essays that ground each story in the real research and ongoing work behind it."
+            body="Nonfiction by working scientists, researchers, and field experts - companion essays that ground each story in the real research and ongoing work behind it."
           />
           <DarkPillar
             title="Artwork"
@@ -183,7 +183,7 @@ export default async function PossibiliaPage() {
           </p>
           <p className="mt-4 max-w-prose text-body leading-relaxed text-muted">
             Why we believe the stories we tell about tomorrow shape the world we actually
-            build &mdash; and how an optimistic, realistic aesthetic can reset the canon.
+            build, and how an optimistic, realistic aesthetic can reset the canon.
           </p>
           <p className="mt-6 text-sm underline decoration-from-font underline-offset-4 text-ink group-hover:text-sage">
             Read the manifesto →

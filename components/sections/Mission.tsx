@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { Panel } from '@/components/PageFrame';
 import { SITE } from '@/lib/content';
 
-// Mission panel — text left, mission collage right, image bleeds flush to
+// Mission panel - text left, mission collage right, image bleeds flush to
 // the panel's right/top/bottom edges. Same approach as HomepageOutro but
 // mirrored. The 540px min-height + 450px image column line up with the
 // source's natural 5:6 aspect (mission.jpg is 2000x2400) so object-cover
@@ -32,7 +32,7 @@ export function Mission() {
             fill
             sizes="(max-width: 768px) 100vw, 450px"
             // X anchor at 10% biases the visible region ~50px left of center
-            // (when the row stretches past 540 to fit the text). Tunable —
+            // (when the row stretches past 540 to fit the text). Tunable -
             // lower % pans further left, 50% is centered.
             className="object-cover md:object-[10%_50%]"
           />

@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Panel } from '@/components/PageFrame';
 
-// Possibilia callout — black panel, media slot on the left, text on right.
+// Possibilia callout - black panel, media slot on the left, text on right.
 // Grid uses items-stretch so the media slot fills the full text-column
 // height (no centered media floating in white space).
 export function MagazineCallout() {
@@ -21,7 +21,7 @@ export function MagazineCallout() {
         </div>
         <div className="text-white">
           <p className="text-sm uppercase tracking-[0.12em] text-white/70">
-            Possibilia Magazine &mdash; Issue 0
+            Possibilia Magazine, Issue 0
           </p>
           <h2 className="mt-6 text-h2 leading-[1.1] md:text-h2-lg">
             We&rsquo;re building the home of optimistic, realistic, sci-fi.

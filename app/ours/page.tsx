@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 };
 
 const FORMAT = [
-  { label: '3–5 speakers', body: '15–30 minute provocations — open questions, not finished arguments.' },
+  { label: '3–5 speakers', body: '15–30 minute provocations - open questions, not finished arguments.' },
   { label: '5–10 works of art', body: 'Original pieces from a curated roster of artists across mediums and aesthetics.' },
   { label: '40–60 guests', body: 'Drinks, mingling, and unhurried conversation in the spaces between.' },
   { label: 'New York City', body: 'August 2026 · SOMMWHERE, NYC.' },
@@ -46,7 +46,7 @@ export default function OursPage({
           </div>
           <div className="text-body-lg leading-relaxed text-ink/85">
             <p>
-              The futures handed to us are increasingly narrow — shaped behind closed doors,
+              The futures handed to us are increasingly narrow - shaped behind closed doors,
               trained into our imaginations, and quietly told back to us as the only way
               things could be.
             </p>
@@ -54,7 +54,7 @@ export default function OursPage({
               OURS is a refusal of that, and an invitation. An evening where the people
               doing the work of imagining otherwise gather in one room: artists making the
               images, scientists doing the research, writers shaping the narratives,
-              builders putting structure to the rest. The conviction is simple — the future
+              builders putting structure to the rest. The conviction is simple - the future
               is ours to draw, and the people best positioned to draw it should be drawing
               it together.
             </p>
@@ -93,7 +93,7 @@ export default function OursPage({
               title="Sign up for the guestlist"
               blurb="The room is intimate; the list is closed but accepting requests. Tell us a bit about yourself and we&rsquo;ll get back when invitations go out."
               sent={sent === 'guestlist'}
-              sentMessage="Thanks — you&rsquo;re on the radar. We&rsquo;ll reach back when invitations go out."
+              sentMessage="Thanks - you&rsquo;re on the radar. We&rsquo;ll reach back when invitations go out."
             >
               <input type="hidden" name="type" value="guestlist" />
               <Field id="g-name" name="name" label="Your name" required />
@@ -112,7 +112,7 @@ export default function OursPage({
               title="Submit artwork for exhibition"
               blurb="Five open slots in the exhibition. Mediums open. Send a portfolio and a short pitch and we&rsquo;ll review."
               sent={sent === 'artwork'}
-              sentMessage="Thanks — we&rsquo;ve got your submission and will reach back as we curate."
+              sentMessage="Thanks - we&rsquo;ve got your submission and will reach back as we curate."
             >
               <input type="hidden" name="type" value="artwork" />
               <Field id="a-name" name="name" label="Your name" required />
@@ -127,7 +127,7 @@ export default function OursPage({
               <TextareaField
                 id="a-pitch"
                 name="pitch"
-                label="Pitch — what would you bring?"
+                label="Pitch - what would you bring?"
                 required
               />
               <Submit label="Submit work" />
@@ -137,7 +137,7 @@ export default function OursPage({
               title="Recommend a speaker"
               blurb="We&rsquo;re still building the lineup. If someone you know belongs in this room offering a 15–30 minute talk, we&rsquo;d love to hear about them."
               sent={sent === 'speaker'}
-              sentMessage="Thanks — we&rsquo;ll consider your recommendation and follow up if we want to know more."
+              sentMessage="Thanks - we&rsquo;ll consider your recommendation and follow up if we want to know more."
             >
               <input type="hidden" name="type" value="speaker" />
               <Field id="s-yourname" name="your_name" label="Your name" required />

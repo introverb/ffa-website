@@ -4,7 +4,7 @@ import './globals.css';
 import { PageFrame } from '@/components/PageFrame';
 import { Footer } from '@/components/Footer';
 
-// Display face — used for headings and bolded text. Saira is a temporary
+// Display face - used for headings and bolded text. Saira is a temporary
 // stand-in for Eurostile Next Pro Semibold; both are geometric sans with a
 // 600 (semibold) weight. To swap to the licensed Eurostile Next Pro file:
 //
@@ -31,7 +31,7 @@ const display = Saira({
 export const metadata: Metadata = {
   title: {
     default: 'Foundation for Future Aesthetics',
-    template: '%s — Foundation for Future Aesthetics',
+    template: '%s - Foundation for Future Aesthetics',
   },
   description:
     'A nonprofit curating, promoting, and supporting visions of an optimistic and realistic future expressed through the arts.',

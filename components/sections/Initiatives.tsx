@@ -4,7 +4,7 @@ import { Panel } from '@/components/PageFrame';
 import { Placeholder } from '@/components/Placeholder';
 import { INITIATIVES } from '@/lib/content';
 
-// Initiatives band — the astronaut header plus three sticky-stacking cards.
+// Initiatives band - the astronaut header plus three sticky-stacking cards.
 // Header pins just below the SiteNav so the deck reads as one continuous
 // stack: header sits behind, cards slide up and over it as you scroll.
 //
@@ -31,7 +31,7 @@ export function Initiatives() {
       {INITIATIVES.map((i, idx) => (
         <div
           key={i.n}
-          // No wrapper background — cards are just sticky containers, the
+          // No wrapper background - cards are just sticky containers, the
           // panel inside provides its own rounded shape and bg. This means
           // a small taupe peek can show in corner triangles between
           // adjacent rounded cards, which the user prefers over the

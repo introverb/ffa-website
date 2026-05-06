@@ -38,7 +38,7 @@
   /* Fixed-positioned menu pill that stays equidistant from the hero panel's
      top-right corner regardless of viewport width. The panel is centered
      with `max-w-[1500px] mx-auto`, so on viewports wider than 1500px the
-     panel's right edge moves inward — we add `(100vw - 1500px) / 2` to the
+     panel's right edge moves inward - we add `(100vw - 1500px) / 2` to the
      right offset to compensate, capped at the page padding for narrow
      viewports. */
   .menu-pill-position {
@@ -72,7 +72,7 @@
     @apply underline decoration-rule decoration-1 underline-offset-[6px] hover:decoration-sage hover:text-sage;
   }
 
-  /* Wix-style sage green CTA button — corner radius matches image / Placeholder. */
+  /* Wix-style sage green CTA button - corner radius matches image / Placeholder. */
   .btn-solid {
     @apply inline-flex items-center justify-center rounded-md bg-sage px-7 py-3 text-sm uppercase tracking-[0.12em] text-white transition hover:bg-dark;
     font-weight: 400;
@@ -83,7 +83,7 @@
     font-weight: 400;
   }
 
-  /* Section bands — alternate white / cream */
+  /* Section bands - alternate white / cream */
   .band-cream {
     @apply bg-cream;
   }

@@ -1,4 +1,4 @@
-// Accordion built on the native <details> element — keyboard- and screen-reader-
+// Accordion built on the native <details> element - keyboard- and screen-reader-
 // accessible by default, no JS required. The +/− indicator rotates when open.
 
 export function Accordion({

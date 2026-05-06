@@ -17,7 +17,7 @@ const config: Config = {
         rule: '#D8D2C6',
       },
       fontFamily: {
-        // Body text — universal Helvetica/Arial system stack.
+        // Body text - universal Helvetica/Arial system stack.
         sans: ['Helvetica', 'Arial', 'system-ui', 'sans-serif'],
         // Heading / display face. Per the original design spec this should
         // be Eurostile Next Pro Semibold; until that licensed file is dropped

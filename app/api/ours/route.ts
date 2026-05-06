@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 // OURS engagement endpoint. Single route that handles the three kinds of
 // inbound interest from the OURS event page (guestlist signup, artwork
-// submission, speaker recommendation) — discriminated by a `type` form
+// submission, speaker recommendation) - discriminated by a `type` form
 // field. Reuses the Possibilia env vars; the subject line differentiates
 // each flow in the inbox.
 //
@@ -91,7 +91,7 @@ function compose(
       return { error: 'Name, email, and what draws you are required.' };
     }
     return {
-      subject: `OURS guestlist — ${name}`,
+      subject: `OURS guestlist - ${name}`,
       replyTo: email,
       text: `OURS guestlist signup
 
@@ -121,7 +121,7 @@ ${why}`,
       return { error: 'Name, email, portfolio link, and pitch are required.' };
     }
     return {
-      subject: `OURS artwork submission — ${name}`,
+      subject: `OURS artwork submission - ${name}`,
       replyTo: email,
       text: `OURS artwork submission
 
@@ -152,7 +152,7 @@ ${pitch}`,
     return { error: 'Your name, your email, the speaker, and why are required.' };
   }
   return {
-    subject: `OURS speaker rec — ${speakerName} (via ${yourName})`,
+    subject: `OURS speaker rec - ${speakerName} (via ${yourName})`,
     replyTo: yourEmail,
     text: `OURS speaker recommendation
 
