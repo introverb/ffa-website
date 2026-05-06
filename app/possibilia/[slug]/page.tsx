@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Panel } from '@/components/PageFrame';
 import { PageHeader } from '@/components/PageHeader';
+import { ChapterizedAudio } from '@/components/ChapterizedAudio';
 import {
-  getAllPackages,
   getPackageSlugs,
   hasCompanion,
   type PackageMeta,
@@ -74,6 +74,12 @@ export default async function PossibiliaPackagePage({ params }: Params) {
           <p className="text-sm uppercase tracking-[0.08em] text-sage">
             Story · {meta.storyAuthor}
           </p>
+          {meta.storyAudio && (
+            <div className="mt-8">
+              <p className="mb-3 text-eyebrow text-muted">Listen</p>
+              <ChapterizedAudio src={meta.storyAudio.src} />
+            </div>
+          )}
           <article className="mt-8">
             <Story />
           </article>
@@ -93,11 +99,35 @@ export default async function PossibiliaPackagePage({ params }: Params) {
         </Panel>
       )}
 
+      {meta.interview && (
+        <Panel variant="white" className="md:p-20">
+          <div className="mx-auto max-w-3xl">
+            <p className="text-sm uppercase tracking-[0.08em] text-sage">Interview</p>
+            {meta.interview.title && (
+              <h2 className="mt-4 text-h3 leading-tight md:text-h3-lg">
+                {meta.interview.title}
+              </h2>
+            )}
+            {meta.interview.description && (
+              <p className="mt-4 max-w-prose text-body leading-relaxed text-ink/80">
+                {meta.interview.description}
+              </p>
+            )}
+            <div className="mt-8">
+              <ChapterizedAudio
+                src={meta.interview.src}
+                chapters={meta.interview.chapters}
+              />
+            </div>
+          </div>
+        </Panel>
+      )}
+
       {meta.hero.artist && (
         <Panel variant="white" className="md:p-12">
           <div className="mx-auto max-w-3xl">
             <p className="text-sm uppercase tracking-[0.08em] text-muted">
-              Artwork by {meta.hero.artist}
+              Cover artwork by {meta.hero.artist}
             </p>
           </div>
         </Panel>

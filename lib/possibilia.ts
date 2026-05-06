@@ -2,6 +2,14 @@ import 'server-only';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
+/** A single chapter marker on a chaptered audio recording. */
+export type AudioChapter = {
+  /** Time string like "0:00", "3:11", "1:22:05". */
+  time: string;
+  /** Chapter label shown next to the time. */
+  label: string;
+};
+
 // Shape that every package's meta.ts must export. The dynamic route + the
 // listings page both type-narrow against this shape, so adding a new field
 // here forces every package to keep up.
@@ -25,6 +33,18 @@ export type PackageMeta = {
     src: string;
     alt: string;
     artist?: string;
+  };
+  /** Optional audio recording of the story (full narration). */
+  storyAudio?: {
+    src: string;
+  };
+  /** Optional interview / conversation about the package. Renders as its
+   *  own panel below the companion piece, with chapter timestamps if given. */
+  interview?: {
+    src: string;
+    title?: string;
+    description?: string;
+    chapters?: AudioChapter[];
   };
 };
 
