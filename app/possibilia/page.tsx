@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { Panel } from '@/components/PageFrame';
 import { PageHeader } from '@/components/PageHeader';
 import { Placeholder } from '@/components/Placeholder';
-import { PROJECTS } from '@/lib/content';
+import { getAllPackages } from '@/lib/possibilia';
 
 export const metadata: Metadata = {
   title: 'Possibilia',
@@ -11,7 +11,17 @@ export const metadata: Metadata = {
     'Possibilia is the foundation’s magazine — fiction, companion pieces, and original artwork imagining an optimistic, realistic future.',
 };
 
-export default function PossibiliaPage() {
+function formatDate(iso: string) {
+  return new Date(iso).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+}
+
+export default async function PossibiliaPage() {
+  const packages = await getAllPackages();
+
   return (
     <>
       <PageHeader
@@ -20,9 +30,10 @@ export default function PossibiliaPage() {
         image="/images/initiative-possibilia.jpg"
       />
 
-      {/* "Recently published" — placeholder framing. PROJECTS data still
-          contains the early-build project tiles; the real feed will be
-          published stories, art, and companion pieces from the magazine. */}
+      {/* Recently published — driven by content/possibilia/<slug>/meta.ts.
+          Each package is a story + (optional) companion essay + artwork
+          credit; the dynamic route at /possibilia/[slug] renders the full
+          piece. Listings here are sorted newest-first by meta.date. */}
       <Panel variant="white" className="md:p-16">
         <p className="text-sm underline decoration-from-font underline-offset-4 text-muted">
           Recently published
@@ -30,14 +41,34 @@ export default function PossibiliaPage() {
         <h2 className="mt-6 text-h2 leading-[1.05] md:text-h2-lg">
           Stories, art, and essays.
         </h2>
-        <div className="mt-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
-          {PROJECTS.map((p) => (
-            <div key={p.title}>
-              <Placeholder src={p.image} alt={p.title} ratio="square" />
-              <h3 className="mt-5 text-h6 leading-snug">{p.title}</h3>
-            </div>
-          ))}
-        </div>
+        {packages.length === 0 ? (
+          <p className="mt-10 max-w-prose text-body leading-relaxed text-muted">
+            Issue 0 is in production. New packages will appear here as they go live.
+          </p>
+        ) : (
+          <ul className="mt-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
+            {packages.map((p) => (
+              <li key={p.slug}>
+                <Link href={`/possibilia/${p.slug}`} className="group block">
+                  <Placeholder
+                    src={p.hero.src}
+                    alt={p.hero.alt}
+                    ratio="4/3"
+                  />
+                  <p className="mt-5 text-sm uppercase tracking-[0.08em] text-muted">
+                    {formatDate(p.date)} · {p.storyAuthor}
+                  </p>
+                  <h3 className="mt-2 text-h5 leading-tight group-hover:text-sage md:text-h4">
+                    {p.title}
+                  </h3>
+                  <p className="mt-3 max-w-prose text-body leading-relaxed text-muted">
+                    {p.excerpt}
+                  </p>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
       </Panel>
 
       {/* Seeking contributors — black panel housing the three editorial

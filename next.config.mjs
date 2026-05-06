@@ -1,3 +1,5 @@
+import createMDX from '@next/mdx';
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
@@ -10,6 +12,14 @@ const nextConfig = {
     unoptimized: true,
   },
   reactStrictMode: true,
+  // .mdx files are content (rendered via dynamic imports inside routes), not
+  // routes themselves — so we don't add 'mdx' to pageExtensions. The MDX
+  // plugin still lets webpack resolve and compile .mdx imports.
 };
 
-export default nextConfig;
+const withMDX = createMDX({
+  // Default rehype/remark stack for now; can layer on plugins later
+  // (smartypants, syntax highlighting, etc.) without changing this signature.
+});
+
+export default withMDX(nextConfig);
