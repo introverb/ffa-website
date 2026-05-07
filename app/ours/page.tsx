@@ -98,7 +98,7 @@ export default function OursPage({
           <div className="mt-14 grid gap-10 md:grid-cols-3">
             <EngagementCard
               title="Sign up for the guestlist"
-              blurb="The room is intimate; the list is closed but accepting requests. Tell us a bit about yourself — what part of the future are you drafting?"
+              blurb="The room is intimate; the list is limited but we&rsquo;re still welcoming more guests."
               sent={sent === 'guestlist'}
               sentMessage="Thanks, you&rsquo;re on the radar. We&rsquo;ll reach back when invitations go out."
               bgImage="/images/initiative-exhibitions.jpg"
@@ -158,7 +158,7 @@ export default function OursPage({
               />
               <Link
                 href="/contact"
-                className="absolute bottom-6 left-1/2 inline-flex -translate-x-1/2 items-center justify-center whitespace-nowrap rounded-full border border-white/40 bg-white/15 px-7 py-3 text-sm uppercase tracking-[0.12em] text-white backdrop-blur-md transition hover:bg-white/30"
+                className="absolute top-6 left-1/2 inline-flex -translate-x-1/2 items-center justify-center whitespace-nowrap rounded-full border border-white/40 bg-white/15 px-7 py-3 text-sm uppercase tracking-[0.12em] text-white backdrop-blur-md transition hover:bg-white/30"
               >
                 Other ways to take part
               </Link>
