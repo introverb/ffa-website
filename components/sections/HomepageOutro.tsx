@@ -12,19 +12,19 @@ const RESOURCES = [
     href: '/resources/manifesto',
     title: 'Manifesto: forging our future through optimistic science fiction',
     blurb:
-      'Why we believe the stories we tell about tomorrow shape the world we actually build. The aesthetic case for an optimistic, realistic canon.',
+      'Why we believe the stories we tell about tomorrow shape the world we actually build. The visionary case for an optimistic, realistic memetic infrastructure.',
   },
   {
     href: '/possibilia-submissions',
     title: 'Submit to Possibilia, Issue 0',
     blurb:
-      'We’re commissioning fiction, companion pieces, and original artwork. Read the guide, then send your pitch. We respond within four weeks.',
+      'We’re commissioning fiction, nonfiction companion pieces, and original artwork. Read the guide, then send your pitch. We respond within four weeks.',
   },
   {
     href: '/support',
     title: 'Support the foundation',
     blurb:
-      'The Medici funded Botticelli and Galileo from the same purse. Take the modern equivalent — back the artists, writers, and researchers building a better century. We’re a 501(c)(3); fully tax-deductible.',
+      'Be a modern Medici — back the artists, writers, and researchers building a better century. We’re a 501(c)(3); fully tax-deductible.',
   },
 ];
 

@@ -23,8 +23,8 @@ const FORMAT = [
     body: 'A broad spectrum of fields and disciplines, because the future is shaped by everyone willing to imagine it differently.',
   },
   {
-    label: 'New York City · August 2026',
-    body: 'SOMMWHERE, NYC.',
+    label: 'Setting',
+    body: 'SOMMWHERE, New York City. August 2026.',
   },
 ];
 
@@ -93,12 +93,11 @@ export default function OursPage({
         <div id="engage" className="mt-20 border-t border-rule pt-16">
           <p className="text-sm uppercase tracking-[0.08em] text-sage">Engage</p>
           <h2 className="mt-6 max-w-3xl text-h2 leading-[1.05] md:text-h2-lg">
-            Three ways to take part.
+            Two ways to take part.
           </h2>
           <p className="mt-6 max-w-prose text-body-lg leading-relaxed text-ink/80">
-            The guestlist, the exhibition, and the speaker lineup are still being shaped.
-            Tell us how you&rsquo;d like to be part of the evening, and we&rsquo;ll be in
-            touch.
+            The guestlist and the exhibition are still being shaped. Tell us how you&rsquo;d
+            like to be part of the evening, and we&rsquo;ll be in touch.
           </p>
 
           <div className="mt-14 grid gap-10 md:grid-cols-3">
@@ -148,41 +147,18 @@ export default function OursPage({
               <Submit label="Submit work" />
             </EngagementCard>
 
-            <EngagementCard
-              title="Recommend a speaker"
-              blurb="We&rsquo;re still building the lineup. If someone you know belongs in this room offering a 15–30 minute talk, we&rsquo;d love to hear about them."
-              sent={sent === 'speaker'}
-              sentMessage="Thanks, we&rsquo;ll consider your recommendation and follow up if we want to know more."
-              bgImage="/images/initiative-garden.jpg"
-            >
-              <input type="hidden" name="type" value="speaker" />
-              <Field id="s-yourname" name="your_name" label="Your name" required />
-              <Field
-                id="s-youremail"
-                name="your_email"
-                type="email"
-                label="Your email"
-                required
+            {/* Editorial image filling the third grid slot — same panel
+                size and aspect as the form cards on its left, but no
+                frosted glass or form: the image speaks for itself. */}
+            <div className="relative overflow-hidden rounded-2xl">
+              <Image
+                src="/images/discovery.jpg"
+                alt=""
+                fill
+                sizes="(max-width: 768px) 100vw, 33vw"
+                className="object-cover"
               />
-              <Field
-                id="s-speakername"
-                name="speaker_name"
-                label="Who are you recommending?"
-                required
-              />
-              <Field
-                id="s-speakercontact"
-                name="speaker_contact"
-                label="How to reach them (optional)"
-              />
-              <TextareaField
-                id="s-why"
-                name="why"
-                label="Why this person?"
-                required
-              />
-              <Submit label="Send recommendation" />
-            </EngagementCard>
+            </div>
           </div>
         </div>
       </Panel>
@@ -212,7 +188,7 @@ function EngagementCard({
   children: React.ReactNode;
 }) {
   return (
-    <div className="relative flex flex-col overflow-hidden rounded-2xl p-8 text-ink md:p-10">
+    <div className="relative flex flex-col overflow-hidden rounded-2xl border border-ink/15 p-8 text-ink md:p-10">
       {/* Frosted background — image scaled past edges so the heavy
           blur doesn't leave soft borders, then a paper veil for
           contrast. */}
