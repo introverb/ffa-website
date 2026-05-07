@@ -119,13 +119,18 @@ export default async function SupportPage() {
                     card and stack gracefully on narrow widths. The ETH
                     amount is computed server-side from a 10-min-cached
                     spot price (see getEthPriceUsd above). */}
-                <div className="mt-8 flex flex-wrap gap-3">
+                {/* flex-nowrap forbids vertical stacking even when cards
+                    get narrow. flex-1 + min-w-0 lets the buttons share
+                    the row width equally and shrink as needed. text-xs
+                    + tighter padding keeps both labels fitting on a
+                    line on every breakpoint. */}
+                <div className="mt-8 flex flex-nowrap gap-2">
                   <button
                     type="button"
                     disabled
                     aria-disabled="true"
                     title="Donation gateway coming soon"
-                    className="inline-flex cursor-not-allowed items-center justify-center rounded-md bg-ink/15 px-7 py-3 text-sm uppercase tracking-[0.12em] text-ink/40"
+                    className="inline-flex min-w-0 flex-1 cursor-not-allowed items-center justify-center whitespace-nowrap rounded-md bg-ink/15 px-3 py-3 text-xs uppercase tracking-[0.08em] text-ink/40"
                   >
                     Give {t.amount.replace('+', '')}
                   </button>
@@ -134,7 +139,7 @@ export default async function SupportPage() {
                     disabled
                     aria-disabled="true"
                     title="ETH wallet coming soon"
-                    className="inline-flex cursor-not-allowed items-center justify-center rounded-md bg-ink/15 px-7 py-3 text-sm uppercase tracking-[0.12em] text-ink/40"
+                    className="inline-flex min-w-0 flex-1 cursor-not-allowed items-center justify-center whitespace-nowrap rounded-md bg-ink/15 px-3 py-3 text-xs uppercase tracking-[0.08em] text-ink/40"
                   >
                     {ethLabel}
                   </button>
