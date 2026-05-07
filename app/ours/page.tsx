@@ -25,7 +25,7 @@ const FORMAT = [
   },
   {
     label: 'Setting',
-    body: 'SOMMWHERE, New York City. August 2026.',
+    body: 'SOMMWHERE\nNew York City\nAugust 2026',
   },
 ];
 
@@ -82,7 +82,7 @@ export default function OursPage({
             {FORMAT.map((f) => (
               <li key={f.label}>
                 <p className="text-sm uppercase tracking-[0.08em] text-sage">{f.label}</p>
-                <p className="mt-4">{f.body}</p>
+                <p className="mt-4 whitespace-pre-line">{f.body}</p>
               </li>
             ))}
           </ul>
