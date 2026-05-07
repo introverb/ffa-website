@@ -158,7 +158,7 @@ export default function OursPage({
               />
               <Link
                 href="/contact"
-                className="absolute top-6 left-1/2 inline-flex -translate-x-1/2 items-center justify-center whitespace-nowrap rounded-full border border-white/40 bg-white/15 px-7 py-3 text-sm uppercase tracking-[0.12em] text-white backdrop-blur-md transition hover:bg-white/30"
+                className="absolute left-1/2 top-1/2 inline-flex -translate-x-1/2 -translate-y-1/2 items-center justify-center whitespace-nowrap rounded-full border border-white/40 bg-white/15 px-7 py-3 text-sm uppercase tracking-[0.12em] text-white backdrop-blur-md transition hover:bg-white/30"
               >
                 Other ways to take part
               </Link>
