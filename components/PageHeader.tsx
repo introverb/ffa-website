@@ -38,6 +38,9 @@ type PageHeaderProps = {
   cta?: React.ReactNode;
   /** Image treatment, frosted atmospheric (default) or peek reveal. */
   imageMode?: 'frosted' | 'peek';
+  /** Horizontally mirror the hero image (frosted blur layer, triangle
+   *  reveal, parallel-band reveal, and peek reveal all flip together). */
+  flipImage?: boolean;
 };
 
 export function PageHeader({
@@ -48,7 +51,15 @@ export function PageHeader({
   imagePosition,
   cta,
   imageMode = 'frosted',
+  flipImage = false,
 }: PageHeaderProps) {
+  // The base/blurred image is scaled to 125% so its blurred edges
+  // bleed past the panel and don't leave soft borders. The reveal
+  // layers (triangle, band, peek mask) sit at 105% to hide tiny
+  // alignment seams. To horizontally flip, we negate the x-axis
+  // scale while keeping the same magnitude on both axes.
+  const blurScale = flipImage ? 'scale-y-125 scale-x-[-1.25]' : 'scale-125';
+  const revealScale = flipImage ? 'scale-y-105 scale-x-[-1.05]' : 'scale-105';
   return (
     <Panel variant="white" full className="relative md:h-[410px]">
       {imageMode === 'peek' ? (
@@ -61,7 +72,7 @@ export function PageHeader({
             alt=""
             fill
             sizes="100vw"
-            className="scale-125 object-cover blur-3xl"
+            className={`${blurScale} object-cover blur-3xl`}
             priority
           />
           {/* Paper veil sits on the frosted layer for legibility. */}
@@ -84,7 +95,7 @@ export function PageHeader({
               alt=""
               fill
               sizes="100vw"
-              className="scale-105 object-cover"
+              className={`${revealScale} object-cover`}
               style={imagePosition ? { objectPosition: imagePosition } : undefined}
             />
           </div>
@@ -96,7 +107,7 @@ export function PageHeader({
             alt=""
             fill
             sizes="100vw"
-            className="scale-125 object-cover blur-3xl"
+            className={`${blurScale} object-cover blur-3xl`}
             priority
           />
           <div className="absolute inset-0 bg-paper/35" />
@@ -118,7 +129,30 @@ export function PageHeader({
               alt=""
               fill
               sizes="100vw"
-              className="scale-105 object-cover"
+              className={`${revealScale} object-cover`}
+            />
+          </div>
+          {/* Parallel-band reveal: a thin parallelogram running
+              parallel to the triangle's hypotenuse, offset toward
+              upper-left. Reads as a "line of sky" running alongside
+              the triangle, doubling down on the geometric beat
+              without competing with it. Endpoints are pushed past
+              both visible edges (105% / 105%) so the line runs off
+              the corner naturally; the parent's overflow:hidden +
+              rounded-3xl crops the runoff into the rounded curve. */}
+          <div
+            className="absolute inset-0"
+            style={{
+              clipPath: 'polygon(64% 105%, 105% 36%, 105% 32%, 61% 105%)',
+              WebkitClipPath: 'polygon(64% 105%, 105% 36%, 105% 32%, 61% 105%)',
+            }}
+          >
+            <Image
+              src={image}
+              alt=""
+              fill
+              sizes="100vw"
+              className={`${revealScale} object-cover`}
             />
           </div>
         </div>

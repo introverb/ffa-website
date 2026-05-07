@@ -47,6 +47,7 @@ export default function ContactPage({
         eyebrow="Contact"
         title="Get in touch."
         image="/images/contact.jpg"
+        flipImage
         body={
           <p>
             Tell us a little about what you&rsquo;re working on. We read every message and

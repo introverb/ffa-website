@@ -38,7 +38,8 @@ export default function ResourcesPage() {
       <PageHeader
         eyebrow="Resources"
         title="Reading and writing."
-        image="/images/manifesto.jpg"
+        image="/images/initiative-garden.jpg"
+        flipImage
         body={
           <p>
             Original articles, partnership announcements, collaborations, and the practical

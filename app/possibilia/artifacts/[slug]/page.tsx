@@ -123,56 +123,47 @@ export default async function ArtifactPage({ params }: Params) {
         </Panel>
       )}
 
-      {/* Multi-section layout: each section is its own sticky stack.
-          The title panel pins just below the SiteNav (top-[7rem]);
-          the feature image pins 5px lower so it covers the title
-          except for a 5px peek at the very top — the same scroll
-          stack effect the Initiatives band uses. Body flows below
-          the pinned image, stays behind it via stacking order so
-          the cover never breaks. Each `relative` wrapper scopes
-          the stickiness to its own section's vertical range, so
-          when section 1 ends, its pins release and section 2's
-          stack takes over. */}
+      {/* Multi-section layout: each section flows as its own stacked
+          block — leather title panel, then feature image, then body.
+          (Earlier we sticky-pinned title + image to mimic the
+          Initiatives scroll stack, but the effect was distracting
+          on long-form artifacts; better to just let each section
+          read top-to-bottom.) The `!bg-leather` and `!text-paper`
+          use Tailwind's important modifier to override Panel's
+          default `bg-paper text-ink` — without `!` the variant's
+          background wins by CSS source order. */}
       {meta.sections &&
         sectionBodies &&
         meta.sections.map((section, i) => {
           const SectionBody = sectionBodies[i];
           return (
-            <div key={section.bodyFile} className="relative space-y-6 md:space-y-8">
-              <div className="sticky top-[7rem] z-10">
-                <Panel
-                  variant="white"
-                  className="bg-leather text-paper md:p-12"
-                >
-                  {section.eyebrow && (
-                    <p className="text-sm uppercase tracking-[0.08em] text-cream/70">
-                      {section.eyebrow}
-                    </p>
-                  )}
-                  <h2 className="mt-4 text-h2 leading-[1.05] text-paper md:text-h2-lg">
-                    {section.title}
-                  </h2>
-                </Panel>
-              </div>
+            <div key={section.bodyFile} className="space-y-6 md:space-y-8">
+              <Panel
+                variant="white"
+                className="!bg-leather !text-paper md:p-12"
+              >
+                {section.eyebrow && (
+                  <p className="text-sm uppercase tracking-[0.08em] text-cream/70">
+                    {section.eyebrow}
+                  </p>
+                )}
+                <h2 className="mt-4 text-h2 leading-[1.05] text-paper md:text-h2-lg">
+                  {section.title}
+                </h2>
+              </Panel>
 
               {section.featureImage && (
-                <div className="sticky top-[calc(7rem+5px)] z-20">
-                  <Panel
-                    variant="white"
-                    full
-                    className="overflow-hidden shadow-[0_-18px_36px_-12px_rgba(0,0,0,0.22)]"
-                  >
-                    <Image
-                      src={section.featureImage.src}
-                      alt={section.featureImage.alt}
-                      width={2400}
-                      height={1800}
-                      sizes="100vw"
-                      priority={i === 0}
-                      className="block h-auto w-full"
-                    />
-                  </Panel>
-                </div>
+                <Panel variant="white" full className="overflow-hidden">
+                  <Image
+                    src={section.featureImage.src}
+                    alt={section.featureImage.alt}
+                    width={2400}
+                    height={1800}
+                    sizes="100vw"
+                    priority={i === 0}
+                    className="block h-auto w-full"
+                  />
+                </Panel>
               )}
 
               <Panel variant="white" className="md:p-20">
