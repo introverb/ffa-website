@@ -100,6 +100,27 @@ export function PageHeader({
             priority
           />
           <div className="absolute inset-0 bg-paper/35" />
+          {/* Lower-right triangle reveal: the same hero, rendered
+              crisp, clipped to a right-triangle anchored at the
+              bottom-right corner. Anchors the otherwise-ethereal
+              frosted plane with a hard geometric beat where the
+              text never reaches. Tweak the polygon to grow or
+              shrink the triangle. */}
+          <div
+            className="absolute inset-0"
+            style={{
+              clipPath: 'polygon(70% 100%, 100% 100%, 100% 50%)',
+              WebkitClipPath: 'polygon(70% 100%, 100% 100%, 100% 50%)',
+            }}
+          >
+            <Image
+              src={image}
+              alt=""
+              fill
+              sizes="100vw"
+              className="scale-105 object-cover"
+            />
+          </div>
         </div>
       )}
 
