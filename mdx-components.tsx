@@ -1,5 +1,16 @@
 import type { MDXComponents } from 'mdx/types';
 import Image from 'next/image';
+import { renderWithArtistLinks } from '@/lib/artists';
+
+// In-body byline component that auto-wraps known artist names (per
+// lib/artists.tsx) in subtle dotted-underline links. Use in MDX like
+// `_<Credit>by Andres Osorio</Credit>_` and any artist names in the
+// children string get linked to their profile while everything else
+// renders unchanged.
+function Credit({ children }: { children: React.ReactNode }) {
+  if (typeof children !== 'string') return <>{children}</>;
+  return <>{renderWithArtistLinks(children)}</>;
+}
 
 // Default component overrides for MDX content. Editorial pages (Possibilia
 // stories + companion pieces) lean on these to inherit the site's typography
@@ -11,6 +22,7 @@ import Image from 'next/image';
 // time if a piece needs custom treatment.
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   return {
+    Credit,
     h1: ({ children, ...rest }) => (
       <h1
         className="mt-12 text-h2 leading-tight text-ink first:mt-0 md:text-h2-lg"

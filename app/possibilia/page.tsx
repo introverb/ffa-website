@@ -4,20 +4,13 @@ import { Panel } from '@/components/PageFrame';
 import { PageHeader } from '@/components/PageHeader';
 import { Placeholder } from '@/components/Placeholder';
 import { getAllPackages, getAllArtifacts } from '@/lib/possibilia';
+import { renderWithArtistLinks } from '@/lib/artists';
 
 export const metadata: Metadata = {
   title: 'Possibilia',
   description:
     'Possibilia is the foundation’s magazine: fiction, companion pieces, and original artwork imagining an optimistic, realistic future.',
 };
-
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
-}
 
 export default async function PossibiliaPage() {
   // Helpers sort newest-first; the listings page reverses to
@@ -64,8 +57,6 @@ export default async function PossibiliaPage() {
                     ratio="4/3"
                   />
                   <p className="mt-5 text-sm uppercase tracking-[0.08em] text-muted">
-                    {formatDate(p.date)}
-                    <br />
                     Story by {p.storyAuthor}
                     {p.companionAuthor && (
                       <>
@@ -76,7 +67,7 @@ export default async function PossibiliaPage() {
                     {p.hero.artist && (
                       <>
                         <br />
-                        Art by {p.hero.artist}
+                        Art by {renderWithArtistLinks(p.hero.artist)}
                       </>
                     )}
                   </p>
@@ -122,13 +113,11 @@ export default async function PossibiliaPage() {
                     ratio="4/3"
                   />
                   <p className="mt-5 text-sm uppercase tracking-[0.08em] text-muted">
-                    {formatDate(a.date)}
-                    <br />
                     By {a.author}
                     {a.hero.artist && (
                       <>
                         <br />
-                        Art by {a.hero.artist}
+                        Art by {renderWithArtistLinks(a.hero.artist)}
                       </>
                     )}
                   </p>
@@ -184,7 +173,7 @@ export default async function PossibiliaPage() {
             Manifesto: forging our future through optimistic science fiction
           </h2>
           <p className="mt-3 text-sm uppercase tracking-[0.08em] text-muted">
-            July 9, 2024 · Olli Payne
+            By {renderWithArtistLinks('Olli Payne')}
           </p>
           <p className="mt-4 max-w-prose text-body leading-relaxed text-muted">
             Why we believe the stories we tell about tomorrow shape the world we actually

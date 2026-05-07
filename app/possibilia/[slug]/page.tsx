@@ -9,6 +9,7 @@ import {
   hasCompanion,
   type PackageMeta,
 } from '@/lib/possibilia';
+import { renderWithArtistLinks } from '@/lib/artists';
 
 type Params = { params: { slug: string } };
 
@@ -24,14 +25,6 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     title: `${meta.title} · Possibilia`,
     description: meta.excerpt,
   };
-}
-
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
 }
 
 async function safeMeta(slug: string): Promise<PackageMeta | null> {
@@ -65,8 +58,6 @@ export default async function PossibiliaPackagePage({ params }: Params) {
         imageMode="peek"
         body={
           <p className="text-sm uppercase tracking-[0.08em] text-sage">
-            {formatDate(meta.date)}
-            <br />
             <span className="md:whitespace-nowrap">
               Story by {meta.storyAuthor}
               {meta.companionAuthor && (
@@ -76,7 +67,7 @@ export default async function PossibiliaPackagePage({ params }: Params) {
               )}
               {meta.hero.artist && (
                 <>
-                  {' · '}Cover by {meta.hero.artist}
+                  {' · '}Cover by {renderWithArtistLinks(meta.hero.artist)}
                 </>
               )}
             </span>

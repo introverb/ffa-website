@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import type { Metadata } from 'next';
 import { Panel } from '@/components/PageFrame';
+import { renderWithArtistLinks } from '@/lib/artists';
 
 export const metadata: Metadata = {
   title: 'Manifesto: forging our future through optimistic science fiction',
@@ -25,7 +26,7 @@ export default function ManifestoPage() {
       <div className="p-8 md:p-20">
         <div className="mx-auto max-w-3xl">
           <p className="text-sm uppercase tracking-[0.08em] text-sage">
-            July 9, 2024 · Olli Payne
+            By {renderWithArtistLinks('Olli Payne')}
           </p>
           <h1 className="mt-4 text-h2 leading-tight md:text-h2-lg">
             Manifesto: forging our future through optimistic science fiction

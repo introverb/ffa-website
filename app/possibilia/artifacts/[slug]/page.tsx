@@ -5,6 +5,7 @@ import { Panel } from '@/components/PageFrame';
 import { PageHeader } from '@/components/PageHeader';
 import { ChapterizedAudio } from '@/components/ChapterizedAudio';
 import { getArtifactSlugs, type ArtifactMeta } from '@/lib/possibilia';
+import { renderWithArtistLinks } from '@/lib/artists';
 
 type Params = { params: { slug: string } };
 
@@ -20,14 +21,6 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     title: `${meta.title} · Artifacts from Tomorrow`,
     description: meta.excerpt,
   };
-}
-
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
 }
 
 async function safeMeta(slug: string): Promise<ArtifactMeta | null> {
@@ -101,13 +94,11 @@ export default async function ArtifactPage({ params }: Params) {
         imageMode="peek"
         body={
           <p className="text-sm uppercase tracking-[0.08em] text-sage">
-            {formatDate(meta.date)}
-            <br />
             By {meta.author}
             {meta.hero.artist && (
               <>
                 <br />
-                Art by {meta.hero.artist}
+                Art by {renderWithArtistLinks(meta.hero.artist)}
               </>
             )}
           </p>

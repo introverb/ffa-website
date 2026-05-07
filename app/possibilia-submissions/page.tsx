@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Panel } from '@/components/PageFrame';
 import { Placeholder } from '@/components/Placeholder';
 import { Accordion } from '@/components/Accordion';
+import { renderWithArtistLinks } from '@/lib/artists';
 
 export const metadata: Metadata = {
   title: 'Possibilia Submissions',
@@ -313,7 +314,7 @@ export default function PossibiliaSubmissionsPage({
             Manifesto: forging our future through optimistic science fiction
           </h2>
           <p className="mt-3 text-sm uppercase tracking-[0.08em] text-muted">
-            July 9, 2024 · Olli Payne
+            By {renderWithArtistLinks('Olli Payne')}
           </p>
           <p className="mt-4 max-w-prose text-body leading-relaxed text-muted">
             Why we believe the stories we tell about tomorrow shape the world we actually build

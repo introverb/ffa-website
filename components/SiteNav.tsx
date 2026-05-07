@@ -150,21 +150,24 @@ export function SiteNav() {
         </ul>
       </div>
 
-      {/* Dropdown — sibling of the pill, attached to its bottom edge.
-          The -mt-px (1px overlap) hides the pill's border-bottom under
-          the dropdown's transparent bg, so the two read as one shape.
-          Same bg + border language, no top border, rounded only at
-          the bottom. */}
+      {/* Dropdown — each child link is its own frosted pill matching
+          the nav bar's family. Wrapper has `pt-2` which doubles as
+          (a) the visible spacing between the nav bar and the dropdown
+          row, and (b) a transparent hover bridge so the cursor can
+          travel from the trigger button down through the gap without
+          the close timer firing. The wrapper itself catches hover
+          across its full width — no `pointer-events-none` since that
+          breaks the bridge. */}
       {openChildren && (
         <div
-          className="pointer-events-none absolute left-0 right-0 top-full -mt-px flex justify-center"
+          className="absolute left-0 right-0 top-full flex justify-center pt-2"
           onMouseEnter={cancelClose}
           onMouseLeave={() => scheduleClose()}
         >
           <ul
             role="menu"
             aria-label={openMenu ?? undefined}
-            className="pointer-events-auto flex items-center gap-4 whitespace-nowrap rounded-b-3xl border-x border-b border-white/25 bg-black/20 px-5 py-2.5 text-xs uppercase tracking-[0.12em] backdrop-blur-md sm:gap-6 md:gap-8 md:px-7 md:py-3 md:text-sm"
+            className="flex items-center gap-2 text-xs uppercase tracking-[0.12em] md:text-sm"
           >
             {openChildren.map((item) => (
               <li key={item.href} role="none">
@@ -172,7 +175,7 @@ export function SiteNav() {
                   href={item.href}
                   role="menuitem"
                   onClick={() => setOpenMenu(null)}
-                  className={`transition-colors hover:text-white ${
+                  className={`block whitespace-nowrap rounded-full border border-white/25 bg-black/20 px-5 py-2.5 backdrop-blur-md transition-colors hover:text-white md:px-7 md:py-3 ${
                     isActive(item.href) ? 'text-white/80' : 'text-white/55'
                   }`}
                 >
