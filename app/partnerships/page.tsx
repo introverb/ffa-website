@@ -53,7 +53,10 @@ export default function PartnershipsPage() {
               that the next generation of writers and scientists will read.
             </p>
             <div className="mt-auto pt-10">
-              <Link href="/contact" className="btn-solid">
+              <Link
+                href="/contact?topic=Possibilia editorial partnership"
+                className="btn-solid"
+              >
                 Talk to us
               </Link>
             </div>
@@ -96,7 +99,10 @@ export default function PartnershipsPage() {
               exhibit.
             </p>
             <div className="mt-auto pt-8">
-              <Link href="/contact" className="btn">
+              <Link
+                href="/contact?topic=Industrial Garden sponsorship"
+                className="btn"
+              >
                 Request a brief
               </Link>
             </div>
@@ -111,7 +117,10 @@ export default function PartnershipsPage() {
           We&rsquo;ll come back with the partnership shape that fits, or the honest
           answer that we&rsquo;re not the right home for it.
         </p>
-        <Link href="/contact" className="btn-solid mt-10 inline-block">
+        <Link
+          href="/contact?topic=Partnership"
+          className="btn-solid mt-10 inline-block"
+        >
           Send a note
         </Link>
       </Panel>

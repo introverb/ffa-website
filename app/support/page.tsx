@@ -108,7 +108,10 @@ export default function SupportPage() {
               an email, and a sentence about why you think it&rsquo;s a fit.
             </p>
             <div className="mt-auto pt-10">
-              <Link href="/contact" className="btn-solid">
+              <Link
+                href="/contact?topic=Refer a donor or foundation"
+                className="btn-solid"
+              >
                 Make an introduction
               </Link>
             </div>

@@ -9,12 +9,37 @@ export const metadata: Metadata = {
   description: 'Reach the Foundation for Future Aesthetics: pitches, partnerships, and press.',
 };
 
+// Each CTA across the site that lands here passes a `?topic=...` query
+// param matching one of the dropdown options below. The form's defaultValue
+// pre-selects that topic, so when the user submits, the Resend subject line
+// (`Contact form - ${topic} from ${name}`) carries the originating CTA's
+// context — e.g., "Contact form - Industrial Garden sponsorship from Olli".
+const TOPICS = [
+  'Partnership',
+  'Possibilia editorial partnership',
+  'Industrial Garden sponsorship',
+  'OURS event involvement',
+  'Refer a donor or foundation',
+  'Pitch',
+  'Open position inquiry',
+  'Press',
+  'Research',
+  'Donor-advised fund grant',
+  'Stock or crypto donation',
+  'Bequest / planned giving',
+  'Something else',
+] as const;
+
 export default function ContactPage({
   searchParams,
 }: {
-  searchParams: { sent?: string };
+  searchParams: { sent?: string; topic?: string };
 }) {
   const sent = searchParams?.sent === '1';
+  const requestedTopic = searchParams?.topic ?? '';
+  const initialTopic = (TOPICS as readonly string[]).includes(requestedTopic)
+    ? requestedTopic
+    : 'Partnership';
   return (
     <>
       <PageHeader
@@ -69,18 +94,12 @@ export default function ContactPage({
                     id="topic"
                     name="topic"
                     required
-                    defaultValue="Partnership"
+                    defaultValue={initialTopic}
                     className="mt-3 w-full border border-rule bg-paper px-3 py-3 text-body"
                   >
-                    <option>Partnership</option>
-                    <option>Pitch</option>
-                    <option>Open position inquiry</option>
-                    <option>Press</option>
-                    <option>Donor-advised fund grant</option>
-                    <option>Stock or crypto donation</option>
-                    <option>Bequest / planned giving</option>
-                    <option>Research</option>
-                    <option>Something else</option>
+                    {TOPICS.map((t) => (
+                      <option key={t}>{t}</option>
+                    ))}
                   </select>
                 </div>
                 <div className="mt-6">

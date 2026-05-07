@@ -160,8 +160,13 @@ export default function OursPage({
                 sizes="(max-width: 768px) 100vw, 33vw"
                 className="object-cover"
               />
+              {/* TODO (round 2): replace this CTA with an inline pop-up
+                  form so visitors interested in speaking, funding, or
+                  other contributions can submit without leaving the
+                  page. For now it routes to /contact with the
+                  appropriate topic pre-selected. */}
               <Link
-                href="/contact"
+                href="/contact?topic=OURS event involvement"
                 className="absolute left-1/2 top-1/2 inline-flex -translate-x-1/2 -translate-y-1/2 items-center justify-center whitespace-nowrap rounded-full border border-white/40 bg-white/15 px-7 py-3 text-sm uppercase tracking-[0.12em] text-white backdrop-blur-md transition hover:bg-white/30"
               >
                 Other ways to take part
