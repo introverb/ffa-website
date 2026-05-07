@@ -95,7 +95,7 @@ export default function ContactPage({
                     name="message"
                     rows={6}
                     required
-                    className="mt-3 w-full border border-rule bg-paper px-3 py-3 text-body"
+                    className="mt-3 w-full resize-none border border-rule bg-paper px-3 py-3 text-body"
                   />
                 </div>
                 <button type="submit" className="btn-solid mt-8">

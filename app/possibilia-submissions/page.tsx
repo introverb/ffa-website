@@ -434,7 +434,7 @@ function Field({
           name={id}
           required={required}
           rows={rows}
-          className="w-full rounded border border-rule bg-paper px-3 py-2 text-body"
+          className="w-full resize-none rounded border border-rule bg-paper px-3 py-2 text-body"
         />
       ) : (
         <input

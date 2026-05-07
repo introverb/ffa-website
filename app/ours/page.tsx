@@ -287,7 +287,7 @@ function TextareaField({
         name={name}
         required={required}
         rows={4}
-        className="mt-2 w-full rounded border border-ink/15 bg-paper px-3 py-2 text-body text-ink"
+        className="mt-2 w-full resize-none rounded border border-ink/15 bg-paper px-3 py-2 text-body text-ink"
       />
     </div>
   );
