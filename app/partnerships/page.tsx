@@ -2,6 +2,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 import { Panel } from '@/components/PageFrame';
 import { PageHeader } from '@/components/PageHeader';
+import { OursSponsorshipDialog } from '@/components/OursSponsorshipDialog';
 
 export const metadata: Metadata = {
   title: 'Partnerships',
@@ -78,20 +79,11 @@ export default function PartnershipsPage() {
               that could bring it into being, a curated, traveling show. We&rsquo;re
               opening sponsorship for the inaugural run.
             </p>
-            {/* TODO (round 2): swap "Sponsor the exhibition" for an
-                inline pop-up form so prospective sponsors can submit
-                interest without leaving the page. Same pattern as the
-                OURS "Other ways to take part" CTA. */}
             <div className="mt-auto flex flex-wrap gap-3 pt-8">
               <Link href="/ours" className="btn">
                 Event details
               </Link>
-              <Link
-                href="/contact?topic=OURS exhibition sponsorship"
-                className="btn-solid"
-              >
-                Sponsor the exhibition
-              </Link>
+              <OursSponsorshipDialog />
             </div>
           </div>
 

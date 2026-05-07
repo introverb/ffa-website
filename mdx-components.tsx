@@ -23,13 +23,18 @@ function Credit({ children }: { children: React.ReactNode }) {
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   return {
     Credit,
+    // Markdown `# Title` in MDX bodies renders as a semantic <h2>, not
+    // <h1> — the page's PageHeader already owns the route's only <h1>.
+    // Visual styling is the same h2-large size; this is purely a
+    // semantic fix so each route has exactly one top-level heading
+    // (better for SEO + screen readers).
     h1: ({ children, ...rest }) => (
-      <h1
+      <h2
         className="mt-12 text-h2 leading-tight text-ink first:mt-0 md:text-h2-lg"
         {...rest}
       >
         {children}
-      </h1>
+      </h2>
     ),
     h2: ({ children, ...rest }) => (
       <h2

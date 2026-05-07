@@ -9,21 +9,6 @@ export const SITE = {
   twitter: 'https://twitter.com/possibiliamag',
 };
 
-// Stories aren't featured on the live homepage - kept here so the resources
-// page and dynamic /resources/[slug] route still have something to render.
-// The Manifesto lives at its own dedicated route, so it isn't in this list.
-export const STORIES = [
-  {
-    slug: 'submit-to-possibilia',
-    title: 'How to submit work to Possibilia Magazine',
-    date: '2024-07-09',
-    author: 'Olli Payne',
-    excerpt:
-      'A practical guide for writers and artists who want to contribute to our debut issue: what we publish, how to format submissions, and what we pay.',
-    image: '/images/story-submit.jpg',
-  },
-];
-
 // Titles match the live site exactly. Blurbs are paraphrased - replace with
 // your final copy when ready.
 export const RESEARCH_AREAS = [

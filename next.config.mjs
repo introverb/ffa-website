@@ -15,6 +15,19 @@ const nextConfig = {
   // .mdx files are content (rendered via dynamic imports inside routes), not
   // routes themselves - so we don't add 'mdx' to pageExtensions. The MDX
   // plugin still lets webpack resolve and compile .mdx imports.
+  async redirects() {
+    return [
+      // The /resources/[slug] dynamic route was a placeholder shell that
+      // shipped dev-facing copy if anyone hit it. Removed in this commit;
+      // permanent redirect catches the only valid slug ("submit-to-possibilia")
+      // in case it's been indexed or shared externally.
+      {
+        source: '/resources/submit-to-possibilia',
+        destination: '/possibilia-submissions',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 const withMDX = createMDX({

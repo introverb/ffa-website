@@ -7,6 +7,10 @@ import { Panel } from '@/components/PageFrame';
 export function Hero() {
   return (
     <Panel variant="image" full className="aspect-[2/1]">
+      {/* Visually-hidden h1 so the homepage has a proper top-level heading
+          for screen readers and SEO. The visible wordmark in the bottom-
+          right is decorative; this carries the page's actual title. */}
+      <h1 className="sr-only">Foundation for Future Aesthetics</h1>
       <div
         className="absolute inset-0 bg-gradient-to-br from-sage/70 via-taupe to-cream bg-cover bg-top"
         style={{ backgroundImage: "url('/images/hero.jpg')" }}
