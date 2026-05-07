@@ -9,21 +9,49 @@ export const metadata: Metadata = {
     'Support the Foundation for Future Aesthetics, a 501(c)(3) nonprofit. Sponsor a story, an editorial package, or a full issue. All donations are tax-deductible.',
 };
 
+// Re-render the page (and re-fetch the ETH price) every 10 minutes.
+// Donation copy doesn't need second-by-second precision — the actual
+// on-chain amount is computed at click time anyway. 10 min keeps the
+// displayed ETH amount fresh enough to feel live without burning
+// through CoinGecko's free-tier rate budget.
+export const revalidate = 600;
+
+// Fetches the spot ETH/USD price from CoinGecko's free public API.
+// Returns null on any failure (network, rate limit, malformed payload)
+// so the caller can fall back to a generic "Give in ETH" label.
+async function getEthPriceUsd(): Promise<number | null> {
+  try {
+    const res = await fetch(
+      'https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd',
+      { next: { revalidate: 600 } },
+    );
+    if (!res.ok) return null;
+    const data = (await res.json()) as { ethereum?: { usd?: number } };
+    const price = data?.ethereum?.usd;
+    return typeof price === 'number' && price > 0 ? price : null;
+  } catch {
+    return null;
+  }
+}
+
 const TIERS = [
   {
     name: 'Patron',
     amount: '$500',
+    usd: 500,
     blurb: 'Underwrite one piece: a Possibilia story, illustration, or companion essay.',
   },
   {
     name: 'Editorial Sponsor',
     amount: '$1,500',
+    usd: 1500,
     blurb:
       'Underwrite a full editorial package (story, artwork, and companion essay), plus listing as an event sponsor.',
   },
   {
     name: 'Founding Sponsor',
     amount: '$5,000+',
+    usd: 5000,
     blurb: 'Underwrite a full issue of Possibilia, an exhibition, or fund your own initiative.',
   },
 ];
@@ -43,7 +71,8 @@ const OTHER_WAYS = [
   },
 ];
 
-export default function SupportPage() {
+export default async function SupportPage() {
+  const ethPriceUsd = await getEthPriceUsd();
   return (
     <>
       <PageHeader
@@ -63,46 +92,56 @@ export default function SupportPage() {
           Fund a more optimistic future.
         </h2>
         <div className="mt-12 grid gap-10 md:grid-cols-3">
-          {TIERS.map((t) => (
-            <div
-              key={t.name}
-              className="flex flex-col justify-between rounded-2xl bg-cream p-10"
-            >
-              <div>
-                <p className="text-sm uppercase tracking-[0.08em] text-sage">{t.name}</p>
-                <p className="mt-5 text-h2 md:text-h2-lg">{t.amount}</p>
-                <p className="mt-5 text-body leading-relaxed text-ink/80">{t.blurb}</p>
+          {TIERS.map((t) => {
+            const isPlus = t.amount.endsWith('+');
+            // If the price fetch failed, fall back to a generic
+            // "Give in ETH" label so the button still reads cleanly.
+            const ethLabel = ethPriceUsd
+              ? `Give ${(t.usd / ethPriceUsd).toFixed(2)}${isPlus ? '+' : ''} ETH`
+              : 'Give in ETH';
+            return (
+              <div
+                key={t.name}
+                className="flex flex-col justify-between rounded-2xl bg-cream p-10"
+              >
+                <div>
+                  <p className="text-sm uppercase tracking-[0.08em] text-sage">{t.name}</p>
+                  <p className="mt-5 text-h2 md:text-h2-lg">{t.amount}</p>
+                  <p className="mt-5 text-body leading-relaxed text-ink/80">{t.blurb}</p>
+                </div>
+                {/* TODO: both buttons are disabled placeholders.
+                    - Fiat "Give $X" goes live once the every.org gateway
+                      is set up — restore as an <a href={...} target="_blank">.
+                    - "Give in ETH" goes live once the foundation wallet
+                      is set up — restore as a button that opens a modal
+                      with the wallet address (or wires WalletConnect).
+                    Buttons share a flex-wrap row so they line up on a
+                    card and stack gracefully on narrow widths. The ETH
+                    amount is computed server-side from a 10-min-cached
+                    spot price (see getEthPriceUsd above). */}
+                <div className="mt-8 flex flex-wrap gap-3">
+                  <button
+                    type="button"
+                    disabled
+                    aria-disabled="true"
+                    title="Donation gateway coming soon"
+                    className="inline-flex cursor-not-allowed items-center justify-center rounded-md bg-ink/15 px-7 py-3 text-sm uppercase tracking-[0.12em] text-ink/40"
+                  >
+                    Give {t.amount.replace('+', '')}
+                  </button>
+                  <button
+                    type="button"
+                    disabled
+                    aria-disabled="true"
+                    title="ETH wallet coming soon"
+                    className="inline-flex cursor-not-allowed items-center justify-center rounded-md bg-ink/15 px-7 py-3 text-sm uppercase tracking-[0.12em] text-ink/40"
+                  >
+                    {ethLabel}
+                  </button>
+                </div>
               </div>
-              {/* TODO: both buttons are disabled placeholders.
-                  - Fiat "Give $X" goes live once the every.org gateway
-                    is set up — restore as an <a href={...} target="_blank">.
-                  - "Give in ETH" goes live once the foundation wallet
-                    is set up — restore as a button that opens a modal
-                    with the wallet address (or wires WalletConnect).
-                  Buttons share a flex-wrap row so they line up on a
-                  card and stack gracefully on narrow widths. */}
-              <div className="mt-8 flex flex-wrap gap-3">
-                <button
-                  type="button"
-                  disabled
-                  aria-disabled="true"
-                  title="Donation gateway coming soon"
-                  className="inline-flex cursor-not-allowed items-center justify-center rounded-md bg-ink/15 px-7 py-3 text-sm uppercase tracking-[0.12em] text-ink/40"
-                >
-                  Give {t.amount.replace('+', '')}
-                </button>
-                <button
-                  type="button"
-                  disabled
-                  aria-disabled="true"
-                  title="ETH wallet coming soon"
-                  className="inline-flex cursor-not-allowed items-center justify-center rounded-md bg-ink/15 px-7 py-3 text-sm uppercase tracking-[0.12em] text-ink/40"
-                >
-                  Give in ETH
-                </button>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
         <p className="mt-8 text-sm text-muted">All tiers include recognition.</p>
       </Panel>
