@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
+import Link from 'next/link';
 import { Panel } from '@/components/PageFrame';
 import { PageHeader } from '@/components/PageHeader';
 
@@ -43,7 +44,7 @@ export default function OursPage({
         body={
           <p>
             An evening for the artists, scientists, and builders who believe what
-            comes next is ours to draw.
+            comes next is ours to architect.
           </p>
         }
       />
@@ -59,16 +60,14 @@ export default function OursPage({
           </div>
           <div className="text-body-lg leading-relaxed text-ink/85">
             <p>
-              The future isn&rsquo;t waiting for permission. It&rsquo;s being drawn — in
-              studios, labs, garages, classrooms, and at kitchen tables — by anyone willing
-              to imagine something better and put their hands to making it real.
+              The future isn&rsquo;t waiting for permission. It&rsquo;s being constructed —
+              in studios, labs, and workshops — by people exercising the agency to build
+              what comes next.
             </p>
             <p className="mt-5">
-              OURS gathers a slice of those people in one room. Scientists, philosophers,
-              artists, thought leaders, and builders pressing on the questions of what comes
-              next, alongside the broader spectrum of folks who&rsquo;ll be living in
-              whatever they make. The conviction is simple: the future is ours to draw, and
-              the people best positioned to draw it are everyone willing to.
+              OURS gathers a slice of those people for one evening. The conviction is
+              simple: the future is ours to architect, and the people doing the work of
+              architecting it should be doing it together.
             </p>
           </div>
         </div>
@@ -93,17 +92,13 @@ export default function OursPage({
         <div id="engage" className="mt-20 border-t border-rule pt-16">
           <p className="text-sm uppercase tracking-[0.08em] text-sage">Engage</p>
           <h2 className="mt-6 max-w-3xl text-h2 leading-[1.05] md:text-h2-lg">
-            Two ways to take part.
+            Take part in crafting tomorrow.
           </h2>
-          <p className="mt-6 max-w-prose text-body-lg leading-relaxed text-ink/80">
-            The guestlist and the exhibition are still being shaped. Tell us how you&rsquo;d
-            like to be part of the evening, and we&rsquo;ll be in touch.
-          </p>
 
           <div className="mt-14 grid gap-10 md:grid-cols-3">
             <EngagementCard
               title="Sign up for the guestlist"
-              blurb="The room is intimate; the list is closed but accepting requests. Tell us a bit about yourself and we&rsquo;ll get back when invitations go out."
+              blurb="The room is intimate; the list is closed but accepting requests. Tell us a bit about yourself — what part of the future are you drafting?"
               sent={sent === 'guestlist'}
               sentMessage="Thanks, you&rsquo;re on the radar. We&rsquo;ll reach back when invitations go out."
               bgImage="/images/initiative-exhibitions.jpg"
@@ -123,7 +118,7 @@ export default function OursPage({
 
             <EngagementCard
               title="Submit artwork for exhibition"
-              blurb="Five open slots in the exhibition. Mediums open. Send a portfolio and a short pitch and we&rsquo;ll review."
+              blurb="We are still accepting works for our exhibition! Mediums open. Send a portfolio and a short pitch and we&rsquo;ll review."
               sent={sent === 'artwork'}
               sentMessage="Thanks, we&rsquo;ve got your submission and will reach back as we curate."
               bgImage="/images/initiative-possibilia.jpg"
@@ -148,8 +143,11 @@ export default function OursPage({
             </EngagementCard>
 
             {/* Editorial image filling the third grid slot — same panel
-                size and aspect as the form cards on its left, but no
-                frosted glass or form: the image speaks for itself. */}
+                size and aspect as the form cards on its left. No frosted
+                glass over the image itself, just a frosted-pill CTA
+                anchored to the bottom for visitors who want to engage
+                outside the two structured forms (speaking, funding,
+                other contributions). */}
             <div className="relative overflow-hidden rounded-2xl">
               <Image
                 src="/images/discovery.jpg"
@@ -158,6 +156,12 @@ export default function OursPage({
                 sizes="(max-width: 768px) 100vw, 33vw"
                 className="object-cover"
               />
+              <Link
+                href="/contact"
+                className="absolute bottom-6 left-1/2 inline-flex -translate-x-1/2 items-center justify-center whitespace-nowrap rounded-full border border-white/40 bg-white/15 px-7 py-3 text-sm uppercase tracking-[0.12em] text-white backdrop-blur-md transition hover:bg-white/30"
+              >
+                Other ways to take part
+              </Link>
             </div>
           </div>
         </div>
@@ -188,7 +192,7 @@ function EngagementCard({
   children: React.ReactNode;
 }) {
   return (
-    <div className="relative flex flex-col overflow-hidden rounded-2xl border border-ink/15 p-8 text-ink md:p-10">
+    <div className="relative flex flex-col overflow-hidden rounded-2xl border-[3px] border-ink/20 p-8 text-ink md:p-10">
       {/* Frosted background — image scaled past edges so the heavy
           blur doesn't leave soft borders, then a paper veil for
           contrast. */}
