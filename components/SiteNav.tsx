@@ -68,7 +68,7 @@ export function SiteNav() {
             className="h-6 w-auto opacity-55 brightness-0 invert transition-opacity group-hover:opacity-100 md:h-7"
             priority
           />
-          <span className="hidden font-heading text-xs font-semibold tracking-tight text-white/55 transition-colors group-hover:text-white lg:inline">
+          <span className="hidden font-heading text-lg font-semibold tracking-tight text-white/55 transition-colors group-hover:text-white lg:inline">
             Foundation for Future Aesthetics
           </span>
         </Link>
