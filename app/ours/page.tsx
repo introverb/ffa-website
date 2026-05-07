@@ -69,9 +69,10 @@ export default function OursPage({
               agency to build what comes next. Those are the people we want to be.
             </p>
             <p className="mt-5">
-              OURS is the evening where we are both the audience and the show &mdash;
-              artwork on the walls, builders at the lectern, and a room of people whose
-              own work makes them part of what&rsquo;s being shown.
+              OURS is where we gather for an evening to both observe and BE a showcase
+              of positive visions of the future &mdash; in art, in words, by people
+              acting on their own visions &mdash; and a room to share ideas, build out a
+              perspective, and think about how each of us shapes what comes.
             </p>
           </div>
         </div>
