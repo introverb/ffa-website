@@ -2,6 +2,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 import { Panel } from '@/components/PageFrame';
 import { PageHeader } from '@/components/PageHeader';
+import { EthGiveButton } from '@/components/EthGiveButton';
 
 export const metadata: Metadata = {
   title: 'Support',
@@ -109,40 +110,24 @@ export default async function SupportPage() {
                   <p className="mt-5 text-h2 md:text-h2-lg">{t.amount}</p>
                   <p className="mt-5 text-body leading-relaxed text-ink/80">{t.blurb}</p>
                 </div>
-                {/* TODO: both buttons are disabled placeholders.
-                    - Fiat "Give $X" goes live once the every.org gateway
-                      is set up — restore as an <a href={...} target="_blank">.
-                    - "Give in ETH" goes live once the foundation wallet
-                      is set up — restore as a button that opens a modal
-                      with the wallet address (or wires WalletConnect).
-                    Buttons share a flex-wrap row so they line up on a
-                    card and stack gracefully on narrow widths. The ETH
-                    amount is computed server-side from a 10-min-cached
-                    spot price (see getEthPriceUsd above). */}
-                {/* flex-nowrap forbids vertical stacking even when cards
-                    get narrow. flex-1 + min-w-0 lets the buttons share
-                    the row width equally and shrink as needed. text-xs
-                    + tighter padding keeps both labels fitting on a
-                    line on every breakpoint. */}
+                {/* Fiat "Give $X" stays disabled until the every.org
+                    gateway is set up — restore as <a href={...}
+                    target="_blank"> when live. The ETH button is now
+                    live: clicking opens a modal with the FFA wallet
+                    address, QR code, and copy control (see
+                    EthGiveButton). flex-nowrap with flex-1 children
+                    keeps both on one row at every card width. */}
                 <div className="mt-8 flex flex-nowrap gap-2">
                   <button
                     type="button"
                     disabled
                     aria-disabled="true"
                     title="Donation gateway coming soon"
-                    className="inline-flex min-w-0 flex-1 cursor-not-allowed items-center justify-center whitespace-nowrap rounded-md bg-ink/15 px-3 py-3 text-xs uppercase tracking-[0.08em] text-ink/40"
+                    className="inline-flex min-w-0 flex-1 cursor-not-allowed items-center justify-center whitespace-nowrap rounded-xl bg-ink/15 px-3 py-3 text-xs uppercase tracking-[0.08em] text-ink/40"
                   >
                     Give {t.amount.replace('+', '')}
                   </button>
-                  <button
-                    type="button"
-                    disabled
-                    aria-disabled="true"
-                    title="ETH wallet coming soon"
-                    className="inline-flex min-w-0 flex-1 cursor-not-allowed items-center justify-center whitespace-nowrap rounded-md bg-ink/15 px-3 py-3 text-xs uppercase tracking-[0.08em] text-ink/40"
-                  >
-                    {ethLabel}
-                  </button>
+                  <EthGiveButton label={ethLabel} />
                 </div>
               </div>
             );

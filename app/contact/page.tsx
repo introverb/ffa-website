@@ -27,7 +27,7 @@ const TOPICS = [
   'Research',
   'Donor-advised fund grant',
   'Stock or crypto donation',
-  'Bequest / planned giving',
+  'Workplace matching',
   'Something else',
 ] as const;
 
