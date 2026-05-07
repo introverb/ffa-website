@@ -32,9 +32,11 @@ export function Hero() {
       </div>
 
       {/* Wordmark, bottom-right corner - 24px inset to mirror the menu pill's
-          tolerance at the top-right corner. */}
+          tolerance at the top-right corner. Sized at ~75% above the
+          previous text-base/lg pair so the wordmark reads as an
+          intentional anchor next to the giant ff lettermark on the left. */}
       <div className="absolute bottom-6 right-6 z-20">
-        <p className="font-heading text-base font-semibold tracking-tight text-white drop-shadow md:text-lg">
+        <p className="font-heading text-[28px] font-semibold leading-tight tracking-tight text-white drop-shadow md:text-[32px]">
           Foundation for Future Aesthetics
         </p>
       </div>

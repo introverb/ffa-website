@@ -60,18 +60,18 @@ export default function OursPage({
           </div>
           <div className="text-body-lg leading-relaxed text-ink/85">
             <p>
-              The futures handed to us are increasingly narrow — shaped behind closed
-              doors by tech companies and policy rooms, trained into our imaginations, and
-              told back to us as the only way things could be. But the future is also
-              being made elsewhere — in studios, labs, and workshops — by people refusing
-              what&rsquo;s simply handed to them, and instead exercising the agency to
-              build what comes next. Those are the people we want to be.
+              The futures handed to us are increasingly narrow, shaped behind closed
+              doors by tech companies and policy rooms, trained into our imaginations,
+              and told back to us as the only way things could be. But the future is
+              also being made elsewhere (in studios, labs, and workshops) by people
+              refusing what&rsquo;s simply handed to them, and instead exercising the
+              agency to build what comes next. Those are the people we want to be.
             </p>
             <p className="mt-5">
               OURS is where we gather for an evening to both observe and BE a showcase of
-              positive visions of the future — in art, in words, by people acting on their
-              own visions — and a room to share ideas, build out a perspective, and think
-              about how each of us shapes what comes.
+              positive visions of the future (in art, in words, by people acting on
+              their own visions), and a room to share ideas, build out a perspective,
+              and think about how each of us shapes what comes.
             </p>
           </div>
         </div>
