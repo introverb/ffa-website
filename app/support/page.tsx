@@ -63,11 +63,11 @@ const OTHER_WAYS = [
   },
   {
     label: 'Stock & crypto',
-    body: 'Gifts of appreciated stock or cryptocurrency are often more tax-efficient than cash. Reach out for transfer instructions.',
+    body: 'Gifts of appreciated stock or cryptocurrency are often more tax-efficient than cash. On-chain givers can also stream continuous gifts via Sablier or Superfluid. Reach out for transfer instructions.',
   },
   {
-    label: 'Bequests & planned giving',
-    body: 'Including the foundation in your estate plans helps secure long-term funding for the work. We can provide language for your will or trust.',
+    label: 'Workplace matching',
+    body: 'Many employers match employee gifts to 501(c)(3)s, often 1:1 or 2:1. We qualify on the major matching platforms (Benevity, YourCause, Bright Funds), so a few minutes on your company portal can double or triple your contribution.',
   },
 ];
 
