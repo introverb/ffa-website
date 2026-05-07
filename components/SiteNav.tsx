@@ -166,7 +166,7 @@ function NavDropdown({
                 href={item.href}
                 role="menuitem"
                 onClick={() => setOpen(false)}
-                className={`block w-full whitespace-nowrap rounded-full border border-white/25 bg-black/20 px-5 py-2.5 text-center backdrop-blur-md transition-colors hover:text-white md:px-7 md:py-3 ${
+                className={`block w-full whitespace-nowrap rounded-full border border-white/30 bg-black/45 px-5 py-2.5 text-center backdrop-blur-2xl backdrop-saturate-150 transition-colors hover:text-white md:px-7 md:py-3 ${
                   isActive(item.href) ? 'text-white/80' : 'text-white/55'
                 }`}
               >
