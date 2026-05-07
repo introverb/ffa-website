@@ -16,7 +16,7 @@ const RESOURCES = [
   },
   {
     href: '/possibilia-submissions',
-    title: 'Submit to Possibilia, Issue 0',
+    title: 'Submit work to Possibilia',
     blurb:
       'We’re commissioning fiction, nonfiction companion pieces, and original artwork. Read the guide, then send your pitch. We respond within four weeks.',
   },
