@@ -25,7 +25,7 @@ const FORMAT = [
   },
   {
     label: 'Setting',
-    body: 'SOMMWHERE\nNew York City\nAugust 2026',
+    body: 'Venue: [TBA]\nNew York City\nAugust 2026',
   },
 ];
 
