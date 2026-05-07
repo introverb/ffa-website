@@ -108,7 +108,7 @@ export default function ContactPage({
           <div className="relative aspect-[3/2] md:aspect-auto">
             <Image
               src="/images/contact.jpg"
-              alt="Contact"
+              alt=""
               fill
               sizes="(max-width: 768px) 100vw, 480px"
               className="object-cover"

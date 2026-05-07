@@ -10,10 +10,22 @@ export const metadata: Metadata = {
 };
 
 const FORMAT = [
-  { label: '5 speakers', body: 'Short provocations: open questions, not finished arguments.' },
-  { label: '10 works of art', body: 'Original pieces from a curated roster of artists across mediums and aesthetics.' },
-  { label: '40–60 guests', body: 'Drinks, mingling, and unhurried conversation in the spaces between.' },
-  { label: 'New York City', body: 'August 2026 · SOMMWHERE, NYC.' },
+  {
+    label: 'Speakers',
+    body: 'Scientists, philosophers, thought leaders, and builders giving short provocations: open questions, not finished arguments.',
+  },
+  {
+    label: 'Works of art',
+    body: 'Original pieces from a curated roster of artists, available to take home for those who fall in love with one.',
+  },
+  {
+    label: 'Guests',
+    body: 'A broad spectrum of fields and disciplines, because the future is shaped by everyone willing to imagine it differently.',
+  },
+  {
+    label: 'New York City · August 2026',
+    body: 'SOMMWHERE, NYC.',
+  },
 ];
 
 export default function OursPage({
@@ -47,17 +59,16 @@ export default function OursPage({
           </div>
           <div className="text-body-lg leading-relaxed text-ink/85">
             <p>
-              The futures handed to us are increasingly narrow, shaped behind closed doors,
-              trained into our imaginations, and quietly told back to us as the only way
-              things could be.
+              The future isn&rsquo;t waiting for permission. It&rsquo;s being drawn — in
+              studios, labs, garages, classrooms, and at kitchen tables — by anyone willing
+              to imagine something better and put their hands to making it real.
             </p>
             <p className="mt-5">
-              OURS is a refusal of that, and an invitation. An evening where the people
-              doing the work of imagining otherwise gather in one room: artists making the
-              images, scientists doing the research, writers shaping the narratives,
-              builders putting structure to the rest. The conviction is simple: the future
-              is ours to draw, and the people best positioned to draw it should be drawing
-              it together.
+              OURS gathers a slice of those people in one room. Scientists, philosophers,
+              artists, thought leaders, and builders pressing on the questions of what comes
+              next, alongside the broader spectrum of folks who&rsquo;ll be living in
+              whatever they make. The conviction is simple: the future is ours to draw, and
+              the people best positioned to draw it are everyone willing to.
             </p>
           </div>
         </div>
@@ -82,11 +93,12 @@ export default function OursPage({
         <div id="engage" className="mt-20 border-t border-rule pt-16">
           <p className="text-sm uppercase tracking-[0.08em] text-sage">Engage</p>
           <h2 className="mt-6 max-w-3xl text-h2 leading-[1.05] md:text-h2-lg">
-            Three ways into the room.
+            Three ways to take part.
           </h2>
           <p className="mt-6 max-w-prose text-body-lg leading-relaxed text-ink/80">
-            The guestlist, the exhibition, and the speaker lineup are still being curated.
-            Tell us where you fit and we&rsquo;ll be in touch.
+            The guestlist, the exhibition, and the speaker lineup are still being shaped.
+            Tell us how you&rsquo;d like to be part of the evening, and we&rsquo;ll be in
+            touch.
           </p>
 
           <div className="mt-14 grid gap-10 md:grid-cols-3">

@@ -317,8 +317,8 @@ export default function PossibiliaSubmissionsPage({
             By {renderWithArtistLinks('Olli Payne')}
           </p>
           <p className="mt-4 max-w-prose text-body leading-relaxed text-muted">
-            Why we believe the stories we tell about tomorrow shape the world we actually build
-           , and how an optimistic, realistic aesthetic can reset the canon.
+            Why we believe the stories we tell about tomorrow shape the world we actually
+            build, and how an optimistic, realistic aesthetic can reset the canon.
           </p>
           <p className="mt-6 text-sm underline decoration-from-font underline-offset-4 text-ink group-hover:text-sage">
             Read the manifesto →

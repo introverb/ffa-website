@@ -79,7 +79,7 @@ export const INITIATIVES = [
     note: 'Submissions are open!',
     noteHref: '/possibilia-submissions',
     blurb:
-      'We are proud to be gearing up for the launch of Possibilia, a literary magazine showcasing optimistic, realistic scientific fiction. The publication will feature short stories depicting futures where humanity is empowered by science and technology, nonfiction companion pieces by field experts, and vivid artwork by a diverse roster of artists. Through both print and online publication, Possibilia brings together a multitude of voices and perspectives to introduce readers to possibilities for the future.',
+      'Possibilia is the foundation’s literary magazine. Original short fiction set in believable, recognizably better tomorrows, paired with companion essays by working scientists and original artwork commissioned for each piece. We publish in print and online, we pay professional rates, and we commission the writers, artists, and researchers building the canon the next generation of writers and scientists will read.',
     image: '/images/initiative-possibilia.jpg',
     href: '/possibilia',
   },
@@ -88,7 +88,7 @@ export const INITIATIVES = [
     title: 'OURS: Exhibition & Salon',
     status: 'August 2026',
     blurb:
-      'A one-night exhibition and salon in New York that puts speculative artwork on the walls and the people building it into reality at the lectern. Five short provocations, ten works, forty-to-sixty guests. August 2026.',
+      'A one-night exhibition and salon in New York that puts speculative artwork on the walls and the people building it into reality at the lectern. Scientists, philosophers, artists, and builders give short provocations. Original work hangs around them, available to take home. Guests from a broad spectrum of fields fill the spaces between, because the future is shaped by everyone. SOMMWHERE, NYC. August 2026.',
     image: '/images/initiative-exhibitions.jpg',
     href: '/ours',
   },
@@ -97,7 +97,7 @@ export const INITIATIVES = [
     title: 'Industrial Garden',
     status: 'Summer 2027 · Proposal Exhibit',
     blurb:
-      'A gallery-style mixed-medium art exhibit of design plans for Industrial Garden, the foundation’s proposed maker space in New York City, where local craftspeople and hard tech founders will share professional-grade equipment and workspace. We’re seeking founding funders to back the venture from the exhibit forward.',
+      'A gallery-style mixed-medium art exhibit of design plans for Industrial Garden, the foundation’s proposed maker space in New York City. The space pairs local craftspeople with hard-tech founders, sharing professional-grade equipment and workspace under a self-sustaining model that subsidizes the smaller side from the heavier. We’re seeking founding funders to back the venture from the exhibit forward into reality.',
     image: '/images/initiative-garden.jpg',
     href: '/contact',
   },

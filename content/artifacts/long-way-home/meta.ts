@@ -32,7 +32,7 @@ export const meta: ArtifactMeta = {
       eyebrow: 'A Barn Futurism Artifact',
       title: 'The Long Way Home: Brushcross, TX',
       featureImage: {
-        src: '/possibilia/artifacts/long-way-home/bushcross.jpg',
+        src: '/possibilia/artifacts/long-way-home/brushcross.jpg',
         alt: 'Brushcross, TX, concept art',
       },
       bodyFile: 'brushcross',
