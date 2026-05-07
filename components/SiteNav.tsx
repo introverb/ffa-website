@@ -19,8 +19,8 @@ const NAV: NavItem[] = [
     label: 'Resources',
     children: [
       { href: '/resources', label: 'Musings' },
-      { href: '/partnerships', label: 'Partnerships' },
       { href: '/support', label: 'Support' },
+      { href: '/partnerships', label: 'Partnerships' },
     ],
   },
   { href: '/contact', label: 'Contact' },
@@ -158,7 +158,7 @@ function NavDropdown({
         <ul
           role="menu"
           aria-label={label}
-          className="absolute left-1/2 top-full flex -translate-x-1/2 flex-col items-center gap-2 pt-[19px] text-xs uppercase tracking-[0.12em] md:pt-[21px] md:text-sm"
+          className="absolute left-1/2 top-full flex -translate-x-1/2 flex-col items-stretch gap-2 pt-[19px] text-xs uppercase tracking-[0.12em] md:pt-[21px] md:text-sm"
         >
           {items.map((item) => (
             <li key={item.href} role="none">
@@ -166,7 +166,7 @@ function NavDropdown({
                 href={item.href}
                 role="menuitem"
                 onClick={() => setOpen(false)}
-                className={`block whitespace-nowrap rounded-full border border-white/25 bg-black/20 px-5 py-2.5 backdrop-blur-md transition-colors hover:text-white md:px-7 md:py-3 ${
+                className={`block w-full whitespace-nowrap rounded-full border border-white/25 bg-black/20 px-5 py-2.5 text-center backdrop-blur-md transition-colors hover:text-white md:px-7 md:py-3 ${
                   isActive(item.href) ? 'text-white/80' : 'text-white/55'
                 }`}
               >
