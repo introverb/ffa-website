@@ -31,22 +31,67 @@ function isDropdown(item: NavItem): item is { label: string; children: NavLink[]
 }
 
 // Sticky elongated pill at the top of every page. Stretches to match
-// surrounding panel width. Frosted, translucent — subtle in its default
-// state with everything (logo, text) at reduced opacity, lifting to
-// full white on hover.
+// surrounding panel width. Frosted, translucent — subtle in its
+// default state with everything (logo, text) at reduced opacity,
+// lifting to full white on hover.
+//
+// Resources opens a dropdown rendered as an extension of the pill
+// itself: the dropdown is a sibling of the pill (not a child of the
+// trigger button), positioned absolute at top-full of the nav with a
+// 1px overlap so the pill's bottom border is hidden. Same bg, same
+// border, no top border, rounded only at the bottom — reads as one
+// continuous fabric.
 export function SiteNav() {
   const pathname = usePathname();
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
+  const navRef = useRef<HTMLElement>(null);
+  // Small delay on close so the cursor can travel from the trigger
+  // to the dropdown panel without closing in between.
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  function cancelClose() {
+    if (closeTimer.current) {
+      clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
+  }
+  function scheduleClose(delay = 120) {
+    cancelClose();
+    closeTimer.current = setTimeout(() => setOpenMenu(null), delay);
+  }
+
+  useEffect(() => {
+    if (!openMenu) return;
+    function onClickOutside(e: MouseEvent) {
+      if (navRef.current && !navRef.current.contains(e.target as Node)) {
+        setOpenMenu(null);
+      }
+    }
+    function onEscape(e: KeyboardEvent) {
+      if (e.key === 'Escape') setOpenMenu(null);
+    }
+    document.addEventListener('mousedown', onClickOutside);
+    document.addEventListener('keydown', onEscape);
+    return () => {
+      document.removeEventListener('mousedown', onClickOutside);
+      document.removeEventListener('keydown', onEscape);
+    };
+  }, [openMenu]);
 
   function isActive(href: string) {
     return pathname === href || pathname.startsWith(href + '/');
   }
 
+  const openItem = NAV.find((i) => isDropdown(i) && i.label === openMenu);
+  const openChildren = openItem && isDropdown(openItem) ? openItem.children : null;
+
   return (
     <nav
+      ref={navRef}
       aria-label="Site navigation"
       className="sticky top-6 z-50 md:top-8"
     >
-      <div className="flex items-center justify-between gap-4 rounded-full border border-white/25 bg-black/20 px-5 py-2.5 backdrop-blur-md md:px-7 md:py-3">
+      <div className="relative flex items-center justify-between gap-4 rounded-full border border-white/25 bg-black/20 px-5 py-2.5 backdrop-blur-md md:px-7 md:py-3">
         <Link
           href="/"
           aria-label="Home, Foundation for Future Aesthetics"
@@ -67,12 +112,28 @@ export function SiteNav() {
         <ul className="flex items-center gap-4 text-xs uppercase tracking-[0.12em] sm:gap-6 md:gap-10 md:text-sm">
           {NAV.map((item) =>
             isDropdown(item) ? (
-              <NavDropdown
-                key={item.label}
-                label={item.label}
-                items={item.children}
-                activeParent={item.children.some((c) => isActive(c.href))}
-              />
+              <li key={item.label}>
+                <button
+                  type="button"
+                  aria-expanded={openMenu === item.label}
+                  aria-haspopup="menu"
+                  onMouseEnter={() => {
+                    cancelClose();
+                    setOpenMenu(item.label);
+                  }}
+                  onMouseLeave={() => scheduleClose()}
+                  onClick={() =>
+                    setOpenMenu((prev) => (prev === item.label ? null : item.label))
+                  }
+                  className={`uppercase tracking-[0.12em] transition-colors hover:text-white ${
+                    item.children.some((c) => isActive(c.href))
+                      ? 'text-white/80'
+                      : 'text-white/55'
+                  }`}
+                >
+                  {item.label}
+                </button>
+              </li>
             ) : (
               <li key={item.href}>
                 <Link
@@ -88,82 +149,40 @@ export function SiteNav() {
           )}
         </ul>
       </div>
-    </nav>
-  );
-}
 
-// Hover-on-desktop, click-on-mobile dropdown. Listens for outside
-// clicks and Escape to close. Trigger button matches the visual
-// treatment of regular nav links and lights up when any child route
-// is active.
-function NavDropdown({
-  label,
-  items,
-  activeParent,
-}: {
-  label: string;
-  items: NavLink[];
-  activeParent: boolean;
-}) {
-  const [open, setOpen] = useState(false);
-  const ref = useRef<HTMLLIElement>(null);
-
-  useEffect(() => {
-    if (!open) return;
-    function onClickOutside(e: MouseEvent) {
-      if (ref.current && !ref.current.contains(e.target as Node)) {
-        setOpen(false);
-      }
-    }
-    function onEscape(e: KeyboardEvent) {
-      if (e.key === 'Escape') setOpen(false);
-    }
-    document.addEventListener('mousedown', onClickOutside);
-    document.addEventListener('keydown', onEscape);
-    return () => {
-      document.removeEventListener('mousedown', onClickOutside);
-      document.removeEventListener('keydown', onEscape);
-    };
-  }, [open]);
-
-  return (
-    <li
-      ref={ref}
-      className="relative"
-      onMouseEnter={() => setOpen(true)}
-      onMouseLeave={() => setOpen(false)}
-    >
-      <button
-        type="button"
-        aria-expanded={open}
-        aria-haspopup="menu"
-        onClick={() => setOpen((o) => !o)}
-        className={`uppercase tracking-[0.12em] transition-colors hover:text-white ${
-          activeParent ? 'text-white/80' : 'text-white/55'
-        }`}
-      >
-        {label}
-      </button>
-      {open && (
-        <ul
-          role="menu"
-          aria-label={label}
-          className="absolute left-1/2 top-full mt-1 flex -translate-x-1/2 items-center gap-4 whitespace-nowrap rounded-full border border-white/25 bg-black/20 px-5 py-2.5 text-xs uppercase tracking-[0.12em] backdrop-blur-md sm:gap-6 md:gap-8 md:px-7 md:py-3 md:text-sm"
+      {/* Dropdown — sibling of the pill, attached to its bottom edge.
+          The -mt-px (1px overlap) hides the pill's border-bottom under
+          the dropdown's transparent bg, so the two read as one shape.
+          Same bg + border language, no top border, rounded only at
+          the bottom. */}
+      {openChildren && (
+        <div
+          className="pointer-events-none absolute left-0 right-0 top-full -mt-px flex justify-center"
+          onMouseEnter={cancelClose}
+          onMouseLeave={() => scheduleClose()}
         >
-          {items.map((item) => (
-            <li key={item.href} role="none">
-              <Link
-                href={item.href}
-                role="menuitem"
-                onClick={() => setOpen(false)}
-                className="text-white/55 transition-colors hover:text-white"
-              >
-                {item.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
+          <ul
+            role="menu"
+            aria-label={openMenu ?? undefined}
+            className="pointer-events-auto flex items-center gap-4 whitespace-nowrap rounded-b-3xl border-x border-b border-white/25 bg-black/20 px-5 py-2.5 text-xs uppercase tracking-[0.12em] backdrop-blur-md sm:gap-6 md:gap-8 md:px-7 md:py-3 md:text-sm"
+          >
+            {openChildren.map((item) => (
+              <li key={item.href} role="none">
+                <Link
+                  href={item.href}
+                  role="menuitem"
+                  onClick={() => setOpenMenu(null)}
+                  className={`transition-colors hover:text-white ${
+                    isActive(item.href) ? 'text-white/80' : 'text-white/55'
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
       )}
-    </li>
+    </nav>
   );
 }
