@@ -114,12 +114,6 @@ export default async function PossibiliaPage() {
                   />
                   <p className="mt-5 text-sm uppercase tracking-[0.08em] text-muted">
                     By {a.author}
-                    {a.hero.artist && (
-                      <>
-                        <br />
-                        Art by {renderWithArtistLinks(a.hero.artist)}
-                      </>
-                    )}
                   </p>
                   <h3 className="mt-2 text-h5 leading-tight group-hover:text-sage md:text-h4">
                     {a.title}
