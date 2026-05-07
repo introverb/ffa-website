@@ -73,19 +73,34 @@ export default function SupportPage() {
                 <p className="mt-5 text-h2 md:text-h2-lg">{t.amount}</p>
                 <p className="mt-5 text-body leading-relaxed text-ink/80">{t.blurb}</p>
               </div>
-              {/* TODO (round 2): the every.org/futureaesthetics
-                  donation page isn't live yet. Disabled state until
-                  the user finishes setup; restore as a real <a> with
-                  href + target="_blank" once the gateway is up. */}
-              <button
-                type="button"
-                disabled
-                aria-disabled="true"
-                title="Donation gateway coming soon"
-                className="mt-8 inline-flex cursor-not-allowed items-center justify-center self-start rounded-md bg-ink/15 px-7 py-3 text-sm uppercase tracking-[0.12em] text-ink/40"
-              >
-                Give {t.amount.replace('+', '')}
-              </button>
+              {/* TODO: both buttons are disabled placeholders.
+                  - Fiat "Give $X" goes live once the every.org gateway
+                    is set up — restore as an <a href={...} target="_blank">.
+                  - "Give in ETH" goes live once the foundation wallet
+                    is set up — restore as a button that opens a modal
+                    with the wallet address (or wires WalletConnect).
+                  Buttons share a flex-wrap row so they line up on a
+                  card and stack gracefully on narrow widths. */}
+              <div className="mt-8 flex flex-wrap gap-3">
+                <button
+                  type="button"
+                  disabled
+                  aria-disabled="true"
+                  title="Donation gateway coming soon"
+                  className="inline-flex cursor-not-allowed items-center justify-center rounded-md bg-ink/15 px-7 py-3 text-sm uppercase tracking-[0.12em] text-ink/40"
+                >
+                  Give {t.amount.replace('+', '')}
+                </button>
+                <button
+                  type="button"
+                  disabled
+                  aria-disabled="true"
+                  title="ETH wallet coming soon"
+                  className="inline-flex cursor-not-allowed items-center justify-center rounded-md bg-ink/15 px-7 py-3 text-sm uppercase tracking-[0.12em] text-ink/40"
+                >
+                  Give in ETH
+                </button>
+              </div>
             </div>
           ))}
         </div>
