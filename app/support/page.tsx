@@ -73,14 +73,19 @@ export default function SupportPage() {
                 <p className="mt-5 text-h2 md:text-h2-lg">{t.amount}</p>
                 <p className="mt-5 text-body leading-relaxed text-ink/80">{t.blurb}</p>
               </div>
-              <a
-                href="https://www.every.org/futureaesthetics"
-                target="_blank"
-                rel="noreferrer"
-                className="btn-solid mt-8 self-start"
+              {/* TODO (round 2): the every.org/futureaesthetics
+                  donation page isn't live yet. Disabled state until
+                  the user finishes setup; restore as a real <a> with
+                  href + target="_blank" once the gateway is up. */}
+              <button
+                type="button"
+                disabled
+                aria-disabled="true"
+                title="Donation gateway coming soon"
+                className="mt-8 inline-flex cursor-not-allowed items-center justify-center self-start rounded-md bg-ink/15 px-7 py-3 text-sm uppercase tracking-[0.12em] text-ink/40"
               >
                 Give {t.amount.replace('+', '')}
-              </a>
+              </button>
             </div>
           ))}
         </div>

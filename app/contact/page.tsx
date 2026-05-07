@@ -18,6 +18,7 @@ const TOPICS = [
   'Partnership',
   'Possibilia editorial partnership',
   'Industrial Garden sponsorship',
+  'OURS exhibition sponsorship',
   'OURS event involvement',
   'Refer a donor or foundation',
   'Pitch',
