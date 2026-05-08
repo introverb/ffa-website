@@ -22,7 +22,7 @@ export function Hero() {
         className="pointer-events-none absolute inset-y-0 left-0 z-10 w-[55%] select-none md:w-[50%]"
       >
         <Image
-          src="/images/logo.svg"
+          src="/images/logo.png"
           alt=""
           fill
           priority

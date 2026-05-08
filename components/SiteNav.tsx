@@ -59,7 +59,7 @@ export function SiteNav() {
             className="group flex shrink-0 items-center gap-2.5"
           >
             <Image
-              src="/images/logo.svg"
+              src="/images/logo.png"
               alt=""
               width={28}
               height={24}
@@ -156,7 +156,7 @@ function MobileMenuPill({ isActive }: { isActive: (href: string) => boolean }) {
         className="fixed right-4 top-4 z-50 flex h-11 items-center gap-2.5 rounded-full border border-white/30 bg-black/55 px-3.5 text-white backdrop-blur-2xl backdrop-saturate-150 transition-colors hover:bg-black/70"
       >
         <Image
-          src="/images/logo.svg"
+          src="/images/logo.png"
           alt=""
           width={24}
           height={26}

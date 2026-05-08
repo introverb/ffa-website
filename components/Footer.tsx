@@ -34,7 +34,7 @@ export function Footer() {
         <div className="text-white">
           <Link href="/" className="block">
             <Image
-              src="/images/logo.svg"
+              src="/images/logo.png"
               alt="FFA"
               width={56}
               height={48}
