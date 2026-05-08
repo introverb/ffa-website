@@ -165,13 +165,32 @@ export function PageHeader({
         </div>
       )}
 
-      {/* Content */}
+      {/* Content. Peek-mode headers are used on Possibilia story and
+          Artifact pages, where the right ~40% of the panel reveals
+          editorial cover art. On narrow mobile screens that reveal
+          encroaches on the text column, so we flip text colors light
+          (text-paper) on mobile and add drop-shadows for legibility
+          over the image. At md+ the text column is comfortably to
+          the left of the reveal mask, so the original dark palette
+          comes back unchanged via md: overrides. */}
       <div className="relative p-8 md:p-12">
         {/* Masthead row */}
-        <p className="text-xs uppercase tracking-[0.18em] text-ink/55">
+        <p
+          className={`text-xs uppercase tracking-[0.18em] ${
+            imageMode === 'peek'
+              ? 'text-paper drop-shadow md:text-ink/55 md:drop-shadow-none'
+              : 'text-ink/55'
+          }`}
+        >
           Foundation for Future Aesthetics &nbsp;·&nbsp; 2026
         </p>
-        <hr className="mt-3 border-rule" />
+        <hr
+          className={`mt-3 ${
+            imageMode === 'peek'
+              ? 'border-paper/40 md:border-rule'
+              : 'border-rule'
+          }`}
+        />
 
         <div
           className={
@@ -181,14 +200,32 @@ export function PageHeader({
           }
         >
           <div>
-            <p className="text-sm underline decoration-from-font underline-offset-4 text-muted">
+            <p
+              className={`text-sm underline decoration-from-font underline-offset-4 ${
+                imageMode === 'peek'
+                  ? 'text-paper drop-shadow md:text-muted md:drop-shadow-none'
+                  : 'text-muted'
+              }`}
+            >
               {eyebrow}
             </p>
-            <h1 className="mt-5 max-w-3xl text-h2 leading-[1.05] md:text-h2-lg">
+            <h1
+              className={`mt-5 max-w-3xl text-h2 leading-[1.05] md:text-h2-lg ${
+                imageMode === 'peek'
+                  ? 'text-paper drop-shadow-md md:text-ink md:drop-shadow-none'
+                  : ''
+              }`}
+            >
               {title}
             </h1>
             {body && (
-              <div className="mt-5 max-w-prose text-body-lg leading-relaxed text-ink/80">
+              <div
+                className={`mt-5 max-w-prose text-body-lg leading-relaxed ${
+                  imageMode === 'peek'
+                    ? 'text-paper drop-shadow md:text-ink/80 md:drop-shadow-none'
+                    : 'text-ink/80'
+                }`}
+              >
                 {body}
               </div>
             )}

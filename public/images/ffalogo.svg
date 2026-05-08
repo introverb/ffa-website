@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1175 1291" fill="none" stroke="currentColor" stroke-width="166" stroke-linecap="round" stroke-linejoin="round" aria-label="Foundation for Future Aesthetics">
+  <!-- Hand-traced vector replacement for the previous raster-wrapped
+       SVG. Stroke-width 166 + rounded caps/joins matches the original
+       lettermark's uniform tube-style strokes. Coordinates derived
+       from a programmatic analysis of the source PNG: stem centers
+       sit at x=248 / 478 / 1028 with width 166, and arc heights
+       align with the discrete y-bands measured in the bitmap. -->
+
+  <!-- Left "f": stem from bottom up + top hook curving up-and-right
+       into the long horizontal that runs across the top. -->
+  <path d="M 248 1207 V 326 Q 248 82 415 82 H 1092" />
+
+  <!-- Middle "f": stem from bottom up + smaller hook curving into
+       the second horizontal sweep below the outer one. -->
+  <path d="M 478 1207 V 383 Q 478 298 583 298 H 1092" />
+
+  <!-- Right vertical (right side of the "a") — short stem starting
+       below the inner-arc and crossbar, descending to the baseline. -->
+  <path d="M 1028 1207 V 676" />
+
+  <!-- Cross bar — horizontal that crosses both f-stems and forms
+       the top of the "a" bowl on the right. -->
+  <path d="M 201 570 H 1056" />
+
+  <!-- "a" middle horizontal — closes the bowl between the middle
+       stem and right vertical. -->
+  <path d="M 478 879 H 1028" />
+</svg>

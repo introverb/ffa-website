@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { Panel } from '@/components/PageFrame';
 import { PageHeader } from '@/components/PageHeader';
 import { ChapterizedAudio } from '@/components/ChapterizedAudio';
+import { InspectablePanel } from '@/components/InspectablePanel';
 import { getArtifactSlugs, type ArtifactMeta } from '@/lib/possibilia';
 import { renderWithArtistLinks } from '@/lib/artists';
 
@@ -33,24 +33,11 @@ async function safeMeta(slug: string): Promise<ArtifactMeta | null> {
 }
 
 // Full-bleed image panel — used by both single-body and multi-section
-// artifact layouts. width/height on Image are aspect hints; w-full
-// h-auto + unoptimized images means the file's intrinsic ratio drives
-// layout.
-function FeaturePanel({ src, alt, priority }: { src: string; alt: string; priority?: boolean }) {
-  return (
-    <Panel variant="white" full className="overflow-hidden">
-      <Image
-        src={src}
-        alt={alt}
-        width={2400}
-        height={1800}
-        sizes="100vw"
-        priority={priority}
-        className="block h-auto w-full"
-      />
-    </Panel>
-  );
-}
+// artifact layouts. Now delegated to InspectablePanel, a client
+// component that renders the same image inline AND opens it in a
+// fullscreen lightbox on click — most artifact images are dense
+// (concept art, design plans) and benefit from a real "blow it up"
+// view. width/height on the inner Image are aspect hints.
 
 // Renders a single Artifact from Tomorrow.
 //
@@ -107,7 +94,7 @@ export default async function ArtifactPage({ params }: Params) {
 
       {/* Single-body layout: optional feature image, then the body. */}
       {SingleBody && meta.featureImage && (
-        <FeaturePanel
+        <InspectablePanel
           src={meta.featureImage.src}
           alt={meta.featureImage.alt}
           priority
@@ -153,17 +140,11 @@ export default async function ArtifactPage({ params }: Params) {
               </Panel>
 
               {section.featureImage && (
-                <Panel variant="white" full className="overflow-hidden">
-                  <Image
-                    src={section.featureImage.src}
-                    alt={section.featureImage.alt}
-                    width={2400}
-                    height={1800}
-                    sizes="100vw"
-                    priority={i === 0}
-                    className="block h-auto w-full"
-                  />
-                </Panel>
+                <InspectablePanel
+                  src={section.featureImage.src}
+                  alt={section.featureImage.alt}
+                  priority={i === 0}
+                />
               )}
 
               <Panel variant="white" className="md:p-20">

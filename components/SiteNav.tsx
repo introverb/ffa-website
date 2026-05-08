@@ -1,9 +1,9 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
+import { FfaLogo } from './FfaLogo';
 
 // Nav model. Top-level items either link directly (`href`) or open a
 // dropdown of child links (`children`). Resources groups Musings,
@@ -62,14 +62,10 @@ export function SiteNav() {
           aria-label="Home, Foundation for Future Aesthetics"
           className="group flex shrink-0 items-center gap-2.5"
         >
-          <Image
-            src="/images/logo.svg"
-            alt=""
-            width={28}
-            height={24}
-            className="h-6 w-auto opacity-55 brightness-0 invert transition-opacity group-hover:opacity-100 md:h-7"
-            priority
-          />
+          {/* Inline FfaLogo — currentColor inherits the link's text
+              color (white-ish via the surrounding nav). h-6/h-7
+              constraints stay the same as the previous <Image>. */}
+          <FfaLogo className="h-6 w-auto text-white opacity-55 transition-opacity group-hover:opacity-100 md:h-7" />
           <span className="hidden font-heading text-lg font-semibold tracking-tight text-white/55 transition-colors group-hover:text-white lg:inline">
             Foundation for Future Aesthetics
           </span>

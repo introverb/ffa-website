@@ -56,7 +56,15 @@ export default async function PossibiliaPage() {
                     alt={p.hero.alt}
                     ratio="4/3"
                   />
-                  <p className="mt-5 text-sm uppercase tracking-[0.08em] text-muted">
+                  {/* Title leads, byline credits sit below it as a
+                      secondary line, and the excerpt closes the card.
+                      Reads top-down: image → title → "by whom" →
+                      pitch — closer to a magazine's contributor
+                      treatment than a credit-first stack. */}
+                  <h3 className="mt-5 text-h5 leading-tight group-hover:text-sage md:text-h4">
+                    {p.title}
+                  </h3>
+                  <p className="mt-3 text-sm uppercase tracking-[0.08em] text-muted">
                     Story by {p.storyAuthor}
                     {p.companionAuthor && (
                       <>
@@ -71,9 +79,6 @@ export default async function PossibiliaPage() {
                       </>
                     )}
                   </p>
-                  <h3 className="mt-2 text-h5 leading-tight group-hover:text-sage md:text-h4">
-                    {p.title}
-                  </h3>
                   <p className="mt-3 max-w-prose text-body leading-relaxed text-muted">
                     {p.excerpt}
                   </p>
@@ -112,12 +117,15 @@ export default async function PossibiliaPage() {
                     alt={a.hero.alt}
                     ratio="4/3"
                   />
-                  <p className="mt-5 text-sm uppercase tracking-[0.08em] text-muted">
-                    By {a.author}
-                  </p>
-                  <h3 className="mt-2 text-h5 leading-tight group-hover:text-sage md:text-h4">
+                  {/* Same reading order as the Possibilia story cards:
+                      title leads, byline sits below as a secondary
+                      line, excerpt closes the card. */}
+                  <h3 className="mt-5 text-h5 leading-tight group-hover:text-sage md:text-h4">
                     {a.title}
                   </h3>
+                  <p className="mt-3 text-sm uppercase tracking-[0.08em] text-muted">
+                    By {a.author}
+                  </p>
                   <p className="mt-3 max-w-prose text-body leading-relaxed text-muted">
                     {a.excerpt}
                   </p>
