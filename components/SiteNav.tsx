@@ -135,17 +135,20 @@ function MobileMenuPill({ isActive }: { isActive: (href: string) => boolean }) {
         />
       )}
 
-      {/* Pill — the always-visible trigger. 44px circle in the
-          upper-right corner, frosted glass + bright-blue saturate so
-          it stands out against any background image without being
-          loud. Hamburger on the way in, X on the way out. */}
+      {/* Pill — the always-visible trigger. Frosted glass with the
+          FFA lettermark on the left and the hamburger / X on the
+          right. The logo here is a visual anchor (not a separate
+          link) — tapping anywhere on the pill opens the menu, and
+          the menu's first item is a Home link that handles the
+          actual navigation. */}
       <button
         type="button"
         aria-label={open ? 'Close menu' : 'Open menu'}
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
-        className="fixed right-4 top-4 z-50 flex h-11 w-11 items-center justify-center rounded-full border border-white/30 bg-black/55 text-white backdrop-blur-2xl backdrop-saturate-150 transition-colors hover:bg-black/70"
+        className="fixed right-4 top-4 z-50 flex h-11 items-center gap-2.5 rounded-full border border-white/30 bg-black/55 px-3.5 text-white backdrop-blur-2xl backdrop-saturate-150 transition-colors hover:bg-black/70"
       >
+        <FfaLogo className="h-5 w-auto opacity-85" />
         {open ? (
           <svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
             <path d="M4 4l12 12M16 4L4 16" />
@@ -169,6 +172,21 @@ function MobileMenuPill({ isActive }: { isActive: (href: string) => boolean }) {
           className="fixed right-4 top-[4.25rem] z-50 w-[min(18rem,calc(100vw-2rem))] overflow-hidden rounded-3xl border border-white/30 bg-black/60 backdrop-blur-2xl backdrop-saturate-150"
         >
           <ul className="flex flex-col gap-1 p-3 text-sm uppercase tracking-[0.1em]">
+            {/* Home link — mobile-only entry. Desktop's left-aligned
+                logo + wordmark already handles "back to home"; on
+                mobile the pill's logo is a visual-only anchor so the
+                menu needs an explicit Home item. */}
+            <li>
+              <Link
+                href="/"
+                onClick={close}
+                className={`block rounded-xl px-4 py-3 transition-colors hover:bg-white/10 ${
+                  isActive('/') ? 'text-white' : 'text-white/70'
+                }`}
+              >
+                Home
+              </Link>
+            </li>
             {NAV.map((item) => {
               if (isDropdown(item)) {
                 const childActive = item.children.some((c) => isActive(c.href));
