@@ -87,7 +87,7 @@ export default async function PossibiliaPackagePage({ params }: Params) {
 
       <Panel variant="white" className="md:p-20">
         <div className="mx-auto max-w-3xl">
-          <p className="text-sm uppercase tracking-[0.08em] text-sage">
+          <p className="text-sm uppercase tracking-[0.08em] text-leather">
             Story · {meta.storyAuthor}
           </p>
           {meta.storyAudio && (
@@ -105,7 +105,7 @@ export default async function PossibiliaPackagePage({ params }: Params) {
       {Companion && (
         <Panel variant="white" className="md:p-20">
           <div className="mx-auto max-w-3xl">
-            <p className="text-sm uppercase tracking-[0.08em] text-sage">
+            <p className="text-sm uppercase tracking-[0.08em] text-leather">
               Companion piece{meta.companionAuthor ? ` · ${meta.companionAuthor}` : ''}
             </p>
             {meta.companionAudio && (
@@ -124,7 +124,7 @@ export default async function PossibiliaPackagePage({ params }: Params) {
       {meta.interview && (
         <Panel variant="white" className="md:p-20">
           <div className="mx-auto max-w-3xl">
-            <p className="text-sm uppercase tracking-[0.08em] text-sage">Interview</p>
+            <p className="text-sm uppercase tracking-[0.08em] text-leather">Interview</p>
             {meta.interview.title && (
               <h2 className="mt-4 text-h3 leading-tight md:text-h3-lg">
                 {meta.interview.title}
