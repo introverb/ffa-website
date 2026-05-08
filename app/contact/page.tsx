@@ -58,7 +58,12 @@ export default function ContactPage({
 
       <Panel variant="white" full>
         <div className="grid md:grid-cols-[1fr_480px]">
-          <div className="p-8 md:p-12">
+          {/* order-2 on mobile pulls the image up to the top of the
+              stack so visitors see the photo before the form, matching
+              the rhythm of every other page on the site. md:order-1
+              restores the desktop layout where the form sits in the
+              left (1fr) column. */}
+          <div className="order-2 p-8 md:order-1 md:p-12">
             <p className="mb-5 text-sm text-muted">
               Submitting work for Possibilia?{' '}
               <Link
@@ -126,7 +131,9 @@ export default function ContactPage({
             )}
           </div>
 
-          <div className="relative aspect-[3/2] md:aspect-auto">
+          {/* Image: order-1 on mobile so it sits on top of the stack;
+              md:order-2 returns it to the right column on desktop. */}
+          <div className="relative order-1 aspect-[3/2] md:order-2 md:aspect-auto">
             <Image
               src="/images/contact.jpg"
               alt=""

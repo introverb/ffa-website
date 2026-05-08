@@ -116,9 +116,14 @@ export function PageHeader({
               bottom-right corner. Anchors the otherwise-ethereal
               frosted plane with a hard geometric beat where the
               text never reaches. Tweak the polygon to grow or
-              shrink the triangle. */}
+              shrink the triangle.
+
+              hidden md:block: on mobile the panel is narrow and the
+              triangle's right 30% × bottom 50% column would overlap
+              wrapped body copy. Hiding the reveals on mobile keeps
+              the header readable without changing desktop. */}
           <div
-            className="absolute inset-0"
+            className="absolute inset-0 hidden md:block"
             style={{
               clipPath: 'polygon(70% 100%, 100% 100%, 100% 50%)',
               WebkitClipPath: 'polygon(70% 100%, 100% 100%, 100% 50%)',
@@ -139,9 +144,11 @@ export function PageHeader({
               without competing with it. Endpoints are pushed past
               both visible edges (105% / 105%) so the line runs off
               the corner naturally; the parent's overflow:hidden +
-              rounded-3xl crops the runoff into the rounded curve. */}
+              rounded-3xl crops the runoff into the rounded curve.
+
+              Same hidden md:block reasoning as the triangle. */}
           <div
-            className="absolute inset-0"
+            className="absolute inset-0 hidden md:block"
             style={{
               clipPath: 'polygon(64% 105%, 105% 36%, 105% 32%, 61% 105%)',
               WebkitClipPath: 'polygon(64% 105%, 105% 36%, 105% 32%, 61% 105%)',

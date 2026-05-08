@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { InitiativesHeader } from './InitiativesHeader';
+import { InitiativeBlurb } from './InitiativeBlurb';
 import { Panel } from '@/components/PageFrame';
 import { Placeholder } from '@/components/Placeholder';
 import { INITIATIVES } from '@/lib/content';
@@ -49,15 +50,23 @@ export function Initiatives() {
                 <h3 className="mt-6 text-h3 leading-[1.1] md:text-h3-lg">{i.title}</h3>
                 <p className="mt-3 text-h6 text-muted">{i.status}</p>
                 <div className="mt-10 max-w-prose text-body leading-relaxed text-ink/90">
+                  {/* Submissions CTA: shown on desktop, hidden on mobile.
+                      Mobile readers can reach it from the homepage outro
+                      and the SiteNav's Possibilia entry; the card on
+                      mobile collapses to first-line + Read more so we
+                      don't pile a CTA on top of the collapsed text. */}
                   {i.note &&
                     (i.noteHref ? (
-                      <Link href={i.noteHref} className="btn-solid">
+                      <Link href={i.noteHref} className="btn-solid hidden md:inline-flex">
                         {i.note}
                       </Link>
                     ) : (
-                      <strong>{i.note}</strong>
+                      <strong className="hidden md:inline">{i.note}</strong>
                     ))}
-                  <p className={i.note ? 'mt-8' : ''}>{i.blurb}</p>
+                  {/* InitiativeBlurb collapses the body to a single line
+                      on mobile with a Read more toggle; renders straight
+                      through at md+. */}
+                  <InitiativeBlurb blurb={i.blurb} hasNote={Boolean(i.note)} />
                 </div>
               </div>
               <div>

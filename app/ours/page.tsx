@@ -152,8 +152,16 @@ export default function OursPage({
                 glass over the image itself, just a frosted-pill CTA
                 anchored to the bottom for visitors who want to engage
                 outside the two structured forms (speaking, funding,
-                other contributions). */}
-            <div className="relative overflow-hidden rounded-2xl">
+                other contributions).
+
+                aspect-[4/5] on mobile gives the panel explicit
+                dimensions so the absolutely-positioned `<Image fill>`
+                has something to fill — without this, the panel
+                collapses to zero height on mobile (no content sizing
+                it) and the tile disappears from the grid. md:aspect-auto
+                returns to the desktop behavior where the row's grid
+                cell sizes the tile to match the form cards. */}
+            <div className="relative aspect-[4/5] overflow-hidden rounded-2xl md:aspect-auto">
               <Image
                 src="/images/discovery.jpg"
                 alt=""

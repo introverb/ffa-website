@@ -34,8 +34,11 @@ export function Hero() {
       {/* Wordmark, bottom-right corner - 24px inset to mirror the menu pill's
           tolerance at the top-right corner. Sized at ~75% above the
           previous text-base/lg pair so the wordmark reads as an
-          intentional anchor next to the giant ff lettermark on the left. */}
-      <div className="absolute bottom-6 right-6 z-20">
+          intentional anchor next to the giant ff lettermark on the left.
+          Hidden on mobile — at narrow widths the type wraps awkwardly
+          and competes with the lettermark; the SiteNav already carries
+          the wordmark in its accessible label. */}
+      <div className="absolute bottom-6 right-6 z-20 hidden md:block">
         <p className="font-heading text-[28px] font-semibold leading-tight tracking-tight text-white drop-shadow md:text-[32px]">
           Foundation for Future Aesthetics
         </p>

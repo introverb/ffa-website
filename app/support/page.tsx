@@ -103,7 +103,13 @@ export default async function SupportPage() {
             return (
               <div
                 key={t.name}
-                className="flex flex-col justify-between rounded-2xl bg-cream p-10"
+                // p-10 (40px) at desktop matches the rest of the cream
+                // cards on the site. On mobile, pair down to p-6 (24px)
+                // so the card's internal padding mirrors the page-edge
+                // padding (px-6) of the outer PageFrame — gives the
+                // tier cards the same breathing rhythm against their
+                // panel as the panel has against the page.
+                className="flex flex-col justify-between rounded-2xl bg-cream p-6 md:p-10"
               >
                 <div>
                   <p className="text-sm uppercase tracking-[0.08em] text-sage">{t.name}</p>
