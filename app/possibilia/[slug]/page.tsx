@@ -57,7 +57,11 @@ export default async function PossibiliaPackagePage({ params }: Params) {
         imagePosition={meta.hero.objectPosition}
         imageMode="peek"
         body={
-          <p className="text-sm uppercase tracking-[0.08em] text-sage">
+          // Light on mobile (drop-shadow for legibility over the
+          // peek-mode image reveal) → sage on desktop where the
+          // body sits over the frosted+veiled column. md:* restores
+          // the original treatment.
+          <p className="text-sm uppercase tracking-[0.08em] text-paper drop-shadow md:text-sage md:drop-shadow-none">
             <span className="md:whitespace-nowrap">
               Story by {meta.storyAuthor}
               {meta.companionAuthor && (
