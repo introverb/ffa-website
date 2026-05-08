@@ -30,20 +30,17 @@ function isDropdown(item: NavItem): item is { label: string; children: NavLink[]
   return 'children' in item;
 }
 
-// Sticky elongated pill at the top of every page. Frosted, translucent
-// — subtle in its default state with everything (logo, text) at
-// reduced opacity, lifting to full white on hover.
+// Two completely different layouts, swapped at md.
 //
-// Two layouts driven by viewport:
-//   - mobile (default): a compact pill with the logo on the left and a
-//     hamburger button on the right. Tapping the hamburger slides in a
-//     full-height frosted drawer from the right with the nav stack;
-//     Resources renders as an accordion so its three children stay
-//     visually grouped under the parent without taking another tap.
-//   - md+ : the original horizontal pill nav with hover dropdowns.
+// **Desktop (md+)**: the original elongated sticky pill across the
+// top of the page — logo on the left, horizontal nav on the right
+// with hover-to-open dropdowns.
 //
-// Both layouts share the outer pill chrome so the chrome reads as one
-// component across breakpoints; only the contents swap.
+// **Mobile**: a single 44px frosted-glass pill anchored fixed in the
+// upper-right corner of the viewport. Tapping the pill expands it
+// into a frosted-glass card that drops down beneath it with the same
+// nav links (Resources still as an accordion inside). No bar across
+// the top, no logo block — just the pill.
 export function SiteNav() {
   const pathname = usePathname();
 
@@ -52,76 +49,61 @@ export function SiteNav() {
   }
 
   return (
-    <nav
-      aria-label="Site navigation"
-      className="sticky top-6 z-50 md:top-8"
-    >
-      <div className="flex items-center justify-between gap-4 rounded-full border border-white/25 bg-black/20 px-5 py-2.5 backdrop-blur-md md:px-7 md:py-3">
-        <Link
-          href="/"
-          aria-label="Home, Foundation for Future Aesthetics"
-          className="group flex shrink-0 items-center gap-2.5"
-        >
-          {/* Inline FfaLogo — currentColor inherits the link's text
-              color (white-ish via the surrounding nav). h-6/h-7
-              constraints stay the same as the previous <Image>. */}
-          <FfaLogo className="h-6 w-auto text-white opacity-55 transition-opacity group-hover:opacity-100 md:h-7" />
-          <span className="hidden font-heading text-lg font-semibold tracking-tight text-white/55 transition-colors group-hover:text-white lg:inline">
-            Foundation for Future Aesthetics
-          </span>
-        </Link>
-
-        {/* Desktop: horizontal nav with hover dropdowns. Hidden below md
-            so the hamburger takes over. */}
-        <ul className="hidden items-center gap-4 text-xs uppercase tracking-[0.12em] sm:gap-6 md:flex md:gap-10 md:text-sm">
-          {NAV.map((item) =>
-            isDropdown(item) ? (
-              <NavDropdown
-                key={item.label}
-                label={item.label}
-                items={item.children}
-                isActive={isActive}
-              />
-            ) : (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  className={`transition-colors hover:text-white ${
-                    isActive(item.href) ? 'text-white/80' : 'text-white/55'
-                  }`}
-                >
-                  {item.label}
-                </Link>
-              </li>
-            ),
-          )}
-        </ul>
-
-        {/* Mobile: hamburger button + slide-in drawer. md:hidden so the
-            desktop layout above takes over at md+. */}
-        <MobileNav isActive={isActive} />
+    <nav aria-label="Site navigation">
+      {/* Desktop bar — sticky at top, hidden on mobile. */}
+      <div className="sticky top-6 z-50 hidden md:top-8 md:block">
+        <div className="flex items-center justify-between gap-4 rounded-full border border-white/25 bg-black/20 px-5 py-2.5 backdrop-blur-md md:px-7 md:py-3">
+          <Link
+            href="/"
+            aria-label="Home, Foundation for Future Aesthetics"
+            className="group flex shrink-0 items-center gap-2.5 text-white"
+          >
+            <FfaLogo className="h-6 w-auto opacity-55 transition-opacity group-hover:opacity-100 md:h-7" />
+            <span className="hidden font-heading text-lg font-semibold tracking-tight text-white/55 transition-colors group-hover:text-white lg:inline">
+              Foundation for Future Aesthetics
+            </span>
+          </Link>
+          <ul className="flex items-center gap-4 text-xs uppercase tracking-[0.12em] sm:gap-6 md:gap-10 md:text-sm">
+            {NAV.map((item) =>
+              isDropdown(item) ? (
+                <NavDropdown
+                  key={item.label}
+                  label={item.label}
+                  items={item.children}
+                  isActive={isActive}
+                />
+              ) : (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className={`transition-colors hover:text-white ${
+                      isActive(item.href) ? 'text-white/80' : 'text-white/55'
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ),
+            )}
+          </ul>
+        </div>
       </div>
+
+      {/* Mobile floating pill + expanded menu — only on mobile. */}
+      <MobileMenuPill isActive={isActive} />
     </nav>
   );
 }
 
-// Mobile drawer. Owns its open/close state. Hamburger button lives in
-// the nav pill; clicking flips a portal-mounted drawer in from the
-// right with the same frosted chrome as the rest of the nav. Resources
-// is rendered as an accordion in the drawer so its children stay
-// visually nested under the parent without requiring a second tap.
-function MobileNav({ isActive }: { isActive: (href: string) => boolean }) {
+// Mobile-only floating pill. Owns its own open/close state. The pill
+// itself is fixed at top-4 right-4 (16px from each edge); when open,
+// a separate frosted-glass card drops down beneath it with the nav
+// links. A backdrop catches taps outside both elements to dismiss.
+function MobileMenuPill({ isActive }: { isActive: (href: string) => boolean }) {
   const [open, setOpen] = useState(false);
   const [resourcesOpen, setResourcesOpen] = useState(false);
 
-  // Close the drawer when the route actually changes — Link clicks
-  // inside the drawer should always feel like "navigate then close",
-  // and an explicit handler on every Link covers that.
-  function closeAll() {
-    setOpen(false);
-  }
-
-  // Lock body scroll while the drawer is open + listen for Escape.
+  // Lock body scroll + Escape-to-close while the menu is open.
   useEffect(() => {
     if (!open) return;
     const previousOverflow = document.body.style.overflow;
@@ -136,123 +118,120 @@ function MobileNav({ isActive }: { isActive: (href: string) => boolean }) {
     };
   }, [open]);
 
+  function close() {
+    setOpen(false);
+  }
+
   return (
     <div className="md:hidden">
+      {/* Backdrop. Only mounted when open; click anywhere outside the
+          pill / menu to dismiss. backdrop-blur-sm darkens the page
+          underneath so the pill+menu read as the active surface. */}
+      {open && (
+        <div
+          onClick={close}
+          aria-hidden
+          className="fixed inset-0 z-40 bg-black/30 backdrop-blur-sm"
+        />
+      )}
+
+      {/* Pill — the always-visible trigger. 44px circle in the
+          upper-right corner, frosted glass + bright-blue saturate so
+          it stands out against any background image without being
+          loud. Hamburger on the way in, X on the way out. */}
       <button
         type="button"
         aria-label={open ? 'Close menu' : 'Open menu'}
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
-        className="flex h-9 w-9 items-center justify-center rounded-full text-white/70 transition-colors hover:text-white"
+        className="fixed right-4 top-4 z-50 flex h-11 w-11 items-center justify-center rounded-full border border-white/30 bg-black/55 text-white backdrop-blur-2xl backdrop-saturate-150 transition-colors hover:bg-black/70"
       >
-        {/* Three-line hamburger; swaps to an X when the drawer is
-            already open so the same control toggles. */}
         {open ? (
-          <svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+          <svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
             <path d="M4 4l12 12M16 4L4 16" />
           </svg>
         ) : (
-          <svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+          <svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
             <path d="M3 6h14M3 10h14M3 14h14" />
           </svg>
         )}
       </button>
 
-      {/* Backdrop + drawer. Outer div catches taps anywhere outside
-          the drawer to dismiss. The drawer itself stops propagation. */}
+      {/* Expanded menu card. Anchored top-right (right-4) just below
+          the pill (top is 16px page edge + 44px pill + 8px gap = 68px).
+          Same frosted chrome as the pill so the two read as a single
+          component that "expanded." */}
       {open && (
         <div
-          onClick={closeAll}
-          className="fixed inset-0 z-[60] bg-black/30 backdrop-blur-sm"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Site menu"
+          className="fixed right-4 top-[4.25rem] z-50 w-[min(18rem,calc(100vw-2rem))] overflow-hidden rounded-3xl border border-white/30 bg-black/60 backdrop-blur-2xl backdrop-saturate-150"
         >
-          <div
-            onClick={(e) => e.stopPropagation()}
-            role="dialog"
-            aria-modal="true"
-            aria-label="Site menu"
-            className="absolute right-3 top-3 flex max-h-[calc(100vh-1.5rem)] w-[min(20rem,calc(100vw-1.5rem))] flex-col overflow-hidden rounded-3xl border border-white/30 bg-black/60 backdrop-blur-2xl backdrop-saturate-150"
-          >
-            <div className="flex items-center justify-between px-5 py-3">
-              <span className="font-heading text-sm font-semibold tracking-tight text-white/80">
-                Menu
-              </span>
-              <button
-                type="button"
-                aria-label="Close menu"
-                onClick={closeAll}
-                className="flex h-9 w-9 items-center justify-center rounded-full text-white/70 transition-colors hover:bg-white/10 hover:text-white"
-              >
-                <svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
-                  <path d="M4 4l12 12M16 4L4 16" />
-                </svg>
-              </button>
-            </div>
-            <ul className="flex flex-col gap-1 overflow-y-auto px-3 pb-5 text-sm uppercase tracking-[0.1em]">
-              {NAV.map((item) => {
-                if (isDropdown(item)) {
-                  const childActive = item.children.some((c) => isActive(c.href));
-                  return (
-                    <li key={item.label}>
-                      <button
-                        type="button"
-                        aria-expanded={resourcesOpen}
-                        onClick={() => setResourcesOpen((v) => !v)}
-                        className={`flex w-full items-center justify-between rounded-xl px-4 py-3 text-left transition-colors hover:bg-white/10 ${
-                          childActive ? 'text-white' : 'text-white/70'
-                        }`}
-                      >
-                        <span>{item.label}</span>
-                        {/* Chevron rotates 90° when expanded — clear
-                            visual that the section is open. */}
-                        <svg
-                          viewBox="0 0 12 12"
-                          width="10"
-                          height="10"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="1.8"
-                          strokeLinecap="round"
-                          className={`transition-transform ${resourcesOpen ? 'rotate-90' : ''}`}
-                        >
-                          <path d="M4 2l4 4-4 4" />
-                        </svg>
-                      </button>
-                      {resourcesOpen && (
-                        <ul className="mt-1 flex flex-col gap-0.5 pl-3">
-                          {item.children.map((child) => (
-                            <li key={child.href}>
-                              <Link
-                                href={child.href}
-                                onClick={closeAll}
-                                className={`block rounded-xl px-4 py-2.5 transition-colors hover:bg-white/10 ${
-                                  isActive(child.href) ? 'text-white' : 'text-white/65'
-                                }`}
-                              >
-                                {child.label}
-                              </Link>
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                    </li>
-                  );
-                }
+          <ul className="flex flex-col gap-1 p-3 text-sm uppercase tracking-[0.1em]">
+            {NAV.map((item) => {
+              if (isDropdown(item)) {
+                const childActive = item.children.some((c) => isActive(c.href));
                 return (
-                  <li key={item.href}>
-                    <Link
-                      href={item.href}
-                      onClick={closeAll}
-                      className={`block rounded-xl px-4 py-3 transition-colors hover:bg-white/10 ${
-                        isActive(item.href) ? 'text-white' : 'text-white/70'
+                  <li key={item.label}>
+                    <button
+                      type="button"
+                      aria-expanded={resourcesOpen}
+                      onClick={() => setResourcesOpen((v) => !v)}
+                      className={`flex w-full items-center justify-between rounded-xl px-4 py-3 text-left transition-colors hover:bg-white/10 ${
+                        childActive ? 'text-white' : 'text-white/70'
                       }`}
                     >
-                      {item.label}
-                    </Link>
+                      <span>{item.label}</span>
+                      <svg
+                        viewBox="0 0 12 12"
+                        width="10"
+                        height="10"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.8"
+                        strokeLinecap="round"
+                        className={`transition-transform ${resourcesOpen ? 'rotate-90' : ''}`}
+                        aria-hidden="true"
+                      >
+                        <path d="M4 2l4 4-4 4" />
+                      </svg>
+                    </button>
+                    {resourcesOpen && (
+                      <ul className="mt-1 flex flex-col gap-0.5 pl-3">
+                        {item.children.map((child) => (
+                          <li key={child.href}>
+                            <Link
+                              href={child.href}
+                              onClick={close}
+                              className={`block rounded-xl px-4 py-2.5 transition-colors hover:bg-white/10 ${
+                                isActive(child.href) ? 'text-white' : 'text-white/65'
+                              }`}
+                            >
+                              {child.label}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                   </li>
                 );
-              })}
-            </ul>
-          </div>
+              }
+              return (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    onClick={close}
+                    className={`block rounded-xl px-4 py-3 transition-colors hover:bg-white/10 ${
+                      isActive(item.href) ? 'text-white' : 'text-white/70'
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
         </div>
       )}
     </div>
@@ -309,11 +288,6 @@ function NavDropdown({
         {label}
       </button>
       {open && (
-        // top-full = top edge at li's bottom = trigger's bottom (zero
-        // gap, so cursor never exits the li's hover area). pt-[19/21px]
-        // = pill bottom padding + 1px border + 8px visual gap, so the
-        // first pill clears the nav with the same rhythm gap that
-        // separates the items from each other.
         <ul
           role="menu"
           aria-label={label}

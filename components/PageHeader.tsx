@@ -114,14 +114,28 @@ export function PageHeader({
           {/* Lower-right triangle reveal: the same hero, rendered
               crisp, clipped to a right-triangle anchored at the
               bottom-right corner. Anchors the otherwise-ethereal
-              frosted plane with a hard geometric beat where the
-              text never reaches. Tweak the polygon to grow or
-              shrink the triangle.
+              frosted plane with a hard geometric beat.
 
-              hidden md:block: on mobile the panel is narrow and the
-              triangle's right 30% × bottom 50% column would overlap
-              wrapped body copy. Hiding the reveals on mobile keeps
-              the header readable without changing desktop. */}
+              Two polygons stacked at different breakpoints so the
+              triangle reads at every viewport without overlapping
+              wrapped body copy. Mobile: smaller corner (right 20%
+              × bottom 30%) tucks under the text. Desktop: larger
+              statement (right 30% × bottom 50%) where there's room. */}
+          <div
+            className="absolute inset-0 md:hidden"
+            style={{
+              clipPath: 'polygon(80% 100%, 100% 100%, 100% 70%)',
+              WebkitClipPath: 'polygon(80% 100%, 100% 100%, 100% 70%)',
+            }}
+          >
+            <Image
+              src={image}
+              alt=""
+              fill
+              sizes="100vw"
+              className={`${revealScale} object-cover`}
+            />
+          </div>
           <div
             className="absolute inset-0 hidden md:block"
             style={{
@@ -140,13 +154,23 @@ export function PageHeader({
           {/* Parallel-band reveal: a thin parallelogram running
               parallel to the triangle's hypotenuse, offset toward
               upper-left. Reads as a "line of sky" running alongside
-              the triangle, doubling down on the geometric beat
-              without competing with it. Endpoints are pushed past
-              both visible edges (105% / 105%) so the line runs off
-              the corner naturally; the parent's overflow:hidden +
-              rounded-3xl crops the runoff into the rounded curve.
-
-              Same hidden md:block reasoning as the triangle. */}
+              the triangle. Same dual-polygon treatment as above —
+              mobile is smaller and tucked further into the corner. */}
+          <div
+            className="absolute inset-0 md:hidden"
+            style={{
+              clipPath: 'polygon(74% 105%, 105% 56%, 105% 53%, 71% 105%)',
+              WebkitClipPath: 'polygon(74% 105%, 105% 56%, 105% 53%, 71% 105%)',
+            }}
+          >
+            <Image
+              src={image}
+              alt=""
+              fill
+              sizes="100vw"
+              className={`${revealScale} object-cover`}
+            />
+          </div>
           <div
             className="absolute inset-0 hidden md:block"
             style={{

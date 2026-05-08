@@ -27,7 +27,7 @@ export default async function PossibiliaPage() {
     <>
       <PageHeader
         eyebrow="Possibilia Magazine"
-        title="A magazine for the future we’d actually want to live in."
+        title="A magazine for the future we actually want to live in."
         image="/images/initiative-possibilia.jpg"
       />
 
