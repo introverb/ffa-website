@@ -1,6 +1,6 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { Panel } from './PageFrame';
-import { FfaLogo } from './FfaLogo';
 
 // Top-level nav items shown on all breakpoints.
 const PRIMARY_NAV = [
@@ -32,8 +32,14 @@ export function Footer() {
     <Panel variant="dark" className="md:p-16">
       <div className="flex flex-col items-start gap-10 md:flex-row md:items-end md:justify-between md:gap-12">
         <div className="text-white">
-          <Link href="/" className="block text-white" aria-label="FFA home">
-            <FfaLogo className="h-12 w-auto" />
+          <Link href="/" className="block">
+            <Image
+              src="/images/logo.svg"
+              alt="FFA"
+              width={56}
+              height={48}
+              className="h-12 w-auto"
+            />
           </Link>
           <p className="mt-6 text-sm leading-relaxed">
             <Link href="/" className="underline decoration-from-font underline-offset-4">

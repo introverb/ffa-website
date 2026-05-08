@@ -1,5 +1,5 @@
+import Image from 'next/image';
 import { Panel } from '@/components/PageFrame';
-import { FfaLogo } from '@/components/FfaLogo';
 
 // Hero panel - 2:1 landscape. The source hero.jpg is 16:9, so we anchor the
 // background to the top (`bg-top`) and let the bottom of the image crop off
@@ -16,14 +16,19 @@ export function Hero() {
         style={{ backgroundImage: "url('/images/hero.jpg')" }}
       />
 
-      {/* Giant ff lettermark, flush to the left edge of the panel.
-          Inline FfaLogo (rather than <Image src=…>) so currentColor
-          resolves and we can render the mark crisp at any scale. */}
+      {/* Giant ff lettermark, flush to the left edge of the panel. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-y-0 left-0 z-10 w-[55%] select-none text-white md:w-[50%]"
+        className="pointer-events-none absolute inset-y-0 left-0 z-10 w-[55%] select-none md:w-[50%]"
       >
-        <FfaLogo className="h-full w-full object-contain object-left drop-shadow-lg" />
+        <Image
+          src="/images/logo.svg"
+          alt=""
+          fill
+          priority
+          sizes="60vw"
+          className="object-contain object-left"
+        />
       </div>
 
       {/* Wordmark, bottom-right corner - 24px inset to mirror the menu pill's

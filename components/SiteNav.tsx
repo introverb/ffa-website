@@ -1,9 +1,9 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
-import { FfaLogo } from './FfaLogo';
 
 // Nav model. Top-level items either link directly (`href`) or open a
 // dropdown of child links (`children`). Resources groups Musings,
@@ -56,9 +56,16 @@ export function SiteNav() {
           <Link
             href="/"
             aria-label="Home, Foundation for Future Aesthetics"
-            className="group flex shrink-0 items-center gap-2.5 text-white"
+            className="group flex shrink-0 items-center gap-2.5"
           >
-            <FfaLogo className="h-6 w-auto opacity-55 transition-opacity group-hover:opacity-100 md:h-7" />
+            <Image
+              src="/images/logo.svg"
+              alt=""
+              width={28}
+              height={24}
+              className="h-6 w-auto opacity-55 brightness-0 invert transition-opacity group-hover:opacity-100 md:h-7"
+              priority
+            />
             <span className="hidden font-heading text-lg font-semibold tracking-tight text-white/55 transition-colors group-hover:text-white lg:inline">
               Foundation for Future Aesthetics
             </span>
@@ -148,7 +155,13 @@ function MobileMenuPill({ isActive }: { isActive: (href: string) => boolean }) {
         onClick={() => setOpen((v) => !v)}
         className="fixed right-4 top-4 z-50 flex h-11 items-center gap-2.5 rounded-full border border-white/30 bg-black/55 px-3.5 text-white backdrop-blur-2xl backdrop-saturate-150 transition-colors hover:bg-black/70"
       >
-        <FfaLogo className="h-5 w-auto opacity-85" />
+        <Image
+          src="/images/logo.svg"
+          alt=""
+          width={24}
+          height={26}
+          className="h-5 w-auto opacity-85 brightness-0 invert"
+        />
         {open ? (
           <svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
             <path d="M4 4l12 12M16 4L4 16" />
