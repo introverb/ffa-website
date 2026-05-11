@@ -209,7 +209,7 @@ export function PageHeader({
           Foundation for Future Aesthetics &nbsp;·&nbsp; 2026
         </p>
         <hr
-          className={`mt-3 border-t-[3px] ${
+          className={`mt-3 ${
             imageMode === 'peek'
               ? 'border-paper/40 md:border-rule'
               : 'border-rule'
