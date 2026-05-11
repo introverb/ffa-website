@@ -37,20 +37,22 @@ const TIERS = [
     name: 'Patron',
     amount: '$500',
     usd: 500,
-    blurb: 'Underwrite one piece: a Possibilia story, illustration, or companion essay.',
+    blurb:
+      "Fund one contributor in an upcoming Possibilia issue — a writer, illustrator, or essayist’s honorarium for their work.",
   },
   {
     name: 'Editorial Sponsor',
     amount: '$2,500',
     usd: 2500,
     blurb:
-      'A full editorial package — story, artwork, and companion essay — commissioned around your lab, company, or initiative.',
+      'A full editorial package — story, artwork, and companion essay — commissioned around the vision behind your lab, company, or initiative.',
   },
   {
     name: 'Presenting Sponsor',
-    amount: '$5,000+',
+    amount: '$5,000',
     usd: 5000,
-    blurb: 'Sponsor an event or exhibition, or fund an initiative of your own.',
+    blurb:
+      'Sponsor a single FFA program — an event, exhibition, or special feature — with named recognition.',
   },
 ];
 
