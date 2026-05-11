@@ -4,6 +4,7 @@ import { Panel } from '@/components/PageFrame';
 import { PageHeader } from '@/components/PageHeader';
 import { EthGiveButton } from '@/components/EthGiveButton';
 import { OursSponsorshipDialog } from '@/components/OursSponsorshipDialog';
+import { DafGrantDialog } from '@/components/DafGrantDialog';
 
 export const metadata: Metadata = {
   title: 'Support',
@@ -70,7 +71,14 @@ type OtherWay = {
 const OTHER_WAYS: OtherWay[] = [
   {
     label: 'Donor-advised funds',
-    body: 'We accept grants from DAFs at Fidelity Charitable, Schwab, Vanguard, and other sponsoring organizations. Use our EIN to recommend a grant.',
+    body: (
+      <>
+        We accept grants from DAFs at Fidelity Charitable, Schwab, Vanguard,
+        and other sponsoring organizations.{' '}
+        <DafGrantDialog>Open our grant info</DafGrantDialog> to recommend a
+        grant.
+      </>
+    ),
   },
   {
     label: 'Stock & crypto',
