@@ -170,10 +170,18 @@ export function EthGiveButton({
   label,
   ethAmount,
   usdAmount,
+  eventName,
 }: {
   label: string;
   ethAmount?: string;
   usdAmount?: number;
+  /**
+   * GoatCounter event name fired when the button is clicked (which
+   * opens the modal). Use descriptive names like "give:eth-general"
+   * or "give:tier-patron-eth" so the dashboard breaks out usage by
+   * surface.
+   */
+  eventName?: string;
 }) {
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -204,6 +212,7 @@ export function EthGiveButton({
       <button
         type="button"
         onClick={() => setOpen(true)}
+        data-goatcounter-click={eventName}
         className="group relative inline-flex min-w-0 flex-1 cursor-pointer items-center justify-center gap-1.5 overflow-hidden whitespace-nowrap rounded-xl px-3 py-3 text-xs uppercase tracking-[0.08em] text-ink transition-colors"
         style={{
           backgroundImage:
@@ -325,6 +334,7 @@ export function EthGiveButton({
                 href={`https://app.superfluid.finance/send?recipient=${FFA_ETH_ADDRESS}`}
                 target="_blank"
                 rel="noopener noreferrer"
+                data-goatcounter-click="eth-modal:stream-superfluid"
                 className="inline-flex items-center gap-1.5 rounded-lg border border-ink/15 bg-paper px-3 py-2 text-xs uppercase tracking-[0.08em] text-ink transition-colors hover:bg-ink/5"
               >
                 Superfluid
@@ -334,6 +344,7 @@ export function EthGiveButton({
                 href="https://app.sablier.com/create"
                 target="_blank"
                 rel="noopener noreferrer"
+                data-goatcounter-click="eth-modal:stream-sablier"
                 className="inline-flex items-center gap-1.5 rounded-lg border border-ink/15 bg-paper px-3 py-2 text-xs uppercase tracking-[0.08em] text-ink transition-colors hover:bg-ink/5"
               >
                 Sablier

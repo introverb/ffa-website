@@ -33,9 +33,14 @@ async function getEthPriceUsd(): Promise<number | null> {
   }
 }
 
+// `slug` powers the GoatCounter event names so analytics stays stable
+// even if the display `name` later changes (e.g. "Patron" → "Sustaining
+// Patron"). Each tier emits two events: `give:tier-<slug>-usd` and
+// `give:tier-<slug>-eth`.
 const TIERS = [
   {
     name: 'Patron',
+    slug: 'patron',
     amount: '$500',
     usd: 500,
     blurb:
@@ -43,6 +48,7 @@ const TIERS = [
   },
   {
     name: 'Editorial Sponsor',
+    slug: 'editorial',
     amount: '$2,500',
     usd: 2500,
     blurb:
@@ -50,6 +56,7 @@ const TIERS = [
   },
   {
     name: 'Presenting Sponsor',
+    slug: 'presenting',
     amount: '$5,000',
     usd: 5000,
     blurb:
@@ -90,6 +97,7 @@ const OTHER_WAYS: OtherWay[] = [
           href="https://www.every.org/foundation-for-future-aesthetics/donate?paymentMethod=stocks"
           target="_blank"
           rel="noopener noreferrer"
+          data-goatcounter-click="outbound:every-org-stocks"
           className="underline decoration-from-font underline-offset-4 text-ink hover:text-sage"
         >
           every.org
@@ -99,6 +107,7 @@ const OTHER_WAYS: OtherWay[] = [
           href="https://app.sablier.com/create"
           target="_blank"
           rel="noopener noreferrer"
+          data-goatcounter-click="outbound:sablier-otherways"
           className="underline decoration-from-font underline-offset-4 text-ink hover:text-sage"
         >
           Sablier
@@ -108,6 +117,7 @@ const OTHER_WAYS: OtherWay[] = [
           href={`https://app.superfluid.finance/send?recipient=${FFA_ETH_ADDRESS}`}
           target="_blank"
           rel="noopener noreferrer"
+          data-goatcounter-click="outbound:superfluid-otherways"
           className="underline decoration-from-font underline-offset-4 text-ink hover:text-sage"
         >
           Superfluid
@@ -197,11 +207,15 @@ export default async function SupportPage() {
                 href="https://www.every.org/foundation-for-future-aesthetics/donate"
                 target="_blank"
                 rel="noopener noreferrer"
+                data-goatcounter-click="give:usd-general"
                 className="inline-flex flex-1 items-center justify-center whitespace-nowrap rounded-xl bg-sage px-6 py-4 text-sm uppercase tracking-[0.1em] text-white transition-colors hover:bg-dark"
               >
                 Give in USD
               </a>
-              <EthGiveButton label="Give in ETH" />
+              <EthGiveButton
+                label="Give in ETH"
+                eventName="give:eth-general"
+              />
             </div>
           </div>
 
@@ -281,6 +295,7 @@ export default async function SupportPage() {
                     href={`https://www.every.org/foundation-for-future-aesthetics/donate?amount=${t.usd}`}
                     target="_blank"
                     rel="noopener noreferrer"
+                    data-goatcounter-click={`give:tier-${t.slug}-usd`}
                     className="inline-flex min-w-0 flex-1 items-center justify-center whitespace-nowrap rounded-xl bg-sage px-3 py-3 text-xs uppercase tracking-[0.08em] text-white transition-colors hover:bg-dark"
                   >
                     Give {t.amount.replace('+', '')}
@@ -289,6 +304,7 @@ export default async function SupportPage() {
                     label={ethLabel}
                     ethAmount={ethAmount}
                     usdAmount={t.usd}
+                    eventName={`give:tier-${t.slug}-eth`}
                   />
                 </div>
               </div>
@@ -319,6 +335,7 @@ export default async function SupportPage() {
             </div>
             <Link
               href="/contact?topic=Underwrite a Possibilia issue"
+              data-goatcounter-click="partner:issue-underwriter"
               className="btn-solid shrink-0"
             >
               Start the conversation
@@ -353,7 +370,11 @@ export default async function SupportPage() {
                 We&rsquo;re opening sponsorship for the inaugural run.
               </p>
               <div className="mt-auto flex flex-wrap gap-3 pt-8">
-                <Link href="/ours" className="btn">
+                <Link
+                  href="/ours"
+                  data-goatcounter-click="partner:ours-details"
+                  className="btn"
+                >
                   Event details
                 </Link>
                 <OursSponsorshipDialog />
@@ -376,6 +397,7 @@ export default async function SupportPage() {
               <div className="mt-auto pt-8">
                 <Link
                   href="/contact?topic=Industrial Garden sponsorship"
+                  data-goatcounter-click="partner:industrial-garden"
                   className="btn"
                 >
                   Request a brief
@@ -414,6 +436,7 @@ export default async function SupportPage() {
             <div className="mt-auto pt-10">
               <Link
                 href="/contact?topic=Refer a donor or foundation"
+                data-goatcounter-click="refer:make-introduction"
                 className="btn-solid"
               >
                 Make an introduction
@@ -436,6 +459,7 @@ export default async function SupportPage() {
         </p>
         <Link
           href="/contact?topic=Partnership"
+          data-goatcounter-click="catch-all:send-note"
           className="btn-solid mt-10 inline-block"
         >
           Send a note

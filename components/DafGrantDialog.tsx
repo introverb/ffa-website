@@ -132,6 +132,7 @@ export function DafGrantDialog({ children }: { children: React.ReactNode }) {
       <button
         type="button"
         onClick={() => setOpen(true)}
+        data-goatcounter-click="daf:open-info"
         className="underline decoration-from-font underline-offset-4 text-ink transition-colors hover:text-sage"
       >
         {children}
@@ -171,6 +172,7 @@ export function DafGrantDialog({ children }: { children: React.ReactNode }) {
             href={FFA_EVERY_ORG_DONATE}
             target="_blank"
             rel="noopener noreferrer"
+            data-goatcounter-click="daf:every-org"
             className="mt-3 inline-flex items-center gap-1.5 rounded-lg bg-sage px-4 py-2.5 text-xs uppercase tracking-[0.08em] text-white transition-colors hover:bg-dark"
           >
             Grant via every.org

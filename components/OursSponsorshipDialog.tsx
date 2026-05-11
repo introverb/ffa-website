@@ -53,6 +53,7 @@ export function OursSponsorshipDialog() {
           reset();
           setOpen(true);
         }}
+        data-goatcounter-click="partner:ours-sponsor-open"
         className="btn-solid"
       >
         Sponsor the exhibition

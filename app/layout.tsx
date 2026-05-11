@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Script from 'next/script';
 import { Saira } from 'next/font/google';
 import './globals.css';
 import { PageFrame } from '@/components/PageFrame';
@@ -56,6 +57,18 @@ export default function RootLayout({
           {children}
           <Footer />
         </PageFrame>
+        {/* GoatCounter analytics — privacy-first, free for nonprofits.
+            Dashboard at https://ffa.goatcounter.com. The script auto-
+            tracks pageviews, and listens for clicks on any element
+            with a `data-goatcounter-click="..."` attribute to fire a
+            custom event with that name. Loaded afterInteractive so it
+            never blocks first paint. Event delegation means modal-
+            internal buttons get tracked too. */}
+        <Script
+          data-goatcounter="https://ffa.goatcounter.com/count"
+          src="//gc.zgo.at/count.js"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );
