@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import { Panel } from './PageFrame';
 
-// Shared header panel for sub-pages (Resources, Partnerships, Donate,
-// Contact, Possibilia stories + artifacts). Standardizes:
+// Shared header panel for sub-pages (Resources, Support, Contact,
+// Possibilia stories + artifacts). Standardizes:
 //   - Hero artwork as a shared visual signature across the site
 //   - Editorial masthead row (Foundation · year) above a hairline rule
 //   - Existing eyebrow + h1 + body copy

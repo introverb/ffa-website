@@ -4,10 +4,10 @@ import { useState } from 'react';
 import { FormDialog } from './FormDialog';
 
 // "Sponsor the exhibition" CTA + modal — inline pop-up form for
-// prospective OURS sponsors. Sits on the Partnerships page next to
-// the "Event details" button on the OURS sponsor card. Submits to
-// /api/ours?modal=1 with type=sponsorship; route returns JSON so the
-// modal can flip in-place to a thanks state.
+// prospective OURS sponsors. Sits in the "Named initiatives" subsection
+// of /support#partner, next to the "Event details" button on the OURS
+// sponsor card. Submits to /api/ours?modal=1 with type=sponsorship;
+// route returns JSON so the modal can flip in-place to a thanks state.
 export function OursSponsorshipDialog() {
   const [open, setOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
