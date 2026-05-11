@@ -85,109 +85,11 @@ export default async function SupportPage() {
         }
       />
 
-      {/* Refer Us sits first because the highest-leverage ask for most
-          Support-page visitors is "introduce us to someone," not "write
-          a check yourself." Sets a generous tone before the money
-          sections that follow. */}
-      <Panel id="refer" variant="white" className="md:p-16">
-        <div className="grid gap-12 md:grid-cols-[1fr_1.6fr]">
-          <div>
-            <p className="text-sm uppercase tracking-[0.08em] text-sage">Refer us</p>
-            <h2 className="mt-6 text-h2 leading-[1.05] md:text-h2-lg">
-              Open a door for us.
-            </h2>
-          </div>
-          <div className="flex flex-col text-body-lg leading-relaxed text-ink/85">
-            <p>
-              If you sit on a foundation board, advise a grant program, or have ties to a
-              donor, fund, or competition that supports the arts, science writing, or
-              future-oriented media, we&rsquo;d love an introduction. We&rsquo;re a
-              501(c)(3) actively building the grant pipeline for Possibilia, the OURS
-              exhibition, and the Industrial Garden initiative.
-            </p>
-            <p className="mt-5">
-              We can prepare a tailored brief for your contact within a week. Send a name,
-              an email, and a sentence about why you think it&rsquo;s a fit.
-            </p>
-            <div className="mt-auto pt-10">
-              <Link
-                href="/contact?topic=Refer a donor or foundation"
-                className="btn-solid"
-              >
-                Make an introduction
-              </Link>
-            </div>
-          </div>
-        </div>
-      </Panel>
-
-      {/* Give + Other Ways combined into a single split card. Left
-          half is the conversion path (two buttons, any amount). Right
-          half is the supporting "btw, here are tax-savvier vehicles"
-          info that used to sit in its own Panel below. Vertical hairline
-          divider on desktop signals "two related things, one decision";
-          on mobile the columns stack and the divider disappears so the
-          rhythm matches the rest of the page. */}
-      <Panel id="give" variant="white" full className="overflow-hidden">
-        <div className="grid md:grid-cols-2 md:divide-x md:divide-ink/10">
-          {/* Left half — Give. Primary CTA path. Flex column so the
-              buttons sink to the bottom even when the right column is
-              taller (3 items + footnote), keeping the two halves
-              visually balanced. */}
-          <div className="flex flex-col p-8 md:p-14">
-            <p className="text-sm uppercase tracking-[0.08em] text-sage">Give</p>
-            <h2 className="mt-6 text-h2 leading-[1.05] md:text-h2-lg">
-              Make a gift in any amount.
-            </h2>
-            <p className="mt-6 text-body-lg leading-relaxed text-ink/80">
-              Fast, no-strings, tax-deductible. Pick a path; set your amount
-              on the next screen.
-            </p>
-            <div className="mt-auto flex flex-col gap-3 pt-10 sm:flex-row">
-              <a
-                href="https://www.every.org/foundation-for-future-aesthetics/donate"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex flex-1 items-center justify-center whitespace-nowrap rounded-xl bg-sage px-6 py-4 text-sm uppercase tracking-[0.1em] text-white transition-colors hover:bg-dark"
-              >
-                Give in USD
-              </a>
-              <EthGiveButton label="Give in ETH" />
-            </div>
-          </div>
-
-          {/* Right half — Other ways. Definition-list rhythm: bold
-              ink label + body. Quieter than sage-eyebrow per-item
-              labels so the section's own "Other ways" eyebrow stays
-              the dominant marker on this side. */}
-          <div className="flex flex-col p-8 md:p-14">
-            <p className="text-sm uppercase tracking-[0.08em] text-sage">Other ways</p>
-            <h2 className="mt-6 text-h2 leading-[1.05] md:text-h2-lg">
-              Or give another way.
-            </h2>
-            <ul className="mt-8 space-y-6 text-body leading-relaxed text-ink/80">
-              {OTHER_WAYS.map((w) => (
-                <li key={w.label}>
-                  <p className="font-medium text-ink">{w.label}</p>
-                  <p className="mt-1.5">{w.body}</p>
-                </li>
-              ))}
-            </ul>
-            <p className="mt-auto pt-8 text-sm text-muted">
-              For any of these, start with a note via{' '}
-              <Link
-                href="/contact"
-                className="underline decoration-from-font underline-offset-4 text-ink hover:text-sage"
-              >
-                our contact form
-              </Link>{' '}
-              and we&rsquo;ll route you to the right place.
-            </p>
-          </div>
-        </div>
-      </Panel>
-
-      {/* Partner — named sponsorships, in priority of velocity:
+      {/* Partner leads the page — institutional sponsorships and the
+          $20k issue underwriter are the highest-dollar offerings on
+          the site, and surfacing them first anchors the page's
+          ambition. Refer / Give follow in declining-commitment order.
+          Internal Partner structure, in priority of velocity:
           (1) Tier grid is the fast-pay path: click → every.org with
               the tier amount already pre-filled.
           (2) Issue underwriter callout is the slow-conversation path
@@ -324,11 +226,113 @@ export default async function SupportPage() {
         </div>
       </Panel>
 
+      {/* Refer Us — high-leverage ask for the connector class of
+          visitor (board members, advisors, friends-of-FFA who know
+          someone). Sits between Partner and Give: after the
+          institutional sponsorship pitch, before the personal donate
+          flow. */}
+      <Panel id="refer" variant="white" className="md:p-16">
+        <div className="grid gap-12 md:grid-cols-[1fr_1.6fr]">
+          <div>
+            <p className="text-sm uppercase tracking-[0.08em] text-sage">Refer us</p>
+            <h2 className="mt-6 text-h2 leading-[1.05] md:text-h2-lg">
+              Open a door for us.
+            </h2>
+          </div>
+          <div className="flex flex-col text-body-lg leading-relaxed text-ink/85">
+            <p>
+              If you sit on a foundation board, advise a grant program, or have ties to a
+              donor, fund, or competition that supports the arts, science writing, or
+              future-oriented media, we&rsquo;d love an introduction. We&rsquo;re a
+              501(c)(3) actively building the grant pipeline for Possibilia, the OURS
+              exhibition, and the Industrial Garden initiative.
+            </p>
+            <p className="mt-5">
+              We can prepare a tailored brief for your contact within a week. Send a name,
+              an email, and a sentence about why you think it&rsquo;s a fit.
+            </p>
+            <div className="mt-auto pt-10">
+              <Link
+                href="/contact?topic=Refer a donor or foundation"
+                className="btn-solid"
+              >
+                Make an introduction
+              </Link>
+            </div>
+          </div>
+        </div>
+      </Panel>
+
+      {/* Give + Other Ways combined into a single split card. Left
+          half is the conversion path (two buttons, any amount). Right
+          half is the supporting "btw, here are tax-savvier vehicles"
+          info that used to sit in its own Panel below. Vertical hairline
+          divider on desktop signals "two related things, one decision";
+          on mobile the columns stack and the divider disappears so the
+          rhythm matches the rest of the page. */}
+      <Panel id="give" variant="white" full className="overflow-hidden">
+        <div className="grid md:grid-cols-2 md:divide-x md:divide-ink/10">
+          {/* Left half — Give. Primary CTA path. Flex column so the
+              buttons sink to the bottom even when the right column is
+              taller (3 items + footnote), keeping the two halves
+              visually balanced. */}
+          <div className="flex flex-col p-8 md:p-14">
+            <p className="text-sm uppercase tracking-[0.08em] text-sage">Give</p>
+            <h2 className="mt-6 text-h2 leading-[1.05] md:text-h2-lg">
+              Make a gift in any amount.
+            </h2>
+            <p className="mt-6 text-body-lg leading-relaxed text-ink/80">
+              Fast, no-strings, tax-deductible. Pick a path; set your amount
+              on the next screen.
+            </p>
+            <div className="mt-auto flex flex-col gap-3 pt-10 sm:flex-row">
+              <a
+                href="https://www.every.org/foundation-for-future-aesthetics/donate"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex flex-1 items-center justify-center whitespace-nowrap rounded-xl bg-sage px-6 py-4 text-sm uppercase tracking-[0.1em] text-white transition-colors hover:bg-dark"
+              >
+                Give in USD
+              </a>
+              <EthGiveButton label="Give in ETH" />
+            </div>
+          </div>
+
+          {/* Right half — Other ways. Definition-list rhythm: bold
+              ink label + body. Quieter than sage-eyebrow per-item
+              labels so the section's own "Other ways" eyebrow stays
+              the dominant marker on this side. */}
+          <div className="flex flex-col p-8 md:p-14">
+            <p className="text-sm uppercase tracking-[0.08em] text-sage">Other ways</p>
+            <h2 className="mt-6 text-h2 leading-[1.05] md:text-h2-lg">
+              Or give another way.
+            </h2>
+            <ul className="mt-8 space-y-6 text-body leading-relaxed text-ink/80">
+              {OTHER_WAYS.map((w) => (
+                <li key={w.label}>
+                  <p className="font-medium text-ink">{w.label}</p>
+                  <p className="mt-1.5">{w.body}</p>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-auto pt-8 text-sm text-muted">
+              For any of these, start with a note via{' '}
+              <Link
+                href="/contact"
+                className="underline decoration-from-font underline-offset-4 text-ink hover:text-sage"
+              >
+                our contact form
+              </Link>{' '}
+              and we&rsquo;ll route you to the right place.
+            </p>
+          </div>
+        </div>
+      </Panel>
+
       {/* Catch-all soft off-ramp — folded in from the old /partnerships
           page. Gentle invitation for visitors whose shape didn't fit
-          into Refer / Give / Partner / Other Ways. Dark variant breaks
-          the run of white panels and signals "different register of
-          conversation." */}
+          into Partner / Refer / Give. Dark variant breaks the run of
+          white panels and signals "different register of conversation." */}
       <Panel variant="dark" className="md:p-16">
         <h2 className="text-h2 leading-[1.05] md:text-h2-lg">Not sure where you fit?</h2>
         <p className="mt-6 max-w-prose text-body-lg leading-relaxed text-white/85">
