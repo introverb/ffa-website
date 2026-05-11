@@ -162,7 +162,7 @@ export default async function PossibiliaPage() {
           <Link href="/possibilia-submissions" className="btn">
             How to submit
           </Link>
-          <Link href="/support#donate" className="btn-solid">
+          <Link href="/support#partner" className="btn-solid">
             Sponsor a story
           </Link>
         </div>
