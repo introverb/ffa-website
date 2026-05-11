@@ -150,10 +150,40 @@ export default async function SupportPage() {
             <h2 className="mt-6 text-h2 leading-[1.05] md:text-h2-lg">
               Make a gift in any amount.
             </h2>
-            <p className="mt-6 text-body-lg leading-relaxed text-ink/80">
-              Fast, no-strings, tax-deductible. Pick a path; set your amount
-              on the next screen.
-            </p>
+            {/* Body shifted from sales-pitch ("fast, no-strings,
+                tax-deductible") to FFA's three-role philosophy +
+                stewardship close.
+                First paragraph: artists imagine, scientists discover,
+                technologists build — three distinct roles, each
+                carrying a piece of "a future worth having." Names the
+                current misalignment (art toward dystopia, tech toward
+                power, science toward whatever's fundable), then
+                positions FFA as the corrective: funding the version
+                where all three pull together, aligned toward human
+                flourishing.
+                Second paragraph: today's flagship initiatives named
+                concretely + the granting-program ambition for all
+                three groups + personal-note close instead of
+                transactional thanks. */}
+            <div className="mt-6 space-y-4 text-body-lg leading-relaxed text-ink/80">
+              <p>
+                Artists imagine a future worth having. Scientists
+                discover how it&rsquo;s possible. Technologists build
+                the pieces. Right now those three pull in different
+                directions — art toward dystopia, tech toward power,
+                science toward whatever&rsquo;s fundable. FFA funds the
+                version where they pull together, aligned toward human
+                flourishing.
+              </p>
+              <p>
+                <strong>Today:</strong> Possibilia stories, OURS
+                exhibitions, the Industrial Garden initiative.{' '}
+                <strong>Next:</strong> granting programs for the
+                artists, scientists, and technologists building futures
+                of their own. Every gift, no matter the size, moves the
+                work forward — and we&rsquo;ll write back personally.
+              </p>
+            </div>
             <div className="mt-auto flex flex-col gap-3 pt-10 sm:flex-row">
               <a
                 href="https://www.every.org/foundation-for-future-aesthetics/donate"
