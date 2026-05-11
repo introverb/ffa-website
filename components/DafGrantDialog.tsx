@@ -97,7 +97,7 @@ function GrantField({ label, value }: { label: string; value: string }) {
   }
 
   return (
-    <div className="rounded-xl border border-ink/15 bg-cream p-4">
+    <div className="rounded-xl border-[3px] border-ink/20 bg-cream p-4">
       <p className="text-eyebrow text-muted">{label}</p>
       <div className="mt-2 flex items-start gap-3">
         <p className="flex-1 break-words text-sm text-ink">{value}</p>
@@ -161,7 +161,7 @@ export function DafGrantDialog({ children }: { children: React.ReactNode }) {
             through every.org without leaving for a separate portal.
             Falls back to the universal manual-entry path above for
             non-integrated DAFs. */}
-        <div className="mt-6 rounded-xl border border-ink/15 p-4">
+        <div className="mt-6 rounded-xl border-[3px] border-ink/20 p-4">
           <p className="text-eyebrow text-muted">Or, one-click path</p>
           <p className="mt-2 text-sm leading-relaxed text-ink/75">
             If your DAF is at Fidelity Charitable, Schwab Charitable, Vanguard

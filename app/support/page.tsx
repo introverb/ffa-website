@@ -318,7 +318,7 @@ export default async function SupportPage() {
             "different kind of offer" (a relationship) rather than a
             fourth tier (a click). Lead with the dollar figure so the
             commitment is explicit. */}
-        <div className="mt-12 rounded-2xl border border-ink/15 p-6 md:p-10">
+        <div className="mt-12 rounded-2xl border-[3px] border-ink/20 p-6 md:p-10">
           <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between md:gap-10">
             <div className="md:max-w-2xl">
               <p className="text-sm uppercase tracking-[0.08em] text-sage">

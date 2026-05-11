@@ -252,7 +252,7 @@ export function EthGiveButton({
             card, two stacked rows separated by a hairline — keeps
             address + amount visually grouped as the two pieces of
             info a donor needs to complete the gift. */}
-        <div className="mt-6 rounded-xl border border-ink/15 bg-cream p-4">
+        <div className="mt-6 rounded-xl border-[3px] border-ink/20 bg-cream p-4">
           <p className="text-eyebrow text-muted">FFA wallet address</p>
           <div className="mt-2 flex items-start gap-3">
             <p className="flex-1 break-all font-mono text-sm text-ink">
@@ -270,7 +270,7 @@ export function EthGiveButton({
           </div>
           {ethAmount && (
             <>
-              <div className="mt-3 h-px bg-ink/10" />
+              <div className="mt-3 h-[3px] bg-ink/20" />
               <p className="mt-3 text-eyebrow text-muted">Suggested amount</p>
               <p className="mt-1 text-sm text-ink">
                 <span className="font-medium">{ethAmount} ETH</span>
