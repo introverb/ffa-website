@@ -44,16 +44,15 @@ const TIERS = [
   },
   {
     name: 'Editorial Sponsor',
-    amount: '$1,500',
-    usd: 1500,
-    blurb:
-      'Underwrite a full editorial package (story, artwork, and companion essay), plus listing as an event sponsor.',
+    amount: '$2,500',
+    usd: 2500,
+    blurb: 'Underwrite a full editorial package: story, artwork, and companion essay.',
   },
   {
-    name: 'Founding Sponsor',
+    name: 'Presenting Sponsor',
     amount: '$5,000+',
     usd: 5000,
-    blurb: 'Underwrite a full issue of Possibilia, an exhibition, or fund your own initiative.',
+    blurb: 'Sponsor an event or exhibition, or fund an initiative of your own.',
   },
 ];
 
@@ -139,6 +138,36 @@ export default async function SupportPage() {
           })}
         </div>
         <p className="mt-8 text-sm text-muted">All tiers include recognition.</p>
+
+        {/* Issue-underwriter callout — sits outside the tier grid
+            because a $20k ask is a relationship, not a button click.
+            Bordered card with no fill differentiates it visually
+            from the solid cream tier cards above: "different kind
+            of offer" rather than "fourth tier." Lead with the dollar
+            figure so the donor knows the commitment up front. */}
+        <div className="mt-12 rounded-2xl border border-ink/15 p-6 md:p-10">
+          <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between md:gap-10">
+            <div className="md:max-w-2xl">
+              <p className="text-sm uppercase tracking-[0.08em] text-sage">
+                Underwrite an issue
+              </p>
+              <p className="mt-5 text-h2 leading-[1.05] md:text-h2-lg">
+                $20,000 funds a complete issue of Possibilia.
+              </p>
+              <p className="mt-5 text-body leading-relaxed text-ink/80">
+                Story, artwork, companion essays, print, and distribution. If
+                you&rsquo;re interested in underwriting a full issue, we&rsquo;d
+                love to start a conversation.
+              </p>
+            </div>
+            <Link
+              href="/contact?topic=Underwrite a Possibilia issue"
+              className="btn-solid shrink-0"
+            >
+              Start the conversation
+            </Link>
+          </div>
+        </div>
       </Panel>
 
       <Panel variant="white" className="md:p-16">
