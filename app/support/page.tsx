@@ -116,23 +116,22 @@ export default async function SupportPage() {
                   <p className="mt-5 text-h2 md:text-h2-lg">{t.amount}</p>
                   <p className="mt-5 text-body leading-relaxed text-ink/80">{t.blurb}</p>
                 </div>
-                {/* Fiat "Give $X" stays disabled until the every.org
-                    gateway is set up — restore as <a href={...}
-                    target="_blank"> when live. The ETH button is now
-                    live: clicking opens a modal with the FFA wallet
-                    address, QR code, and copy control (see
-                    EthGiveButton). flex-nowrap with flex-1 children
-                    keeps both on one row at every card width. */}
+                {/* Fiat "Give $X" deep-links into every.org's donate
+                    flow with the tier amount pre-filled via the
+                    ?amount= query param. Opens in a new tab so the
+                    donor can return to the Support page after.
+                    The ETH button opens a wallet-address modal (QR +
+                    copy). flex-nowrap with flex-1 children keeps
+                    both on one row at every card width. */}
                 <div className="mt-8 flex flex-nowrap gap-2">
-                  <button
-                    type="button"
-                    disabled
-                    aria-disabled="true"
-                    title="Donation gateway coming soon"
-                    className="inline-flex min-w-0 flex-1 cursor-not-allowed items-center justify-center whitespace-nowrap rounded-xl bg-ink/15 px-3 py-3 text-xs uppercase tracking-[0.08em] text-ink/40"
+                  <a
+                    href={`https://www.every.org/foundation-for-future-aesthetics/donate?amount=${t.usd}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex min-w-0 flex-1 items-center justify-center whitespace-nowrap rounded-xl bg-sage px-3 py-3 text-xs uppercase tracking-[0.08em] text-white transition-colors hover:bg-dark"
                   >
                     Give {t.amount.replace('+', '')}
-                  </button>
+                  </a>
                   <EthGiveButton label={ethLabel} />
                 </div>
               </div>
