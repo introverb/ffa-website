@@ -52,6 +52,28 @@ function CheckIcon() {
   );
 }
 
+// Diagonal arrow-out-of-box — signals "this leaves the site" for the
+// streaming protocol buttons (Superfluid, Sablier) which open in a
+// new tab.
+function ExternalIcon() {
+  return (
+    <svg
+      viewBox="0 0 12 12"
+      width="10"
+      height="10"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M3.5 8.5L8.5 3.5" />
+      <path d="M4.5 3.5H8.5V7.5" />
+    </svg>
+  );
+}
+
 // Canonical Ethereum octahedron mark, faces colored to match the
 // official brand illustration: peach/coral on the cool-warm top-left
 // pair, mint on the upper-right outer face, periwinkle inside-left,
@@ -196,7 +218,7 @@ export function EthGiveButton({ label }: { label: string }) {
           </div>
         </div>
 
-        <div className="mt-6 space-y-3 text-sm leading-relaxed text-ink/75">
+        <div className="mt-6 space-y-4 text-sm leading-relaxed text-ink/75">
           <p>
             <strong>For your tax records:</strong> after sending, drop us a note
             through{' '}
@@ -210,10 +232,39 @@ export function EthGiveButton({ label }: { label: string }) {
             with the transaction hash and your name so we can send the
             acknowledgment letter.
           </p>
-          <p>
-            <strong>Prefer to stream?</strong> Set up a recurring stream via
-            Sablier or Superfluid pointed at the address above.
-          </p>
+          {/* Streaming protocol shortcuts — Sablier and Superfluid both
+              pipe continuous on-chain payments to a recipient over a
+              chosen duration (weeks, months, years). Sablier has no URL
+              pre-fill for the recipient, so donors copy the address
+              above and paste it in their UI. Superfluid does honor a
+              ?recipient= URL param, so we pass FFA's address ahead of
+              time to save a paste. */}
+          <div>
+            <p>
+              <strong>Prefer to stream?</strong> Set up a recurring on-chain
+              gift to the address above:
+            </p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              <a
+                href={`https://app.superfluid.finance/send?recipient=${FFA_ETH_ADDRESS}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 rounded-lg border border-ink/15 bg-paper px-3 py-2 text-xs uppercase tracking-[0.08em] text-ink transition-colors hover:bg-ink/5"
+              >
+                Superfluid
+                <ExternalIcon />
+              </a>
+              <a
+                href="https://app.sablier.com/create"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 rounded-lg border border-ink/15 bg-paper px-3 py-2 text-xs uppercase tracking-[0.08em] text-ink transition-colors hover:bg-ink/5"
+              >
+                Sablier
+                <ExternalIcon />
+              </a>
+            </div>
+          </div>
         </div>
       </FormDialog>
     </>

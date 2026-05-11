@@ -56,14 +56,49 @@ const TIERS = [
   },
 ];
 
-const OTHER_WAYS = [
+// FFA's on-chain donation wallet, duplicated here (also defined in
+// EthGiveButton.tsx) for the streaming-protocol links below. A small
+// duplication trade-off vs. introducing a shared constants file for
+// one short hex string.
+const FFA_ETH_ADDRESS = '0x54ce4Cf841ef47ed0773B0c197aceFCFc076cec7';
+
+type OtherWay = {
+  label: string;
+  body: React.ReactNode;
+};
+
+const OTHER_WAYS: OtherWay[] = [
   {
     label: 'Donor-advised funds',
     body: 'We accept grants from DAFs at Fidelity Charitable, Schwab, Vanguard, and other sponsoring organizations. Use our EIN to recommend a grant.',
   },
   {
     label: 'Stock & crypto',
-    body: 'Gifts of appreciated stock or cryptocurrency are often more tax-efficient than cash. On-chain givers can also stream continuous gifts via Sablier or Superfluid. Reach out for transfer instructions.',
+    body: (
+      <>
+        Gifts of appreciated stock or cryptocurrency are often more
+        tax-efficient than cash. On-chain givers can also stream continuous
+        gifts via{' '}
+        <a
+          href="https://app.sablier.com/create"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline decoration-from-font underline-offset-4 text-ink hover:text-sage"
+        >
+          Sablier
+        </a>{' '}
+        or{' '}
+        <a
+          href={`https://app.superfluid.finance/send?recipient=${FFA_ETH_ADDRESS}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline decoration-from-font underline-offset-4 text-ink hover:text-sage"
+        >
+          Superfluid
+        </a>
+        . Reach out for transfer instructions.
+      </>
+    ),
   },
   {
     label: 'Workplace matching',
