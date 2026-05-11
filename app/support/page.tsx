@@ -121,32 +121,68 @@ export default async function SupportPage() {
         </div>
       </Panel>
 
-      {/* Give — quick gifts at any amount, no tier framing. Two big
-          buttons: USD via every.org with no amount pre-fill (donor
-          picks), ETH via the wallet-address modal. This is the 90%
-          path for visitors who came to donate without thinking about
-          tiers or partnerships. Centered layout signals "welcoming,
-          frictionless." */}
-      <Panel id="give" variant="white" className="md:p-16">
-        <div className="mx-auto max-w-3xl text-center">
-          <p className="text-sm uppercase tracking-[0.08em] text-sage">Give</p>
-          <h2 className="mt-6 text-h2 leading-[1.05] md:text-h2-lg">
-            Make a gift in any amount.
-          </h2>
-          <p className="mt-6 text-body-lg leading-relaxed text-ink/80">
-            Fast, no-strings, tax-deductible. Pick a path; set your amount on the
-            next screen.
-          </p>
-          <div className="mx-auto mt-10 flex max-w-xl flex-col gap-3 sm:flex-row">
-            <a
-              href="https://www.every.org/foundation-for-future-aesthetics/donate"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex flex-1 items-center justify-center whitespace-nowrap rounded-xl bg-sage px-6 py-4 text-sm uppercase tracking-[0.1em] text-white transition-colors hover:bg-dark"
-            >
-              Give in USD
-            </a>
-            <EthGiveButton label="Give in ETH" />
+      {/* Give + Other Ways combined into a single split card. Left
+          half is the conversion path (two buttons, any amount). Right
+          half is the supporting "btw, here are tax-savvier vehicles"
+          info that used to sit in its own Panel below. Vertical hairline
+          divider on desktop signals "two related things, one decision";
+          on mobile the columns stack and the divider disappears so the
+          rhythm matches the rest of the page. */}
+      <Panel id="give" variant="white" full className="overflow-hidden">
+        <div className="grid md:grid-cols-2 md:divide-x md:divide-ink/10">
+          {/* Left half — Give. Primary CTA path. Flex column so the
+              buttons sink to the bottom even when the right column is
+              taller (3 items + footnote), keeping the two halves
+              visually balanced. */}
+          <div className="flex flex-col p-8 md:p-14">
+            <p className="text-sm uppercase tracking-[0.08em] text-sage">Give</p>
+            <h2 className="mt-6 text-h2 leading-[1.05] md:text-h2-lg">
+              Make a gift in any amount.
+            </h2>
+            <p className="mt-6 text-body-lg leading-relaxed text-ink/80">
+              Fast, no-strings, tax-deductible. Pick a path; set your amount
+              on the next screen.
+            </p>
+            <div className="mt-auto flex flex-col gap-3 pt-10 sm:flex-row">
+              <a
+                href="https://www.every.org/foundation-for-future-aesthetics/donate"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex flex-1 items-center justify-center whitespace-nowrap rounded-xl bg-sage px-6 py-4 text-sm uppercase tracking-[0.1em] text-white transition-colors hover:bg-dark"
+              >
+                Give in USD
+              </a>
+              <EthGiveButton label="Give in ETH" />
+            </div>
+          </div>
+
+          {/* Right half — Other ways. Definition-list rhythm: bold
+              ink label + body. Quieter than sage-eyebrow per-item
+              labels so the section's own "Other ways" eyebrow stays
+              the dominant marker on this side. */}
+          <div className="flex flex-col p-8 md:p-14">
+            <p className="text-sm uppercase tracking-[0.08em] text-sage">Other ways</p>
+            <h2 className="mt-6 text-h2 leading-[1.05] md:text-h2-lg">
+              Or give another way.
+            </h2>
+            <ul className="mt-8 space-y-6 text-body leading-relaxed text-ink/80">
+              {OTHER_WAYS.map((w) => (
+                <li key={w.label}>
+                  <p className="font-medium text-ink">{w.label}</p>
+                  <p className="mt-1.5">{w.body}</p>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-auto pt-8 text-sm text-muted">
+              For any of these, start with a note via{' '}
+              <Link
+                href="/contact"
+                className="underline decoration-from-font underline-offset-4 text-ink hover:text-sage"
+              >
+                our contact form
+              </Link>{' '}
+              and we&rsquo;ll route you to the right place.
+            </p>
           </div>
         </div>
       </Panel>
@@ -286,25 +322,6 @@ export default async function SupportPage() {
             </div>
           </div>
         </div>
-      </Panel>
-
-      <Panel variant="white" className="md:p-16">
-        <h2 className="text-h2 leading-[1.05] md:text-h2-lg">Other ways to give.</h2>
-        <ul className="mt-12 grid gap-12 text-body leading-relaxed text-ink/80 md:grid-cols-3">
-          {OTHER_WAYS.map((w) => (
-            <li key={w.label}>
-              <p className="text-sm uppercase tracking-[0.08em] text-sage">{w.label}</p>
-              <p className="mt-4">{w.body}</p>
-            </li>
-          ))}
-        </ul>
-        <p className="mt-12 text-sm text-muted">
-          For any of the above, start with a note via{' '}
-          <Link href="/contact" className="underline decoration-from-font underline-offset-4 text-ink hover:text-sage">
-            our contact form
-          </Link>{' '}
-          and we&rsquo;ll route you to the right place.
-        </p>
       </Panel>
 
       {/* Catch-all soft off-ramp — folded in from the old /partnerships
