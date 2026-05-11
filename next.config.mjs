@@ -26,6 +26,15 @@ const nextConfig = {
         destination: '/possibilia-submissions',
         permanent: true,
       },
+      // /partnerships was merged into /support — Refer, Give, Partner,
+      // and Other Ways now live on one page. The #partner anchor lands
+      // visitors on the sponsorship section that used to be the whole
+      // /partnerships page.
+      {
+        source: '/partnerships',
+        destination: '/support#partner',
+        permanent: true,
+      },
     ];
   },
 };

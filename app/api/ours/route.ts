@@ -7,7 +7,7 @@ import { NextRequest, NextResponse } from 'next/server';
 //   - artwork       (full-page form on /ours)
 //   - involvement   (modal pop-up on /ours discovery image — speaking,
 //                    funding, other contributions)
-//   - sponsorship   (modal pop-up on /partnerships OURS sponsor card)
+//   - sponsorship   (modal pop-up on /support#partner OURS sponsor card)
 //   - speaker       (legacy form, no longer in the UI; route preserved
 //                    in case the form returns)
 //

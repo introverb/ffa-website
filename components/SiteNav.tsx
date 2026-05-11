@@ -6,9 +6,10 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
 // Nav model. Top-level items either link directly (`href`) or open a
-// dropdown of child links (`children`). Resources groups Musings,
-// Partnerships, and Support so the top-level nav stays short and the
-// secondary content lives one click away.
+// dropdown of child links (`children`). Resources groups Musings and
+// Support so the top-level nav stays short and the secondary content
+// lives one click away. (Partnerships was folded into Support, so the
+// dropdown is now a two-item group.)
 type NavLink = { href: string; label: string };
 type NavItem = NavLink | { label: string; children: NavLink[] };
 
@@ -20,7 +21,6 @@ const NAV: NavItem[] = [
     children: [
       { href: '/resources', label: 'Musings' },
       { href: '/support', label: 'Support' },
-      { href: '/partnerships', label: 'Partnerships' },
     ],
   },
   { href: '/contact', label: 'Contact' },

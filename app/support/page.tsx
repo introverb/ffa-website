@@ -3,23 +3,20 @@ import type { Metadata } from 'next';
 import { Panel } from '@/components/PageFrame';
 import { PageHeader } from '@/components/PageHeader';
 import { EthGiveButton } from '@/components/EthGiveButton';
+import { OursSponsorshipDialog } from '@/components/OursSponsorshipDialog';
 
 export const metadata: Metadata = {
   title: 'Support',
   description:
-    'Support the Foundation for Future Aesthetics, a 501(c)(3) nonprofit. Sponsor a story, an editorial package, or a full issue. All donations are tax-deductible.',
+    'Support the Foundation for Future Aesthetics, a 501(c)(3) nonprofit. Give, partner, or open a door for us. All gifts and sponsorships are tax-deductible.',
 };
 
-// Re-render the page (and re-fetch the ETH price) every 10 minutes.
-// Donation copy doesn't need second-by-second precision — the actual
-// on-chain amount is computed at click time anyway. 10 min keeps the
-// displayed ETH amount fresh enough to feel live without burning
-// through CoinGecko's free-tier rate budget.
+// Re-render every 10 minutes so the ETH/USD spot price stays fresh
+// without hammering CoinGecko's free-tier rate limit. The actual
+// on-chain amount is computed at click time anyway — the displayed
+// figure is only a sized suggestion.
 export const revalidate = 600;
 
-// Fetches the spot ETH/USD price from CoinGecko's free public API.
-// Returns null on any failure (network, rate limit, malformed payload)
-// so the caller can fall back to a generic "Give in ETH" label.
 async function getEthPriceUsd(): Promise<number | null> {
   try {
     const res = await fetch(
@@ -46,7 +43,8 @@ const TIERS = [
     name: 'Editorial Sponsor',
     amount: '$2,500',
     usd: 2500,
-    blurb: 'Underwrite a full editorial package: story, artwork, and companion essay.',
+    blurb:
+      'A full editorial package — story, artwork, and companion essay — commissioned around your lab, company, or initiative.',
   },
   {
     name: 'Presenting Sponsor',
@@ -77,100 +75,21 @@ export default async function SupportPage() {
     <>
       <PageHeader
         eyebrow="Support"
-        title={<>Become a patron of the Arts &amp; Sciences.</>}
+        title={<>Build the future with us.</>}
         image="/images/mission.jpg"
         body={
           <p>
-            A 501(c)(3) nonprofit. Tax-deductible donations fund our contributors,
-            programs, and exhibitions.
+            The Foundation for Future Aesthetics is a 501(c)(3) nonprofit. Give,
+            partner with us, or open a door — every path is tax-deductible.
           </p>
         }
       />
 
-      <Panel id="donate" variant="white" className="md:p-16">
-        <h2 className="max-w-4xl text-h2 leading-[1.05] md:text-h2-lg">
-          Fund a more optimistic future.
-        </h2>
-        <div className="mt-12 grid gap-10 md:grid-cols-3">
-          {TIERS.map((t) => {
-            const isPlus = t.amount.endsWith('+');
-            // If the price fetch failed, fall back to a generic
-            // "Give in ETH" label so the button still reads cleanly.
-            const ethLabel = ethPriceUsd
-              ? `Give ${(t.usd / ethPriceUsd).toFixed(2)}${isPlus ? '+' : ''} ETH`
-              : 'Give in ETH';
-            return (
-              <div
-                key={t.name}
-                // p-10 (40px) at desktop matches the rest of the cream
-                // cards on the site. On mobile, pair down to p-6 (24px)
-                // so the card's internal padding mirrors the page-edge
-                // padding (px-6) of the outer PageFrame — gives the
-                // tier cards the same breathing rhythm against their
-                // panel as the panel has against the page.
-                className="flex flex-col justify-between rounded-2xl bg-cream p-6 md:p-10"
-              >
-                <div>
-                  <p className="text-sm uppercase tracking-[0.08em] text-sage">{t.name}</p>
-                  <p className="mt-5 text-h2 md:text-h2-lg">{t.amount}</p>
-                  <p className="mt-5 text-body leading-relaxed text-ink/80">{t.blurb}</p>
-                </div>
-                {/* Fiat "Give $X" deep-links into every.org's donate
-                    flow with the tier amount pre-filled via the
-                    ?amount= query param. Opens in a new tab so the
-                    donor can return to the Support page after.
-                    The ETH button opens a wallet-address modal (QR +
-                    copy). flex-nowrap with flex-1 children keeps
-                    both on one row at every card width. */}
-                <div className="mt-8 flex flex-nowrap gap-2">
-                  <a
-                    href={`https://www.every.org/foundation-for-future-aesthetics/donate?amount=${t.usd}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex min-w-0 flex-1 items-center justify-center whitespace-nowrap rounded-xl bg-sage px-3 py-3 text-xs uppercase tracking-[0.08em] text-white transition-colors hover:bg-dark"
-                  >
-                    Give {t.amount.replace('+', '')}
-                  </a>
-                  <EthGiveButton label={ethLabel} />
-                </div>
-              </div>
-            );
-          })}
-        </div>
-        <p className="mt-8 text-sm text-muted">All tiers include recognition.</p>
-
-        {/* Issue-underwriter callout — sits outside the tier grid
-            because a $20k ask is a relationship, not a button click.
-            Bordered card with no fill differentiates it visually
-            from the solid cream tier cards above: "different kind
-            of offer" rather than "fourth tier." Lead with the dollar
-            figure so the donor knows the commitment up front. */}
-        <div className="mt-12 rounded-2xl border border-ink/15 p-6 md:p-10">
-          <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between md:gap-10">
-            <div className="md:max-w-2xl">
-              <p className="text-sm uppercase tracking-[0.08em] text-sage">
-                Underwrite an issue
-              </p>
-              <p className="mt-5 text-h2 leading-[1.05] md:text-h2-lg">
-                $20,000 funds a complete issue of Possibilia.
-              </p>
-              <p className="mt-5 text-body leading-relaxed text-ink/80">
-                Story, artwork, companion essays, print, and distribution. If
-                you&rsquo;re interested in underwriting a full issue, we&rsquo;d
-                love to start a conversation.
-              </p>
-            </div>
-            <Link
-              href="/contact?topic=Underwrite a Possibilia issue"
-              className="btn-solid shrink-0"
-            >
-              Start the conversation
-            </Link>
-          </div>
-        </div>
-      </Panel>
-
-      <Panel variant="white" className="md:p-16">
+      {/* Refer Us sits first because the highest-leverage ask for most
+          Support-page visitors is "introduce us to someone," not "write
+          a check yourself." Sets a generous tone before the money
+          sections that follow. */}
+      <Panel id="refer" variant="white" className="md:p-16">
         <div className="grid gap-12 md:grid-cols-[1fr_1.6fr]">
           <div>
             <p className="text-sm uppercase tracking-[0.08em] text-sage">Refer us</p>
@@ -202,6 +121,173 @@ export default async function SupportPage() {
         </div>
       </Panel>
 
+      {/* Give — quick gifts at any amount, no tier framing. Two big
+          buttons: USD via every.org with no amount pre-fill (donor
+          picks), ETH via the wallet-address modal. This is the 90%
+          path for visitors who came to donate without thinking about
+          tiers or partnerships. Centered layout signals "welcoming,
+          frictionless." */}
+      <Panel id="give" variant="white" className="md:p-16">
+        <div className="mx-auto max-w-3xl text-center">
+          <p className="text-sm uppercase tracking-[0.08em] text-sage">Give</p>
+          <h2 className="mt-6 text-h2 leading-[1.05] md:text-h2-lg">
+            Make a gift in any amount.
+          </h2>
+          <p className="mt-6 text-body-lg leading-relaxed text-ink/80">
+            Fast, no-strings, tax-deductible. Pick a path; set your amount on the
+            next screen.
+          </p>
+          <div className="mx-auto mt-10 flex max-w-xl flex-col gap-3 sm:flex-row">
+            <a
+              href="https://www.every.org/foundation-for-future-aesthetics/donate"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex flex-1 items-center justify-center whitespace-nowrap rounded-xl bg-sage px-6 py-4 text-sm uppercase tracking-[0.1em] text-white transition-colors hover:bg-dark"
+            >
+              Give in USD
+            </a>
+            <EthGiveButton label="Give in ETH" />
+          </div>
+        </div>
+      </Panel>
+
+      {/* Partner — named sponsorships, in priority of velocity:
+          (1) Tier grid is the fast-pay path: click → every.org with
+              the tier amount already pre-filled.
+          (2) Issue underwriter callout is the slow-conversation path
+              for the $20k full-issue commitment.
+          (3) In-development sponsorships (OURS, Industrial Garden)
+              are named initiatives whose sponsorship offerings are
+              still being finalized — they route through dedicated
+              dialogs / contact flows. */}
+      <Panel id="partner" variant="white" className="md:p-16">
+        <p className="text-sm uppercase tracking-[0.08em] text-sage">Partner</p>
+        <h2 className="mt-6 max-w-4xl text-h2 leading-[1.05] md:text-h2-lg">
+          Fund a more optimistic future.
+        </h2>
+
+        <div className="mt-12 grid gap-10 md:grid-cols-3">
+          {TIERS.map((t) => {
+            const isPlus = t.amount.endsWith('+');
+            const ethLabel = ethPriceUsd
+              ? `Give ${(t.usd / ethPriceUsd).toFixed(2)}${isPlus ? '+' : ''} ETH`
+              : 'Give in ETH';
+            return (
+              <div
+                key={t.name}
+                className="flex flex-col justify-between rounded-2xl bg-cream p-6 md:p-10"
+              >
+                <div>
+                  <p className="text-sm uppercase tracking-[0.08em] text-sage">{t.name}</p>
+                  <p className="mt-5 text-h2 md:text-h2-lg">{t.amount}</p>
+                  <p className="mt-5 text-body leading-relaxed text-ink/80">{t.blurb}</p>
+                </div>
+                <div className="mt-8 flex flex-nowrap gap-2">
+                  <a
+                    href={`https://www.every.org/foundation-for-future-aesthetics/donate?amount=${t.usd}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex min-w-0 flex-1 items-center justify-center whitespace-nowrap rounded-xl bg-sage px-3 py-3 text-xs uppercase tracking-[0.08em] text-white transition-colors hover:bg-dark"
+                  >
+                    Give {t.amount.replace('+', '')}
+                  </a>
+                  <EthGiveButton label={ethLabel} />
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        <p className="mt-8 text-sm text-muted">All tiers include recognition.</p>
+
+        {/* Issue-underwriter callout — bordered card with no fill
+            distinguishes it from the solid cream tier cards above:
+            "different kind of offer" (a relationship) rather than a
+            fourth tier (a click). Lead with the dollar figure so the
+            commitment is explicit. */}
+        <div className="mt-12 rounded-2xl border border-ink/15 p-6 md:p-10">
+          <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between md:gap-10">
+            <div className="md:max-w-2xl">
+              <p className="text-sm uppercase tracking-[0.08em] text-sage">
+                Underwrite an issue
+              </p>
+              <p className="mt-5 text-h2 leading-[1.05] md:text-h2-lg">
+                $20,000 funds a complete issue of Possibilia.
+              </p>
+              <p className="mt-5 text-body leading-relaxed text-ink/80">
+                Story, artwork, companion essays, print, and distribution. If
+                you&rsquo;re interested in underwriting a full issue, we&rsquo;d
+                love to start a conversation.
+              </p>
+            </div>
+            <Link
+              href="/contact?topic=Underwrite a Possibilia issue"
+              className="btn-solid shrink-0"
+            >
+              Start the conversation
+            </Link>
+          </div>
+        </div>
+
+        {/* Named initiatives — OURS and Industrial Garden — folded in
+            from the old /partnerships page. Sponsorship offerings are
+            still in development for both, so each routes through its
+            own conversation flow (OursSponsorshipDialog for OURS,
+            contact form for Industrial Garden) rather than a one-click
+            donate button. */}
+        <div className="mt-16">
+          <p className="text-sm uppercase tracking-[0.08em] text-sage">
+            Named initiatives
+          </p>
+          <h3 className="mt-6 text-h3 leading-tight md:text-h3-lg">
+            Sponsor a specific program.
+          </h3>
+          <div className="mt-10 grid gap-6 md:grid-cols-2">
+            <div className="flex flex-col rounded-2xl bg-cream p-10 md:p-12">
+              <p className="text-sm uppercase tracking-[0.08em] text-sage">
+                Sponsorship, in development
+              </p>
+              <h4 className="mt-6 text-h3 leading-tight md:text-h3-lg">
+                The OURS exhibition.
+              </h4>
+              <p className="mt-6 text-body leading-relaxed text-ink/80">
+                OURS pairs speculative artwork with the science and engineering
+                that could bring it into being — a curated, traveling show.
+                We&rsquo;re opening sponsorship for the inaugural run.
+              </p>
+              <div className="mt-auto flex flex-wrap gap-3 pt-8">
+                <Link href="/ours" className="btn">
+                  Event details
+                </Link>
+                <OursSponsorshipDialog />
+              </div>
+            </div>
+
+            <div className="flex flex-col rounded-2xl bg-cream p-10 md:p-12">
+              <p className="text-sm uppercase tracking-[0.08em] text-sage">
+                Sponsorship, in development
+              </p>
+              <h4 className="mt-6 text-h3 leading-tight md:text-h3-lg">
+                The Industrial Garden.
+              </h4>
+              <p className="mt-6 text-body leading-relaxed text-ink/80">
+                Industrial Garden is the foundation&rsquo;s proposed maker space
+                in New York City — a community workspace and a self-sustaining
+                model for small creators and hard-tech founders. Sponsorship
+                opens as we move from proposal to exhibit.
+              </p>
+              <div className="mt-auto pt-8">
+                <Link
+                  href="/contact?topic=Industrial Garden sponsorship"
+                  className="btn"
+                >
+                  Request a brief
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Panel>
+
       <Panel variant="white" className="md:p-16">
         <h2 className="text-h2 leading-[1.05] md:text-h2-lg">Other ways to give.</h2>
         <ul className="mt-12 grid gap-12 text-body leading-relaxed text-ink/80 md:grid-cols-3">
@@ -219,6 +305,26 @@ export default async function SupportPage() {
           </Link>{' '}
           and we&rsquo;ll route you to the right place.
         </p>
+      </Panel>
+
+      {/* Catch-all soft off-ramp — folded in from the old /partnerships
+          page. Gentle invitation for visitors whose shape didn't fit
+          into Refer / Give / Partner / Other Ways. Dark variant breaks
+          the run of white panels and signals "different register of
+          conversation." */}
+      <Panel variant="dark" className="md:p-16">
+        <h2 className="text-h2 leading-[1.05] md:text-h2-lg">Not sure where you fit?</h2>
+        <p className="mt-6 max-w-prose text-body-lg leading-relaxed text-white/85">
+          Tell us about your project and what you&rsquo;re trying to get out into the
+          world. We&rsquo;ll come back with the shape that fits, or the honest answer
+          that we&rsquo;re not the right home for it.
+        </p>
+        <Link
+          href="/contact?topic=Partnership"
+          className="btn-solid mt-10 inline-block"
+        >
+          Send a note
+        </Link>
       </Panel>
     </>
   );

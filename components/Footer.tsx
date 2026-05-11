@@ -12,10 +12,12 @@ const PRIMARY_NAV = [
 // "Resources" sub-nav — surfaced as a second mobile column so the
 // hamburger drawer's content has a flat equivalent at the bottom of
 // every page. Hidden on desktop where the original two-column layout
-// holds (logo block left, three-link list right).
+// holds (logo block left, primary-nav list right). Partnerships was
+// folded into Support, so this column is currently a one-item group;
+// kept as an array so adding future Resources entries is a one-line
+// change.
 const RESOURCES_NAV = [
   { href: '/resources', label: 'Musings' },
-  { href: '/partnerships', label: 'Partnerships' },
 ];
 
 // Black footer panel.
