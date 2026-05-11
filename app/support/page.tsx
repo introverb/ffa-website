@@ -84,9 +84,17 @@ const OTHER_WAYS: OtherWay[] = [
     label: 'Stock & crypto',
     body: (
       <>
-        Gifts of appreciated stock or cryptocurrency are often more
-        tax-efficient than cash. On-chain givers can also stream continuous
-        gifts via{' '}
+        Appreciated stock and cryptocurrency are often more tax-efficient
+        than cash. Send stock via{' '}
+        <a
+          href="https://www.every.org/foundation-for-future-aesthetics/donate?paymentMethod=stocks"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline decoration-from-font underline-offset-4 text-ink hover:text-sage"
+        >
+          every.org
+        </a>
+        , or set up a continuous on-chain stream via{' '}
         <a
           href="https://app.sablier.com/create"
           target="_blank"
@@ -104,7 +112,7 @@ const OTHER_WAYS: OtherWay[] = [
         >
           Superfluid
         </a>
-        . Reach out for transfer instructions.
+        .
       </>
     ),
   },
