@@ -11,6 +11,30 @@ import { FormDialog } from './FormDialog';
 // a Solana account, we'll surface that as a separate row below.
 const FFA_ETH_ADDRESS = '0x54ce4Cf841ef47ed0773B0c197aceFCFc076cec7';
 
+// Convert a decimal ETH string ("0.13") to its wei equivalent string.
+// Done via string manipulation rather than float math because
+// 0.13 * 1e18 = 1.3e17 exceeds JavaScript's MAX_SAFE_INTEGER, so
+// the float would lose precision in the low digits. Strings are
+// exact and BigInt-clean.
+function ethToWei(ethStr: string): string {
+  const [intPart, fracPart = ''] = ethStr.split('.');
+  const fracPadded = (fracPart + '0'.repeat(18)).slice(0, 18);
+  const combined = (intPart + fracPadded).replace(/^0+/, '');
+  return combined || '0';
+}
+
+// Build an EIP-681 payment URI for the FFA wallet. When passed an
+// amount, wallet apps that scan the resulting QR code (Rainbow,
+// MetaMask Mobile, Coinbase Wallet, etc.) open with both recipient
+// AND amount pre-filled. Chain ID 1 = Ethereum mainnet. When called
+// without an amount, returns the bare address so the QR encodes a
+// recipient-only payment.
+function eip681Uri(address: string, ethAmount?: string): string {
+  if (!ethAmount) return address;
+  const wei = ethToWei(ethAmount);
+  return `ethereum:${address}@1?value=${wei}`;
+}
+
 // Standard "two overlapping squares" copy icon (Lucide-style).
 // Inherits stroke from currentColor so the parent's text color
 // drives the icon color.
@@ -120,13 +144,37 @@ function EthMark({ className }: { className?: string }) {
   );
 }
 
-// Client component that renders a "Give in ETH" pill on each Support
-// tier. Click opens a portal-mounted modal showing the FFA wallet
-// address with a QR code and a copy-to-clipboard control. Each tier
-// passes its tier-specific label (e.g. "Give 0.13 ETH") so the
-// button reads as a sized suggestion; inside the modal the donor
-// chooses the actual amount they send from their wallet.
-export function EthGiveButton({ label }: { label: string }) {
+// Client component that renders a "Give in ETH" pill. Click opens a
+// portal-mounted modal showing the FFA wallet address with a QR
+// code and a copy-to-clipboard control.
+//
+// Three usage shapes:
+//
+//   <EthGiveButton label="Give in ETH" />
+//     General donate path. No amount lock-in. QR encodes the bare
+//     address; donor enters their own amount in their wallet.
+//
+//   <EthGiveButton label="Give 0.13 ETH" ethAmount="0.13" />
+//   <EthGiveButton label="Give 0.13 ETH" ethAmount="0.13" usdAmount={500} />
+//     Tier path. The ETH amount is encoded into the QR via EIP-681
+//     so wallet apps pre-fill it on scan. usdAmount, when provided,
+//     surfaces in the modal as a "(≈ $500)" reference so the donor
+//     can sanity-check the price-converted amount before sending.
+//
+// The label prop is just the button's text — the source of truth
+// for amount-coding is `ethAmount` (a decimal string, e.g. "0.13").
+// Price updates flow through automatically: the parent page re-runs
+// the ETH/USD calculation on ISR revalidation and passes a fresh
+// ethAmount down each render.
+export function EthGiveButton({
+  label,
+  ethAmount,
+  usdAmount,
+}: {
+  label: string;
+  ethAmount?: string;
+  usdAmount?: number;
+}) {
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
 
@@ -188,7 +236,13 @@ export function EthGiveButton({ label }: { label: string }) {
             inside the modal at any width. The compact copy/check icon
             sits at the right of the address row — small enough that
             the whole modal fits without scrolling. The icon swaps to
-            a checkmark for two beats after a successful copy. */}
+            a checkmark for two beats after a successful copy.
+            When the modal carries a tier-specific ethAmount, a
+            "Suggested" row joins the card below the address with the
+            ETH figure (and the USD reference, when available). Same
+            card, two stacked rows separated by a hairline — keeps
+            address + amount visually grouped as the two pieces of
+            info a donor needs to complete the gift. */}
         <div className="mt-6 rounded-xl border border-ink/15 bg-cream p-4">
           <p className="text-eyebrow text-muted">FFA wallet address</p>
           <div className="mt-2 flex items-start gap-3">
@@ -205,16 +259,38 @@ export function EthGiveButton({ label }: { label: string }) {
               {copied ? <CheckIcon /> : <CopyIcon />}
             </button>
           </div>
+          {ethAmount && (
+            <>
+              <div className="mt-3 h-px bg-ink/10" />
+              <p className="mt-3 text-eyebrow text-muted">Suggested amount</p>
+              <p className="mt-1 text-sm text-ink">
+                <span className="font-medium">{ethAmount} ETH</span>
+                {typeof usdAmount === 'number' && (
+                  <span className="text-ink/60">
+                    {' '}
+                    (≈ ${usdAmount.toLocaleString()})
+                  </span>
+                )}
+              </p>
+            </>
+          )}
         </div>
 
-        {/* QR encodes the bare address (no amount), so any wallet's QR
-            scanner opens with the recipient pre-filled and the donor
-            enters their amount. White background + small margin keeps
-            it scannable on any modal background. Sized so the whole
-            modal fits in viewport without scrolling. */}
+        {/* QR code value depends on whether a suggested amount was
+            passed in. With no amount, it encodes the bare address
+            (donor enters their own amount in their wallet). With an
+            amount, it encodes an EIP-681 payment URI — wallet apps
+            scanning the QR pre-fill BOTH recipient AND amount. White
+            background + small margin keeps it scannable on any modal
+            background; sized so the whole modal fits in viewport
+            without scrolling. */}
         <div className="mt-5 flex justify-center">
           <div className="rounded-lg bg-white p-3">
-            <QRCodeSVG value={FFA_ETH_ADDRESS} size={140} level="M" />
+            <QRCodeSVG
+              value={eip681Uri(FFA_ETH_ADDRESS, ethAmount)}
+              size={140}
+              level="M"
+            />
           </div>
         </div>
 

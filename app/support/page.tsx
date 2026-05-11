@@ -254,8 +254,17 @@ export default async function SupportPage() {
         <div className="mt-12 grid gap-10 md:grid-cols-3">
           {TIERS.map((t) => {
             const isPlus = t.amount.endsWith('+');
-            const ethLabel = ethPriceUsd
-              ? `Give ${(t.usd / ethPriceUsd).toFixed(2)}${isPlus ? '+' : ''} ETH`
+            // Computed once per tier so the same number drives the
+            // button label AND the in-modal "Suggested amount" + the
+            // EIP-681 QR encoding. Page revalidates every 10 min via
+            // ISR so this figure refreshes with the live ETH/USD spot
+            // price; the modal always reflects whatever ethAmount was
+            // current at the most recent server render.
+            const ethAmount = ethPriceUsd
+              ? (t.usd / ethPriceUsd).toFixed(2)
+              : undefined;
+            const ethLabel = ethAmount
+              ? `Give ${ethAmount}${isPlus ? '+' : ''} ETH`
               : 'Give in ETH';
             return (
               <div
@@ -276,7 +285,11 @@ export default async function SupportPage() {
                   >
                     Give {t.amount.replace('+', '')}
                   </a>
-                  <EthGiveButton label={ethLabel} />
+                  <EthGiveButton
+                    label={ethLabel}
+                    ethAmount={ethAmount}
+                    usdAmount={t.usd}
+                  />
                 </div>
               </div>
             );
