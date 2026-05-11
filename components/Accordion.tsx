@@ -9,7 +9,7 @@ export function Accordion({
   children: React.ReactNode;
 }) {
   return (
-    <details className="group border-t border-rule first:border-t-0 last:border-b last:border-rule">
+    <details className="group border-t-[3px] border-rule first:border-t-0 last:border-b-[3px] last:border-rule">
       <summary className="flex cursor-pointer items-center justify-between gap-6 py-6 list-none [&::-webkit-details-marker]:hidden">
         <span className="text-h5 md:text-h4 leading-tight">{title}</span>
         <span

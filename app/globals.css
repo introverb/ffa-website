@@ -65,7 +65,7 @@
   }
 
   .rule {
-    @apply border-t border-rule;
+    @apply border-t-[3px] border-rule;
   }
 
   .link-underline {

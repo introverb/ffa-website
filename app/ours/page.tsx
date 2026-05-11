@@ -78,7 +78,7 @@ export default function OursPage({
         </div>
 
         {/* Format */}
-        <div className="mt-20 border-t border-rule pt-16">
+        <div className="mt-20 border-t-[3px] border-rule pt-16">
           <p className="text-sm uppercase tracking-[0.08em] text-sage">The format</p>
           <h2 className="mt-6 text-h2 leading-[1.05] md:text-h2-lg">
             An intimate discussion of what&rsquo;s to come.
@@ -94,7 +94,7 @@ export default function OursPage({
         </div>
 
         {/* Engage */}
-        <div id="engage" className="mt-20 border-t border-rule pt-16">
+        <div id="engage" className="mt-20 border-t-[3px] border-rule pt-16">
           <p className="text-sm uppercase tracking-[0.08em] text-sage">Engage</p>
           <h2 className="mt-6 max-w-3xl text-h2 leading-[1.05] md:text-h2-lg">
             Take part in crafting tomorrow.
