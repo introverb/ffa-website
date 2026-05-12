@@ -4,6 +4,7 @@ import { Saira } from 'next/font/google';
 import './globals.css';
 import { PageFrame } from '@/components/PageFrame';
 import { Footer } from '@/components/Footer';
+import { JsonLd } from '@/components/JsonLd';
 
 // Display face - used for headings and bolded text. Saira is a temporary
 // stand-in for Eurostile Next Pro Semibold; both are geometric sans with a
@@ -76,6 +77,48 @@ export const metadata: Metadata = {
   },
 };
 
+// Schema.org NonprofitOrganization payload — drives the Google
+// Knowledge Graph result that appears beside searches for
+// "Foundation for Future Aesthetics." Includes the legal record
+// (name, alternate name, EIN, mailing address) plus mission +
+// social handles. Lives in layout so it ships on every page; Google
+// will pick the strongest source (homepage) for the canonical
+// Knowledge Graph entry.
+const ORGANIZATION_SCHEMA = {
+  '@context': 'https://schema.org',
+  '@type': 'NonprofitOrganization',
+  name: SITE_NAME,
+  alternateName: 'FFA',
+  url: SITE_URL,
+  logo: `${SITE_URL}/images/logo.png`,
+  description: SITE_DESCRIPTION,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: '200 Prospect Park W',
+    addressLocality: 'Brooklyn',
+    addressRegion: 'NY',
+    postalCode: '11215',
+    addressCountry: 'US',
+  },
+  taxID: '93-2025231',
+  nonprofitStatus: 'Nonprofit501c3',
+  sameAs: ['https://twitter.com/possibiliamag'],
+};
+
+// Schema.org WebSite payload — separate from the Organization
+// schema, declares the site itself + lets search engines display
+// the result with the right name in the SERP header.
+const WEBSITE_SCHEMA = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: SITE_NAME,
+  url: SITE_URL,
+  publisher: {
+    '@type': 'NonprofitOrganization',
+    name: SITE_NAME,
+  },
+};
+
 export default function RootLayout({
   children,
 }: {
@@ -84,6 +127,12 @@ export default function RootLayout({
   return (
     <html lang="en" className={display.variable}>
       <body>
+        {/* Site-wide Schema.org payloads — render as inline <script>
+            tags in the served HTML. Invisible to humans; consumed by
+            search engines. See ORGANIZATION_SCHEMA + WEBSITE_SCHEMA
+            above. */}
+        <JsonLd data={ORGANIZATION_SCHEMA} />
+        <JsonLd data={WEBSITE_SCHEMA} />
         <PageFrame>
           {children}
           <Footer />

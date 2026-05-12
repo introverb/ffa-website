@@ -1,21 +1,21 @@
 import { MetadataRoute } from 'next';
-import { getPackageSlugs, getArtifactSlugs } from '@/lib/possibilia';
+import { getAllPackages, getAllArtifacts } from '@/lib/possibilia';
 
 // Next.js 13+ app-router sitemap. Exported as a default async function;
 // Next serves the result at /sitemap.xml at build time and on
 // revalidation. Search engines (Google, Bing, DuckDuckGo) crawl this
-// file to discover the site's pages.
+// file to discover the site's pages + decide how often to recrawl.
 //
 // Includes:
-//   - Every static route the site exposes
-//   - Every Possibilia story under /possibilia/[slug] (auto-discovered
-//     from content/possibilia/)
-//   - Every Artifact under /possibilia/artifacts/[slug] (auto-discovered
-//     from content/artifacts/)
+//   - Every static route the site exposes (build time = lastModified)
+//   - Every Possibilia story under /possibilia/[slug] (publication
+//     date from meta.date = lastModified — gives search engines a
+//     real "new content" signal when a story drops)
+//   - Every Artifact under /possibilia/artifacts/[slug] (same model)
 //
 // New static routes need a one-line addition to STATIC_ROUTES below.
-// Dynamic Possibilia + artifact routes appear automatically as folders
-// land in content/.
+// Dynamic Possibilia + artifact routes appear automatically as
+// folders land in content/.
 
 const SITE_URL = 'https://www.futureaesthetics.foundation';
 
@@ -34,29 +34,35 @@ const STATIC_ROUTES: Array<{ path: string; priority: number }> = [
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const lastModified = new Date();
+  // Build-time stamp for static routes. They're re-deployed when their
+  // page.tsx changes, so "now" at sitemap-generation time is a good
+  // proxy for "last meaningful change."
+  const buildTime = new Date();
 
   const staticEntries: MetadataRoute.Sitemap = STATIC_ROUTES.map(
     ({ path, priority }) => ({
       url: `${SITE_URL}${path}`,
-      lastModified,
+      lastModified: buildTime,
       priority,
     }),
   );
 
-  // Possibilia stories — each lives at /possibilia/[slug].
-  const packageSlugs = await getPackageSlugs();
-  const packageEntries: MetadataRoute.Sitemap = packageSlugs.map((slug) => ({
-    url: `${SITE_URL}/possibilia/${slug}`,
-    lastModified,
+  // Possibilia stories — each lives at /possibilia/[slug]. Using
+  // meta.date (the canonical publication date) for lastModified gives
+  // search engines a real recrawl signal when a story is added or
+  // its publication date is updated.
+  const packages = await getAllPackages();
+  const packageEntries: MetadataRoute.Sitemap = packages.map((pkg) => ({
+    url: `${SITE_URL}/possibilia/${pkg.slug}`,
+    lastModified: new Date(pkg.date),
     priority: 0.7,
   }));
 
-  // Artifacts from Tomorrow — each lives at /possibilia/artifacts/[slug].
-  const artifactSlugs = await getArtifactSlugs();
-  const artifactEntries: MetadataRoute.Sitemap = artifactSlugs.map((slug) => ({
-    url: `${SITE_URL}/possibilia/artifacts/${slug}`,
-    lastModified,
+  // Artifacts from Tomorrow — same model, /possibilia/artifacts/[slug].
+  const artifacts = await getAllArtifacts();
+  const artifactEntries: MetadataRoute.Sitemap = artifacts.map((art) => ({
+    url: `${SITE_URL}/possibilia/artifacts/${art.slug}`,
+    lastModified: new Date(art.date),
     priority: 0.6,
   }));
 

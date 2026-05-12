@@ -11,6 +11,11 @@ export const metadata: Metadata = {
   title: 'Support',
   description:
     'Support the Foundation for Future Aesthetics, a 501(c)(3) nonprofit. Give, partner, or open a door for us. All gifts and sponsorships are tax-deductible.',
+  alternates: { canonical: '/support' },
+  openGraph: {
+    images: [{ url: '/images/mission.jpg', alt: 'Support FFA' }],
+  },
+  twitter: { images: ['/images/mission.jpg'] },
 };
 
 // Re-render every 10 minutes so the ETH/USD spot price stays fresh

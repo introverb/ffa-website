@@ -1,17 +1,43 @@
 import Image from 'next/image';
 import type { Metadata } from 'next';
 import { Panel } from '@/components/PageFrame';
+import { JsonLd } from '@/components/JsonLd';
 import { renderWithArtistLinks } from '@/lib/artists';
+
+const MANIFESTO_SCHEMA = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'Manifesto: forging our future through optimistic science fiction',
+  description:
+    'Why we believe the stories we tell about tomorrow shape the world we actually build, and how an optimistic, realistic aesthetic can reset the canon.',
+  publisher: {
+    '@type': 'NonprofitOrganization',
+    name: 'Foundation for Future Aesthetics',
+    logo: {
+      '@type': 'ImageObject',
+      url: 'https://www.futureaesthetics.foundation/images/logo.png',
+    },
+  },
+  image: 'https://www.futureaesthetics.foundation/images/manifesto.jpg',
+  inLanguage: 'en-US',
+};
 
 export const metadata: Metadata = {
   title: 'Manifesto: forging our future through optimistic science fiction',
   description:
     'Why we believe the stories we tell about tomorrow shape the world we actually build, and how an optimistic, realistic aesthetic can reset the canon.',
+  alternates: { canonical: '/resources/manifesto' },
+  openGraph: {
+    type: 'article',
+    images: [{ url: '/images/manifesto.jpg', alt: 'Manifesto' }],
+  },
+  twitter: { images: ['/images/manifesto.jpg'] },
 };
 
 export default function ManifestoPage() {
   return (
     <Panel variant="white" full>
+      <JsonLd data={MANIFESTO_SCHEMA} />
       <div className="relative aspect-[5/2]">
         <Image
           src="/images/manifesto.jpg"

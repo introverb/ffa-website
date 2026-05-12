@@ -10,6 +10,11 @@ export const metadata: Metadata = {
   title: 'Possibilia',
   description:
     'Possibilia is the foundation’s magazine: fiction, companion pieces, and original artwork imagining an optimistic, realistic future.',
+  alternates: { canonical: '/possibilia' },
+  openGraph: {
+    images: [{ url: '/images/initiative-possibilia.jpg', alt: 'Possibilia' }],
+  },
+  twitter: { images: ['/images/initiative-possibilia.jpg'] },
 };
 
 export default async function PossibiliaPage() {

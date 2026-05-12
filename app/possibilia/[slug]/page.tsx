@@ -4,6 +4,7 @@ import { Panel } from '@/components/PageFrame';
 import { PageHeader } from '@/components/PageHeader';
 import { ChapterizedAudio } from '@/components/ChapterizedAudio';
 import { YouTubeEmbed } from '@/components/YouTubeEmbed';
+import { JsonLd } from '@/components/JsonLd';
 import {
   getPackageSlugs,
   hasCompanion,
@@ -24,6 +25,16 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   return {
     title: `${meta.title} · Possibilia`,
     description: meta.excerpt,
+    alternates: { canonical: `/possibilia/${params.slug}` },
+    openGraph: {
+      type: 'article',
+      title: `${meta.title} · Possibilia`,
+      description: meta.excerpt,
+      publishedTime: meta.date,
+      authors: [meta.storyAuthor],
+      images: [{ url: meta.hero.src, alt: meta.hero.alt }],
+    },
+    twitter: { images: [meta.hero.src] },
   };
 }
 
@@ -48,8 +59,37 @@ export default async function PossibiliaPackagePage({ params }: Params) {
     ? (await import(`@/content/possibilia/${params.slug}/companion.mdx`)).default
     : null;
 
+  const articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: meta.title,
+    description: meta.excerpt,
+    datePublished: meta.date,
+    author: [
+      { '@type': 'Person', name: meta.storyAuthor },
+      ...(meta.companionAuthor
+        ? [{ '@type': 'Person', name: meta.companionAuthor }]
+        : []),
+    ],
+    publisher: {
+      '@type': 'NonprofitOrganization',
+      name: 'Foundation for Future Aesthetics',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://www.futureaesthetics.foundation/images/logo.png',
+      },
+    },
+    image: `https://www.futureaesthetics.foundation${meta.hero.src}`,
+    inLanguage: 'en-US',
+    isPartOf: {
+      '@type': 'PublicationIssue',
+      name: meta.issue,
+    },
+  };
+
   return (
     <>
+      <JsonLd data={articleSchema} />
       <PageHeader
         eyebrow={`Possibilia · ${meta.issue}`}
         title={meta.title}

@@ -11,6 +11,16 @@ export const metadata: Metadata = {
   title: 'Possibilia Submissions',
   description:
     'How to submit fiction, nonfiction, and artwork to Possibilia Magazine. Issue 0 is in development.',
+  alternates: { canonical: '/possibilia-submissions' },
+  openGraph: {
+    images: [
+      {
+        url: '/images/possibilia-submissions.png',
+        alt: 'Possibilia submissions',
+      },
+    ],
+  },
+  twitter: { images: ['/images/possibilia-submissions.png'] },
 };
 
 export default function PossibiliaSubmissionsPage({

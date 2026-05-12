@@ -4,6 +4,7 @@ import { Panel } from '@/components/PageFrame';
 import { PageHeader } from '@/components/PageHeader';
 import { ChapterizedAudio } from '@/components/ChapterizedAudio';
 import { InspectablePanel } from '@/components/InspectablePanel';
+import { JsonLd } from '@/components/JsonLd';
 import { getArtifactSlugs, type ArtifactMeta } from '@/lib/possibilia';
 import { renderWithArtistLinks } from '@/lib/artists';
 
@@ -20,6 +21,16 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   return {
     title: `${meta.title} · Artifacts from Tomorrow`,
     description: meta.excerpt,
+    alternates: { canonical: `/possibilia/artifacts/${params.slug}` },
+    openGraph: {
+      type: 'article',
+      title: `${meta.title} · Artifacts from Tomorrow`,
+      description: meta.excerpt,
+      publishedTime: meta.date,
+      authors: [meta.author],
+      images: [{ url: meta.hero.src, alt: meta.hero.alt }],
+    },
+    twitter: { images: [meta.hero.src] },
   };
 }
 
@@ -71,8 +82,29 @@ export default async function ArtifactPage({ params }: Params) {
         .default
     : null;
 
+  const articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: meta.title,
+    description: meta.excerpt,
+    datePublished: meta.date,
+    author: { '@type': 'Person', name: meta.author },
+    publisher: {
+      '@type': 'NonprofitOrganization',
+      name: 'Foundation for Future Aesthetics',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://www.futureaesthetics.foundation/images/logo.png',
+      },
+    },
+    image: `https://www.futureaesthetics.foundation${meta.hero.src}`,
+    inLanguage: 'en-US',
+    articleSection: 'Artifacts from Tomorrow',
+  };
+
   return (
     <>
+      <JsonLd data={articleSchema} />
       <PageHeader
         eyebrow="Possibilia · Artifacts from Tomorrow"
         title={meta.title}

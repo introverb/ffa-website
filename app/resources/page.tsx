@@ -8,6 +8,11 @@ export const metadata: Metadata = {
   title: 'Resources',
   description:
     'The thinking behind the Foundation for Future Aesthetics, and the practical guides for contributing to it.',
+  alternates: { canonical: '/resources' },
+  openGraph: {
+    images: [{ url: '/images/initiative-garden.jpg', alt: 'Resources' }],
+  },
+  twitter: { images: ['/images/initiative-garden.jpg'] },
 };
 
 const RESOURCES = [

@@ -5,11 +5,49 @@ import { PageHeader } from '@/components/PageHeader';
 import { OursInvolvementDialog } from '@/components/OursInvolvementDialog';
 import { HoneypotField } from '@/components/HoneypotField';
 import { TrackSubmission } from '@/components/TrackSubmission';
+import { JsonLd } from '@/components/JsonLd';
 
 export const metadata: Metadata = {
   title: 'OURS',
   description:
     'OURS is an exhibition and salon evening for visions of the future, presented by the Foundation for Future Aesthetics in New York City, August 2026.',
+  alternates: { canonical: '/ours' },
+  openGraph: {
+    images: [{ url: '/images/initiative-exhibitions.jpg', alt: 'OURS' }],
+  },
+  twitter: { images: ['/images/initiative-exhibitions.jpg'] },
+};
+
+// Schema.org Event payload — generates a structured event card in
+// search results (date, location, organizer). Date is approximate
+// (just "August 2026" on the page); using the 1st of the month as
+// the schema.org-required ISO date until a specific evening is set.
+// Update startDate when the date locks in.
+const EVENT_SCHEMA = {
+  '@context': 'https://schema.org',
+  '@type': 'Event',
+  name: 'OURS',
+  description:
+    'OURS is an exhibition and salon evening for visions of the future, presented by the Foundation for Future Aesthetics in New York City, August 2026.',
+  startDate: '2026-08-01',
+  eventStatus: 'https://schema.org/EventScheduled',
+  eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+  location: {
+    '@type': 'Place',
+    name: 'New York City',
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'New York',
+      addressRegion: 'NY',
+      addressCountry: 'US',
+    },
+  },
+  organizer: {
+    '@type': 'NonprofitOrganization',
+    name: 'Foundation for Future Aesthetics',
+    url: 'https://www.futureaesthetics.foundation',
+  },
+  image: 'https://www.futureaesthetics.foundation/images/initiative-exhibitions.jpg',
 };
 
 const FORMAT = [
@@ -39,6 +77,9 @@ export default function OursPage({
   const sent = searchParams?.sent;
   return (
     <>
+      {/* Schema.org Event payload — invisible, parsed by search
+          engines for rich event-card results. See EVENT_SCHEMA above. */}
+      <JsonLd data={EVENT_SCHEMA} />
       {/* Fire a per-form GoatCounter submission event when a visitor
           lands on the page in a post-submit state. Renders null, so
           no layout impact. */}
