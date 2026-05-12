@@ -148,15 +148,18 @@ export default async function SupportPage() {
         }
       />
 
-      {/* Give + Other Ways — split card. Left half is the conversion
-          path (two buttons, any amount). Right half is the supporting
-          "btw, here are tax-savvier vehicles" info (DAFs, stock,
-          matching). 3px vertical divider on desktop reads as a clear
-          separation between the two halves; on mobile the columns stack
-          and the divider disappears. Sits first on the page as the
-          easiest, most universally accessible path — the partner /
-          refer / catch-all sections below taper into bigger or more
-          specialized asks. */}
+      {/* Donor-action panel — three sections in one card. Top row is
+          the Give | Other Ways vertical split (conversion path on the
+          left, tax-savvier vehicles on the right). Below the row, a
+          full-width Refer Us section for connectors who can introduce
+          us to a donor or fund. All three are the actions a sympathetic
+          visitor can take from this page; consolidating them keeps the
+          donor-paths in one panel and lets Partner / catch-all below
+          serve their distinct registers (institutional sponsorship
+          and "didn't see your shape," respectively).
+          3px dividers — vertical between Give / Other Ways on desktop,
+          horizontal under the row before Refer — match the stroke of
+          the rest of the site's decorative hairlines. */}
       <Panel id="give" variant="white" full className="overflow-hidden">
         <div className="grid md:grid-cols-2 md:divide-x-[3px] md:divide-ink/20">
           {/* Left half — Give. Primary CTA path. Flex column so the
@@ -246,6 +249,50 @@ export default async function SupportPage() {
               </Link>{' '}
               and we&rsquo;ll route you to the right place.
             </p>
+          </div>
+        </div>
+
+        {/* Horizontal divider matching the 3px vertical divider above;
+            on mobile (columns stacked), it sits between Other Ways and
+            Refer Us, keeping the rhythm continuous. */}
+        <div className="h-[3px] bg-ink/20" />
+
+        {/* Refer Us — folded in from its own standalone panel. Lives
+            as a horizontal third section under the Give | Other Ways
+            split. Full-width because the body copy + CTA wants the
+            horizontal breathing room rather than fighting for a narrow
+            column. id="refer" preserved so any anchor links to #refer
+            from elsewhere on the site still land here. */}
+        <div id="refer" className="p-8 md:p-14">
+          <div className="grid gap-12 md:grid-cols-[1fr_1.6fr]">
+            <div>
+              <p className="text-sm uppercase tracking-[0.08em] text-sage">Refer us</p>
+              <h2 className="mt-6 text-h2 leading-[1.05] md:text-h2-lg">
+                Open a door for us.
+              </h2>
+            </div>
+            <div className="flex flex-col text-body-lg leading-relaxed text-ink/85">
+              <p>
+                If you sit on a foundation board, advise a grant program, or have ties to a
+                donor, fund, or competition that supports the arts, science writing, or
+                future-oriented media, we&rsquo;d love an introduction. We&rsquo;re a
+                501(c)(3) actively building the grant pipeline for Possibilia, the OURS
+                exhibition, and the Industrial Garden initiative.
+              </p>
+              <p className="mt-5">
+                We can prepare a tailored brief for your contact within a week. Send a name,
+                an email, and a sentence about why you think it&rsquo;s a fit.
+              </p>
+              <div className="mt-auto pt-10">
+                <Link
+                  href="/contact?topic=Refer a donor or foundation"
+                  data-goatcounter-click="refer:make-introduction"
+                  className="btn-solid"
+                >
+                  Make an introduction
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </Panel>
@@ -403,44 +450,6 @@ export default async function SupportPage() {
                   Request a brief
                 </Link>
               </div>
-            </div>
-          </div>
-        </div>
-      </Panel>
-
-      {/* Refer Us — high-leverage ask for the connector class of
-          visitor (board members, advisors, friends-of-FFA who know
-          someone). Page now reads: Give → Partner → Refer →
-          catch-all, so Refer sits late after the money paths have
-          had their say. */}
-      <Panel id="refer" variant="white" className="md:p-16">
-        <div className="grid gap-12 md:grid-cols-[1fr_1.6fr]">
-          <div>
-            <p className="text-sm uppercase tracking-[0.08em] text-sage">Refer us</p>
-            <h2 className="mt-6 text-h2 leading-[1.05] md:text-h2-lg">
-              Open a door for us.
-            </h2>
-          </div>
-          <div className="flex flex-col text-body-lg leading-relaxed text-ink/85">
-            <p>
-              If you sit on a foundation board, advise a grant program, or have ties to a
-              donor, fund, or competition that supports the arts, science writing, or
-              future-oriented media, we&rsquo;d love an introduction. We&rsquo;re a
-              501(c)(3) actively building the grant pipeline for Possibilia, the OURS
-              exhibition, and the Industrial Garden initiative.
-            </p>
-            <p className="mt-5">
-              We can prepare a tailored brief for your contact within a week. Send a name,
-              an email, and a sentence about why you think it&rsquo;s a fit.
-            </p>
-            <div className="mt-auto pt-10">
-              <Link
-                href="/contact?topic=Refer a donor or foundation"
-                data-goatcounter-click="refer:make-introduction"
-                className="btn-solid"
-              >
-                Make an introduction
-              </Link>
             </div>
           </div>
         </div>
