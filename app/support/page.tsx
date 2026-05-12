@@ -169,7 +169,7 @@ export default async function SupportPage() {
           <div className="flex flex-col p-8 md:p-14">
             <p className="text-sm uppercase tracking-[0.08em] text-sage">Give</p>
             <h2 className="mt-6 text-h2 leading-[1.05] md:text-h2-lg">
-              Make a gift in any amount.
+              Every gift welcome.
             </h2>
             {/* Body shifted from sales-pitch ("fast, no-strings,
                 tax-deductible") to FFA's three-role philosophy +
