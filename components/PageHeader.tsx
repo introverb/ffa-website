@@ -206,7 +206,7 @@ export function PageHeader({
               : 'text-ink/55'
           }`}
         >
-          Foundation for Future Aesthetics &nbsp;·&nbsp; 2026
+          Foundation for Future Aesthetics
         </p>
         <hr
           className={`mt-3 ${

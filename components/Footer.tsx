@@ -40,7 +40,9 @@ export function Footer() {
               Foundation for Future Aesthetics
             </Link>
             <br />
-            <span className="text-white/70">is a 501(c)(3) nonprofit.</span>
+            <span className="text-white/70">
+              is a 501(c)(3) nonprofit, founded 2024.
+            </span>
           </p>
           <p className="mt-4 text-xs leading-relaxed text-white/50">
             Imagery by{' '}
