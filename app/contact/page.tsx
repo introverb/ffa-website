@@ -4,6 +4,8 @@ import type { Metadata } from 'next';
 import { Panel } from '@/components/PageFrame';
 import { PageHeader } from '@/components/PageHeader';
 import { HoneypotField } from '@/components/HoneypotField';
+import { TrackSubmission } from '@/components/TrackSubmission';
+import { slug } from '@/lib/analytics';
 
 export const metadata: Metadata = {
   title: 'Contact',
@@ -77,6 +79,18 @@ export default function ContactPage({
             </p>
             {sent ? (
               <div className="rounded-2xl border border-sage/40 bg-sage-light/30 p-8 md:p-10">
+                {/* Fire a GoatCounter event recording the submission +
+                    its topic. The API route passes ?topic=... through
+                    on redirect so we can fire a per-topic event here
+                    (submit:contact:underwrite-a-possibilia-issue etc.)
+                    rather than just an aggregate count. */}
+                <TrackSubmission
+                  eventName={
+                    requestedTopic
+                      ? `submit:contact:${slug(requestedTopic)}`
+                      : 'submit:contact'
+                  }
+                />
                 <p className="eyebrow text-sage">Message received</p>
                 <p className="mt-3 text-h6 leading-snug text-ink">
                   Thanks, we got your note and will reply within two weeks, usually

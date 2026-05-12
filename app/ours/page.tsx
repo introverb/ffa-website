@@ -4,6 +4,7 @@ import { Panel } from '@/components/PageFrame';
 import { PageHeader } from '@/components/PageHeader';
 import { OursInvolvementDialog } from '@/components/OursInvolvementDialog';
 import { HoneypotField } from '@/components/HoneypotField';
+import { TrackSubmission } from '@/components/TrackSubmission';
 
 export const metadata: Metadata = {
   title: 'OURS',
@@ -38,6 +39,15 @@ export default function OursPage({
   const sent = searchParams?.sent;
   return (
     <>
+      {/* Fire a per-form GoatCounter submission event when a visitor
+          lands on the page in a post-submit state. Renders null, so
+          no layout impact. */}
+      {sent === 'guestlist' && (
+        <TrackSubmission eventName="submit:ours-guestlist" />
+      )}
+      {sent === 'artwork' && (
+        <TrackSubmission eventName="submit:ours-artwork" />
+      )}
       <PageHeader
         eyebrow="OURS · NYC · August 2026"
         title="An exhibition and salon for visions of the future."

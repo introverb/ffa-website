@@ -4,6 +4,7 @@ import { Panel } from '@/components/PageFrame';
 import { Placeholder } from '@/components/Placeholder';
 import { Accordion } from '@/components/Accordion';
 import { HoneypotField } from '@/components/HoneypotField';
+import { TrackSubmission } from '@/components/TrackSubmission';
 import { renderWithArtistLinks } from '@/lib/artists';
 
 export const metadata: Metadata = {
@@ -22,6 +23,7 @@ export default function PossibiliaSubmissionsPage({
     <>
       {sent && (
         <Panel variant="white" className="border border-sage/40 bg-sage-light/20 md:p-8">
+          <TrackSubmission eventName="submit:possibilia" />
           <p className="eyebrow text-sage">Submission received</p>
           <p className="mt-3 text-h6 leading-snug text-ink">
             Thanks, we&rsquo;ve got your submission and will reach back within four weeks.

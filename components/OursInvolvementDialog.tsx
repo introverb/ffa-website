@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { FormDialog } from './FormDialog';
 import { HoneypotField } from './HoneypotField';
+import { trackEvent } from '@/lib/analytics';
 
 // "Other ways to take part" CTA + modal — inline pop-up form for
 // visitors interested in speaking, funding, or otherwise contributing
@@ -42,6 +43,7 @@ export function OursInvolvementDialog() {
       }
       setSent(true);
       setSubmitting(false);
+      trackEvent('submit:ours-involvement');
     } catch {
       setError('Network error. Try again or email us directly.');
       setSubmitting(false);

@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { FormDialog } from './FormDialog';
 import { HoneypotField } from './HoneypotField';
+import { trackEvent } from '@/lib/analytics';
 
 // "Sponsor the exhibition" CTA + modal — inline pop-up form for
 // prospective OURS sponsors. Sits in the "Named initiatives" subsection
@@ -40,6 +41,7 @@ export function OursSponsorshipDialog() {
       }
       setSent(true);
       setSubmitting(false);
+      trackEvent('submit:ours-sponsor');
     } catch {
       setError('Network error. Try again or email us directly.');
       setSubmitting(false);

@@ -88,9 +88,13 @@ ${message}`;
 
     // Relative Location avoids the proxy-host issue on Railway, where req.url
     // resolves to the internal container URL rather than the public domain.
+    // Topic is passed through so the success-page can fire a per-topic
+    // GoatCounter event (submit:contact:<topic-slug>) — see app/contact/page.tsx.
     return new NextResponse(null, {
       status: 303,
-      headers: { Location: '/contact?sent=1' },
+      headers: {
+        Location: `/contact?sent=1&topic=${encodeURIComponent(topic)}`,
+      },
     });
   } catch (err) {
     console.error('Contact form error:', err);

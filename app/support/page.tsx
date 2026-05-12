@@ -5,6 +5,7 @@ import { PageHeader } from '@/components/PageHeader';
 import { EthGiveButton } from '@/components/EthGiveButton';
 import { OursSponsorshipDialog } from '@/components/OursSponsorshipDialog';
 import { DafGrantDialog } from '@/components/DafGrantDialog';
+import { ScrollDepthMarker } from '@/components/ScrollDepthMarker';
 
 export const metadata: Metadata = {
   title: 'Support',
@@ -307,6 +308,7 @@ export default async function SupportPage() {
               still being finalized — they route through dedicated
               dialogs / contact flows. */}
       <Panel id="partner" variant="white" className="md:p-16">
+        <ScrollDepthMarker eventName="scroll:support:partner-visible" />
         <p className="text-sm uppercase tracking-[0.08em] text-sage">Partner</p>
         <h2 className="mt-6 max-w-4xl text-h2 leading-[1.05] md:text-h2-lg">
           Fund a more optimistic future.
@@ -460,6 +462,7 @@ export default async function SupportPage() {
           into Partner / Refer / Give. Dark variant breaks the run of
           white panels and signals "different register of conversation." */}
       <Panel variant="dark" className="md:p-16">
+        <ScrollDepthMarker eventName="scroll:support:catch-all-visible" />
         <h2 className="text-h2 leading-[1.05] md:text-h2-lg">Not sure where you fit?</h2>
         <p className="mt-6 max-w-prose text-body-lg leading-relaxed text-white/85">
           Tell us about your project and what you&rsquo;re trying to get out into the
