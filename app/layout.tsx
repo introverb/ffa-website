@@ -29,19 +29,50 @@ const display = Saira({
   display: 'swap',
 });
 
+// Single source of truth for the site-level title + description so
+// the layout metadata, openGraph, and twitter card all stay in sync.
+const SITE_NAME = 'Foundation for Future Aesthetics';
+const SITE_DESCRIPTION =
+  'A nonprofit curating, promoting, and supporting visions of an optimistic and realistic future expressed through the arts.';
+const SITE_URL = 'https://www.futureaesthetics.foundation';
+// Default Open Graph + Twitter card image. /images/hero.jpg is the
+// homepage atmospheric image and reads well at OG dimensions
+// (~1200×630 after platform crop). Pages can override by setting
+// their own openGraph.images in their per-page metadata export.
+const DEFAULT_OG_IMAGE = '/images/hero.jpg';
+// Twitter handle for site + creator attribution on Twitter card.
+// Currently the @possibiliamag account doubles as FFA's social home;
+// swap to a dedicated FFA handle here when one exists.
+const TWITTER_HANDLE = '@possibiliamag';
+
 export const metadata: Metadata = {
   title: {
-    default: 'Foundation for Future Aesthetics',
-    template: '%s · Foundation for Future Aesthetics',
+    default: SITE_NAME,
+    template: `%s · ${SITE_NAME}`,
   },
-  description:
-    'A nonprofit curating, promoting, and supporting visions of an optimistic and realistic future expressed through the arts.',
-  metadataBase: new URL('https://www.futureaesthetics.foundation'),
+  description: SITE_DESCRIPTION,
+  metadataBase: new URL(SITE_URL),
   openGraph: {
-    title: 'Foundation for Future Aesthetics',
-    description:
-      'A nonprofit curating, promoting, and supporting visions of an optimistic and realistic future expressed through the arts.',
     type: 'website',
+    siteName: SITE_NAME,
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
+    url: SITE_URL,
+    locale: 'en_US',
+    images: [
+      {
+        url: DEFAULT_OG_IMAGE,
+        alt: SITE_NAME,
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    site: TWITTER_HANDLE,
+    creator: TWITTER_HANDLE,
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
+    images: [DEFAULT_OG_IMAGE],
   },
 };
 
