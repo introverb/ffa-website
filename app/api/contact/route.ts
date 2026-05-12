@@ -1,5 +1,6 @@
 import { Resend } from 'resend';
 import { NextRequest, NextResponse } from 'next/server';
+import { isSpam } from '@/lib/spam';
 
 // Contact form endpoint. Reuses the Possibilia env vars; the subject prefix
 // "Contact form" differentiates these from submissions and research pitches
@@ -23,6 +24,15 @@ export async function POST(req: NextRequest) {
 
     const resend = new Resend(process.env.RESEND_API_KEY);
     const formData = await req.formData();
+
+    // Drop spam silently — return the same success-shaped response a
+    // real submission gets, so the bot thinks it landed. See lib/spam.ts.
+    if (isSpam(formData)) {
+      return new NextResponse(null, {
+        status: 303,
+        headers: { Location: '/contact?sent=1' },
+      });
+    }
 
     const name = String(formData.get('name') ?? '').trim();
     const email = String(formData.get('email') ?? '').trim();

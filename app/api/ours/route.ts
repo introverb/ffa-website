@@ -1,5 +1,6 @@
 import { Resend } from 'resend';
 import { NextRequest, NextResponse } from 'next/server';
+import { isSpam } from '@/lib/spam';
 
 // OURS engagement endpoint. Single route that handles inbound interest
 // from the OURS event page, discriminated by a `type` form field:
@@ -53,6 +54,20 @@ export async function POST(req: NextRequest) {
       )
     ) {
       return NextResponse.json({ error: 'Invalid engagement type' }, { status: 400 });
+    }
+
+    // Drop spam silently — return the same success-shaped response a
+    // real submission gets so the bot thinks it landed. Modal flows
+    // get the JSON ack; native form posts get the redirect. See
+    // lib/spam.ts.
+    if (isSpam(formData)) {
+      if (isModal) {
+        return NextResponse.json({ ok: true });
+      }
+      return new NextResponse(null, {
+        status: 303,
+        headers: { Location: `/ours?sent=${type}#engage` },
+      });
     }
 
     const composed = compose(type, formData);

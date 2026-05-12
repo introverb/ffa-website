@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Panel } from '@/components/PageFrame';
 import { Placeholder } from '@/components/Placeholder';
 import { Accordion } from '@/components/Accordion';
+import { HoneypotField } from '@/components/HoneypotField';
 import { renderWithArtistLinks } from '@/lib/artists';
 
 export const metadata: Metadata = {
@@ -339,6 +340,7 @@ function SubmissionForm() {
       encType="multipart/form-data"
       className="space-y-5"
     >
+      <HoneypotField />
       <FieldGroup label="Submission type" required>
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
           {['Fiction', 'Nonfiction', 'Art', 'Other'].map((opt) => (

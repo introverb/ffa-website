@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { FormDialog } from './FormDialog';
+import { HoneypotField } from './HoneypotField';
 
 // "Other ways to take part" CTA + modal — inline pop-up form for
 // visitors interested in speaking, funding, or otherwise contributing
@@ -75,6 +76,7 @@ export function OursInvolvementDialog() {
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            <HoneypotField />
             <p className="text-body leading-relaxed text-ink/75">
               The guestlist and the exhibition aren&rsquo;t the only ways in. If
               you&rsquo;re interested in speaking, sponsoring, or contributing

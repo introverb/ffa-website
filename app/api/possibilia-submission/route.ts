@@ -1,5 +1,6 @@
 import { Resend } from 'resend';
 import { NextRequest, NextResponse } from 'next/server';
+import { isSpam } from '@/lib/spam';
 
 // Possibilia submissions endpoint.
 // Reads the multipart form, sends an email via Resend with the form details
@@ -26,6 +27,15 @@ export async function POST(req: NextRequest) {
 
     const resend = new Resend(process.env.RESEND_API_KEY);
     const formData = await req.formData();
+
+    // Drop spam silently — return the same success-shaped response a
+    // real submission gets. See lib/spam.ts.
+    if (isSpam(formData)) {
+      return new NextResponse(null, {
+        status: 303,
+        headers: { Location: '/possibilia-submissions?sent=1' },
+      });
+    }
 
     const type = String(formData.get('type') ?? '');
     const name = String(formData.get('name') ?? '');

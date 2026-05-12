@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { Panel } from '@/components/PageFrame';
 import { PageHeader } from '@/components/PageHeader';
 import { OursInvolvementDialog } from '@/components/OursInvolvementDialog';
+import { HoneypotField } from '@/components/HoneypotField';
 
 export const metadata: Metadata = {
   title: 'OURS',
@@ -236,6 +237,7 @@ function EngagementCard({
           </div>
         ) : (
           <form action="/api/ours" method="POST" className="flex flex-1 flex-col gap-4">
+            <HoneypotField />
             {children}
           </form>
         )}

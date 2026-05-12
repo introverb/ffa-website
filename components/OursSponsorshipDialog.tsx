@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { FormDialog } from './FormDialog';
+import { HoneypotField } from './HoneypotField';
 
 // "Sponsor the exhibition" CTA + modal — inline pop-up form for
 // prospective OURS sponsors. Sits in the "Named initiatives" subsection
@@ -74,6 +75,7 @@ export function OursSponsorshipDialog() {
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            <HoneypotField />
             <p className="text-body leading-relaxed text-ink/75">
               We&rsquo;re opening sponsorship for the inaugural run of OURS.
               Tell us a little about your organization and what you&rsquo;re

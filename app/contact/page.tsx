@@ -3,6 +3,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 import { Panel } from '@/components/PageFrame';
 import { PageHeader } from '@/components/PageHeader';
+import { HoneypotField } from '@/components/HoneypotField';
 
 export const metadata: Metadata = {
   title: 'Contact',
@@ -88,6 +89,7 @@ export default function ContactPage({
                 method="POST"
                 className="rounded-2xl bg-cream p-8 md:p-10"
               >
+                <HoneypotField />
                 <Field id="name" label="Your name" required />
                 <Field id="email" label="Email" type="email" required />
                 <Field id="role" label="Role / affiliation (optional)" />
