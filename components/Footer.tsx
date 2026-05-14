@@ -41,7 +41,7 @@ export function Footer() {
             </Link>
             <br />
             <span className="text-white/70">
-              is a 501(c)(3) nonprofit, founded 2024.
+              is a 501(c)(3) nonprofit, founded 2023.
             </span>
           </p>
           <p className="mt-4 text-xs leading-relaxed text-white/50">
