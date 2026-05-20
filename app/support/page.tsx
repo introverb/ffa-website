@@ -423,15 +423,32 @@ export default async function SupportPage() {
                 that could bring it into being — a curated, traveling show.
                 We&rsquo;re opening sponsorship for the inaugural run.
               </p>
-              <div className="mt-auto flex flex-wrap gap-3 pt-8">
-                <Link
-                  href="/ours"
-                  data-goatcounter-click="partner:ours-details"
-                  className="btn"
+              <div className="mt-auto pt-8">
+                <div className="flex flex-wrap gap-3">
+                  <Link
+                    href="/ours"
+                    data-goatcounter-click="partner:ours-details"
+                    className="btn"
+                  >
+                    Event details
+                  </Link>
+                  <OursSponsorshipDialog />
+                </div>
+                {/* Secondary link to the full sponsorship brief — a
+                    self-contained marketing document with tiers,
+                    artists, and contact info. Lives at /ours/sponsor-brief
+                    (static HTML in /public surfaced via next.config
+                    rewrite). Opens in a new tab so the visitor doesn't
+                    lose their place on /support. */}
+                <a
+                  href="/ours/sponsor-brief"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-goatcounter-click="partner:ours-brief"
+                  className="mt-4 inline-block text-sm underline decoration-from-font underline-offset-4 text-ink/70 hover:text-sage"
                 >
-                  Event details
-                </Link>
-                <OursSponsorshipDialog />
+                  View the sponsorship brief &rarr;
+                </a>
               </div>
             </div>
 

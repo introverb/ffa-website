@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import { Panel } from '@/components/PageFrame';
 import { PageHeader } from '@/components/PageHeader';
-import { OursInvolvementDialog } from '@/components/OursInvolvementDialog';
 import { HoneypotField } from '@/components/HoneypotField';
 import { TrackSubmission } from '@/components/TrackSubmission';
 import { JsonLd } from '@/components/JsonLd';
@@ -222,11 +221,18 @@ export default function OursPage({
                 sizes="(max-width: 768px) 100vw, 33vw"
                 className="object-cover"
               />
-              {/* Pop-up form for visitors interested in speaking,
-                  funding, or otherwise contributing — bypasses the
-                  contact-form page so the trigger and submission live
-                  in one place. */}
-              <OursInvolvementDialog />
+              {/* Frosted CTA centered on the discovery image, linking
+                  to the sponsorship brief. Opens in a new tab so the
+                  visitor doesn't lose their place on the OURS page. */}
+              <a
+                href="/ours/sponsor-brief"
+                target="_blank"
+                rel="noopener noreferrer"
+                data-goatcounter-click="ours:sponsor-event"
+                className="absolute left-1/2 top-1/2 inline-flex -translate-x-1/2 -translate-y-1/2 items-center justify-center whitespace-nowrap rounded-full border border-white/40 bg-white/15 px-7 py-3 text-sm uppercase tracking-[0.12em] text-white backdrop-blur-md transition hover:bg-white/30"
+              >
+                Sponsor the event
+              </a>
             </div>
           </div>
         </div>

@@ -299,28 +299,24 @@
     line-height: 1.8;
   }
 
-  /* BANNERS — top banner sits under OURS + subtitle as the visual
-     opener for the brief; bottom banner sits below the footer to
-     bookend the page. Both display the same image at its natural
-     aspect ratio (the OURS doorways collage is already banner-
-     shaped, so no cropping needed). */
+  /* TOP BANNER — discovery.jpg (4724×2362, 2:1 native) cropped to a
+     banner aspect by lopping the bottom 30% off. Container is
+     aspect-ratio 20/7 (≈2.86:1) with overflow:hidden; image inside
+     is object-fit cover + object-position center top so the bottom
+     30% of the source falls outside the visible window. Only
+     appears at the top of the brief (under OURS + subtitle); no
+     bottom banner. */
   .top-banner {
     margin: 0 0 28px 0;
     line-height: 0;
+    aspect-ratio: 20 / 7;
+    overflow: hidden;
   }
   .top-banner img {
     width: 100%;
-    height: auto;
-    display: block;
-  }
-
-  .bottom-banner {
-    margin: 20px 0 0 0;
-    line-height: 0;
-  }
-  .bottom-banner img {
-    width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
     display: block;
   }
 
@@ -425,10 +421,6 @@
     .top-banner {
       margin: 0 0 32px 0;
     }
-
-    .bottom-banner {
-      margin: 24px 0 0 0;
-    }
   }
 
   @media print {
@@ -454,7 +446,7 @@
 <p class="subtitle">An exhibition &amp; salon evening<br>August 9, 2026 · New York City</p>
 
 <div class="top-banner">
-  <img src="/ours-banner.png" alt="OURS — the exhibition" />
+  <img src="/images/discovery.jpg" alt="OURS — the exhibition" />
 </div>
 
 <div class="mission">
@@ -542,10 +534,6 @@
     501(c)(3) · New York City<br>
     All contributions tax-deductible
   </div>
-</div>
-
-<div class="bottom-banner">
-  <img src="/ours-banner.png" alt="OURS — the exhibition" />
 </div>
 
 </body>

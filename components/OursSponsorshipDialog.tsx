@@ -81,7 +81,23 @@ export function OursSponsorshipDialog() {
             <p className="text-body leading-relaxed text-ink/75">
               We&rsquo;re opening sponsorship for the inaugural run of OURS.
               Tell us a little about your organization and what you&rsquo;re
-              considering, and we&rsquo;ll send a brief.
+              considering, and we&rsquo;ll be in touch.
+            </p>
+            {/* Brief is now publicly available — link to it so anyone
+                who clicked "Sponsor the exhibition" can read the full
+                pitch before filling out the form, if they want. Opens
+                in a new tab. */}
+            <p className="text-sm leading-relaxed text-ink/65">
+              Want the full pitch first?{' '}
+              <a
+                href="/ours/sponsor-brief"
+                target="_blank"
+                rel="noopener noreferrer"
+                data-goatcounter-click="ours-sponsor-modal:brief"
+                className="underline decoration-from-font underline-offset-4 text-ink hover:text-sage"
+              >
+                Read the sponsorship brief &rarr;
+              </a>
             </p>
             <Field id="spo-name" name="name" label="Your name" required />
             <Field id="spo-email" name="email" type="email" label="Email" required />
