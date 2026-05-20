@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OURS — Sponsorship Brief | Foundation for Future Aesthetics</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  @import url('https://fonts.googleapis.com/css2?family=Saira:wght@400;500;600;700&family=Barlow:ital,wght@0,300;0,400;1,300;1,400&family=DM+Mono:wght@300;400&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0f0f0e;
+    --cream: #f5f0e8;
+    --warm: #e8e0d0;
+    --red: #c0392b;
+    --gold: #a0875a;
+    --mid: #6b6459;
+  }
+
+  html { font-size: 16px; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Barlow', Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 56px 48px 64px;
+    position: relative;
+  }
+
+
+  /* banner */
+  .banner {
+    margin: 0 -48px 36px -48px;
+    line-height: 0;
+  }
+  .banner img {
+    width: calc(100% + 96px);
+    max-width: calc(100% + 96px);
+    height: auto;
+    display: block;
+    object-fit: cover;
+  }
+
+  /* corner marks */
+  body::before, body::after {
+    content: '';
+    position: absolute;
+    width: 24px; height: 24px;
+    border-color: var(--gold);
+    border-style: solid;
+    opacity: 0.4;
+  }
+  body::before { top: 24px; left: 24px; border-width: 1px 0 0 1px; }
+  body::after  { bottom: 24px; right: 24px; border-width: 0 1px 1px 0; }
+
+  /* header */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+    padding: 14px 0;
+    margin-bottom: 36px;
+  }
+
+  .org {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mid);
+    line-height: 1.6;
+  }
+
+  .event-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mid);
+    text-align: right;
+    line-height: 1.6;
+  }
+
+  /* title */
+  h1 {
+    font-size: 72px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 0.9;
+    margin-bottom: 4px;
+    color: var(--ink);
+    font-family: 'Saira', sans-serif;
+  }
+
+  .subtitle {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 32px;
+  }
+
+  /* patron block */
+  .patron {
+    margin-bottom: 32px;
+    padding: 16px 20px;
+    background: var(--warm);
+    border-left: 2px solid var(--gold);
+  }
+
+  .patron p {
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--ink);
+  }
+
+  .patron strong {
+    font-family: 'Saira', sans-serif;
+    font-weight: 600;
+    font-style: normal;
+  }
+
+  /* mission block */
+  .mission {
+    border-left: 2px solid var(--red);
+    padding-left: 20px;
+    margin-bottom: 32px;
+  }
+
+  .mission p {
+    font-size: 19px;
+    font-weight: 400;
+    line-height: 1.55;
+    color: var(--ink);
+    font-family: 'Barlow', Helvetica, Arial, sans-serif;
+  }
+
+  .mission p + p {
+    margin-top: 16px;
+  }
+
+  /* details row */
+  .details {
+    display: flex;
+    gap: 40px;
+    margin-bottom: 36px;
+    padding: 16px 0;
+    border-top: 1px solid var(--warm);
+    border-bottom: 1px solid var(--warm);
+  }
+
+  .detail-item {
+    flex: 1;
+  }
+
+  .detail-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 4px;
+  }
+
+  .detail-value {
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.4;
+    color: var(--ink);
+  }
+
+  /* artists section */
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 10px;
+  }
+
+  .artists {
+    margin-bottom: 36px;
+  }
+
+  .artists p {
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--ink);
+    font-weight: 400;
+    font-family: 'Barlow', Helvetica, Arial, sans-serif;
+  }
+
+  .artists a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--gold);
+    text-underline-offset: 3px;
+    font-style: italic;
+  }
+
+  .artists a:hover { color: var(--red); }
+
+  /* tiers */
+  .tiers {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-bottom: 36px;
+  }
+
+  .tier {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 0;
+    border-top: 1px solid var(--warm);
+    padding: 18px 0;
+  }
+
+  .tier:last-child { border-bottom: 1px solid var(--warm); }
+
+  .tier-price {
+    padding-top: 2px;
+  }
+
+  .tier-amount {
+    font-family: 'DM Mono', monospace;
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--red);
+    line-height: 1;
+    margin-bottom: 2px;
+  }
+
+  .tier-name {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .tier-desc {
+    font-size: 15px;
+    line-height: 1.6;
+    font-weight: 400;
+    color: var(--ink);
+    font-family: 'Barlow', Helvetica, Arial, sans-serif;
+  }
+
+  .tier-desc strong {
+    font-weight: 600;
+    font-style: normal;
+    font-family: 'Saira', sans-serif;
+  }
+
+  /* footer */
+  .footer {
+    border-top: 1px solid var(--ink);
+    padding-top: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .footer-left p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--mid);
+    font-weight: 400;
+  }
+
+  .footer-left a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--gold);
+    text-underline-offset: 2px;
+  }
+
+  .footer-right {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-align: right;
+    line-height: 1.8;
+  }
+
+  @media print {
+    body { padding: 32px; max-width: 100%; }
+    body::before, body::after { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="org">
+    Foundation for Future Aesthetics<br>
+    501(c)(3) Nonprofit · New York City
+  </div>
+  <div class="event-label">
+    Sponsorship Brief<br>
+    futureaesthetics.foundation/ours
+  </div>
+</div>
+
+<h1>OURS</h1>
+<p class="subtitle">An exhibition &amp; salon evening · August 9, 2026 · New York City</p>
+
+<div class="banner">
+  <img src="/images/initiative-exhibitions.jpg" alt="OURS — Foundation for Future Aesthetics" />
+</div>
+
+<div class="mission">
+  <p>Many of today's visions of the future are bleak, impersonal, and ultimately inhuman. OURS is our answer to that — an exhibition and salon evening bringing together artists, scientists, writers, and builders around a shared conviction: the future isn't fixed, and the people in this room are among those who get to say so.</p>
+  <p>Art has always had the power to support and elevate scientific discovery and technological progress, not as decoration but as the cultural infrastructure that makes new ideas legible, desirable, and lasting. To sponsor OURS is to be a patron of that future: to put your name beside the work of artists who are doing for tomorrow what art has always done for the present.</p>
+</div>
+
+<div class="details">
+  <div class="detail-item">
+    <div class="detail-label">Date &amp; Venue</div>
+    <div class="detail-value">August 9, 2026<br>Space LES, Lower East Side, NYC</div>
+  </div>
+  <div class="detail-item">
+    <div class="detail-label">Format</div>
+    <div class="detail-value">Exhibition + salon<br>4–5 speaker provocations</div>
+  </div>
+  <div class="detail-item">
+    <div class="detail-label">Guests</div>
+    <div class="detail-value">70–80 invited guests<br>Artists, scientists, technologists, builders</div>
+  </div>
+  <div class="detail-item">
+    <div class="detail-label">Admission</div>
+    <div class="detail-value">Free, by invitation<br>Curated guest list</div>
+  </div>
+</div>
+
+<div class="artists">
+  <div class="section-label">Artists we are working with</div>
+  <p>
+    Confirmed and in-progress works include pieces by
+    <a href="https://rero-studio.squarespace.com/" target="_blank">RERO</a>,
+    the French conceptual artist whose work has shown at the Centre Pompidou;
+    <a href="https://artelaguna.world/artist/zima-cyborg4rtist/" target="_blank">Cyborg4rtist</a>,
+    presenting at the Venice Biennale 2026; and we are in conversations with
+    <a href="https://www.sciarc.edu/institution/facility/robot-house" target="_blank">SCI-Arc's Robot House</a>
+    about a special fabricated piece for the exhibition. Additional works are being commissioned from artists
+    working across sculpture, digital fabrication, CGI, print, and architecture.
+  </p>
+</div>
+
+<div class="tiers">
+  <div class="section-label">Sponsorship tiers</div>
+
+  <div class="tier">
+    <div class="tier-price">
+      <div class="tier-amount">$5K</div>
+      <div class="tier-name">Featured Work</div>
+    </div>
+    <div class="tier-desc">
+      FFA curates an existing work that speaks to your vision of the future and features it in the exhibition on your behalf. <strong>Your name and a short vision statement</strong> appear on the placard beside the piece, in the event program, and on the OURS event page — which remains online after the evening as part of FFA's permanent record.
+    </div>
+  </div>
+
+  <div class="tier">
+    <div class="tier-price">
+      <div class="tier-amount">$10K</div>
+      <div class="tier-name">Commissioned Future</div>
+    </div>
+    <div class="tier-desc">
+      FFA commissions a new work from an up-and-coming artist, matched to your vision of the future. Everything in the Featured Work tier, plus: <strong>a longer vision statement</strong> in the program; and a filmed interview at the event — a short "vision of the future" segment recorded at the step-and-repeat and published in the post-event video. Your voice, in the room, on the record.
+    </div>
+  </div>
+
+  <div class="tier">
+    <div class="tier-price">
+      <div class="tier-amount">$25K</div>
+      <div class="tier-name">Presenting Work</div>
+    </div>
+    <div class="tier-desc">
+      FFA commissions or presents a work by a more established artist — the caliber of RERO or Cyborg4rtist — matched to your vision and named as <strong>presented by you</strong> throughout the exhibition. Everything in the tiers above, plus: first right to acquire the piece at pre-event price. You don't just sponsor the future. You own a piece of it.
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <div class="footer-left">
+    <p>To discuss sponsorship or request more information,<br>
+    contact <a href="mailto:olli@futureaesthetics.foundation">olli@futureaesthetics.foundation</a><br>
+    or visit <a href="https://futureaesthetics.foundation/ours">futureaesthetics.foundation/ours</a></p>
+  </div>
+  <div class="footer-right">
+    Foundation for Future Aesthetics<br>
+    501(c)(3) · New York City<br>
+    All contributions tax-deductible
+  </div>
+</div>
+
+</body>
+</html>

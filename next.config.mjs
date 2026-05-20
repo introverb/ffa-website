@@ -15,6 +15,21 @@ const nextConfig = {
   // .mdx files are content (rendered via dynamic imports inside routes), not
   // routes themselves - so we don't add 'mdx' to pageExtensions. The MDX
   // plugin still lets webpack resolve and compile .mdx imports.
+  // Clean URL for the OURS sponsorship brief — served as a static
+  // HTML file from /public, but exposed at /ours/sponsor-brief
+  // (no .html suffix) so the URL is shareable as-is. The brief is a
+  // standalone document with its own typographic system (Saira + Barlow
+  // + DM Mono via Google Fonts) and bespoke layout (corner marks,
+  // print styles, full-bleed banner), so it lives outside the Next.js
+  // PageFrame rather than wrapped in it.
+  async rewrites() {
+    return [
+      {
+        source: '/ours/sponsor-brief',
+        destination: '/ours-sponsor-brief.html',
+      },
+    ];
+  },
   async redirects() {
     return [
       // The /resources/[slug] dynamic route was a placeholder shell that
