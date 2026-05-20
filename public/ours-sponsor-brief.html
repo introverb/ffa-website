@@ -299,22 +299,28 @@
     line-height: 1.8;
   }
 
-  /* BOTTOM BANNER — top 25% of the source image cropped via
-     aspect-ratio container + object-fit: cover + object-position:
-     center bottom. Source image is 2000×1333 (3:2). A 2:1 visible
-     container with object-position anchoring the bottom shows the
-     bottom 75% of the source. */
+  /* BANNERS — top banner sits under OURS + subtitle as the visual
+     opener for the brief; bottom banner sits below the footer to
+     bookend the page. Both display the same image at its natural
+     aspect ratio (the OURS doorways collage is already banner-
+     shaped, so no cropping needed). */
+  .top-banner {
+    margin: 0 0 28px 0;
+    line-height: 0;
+  }
+  .top-banner img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
   .bottom-banner {
     margin: 20px 0 0 0;
     line-height: 0;
-    aspect-ratio: 2 / 1;
-    overflow: hidden;
   }
   .bottom-banner img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center bottom;
+    height: auto;
     display: block;
   }
 
@@ -416,6 +422,10 @@
       text-align: right;
     }
 
+    .top-banner {
+      margin: 0 0 32px 0;
+    }
+
     .bottom-banner {
       margin: 24px 0 0 0;
     }
@@ -442,6 +452,10 @@
 
 <h1>OURS</h1>
 <p class="subtitle">An exhibition &amp; salon evening<br>August 9, 2026 · New York City</p>
+
+<div class="top-banner">
+  <img src="/ours-banner.png" alt="OURS — the exhibition" />
+</div>
 
 <div class="mission">
   <p>Many of today's visions of the future are bleak, impersonal, and ultimately inhuman. OURS is our answer to that — an exhibition and salon evening bringing together artists, scientists, writers, and builders around a shared conviction: the future isn't fixed, and the people in this room are among those who get to say so.</p>
@@ -531,7 +545,7 @@
 </div>
 
 <div class="bottom-banner">
-  <img src="/images/initiative-exhibitions.jpg" alt="OURS" />
+  <img src="/ours-banner.png" alt="OURS — the exhibition" />
 </div>
 
 </body>
