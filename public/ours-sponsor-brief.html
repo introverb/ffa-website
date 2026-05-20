@@ -12,17 +12,22 @@
     margin: 0;
   }
 
-  @import url('https://fonts.googleapis.com/css2?family=Saira:wght@400;500;600;700&family=Barlow:ital,wght@0,300;0,400;1,300;1,400&family=DM+Mono:wght@300;400&display=swap');
+  /* Saira / Saira Condensed only — these are the site's display face.
+     Barlow + DM Mono dropped per Olli's "match site fonts" direction;
+     body + technical-metadata copy now uses Helvetica/Arial like the
+     rest of futureaesthetics.foundation. */
+  @import url('https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@600;700&family=Saira:wght@400;500;600;700&display=swap');
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --ink: #0f0f0e;
-    --cream: #f5f0e8;
-    --warm: #e8e0d0;
-    --red: #c0392b;
-    --gold: #a0875a;
-    --mid: #6b6459;
+    --ink: #282828;
+    --cream: #f0eeeb;
+    --warm: #dcdcdc;
+    --red: #506450;
+    --gold: #7a9aac;
+    --mid: #646464;
+    --orange: #e8651a;
   }
 
   html { font-size: 16px; }
@@ -30,26 +35,12 @@
   body {
     background: var(--cream);
     color: var(--ink);
-    font-family: 'Barlow', Helvetica, Arial, sans-serif;
+    font-family: Helvetica, Arial, system-ui, sans-serif;
     font-weight: 400;
     max-width: 780px;
     margin: 0 auto;
-    padding: 56px 48px 64px;
+    padding: 56px 80px 24px;
     position: relative;
-  }
-
-
-  /* banner */
-  .banner {
-    margin: 0 -48px 36px -48px;
-    line-height: 0;
-  }
-  .banner img {
-    width: calc(100% + 96px);
-    max-width: calc(100% + 96px);
-    height: auto;
-    display: block;
-    object-fit: cover;
   }
 
   /* corner marks */
@@ -69,14 +60,13 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    border-top: 1px solid var(--ink);
-    border-bottom: 1px solid var(--ink);
+    border-top: 0.5px solid var(--orange);
+    border-bottom: 0.5px solid var(--orange);
     padding: 14px 0;
     margin-bottom: 36px;
   }
 
   .org {
-    font-family: 'DM Mono', monospace;
     font-size: 10px;
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -85,7 +75,6 @@
   }
 
   .event-label {
-    font-family: 'DM Mono', monospace;
     font-size: 10px;
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -94,44 +83,23 @@
     line-height: 1.6;
   }
 
-  /* title */
+  /* title — Saira Condensed (the condensed variant of the site display face) */
   h1 {
-    font-size: 72px;
-    font-weight: 600;
-    letter-spacing: -0.02em;
+    font-size: 60px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
     line-height: 0.9;
     margin-bottom: 4px;
     color: var(--ink);
-    font-family: 'Saira', sans-serif;
+    font-family: 'Saira Condensed', 'Saira', sans-serif;
   }
 
   .subtitle {
-    font-family: 'DM Mono', monospace;
     font-size: 11px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--gold);
     margin-bottom: 32px;
-  }
-
-  /* patron block */
-  .patron {
-    margin-bottom: 32px;
-    padding: 16px 20px;
-    background: var(--warm);
-    border-left: 2px solid var(--gold);
-  }
-
-  .patron p {
-    font-size: 15px;
-    line-height: 1.65;
-    color: var(--ink);
-  }
-
-  .patron strong {
-    font-family: 'Saira', sans-serif;
-    font-weight: 600;
-    font-style: normal;
   }
 
   /* mission block */
@@ -142,11 +110,10 @@
   }
 
   .mission p {
-    font-size: 19px;
+    font-size: 13px;
     font-weight: 400;
     line-height: 1.55;
     color: var(--ink);
-    font-family: 'Barlow', Helvetica, Arial, sans-serif;
   }
 
   .mission p + p {
@@ -159,8 +126,8 @@
     gap: 40px;
     margin-bottom: 36px;
     padding: 16px 0;
-    border-top: 1px solid var(--warm);
-    border-bottom: 1px solid var(--warm);
+    border-top: 0.5px solid var(--warm);
+    border-bottom: 0.5px solid var(--warm);
   }
 
   .detail-item {
@@ -168,7 +135,6 @@
   }
 
   .detail-label {
-    font-family: 'DM Mono', monospace;
     font-size: 9px;
     letter-spacing: 0.14em;
     text-transform: uppercase;
@@ -177,7 +143,7 @@
   }
 
   .detail-value {
-    font-size: 15px;
+    font-size: 13px;
     font-weight: 400;
     line-height: 1.4;
     color: var(--ink);
@@ -185,7 +151,6 @@
 
   /* artists section */
   .section-label {
-    font-family: 'DM Mono', monospace;
     font-size: 9px;
     letter-spacing: 0.14em;
     text-transform: uppercase;
@@ -198,11 +163,10 @@
   }
 
   .artists p {
-    font-size: 16px;
+    font-size: 14px;
     line-height: 1.65;
     color: var(--ink);
     font-weight: 400;
-    font-family: 'Barlow', Helvetica, Arial, sans-serif;
   }
 
   .artists a {
@@ -215,12 +179,21 @@
 
   .artists a:hover { color: var(--red); }
 
+  .acquisition-note {
+    font-size: 10px;
+    letter-spacing: 0.04em;
+    color: var(--mid);
+    margin-bottom: 8px;
+    font-style: italic;
+    line-height: 1.5;
+  }
+
   /* tiers */
   .tiers {
     display: flex;
     flex-direction: column;
     gap: 0;
-    margin-bottom: 36px;
+    margin-bottom: 0;
   }
 
   .tier {
@@ -231,35 +204,37 @@
     padding: 18px 0;
   }
 
-  .tier:last-child { border-bottom: 1px solid var(--warm); }
+  .tier:last-child { border-bottom: 0.5px solid var(--warm); }
 
   .tier-price {
     padding-top: 2px;
   }
 
+  /* Tier amount on Saira at heavier weight — still anchors each tier
+     visually as the "big number," just without the monospace feel. */
   .tier-amount {
-    font-family: 'DM Mono', monospace;
-    font-size: 22px;
-    font-weight: 400;
+    font-family: 'Saira', sans-serif;
+    font-size: 26px;
+    font-weight: 700;
     color: var(--red);
     line-height: 1;
-    margin-bottom: 2px;
+    margin-bottom: 4px;
+    letter-spacing: -0.01em;
   }
 
   .tier-name {
-    font-family: 'DM Mono', monospace;
     font-size: 9px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--gold);
+    line-height: 1.4;
   }
 
   .tier-desc {
-    font-size: 15px;
+    font-size: 13px;
     line-height: 1.6;
     font-weight: 400;
     color: var(--ink);
-    font-family: 'Barlow', Helvetica, Arial, sans-serif;
   }
 
   .tier-desc strong {
@@ -270,35 +245,171 @@
 
   /* footer */
   .footer {
-    border-top: 1px solid var(--ink);
-    padding-top: 16px;
+    border-top: none;
+    margin-top: 18px;
+    padding-top: 0;
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
+    gap: 24px;
   }
 
   .footer-left p {
-    font-size: 14px;
-    line-height: 1.6;
-    color: var(--mid);
-    font-weight: 400;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gold);
+    line-height: 1.8;
   }
 
   .footer-left a {
-    color: var(--ink);
+    color: var(--gold);
     text-decoration: underline;
     text-decoration-color: var(--gold);
     text-underline-offset: 2px;
   }
 
   .footer-right {
-    font-family: 'DM Mono', monospace;
     font-size: 9px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--gold);
     text-align: right;
     line-height: 1.8;
+  }
+
+  /* bottom banner — full-content-width image rendered below the footer */
+  .bottom-banner {
+    margin: 24px 0 0 0;
+    line-height: 0;
+  }
+  .bottom-banner img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* ── MOBILE ────────────────────────────────────────────────────────
+     Aggressive responsive overhaul. This brief's primary distribution
+     channel is a texted link to prospective sponsors — the version
+     a sponsor opens on their phone has to read as a finished mobile
+     document, not a desktop PDF squashed into a viewport.
+
+     Tablet/small-desktop breakpoint (≤ 768px):
+       - body padding tightens
+       - corner marks shrink
+       - header columns + footer columns stack vertically
+       - 4-up details row wraps to a 2-up grid
+       - tier rows go from (price-col | desc-col) to a vertical stack
+       - h1 scales down
+       - body copy ticks up to 14px for readability
+
+     Phone breakpoint (≤ 420px):
+       - even tighter padding
+       - corner marks hide (decorative; in the way at small sizes)
+       - details row collapses to a single column
+       - h1 scales down further
+  */
+  @media (max-width: 768px) {
+    body {
+      padding: 48px 28px 20px;
+    }
+    body::before, body::after {
+      width: 16px;
+      height: 16px;
+      top: 16px;
+      left: 16px;
+    }
+    body::after {
+      top: auto;
+      left: auto;
+      bottom: 16px;
+      right: 16px;
+    }
+
+    .header {
+      flex-direction: column;
+      gap: 10px;
+      padding: 12px 0;
+      margin-bottom: 28px;
+    }
+    .event-label {
+      text-align: left;
+    }
+
+    h1 {
+      font-size: 52px;
+    }
+    .subtitle {
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+
+    .mission {
+      padding-left: 16px;
+      margin-bottom: 28px;
+    }
+    .mission p {
+      font-size: 14px;
+    }
+
+    .details {
+      flex-wrap: wrap;
+      gap: 20px 24px;
+      margin-bottom: 28px;
+    }
+    .detail-item {
+      flex: 1 1 calc(50% - 12px);
+      min-width: 0;
+    }
+    .detail-value {
+      font-size: 14px;
+    }
+
+    .tier {
+      grid-template-columns: 1fr;
+      gap: 10px;
+      padding: 16px 0;
+    }
+    .tier-amount {
+      font-size: 24px;
+      margin-bottom: 2px;
+    }
+    .tier-name br {
+      display: none;
+    }
+    .tier-desc {
+      font-size: 14px;
+    }
+
+    .footer {
+      flex-direction: column;
+      gap: 16px;
+      align-items: flex-start;
+    }
+    .footer-right {
+      text-align: left;
+    }
+  }
+
+  @media (max-width: 420px) {
+    body {
+      padding: 36px 20px 16px;
+    }
+    body::before, body::after {
+      display: none;
+    }
+
+    h1 {
+      font-size: 44px;
+    }
+
+    .details {
+      gap: 16px;
+    }
+    .detail-item {
+      flex: 1 1 100%;
+    }
   }
 
   @media print {
@@ -322,10 +433,6 @@
 
 <h1>OURS</h1>
 <p class="subtitle">An exhibition &amp; salon evening · August 9, 2026 · New York City</p>
-
-<div class="banner">
-  <img src="/images/initiative-exhibitions.jpg" alt="OURS — Foundation for Future Aesthetics" />
-</div>
 
 <div class="mission">
   <p>Many of today's visions of the future are bleak, impersonal, and ultimately inhuman. OURS is our answer to that — an exhibition and salon evening bringing together artists, scientists, writers, and builders around a shared conviction: the future isn't fixed, and the people in this room are among those who get to say so.</p>
@@ -367,11 +474,12 @@
 
 <div class="tiers">
   <div class="section-label">Sponsorship tiers</div>
+  <p class="acquisition-note">All tiers include first right to purchase the featured work at pre-event price. You don't just sponsor the future — you own a piece of it.</p>
 
   <div class="tier">
     <div class="tier-price">
       <div class="tier-amount">$5K</div>
-      <div class="tier-name">Featured Work</div>
+      <div class="tier-name">Featured<br>Work</div>
     </div>
     <div class="tier-desc">
       FFA curates an existing work that speaks to your vision of the future and features it in the exhibition on your behalf. <strong>Your name and a short vision statement</strong> appear on the placard beside the piece, in the event program, and on the OURS event page — which remains online after the evening as part of FFA's permanent record.
@@ -381,7 +489,7 @@
   <div class="tier">
     <div class="tier-price">
       <div class="tier-amount">$10K</div>
-      <div class="tier-name">Commissioned Future</div>
+      <div class="tier-name">Commissioned<br>Future</div>
     </div>
     <div class="tier-desc">
       FFA commissions a new work from an up-and-coming artist, matched to your vision of the future. Everything in the Featured Work tier, plus: <strong>a longer vision statement</strong> in the program; and a filmed interview at the event — a short "vision of the future" segment recorded at the step-and-repeat and published in the post-event video. Your voice, in the room, on the record.
@@ -391,10 +499,10 @@
   <div class="tier">
     <div class="tier-price">
       <div class="tier-amount">$25K</div>
-      <div class="tier-name">Presenting Work</div>
+      <div class="tier-name">Signature<br>Work</div>
     </div>
     <div class="tier-desc">
-      FFA commissions or presents a work by a more established artist — the caliber of RERO or Cyborg4rtist — matched to your vision and named as <strong>presented by you</strong> throughout the exhibition. Everything in the tiers above, plus: first right to acquire the piece at pre-event price. You don't just sponsor the future. You own a piece of it.
+      FFA commissions or presents a work by a more established artist — the caliber of RERO or Cyborg4rtist — matched to your vision and named as <strong>presented by you</strong> throughout the exhibition. Everything in the tiers above.
     </div>
   </div>
 
@@ -411,6 +519,10 @@
     501(c)(3) · New York City<br>
     All contributions tax-deductible
   </div>
+</div>
+
+<div class="bottom-banner">
+  <img src="/images/initiative-exhibitions.jpg" alt="OURS" />
 </div>
 
 </body>
