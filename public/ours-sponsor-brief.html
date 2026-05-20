@@ -24,7 +24,12 @@
     --ink: #282828;
     --cream: #f0eeeb;
     --warm: #dcdcdc;
-    --red: #506450;
+    /* `--green` (was `--red` in earlier revisions; the variable was
+       misleadingly named since the value is sage-green). Bumped to a
+       more obviously green hue so the tier amounts read clearly as
+       green at a glance on mobile screens. Used on .tier-amount and
+       on the .mission left border. */
+    --green: #5a8a5e;
     --gold: #7a9aac;
     --mid: #646464;
     --orange: #e8651a;
@@ -32,8 +37,7 @@
 
   /* text-size-adjust: 100% keeps iOS Safari / in-app browsers from
      inflating body copy when they think the viewport is narrow but
-     the layout looks "desktop." Without it, 13–14px copy can render
-     as ~18px on iOS. */
+     the layout looks "desktop." */
   html {
     font-size: 16px;
     -webkit-text-size-adjust: 100%;
@@ -42,11 +46,10 @@
 
   /* ── MOBILE-FIRST DEFAULTS ─────────────────────────────────────────
      Every layout block stacks vertically by default. Desktop adds
-     side-by-side rules via the @media (min-width: 768px) block at
-     the bottom. This survives in-app browsers (Mail, Notes,
-     Messages, Twitter, etc.) that don't always apply
-     max-width media queries reliably — they'd at worst show the
-     mobile layout, which is the safe default. */
+     side-by-side rules via @media (min-width: 768px) at the bottom.
+     This survives in-app browsers (Mail, Notes, Messages, Twitter,
+     etc.) that don't always apply max-width media queries reliably —
+     they'd at worst show the mobile layout, which is the safe default. */
   body {
     background: var(--cream);
     color: var(--ink);
@@ -61,22 +64,23 @@
     word-wrap: break-word;
   }
 
-  /* corner marks — hidden by default (decorative; they crowd small
-     screens). Desktop @media re-enables them. */
+  /* corner marks hidden by default (decorative; crowd small screens).
+     Desktop @media re-enables them. */
   body::before, body::after {
     display: none;
   }
 
-  /* header — single-column stack on mobile; desktop splits into a
-     two-column row. */
+  /* HEADER — center-stack on mobile. Each piece on its own line, all
+     centered. Desktop restores left+right two-column layout. */
   .header {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 8px;
+    gap: 6px;
     border-top: 0.5px solid var(--orange);
     border-bottom: 0.5px solid var(--orange);
-    padding: 12px 0;
+    padding: 14px 0;
     margin-bottom: 24px;
+    text-align: center;
   }
 
   .org {
@@ -92,7 +96,6 @@
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--mid);
-    text-align: left;
     line-height: 1.6;
   }
 
@@ -114,20 +117,23 @@
     text-transform: uppercase;
     color: var(--gold);
     margin-bottom: 24px;
-    line-height: 1.5;
+    line-height: 1.8;
   }
 
-  /* mission block */
+  /* mission + artists — same body-copy size everywhere. Locked at 13px
+     so iOS doesn't auto-inflate, and matched between sections so the
+     mission text reads at the same weight as the artists paragraph. */
   .mission {
-    border-left: 2px solid var(--red);
+    border-left: 2px solid var(--green);
     padding-left: 14px;
     margin-bottom: 24px;
   }
 
-  .mission p {
+  .mission p,
+  .artists p {
     font-size: 13px;
     font-weight: 400;
-    line-height: 1.55;
+    line-height: 1.6;
     color: var(--ink);
   }
 
@@ -135,13 +141,12 @@
     margin-top: 12px;
   }
 
-  /* details row — auto-fit grid. On a 320px viewport this collapses
-     to a single column; on a 380–500px phone it goes to 2 columns;
-     on tablet/desktop the @media block locks in 4 columns. */
+  /* DETAILS — single-column stack on mobile (each detail on its own
+     horizontal line). Desktop restores 4 columns. */
   .details {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-    gap: 16px;
+    grid-template-columns: 1fr;
+    gap: 14px;
     margin-bottom: 24px;
     padding: 14px 0;
     border-top: 0.5px solid var(--warm);
@@ -180,13 +185,6 @@
     margin-bottom: 28px;
   }
 
-  .artists p {
-    font-size: 13px;
-    line-height: 1.65;
-    color: var(--ink);
-    font-weight: 400;
-  }
-
   .artists a {
     color: var(--ink);
     text-decoration: underline;
@@ -195,7 +193,7 @@
     font-style: italic;
   }
 
-  .artists a:hover { color: var(--red); }
+  .artists a:hover { color: var(--green); }
 
   .acquisition-note {
     font-size: 10px;
@@ -229,13 +227,13 @@
     padding-top: 2px;
   }
 
-  /* Tier amount uses Saira at a heavier weight — still anchors each
-     tier as the "big number" visually, just without monospace. */
+  /* Tier amount — Saira heavy weight, green color so it reads
+     unambiguously as "money/go" against the cream background. */
   .tier-amount {
     font-family: 'Saira', sans-serif;
     font-size: 24px;
     font-weight: 700;
-    color: var(--red);
+    color: var(--green);
     line-height: 1;
     margin-bottom: 2px;
     letter-spacing: -0.01em;
@@ -249,8 +247,8 @@
     line-height: 1.4;
   }
 
-  /* on mobile the line breaks inside tier-name look awkward
-     ("Featured / Work" stacked); flatten them */
+  /* On mobile, "Featured / Work" awkwardly stacks under the price;
+     flatten the line breaks. Desktop restores them. */
   .tier-name br {
     display: none;
   }
@@ -268,12 +266,14 @@
     font-family: 'Saira', sans-serif;
   }
 
-  /* footer — stacked vertically on mobile, side-by-side on desktop. */
+  /* FOOTER — same treatment as header. Center-stack on mobile, each
+     line on its own. Desktop restores left+right two-column layout. */
   .footer {
     display: grid;
     grid-template-columns: 1fr;
     gap: 16px;
     margin-top: 18px;
+    text-align: center;
   }
 
   .footer-left p {
@@ -281,7 +281,7 @@
     letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--gold);
-    line-height: 1.8;
+    line-height: 1.9;
   }
 
   .footer-left a {
@@ -296,25 +296,32 @@
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--gold);
-    text-align: left;
     line-height: 1.8;
   }
 
-  /* bottom banner — full-content-width below the footer */
+  /* BOTTOM BANNER — top 25% of the source image cropped via
+     aspect-ratio container + object-fit: cover + object-position:
+     center bottom. Source image is 2000×1333 (3:2). A 2:1 visible
+     container with object-position anchoring the bottom shows the
+     bottom 75% of the source. */
   .bottom-banner {
     margin: 20px 0 0 0;
     line-height: 0;
+    aspect-ratio: 2 / 1;
+    overflow: hidden;
   }
   .bottom-banner img {
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
+    object-position: center bottom;
     display: block;
   }
 
   /* ── DESKTOP ENHANCEMENT (≥ 768px) ─────────────────────────────────
-     Restores the original side-by-side layouts on tablet+. Phone
-     defaults take over below this width. min-width queries are
-     handled more consistently by in-app browsers than max-width. */
+     Restores side-by-side header/footer, 4-column details row,
+     two-column tier rows, corner marks. Mobile defaults take over
+     below 768px. */
   @media (min-width: 768px) {
     body {
       padding: 56px 80px 24px;
@@ -338,6 +345,11 @@
       gap: 24px;
       padding: 14px 0;
       margin-bottom: 36px;
+      text-align: initial;
+    }
+
+    .org {
+      text-align: left;
     }
 
     .event-label {
@@ -352,6 +364,7 @@
       font-size: 11px;
       letter-spacing: 0.1em;
       margin-bottom: 32px;
+      line-height: 1.6;
     }
 
     .mission {
@@ -374,10 +387,6 @@
       margin-bottom: 36px;
     }
 
-    .artists p {
-      font-size: 14px;
-    }
-
     .tier {
       grid-template-columns: 100px 1fr;
       gap: 0;
@@ -396,6 +405,11 @@
       grid-template-columns: 1fr auto;
       gap: 24px;
       align-items: end;
+      text-align: initial;
+    }
+
+    .footer-left {
+      text-align: left;
     }
 
     .footer-right {
@@ -427,7 +441,7 @@
 </div>
 
 <h1>OURS</h1>
-<p class="subtitle">An exhibition &amp; salon evening · August 9, 2026 · New York City</p>
+<p class="subtitle">An exhibition &amp; salon evening<br>August 9, 2026 · New York City</p>
 
 <div class="mission">
   <p>Many of today's visions of the future are bleak, impersonal, and ultimately inhuman. OURS is our answer to that — an exhibition and salon evening bringing together artists, scientists, writers, and builders around a shared conviction: the future isn't fixed, and the people in this room are among those who get to say so.</p>
