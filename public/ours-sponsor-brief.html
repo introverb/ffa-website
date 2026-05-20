@@ -13,9 +13,9 @@
   }
 
   /* Saira / Saira Condensed only — these are the site's display face.
-     Barlow + DM Mono dropped per Olli's "match site fonts" direction;
-     body + technical-metadata copy now uses Helvetica/Arial like the
-     rest of futureaesthetics.foundation. */
+     Body + technical-metadata copy uses the site's Helvetica/Arial
+     stack so the brief lines up typographically with
+     futureaesthetics.foundation. */
   @import url('https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@600;700&family=Saira:wght@400;500;600;700&display=swap');
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -30,8 +30,23 @@
     --orange: #e8651a;
   }
 
-  html { font-size: 16px; }
+  /* text-size-adjust: 100% keeps iOS Safari / in-app browsers from
+     inflating body copy when they think the viewport is narrow but
+     the layout looks "desktop." Without it, 13–14px copy can render
+     as ~18px on iOS. */
+  html {
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
 
+  /* ── MOBILE-FIRST DEFAULTS ─────────────────────────────────────────
+     Every layout block stacks vertically by default. Desktop adds
+     side-by-side rules via the @media (min-width: 768px) block at
+     the bottom. This survives in-app browsers (Mail, Notes,
+     Messages, Twitter, etc.) that don't always apply
+     max-width media queries reliably — they'd at worst show the
+     mobile layout, which is the safe default. */
   body {
     background: var(--cream);
     color: var(--ink);
@@ -39,31 +54,29 @@
     font-weight: 400;
     max-width: 780px;
     margin: 0 auto;
-    padding: 56px 80px 24px;
+    padding: 32px 20px 20px;
     position: relative;
+    overflow-x: hidden;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
   }
 
-  /* corner marks */
+  /* corner marks — hidden by default (decorative; they crowd small
+     screens). Desktop @media re-enables them. */
   body::before, body::after {
-    content: '';
-    position: absolute;
-    width: 24px; height: 24px;
-    border-color: var(--gold);
-    border-style: solid;
-    opacity: 0.4;
+    display: none;
   }
-  body::before { top: 24px; left: 24px; border-width: 1px 0 0 1px; }
-  body::after  { bottom: 24px; right: 24px; border-width: 0 1px 1px 0; }
 
-  /* header */
+  /* header — single-column stack on mobile; desktop splits into a
+     two-column row. */
   .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
     border-top: 0.5px solid var(--orange);
     border-bottom: 0.5px solid var(--orange);
-    padding: 14px 0;
-    margin-bottom: 36px;
+    padding: 12px 0;
+    margin-bottom: 24px;
   }
 
   .org {
@@ -79,13 +92,14 @@
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--mid);
-    text-align: right;
+    text-align: left;
     line-height: 1.6;
   }
 
-  /* title — Saira Condensed (the condensed variant of the site display face) */
+  /* title — Saira Condensed (the condensed variant of the site
+     display face). Smaller on mobile so even narrow phones fit it. */
   h1 {
-    font-size: 60px;
+    font-size: 48px;
     font-weight: 700;
     letter-spacing: -0.01em;
     line-height: 0.9;
@@ -95,18 +109,19 @@
   }
 
   .subtitle {
-    font-size: 11px;
-    letter-spacing: 0.1em;
+    font-size: 10px;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--gold);
-    margin-bottom: 32px;
+    margin-bottom: 24px;
+    line-height: 1.5;
   }
 
   /* mission block */
   .mission {
     border-left: 2px solid var(--red);
-    padding-left: 20px;
-    margin-bottom: 32px;
+    padding-left: 14px;
+    margin-bottom: 24px;
   }
 
   .mission p {
@@ -117,21 +132,24 @@
   }
 
   .mission p + p {
-    margin-top: 16px;
+    margin-top: 12px;
   }
 
-  /* details row */
+  /* details row — auto-fit grid. On a 320px viewport this collapses
+     to a single column; on a 380–500px phone it goes to 2 columns;
+     on tablet/desktop the @media block locks in 4 columns. */
   .details {
-    display: flex;
-    gap: 40px;
-    margin-bottom: 36px;
-    padding: 16px 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+    padding: 14px 0;
     border-top: 0.5px solid var(--warm);
     border-bottom: 0.5px solid var(--warm);
   }
 
   .detail-item {
-    flex: 1;
+    min-width: 0;
   }
 
   .detail-label {
@@ -159,11 +177,11 @@
   }
 
   .artists {
-    margin-bottom: 36px;
+    margin-bottom: 28px;
   }
 
   .artists p {
-    font-size: 14px;
+    font-size: 13px;
     line-height: 1.65;
     color: var(--ink);
     font-weight: 400;
@@ -188,7 +206,8 @@
     line-height: 1.5;
   }
 
-  /* tiers */
+  /* tiers — stacked (price block above desc) by default. Desktop
+     restores the 100px + 1fr two-column row. */
   .tiers {
     display: flex;
     flex-direction: column;
@@ -198,10 +217,10 @@
 
   .tier {
     display: grid;
-    grid-template-columns: 100px 1fr;
-    gap: 0;
+    grid-template-columns: 1fr;
+    gap: 8px;
     border-top: 1px solid var(--warm);
-    padding: 18px 0;
+    padding: 14px 0;
   }
 
   .tier:last-child { border-bottom: 0.5px solid var(--warm); }
@@ -210,15 +229,15 @@
     padding-top: 2px;
   }
 
-  /* Tier amount on Saira at heavier weight — still anchors each tier
-     visually as the "big number," just without the monospace feel. */
+  /* Tier amount uses Saira at a heavier weight — still anchors each
+     tier as the "big number" visually, just without monospace. */
   .tier-amount {
     font-family: 'Saira', sans-serif;
-    font-size: 26px;
+    font-size: 24px;
     font-weight: 700;
     color: var(--red);
     line-height: 1;
-    margin-bottom: 4px;
+    margin-bottom: 2px;
     letter-spacing: -0.01em;
   }
 
@@ -228,6 +247,12 @@
     text-transform: uppercase;
     color: var(--gold);
     line-height: 1.4;
+  }
+
+  /* on mobile the line breaks inside tier-name look awkward
+     ("Featured / Work" stacked); flatten them */
+  .tier-name br {
+    display: none;
   }
 
   .tier-desc {
@@ -243,20 +268,17 @@
     font-family: 'Saira', sans-serif;
   }
 
-  /* footer */
+  /* footer — stacked vertically on mobile, side-by-side on desktop. */
   .footer {
-    border-top: none;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
     margin-top: 18px;
-    padding-top: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    gap: 24px;
   }
 
   .footer-left p {
     font-size: 10px;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--gold);
     line-height: 1.8;
@@ -274,13 +296,13 @@
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--gold);
-    text-align: right;
+    text-align: left;
     line-height: 1.8;
   }
 
-  /* bottom banner — full-content-width image rendered below the footer */
+  /* bottom banner — full-content-width below the footer */
   .bottom-banner {
-    margin: 24px 0 0 0;
+    margin: 20px 0 0 0;
     line-height: 0;
   }
   .bottom-banner img {
@@ -289,131 +311,104 @@
     display: block;
   }
 
-  /* ── MOBILE ────────────────────────────────────────────────────────
-     Aggressive responsive overhaul. This brief's primary distribution
-     channel is a texted link to prospective sponsors — the version
-     a sponsor opens on their phone has to read as a finished mobile
-     document, not a desktop PDF squashed into a viewport.
-
-     Tablet/small-desktop breakpoint (≤ 768px):
-       - body padding tightens
-       - corner marks shrink
-       - header columns + footer columns stack vertically
-       - 4-up details row wraps to a 2-up grid
-       - tier rows go from (price-col | desc-col) to a vertical stack
-       - h1 scales down
-       - body copy ticks up to 14px for readability
-
-     Phone breakpoint (≤ 420px):
-       - even tighter padding
-       - corner marks hide (decorative; in the way at small sizes)
-       - details row collapses to a single column
-       - h1 scales down further
-  */
-  @media (max-width: 768px) {
+  /* ── DESKTOP ENHANCEMENT (≥ 768px) ─────────────────────────────────
+     Restores the original side-by-side layouts on tablet+. Phone
+     defaults take over below this width. min-width queries are
+     handled more consistently by in-app browsers than max-width. */
+  @media (min-width: 768px) {
     body {
-      padding: 48px 28px 20px;
+      padding: 56px 80px 24px;
     }
+
     body::before, body::after {
-      width: 16px;
-      height: 16px;
-      top: 16px;
-      left: 16px;
+      content: '';
+      display: block;
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      border-color: var(--gold);
+      border-style: solid;
+      opacity: 0.4;
     }
-    body::after {
-      top: auto;
-      left: auto;
-      bottom: 16px;
-      right: 16px;
-    }
+    body::before { top: 24px; left: 24px; border-width: 1px 0 0 1px; }
+    body::after  { bottom: 24px; right: 24px; border-width: 0 1px 1px 0; }
 
     .header {
-      flex-direction: column;
-      gap: 10px;
-      padding: 12px 0;
-      margin-bottom: 28px;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      padding: 14px 0;
+      margin-bottom: 36px;
     }
+
     .event-label {
-      text-align: left;
+      text-align: right;
     }
 
     h1 {
-      font-size: 52px;
+      font-size: 60px;
     }
+
     .subtitle {
-      margin-bottom: 24px;
-      line-height: 1.5;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      margin-bottom: 32px;
     }
 
     .mission {
-      padding-left: 16px;
-      margin-bottom: 28px;
+      padding-left: 20px;
+      margin-bottom: 32px;
     }
-    .mission p {
-      font-size: 14px;
+
+    .mission p + p {
+      margin-top: 16px;
     }
 
     .details {
-      flex-wrap: wrap;
-      gap: 20px 24px;
-      margin-bottom: 28px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 40px;
+      padding: 16px 0;
+      margin-bottom: 36px;
     }
-    .detail-item {
-      flex: 1 1 calc(50% - 12px);
-      min-width: 0;
+
+    .artists {
+      margin-bottom: 36px;
     }
-    .detail-value {
+
+    .artists p {
       font-size: 14px;
     }
 
     .tier {
-      grid-template-columns: 1fr;
-      gap: 10px;
-      padding: 16px 0;
+      grid-template-columns: 100px 1fr;
+      gap: 0;
+      padding: 18px 0;
     }
-    .tier-amount {
-      font-size: 24px;
-      margin-bottom: 2px;
-    }
+
     .tier-name br {
-      display: none;
+      display: inline;
     }
-    .tier-desc {
-      font-size: 14px;
+
+    .tier-amount {
+      font-size: 26px;
     }
 
     .footer {
-      flex-direction: column;
-      gap: 16px;
-      align-items: flex-start;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      align-items: end;
     }
+
     .footer-right {
-      text-align: left;
-    }
-  }
-
-  @media (max-width: 420px) {
-    body {
-      padding: 36px 20px 16px;
-    }
-    body::before, body::after {
-      display: none;
+      text-align: right;
     }
 
-    h1 {
-      font-size: 44px;
-    }
-
-    .details {
-      gap: 16px;
-    }
-    .detail-item {
-      flex: 1 1 100%;
+    .bottom-banner {
+      margin: 24px 0 0 0;
     }
   }
 
   @media print {
-    body { padding: 32px; max-width: 100%; }
+    body { padding: 32px; max-width: 100%; overflow-x: visible; }
     body::before, body::after { display: none; }
   }
 </style>
