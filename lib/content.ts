@@ -74,6 +74,8 @@ export const INITIATIVES = [
     status: 'August 2026 · Space LES, NYC',
     note: 'Attend OURS',
     noteHref: '/ours',
+    secondaryNote: 'Sponsor the Event',
+    secondaryNoteHref: '/ours/sponsor-brief',
     blurb:
       'A one-night exhibition and salon in New York that puts speculative artwork on the walls and the people building it into reality at the lectern. Scientists, philosophers, artists, and builders give short provocations. Original work hangs around them, available to take home. Guests from a broad spectrum of fields fill the spaces between, because the future is shaped by everyone. Space LES, Lower East Side, NYC. August 2026.',
     image: '/images/initiative-exhibitions.jpg',

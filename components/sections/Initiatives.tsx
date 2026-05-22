@@ -50,23 +50,45 @@ export function Initiatives() {
                 <h3 className="mt-6 text-h3 leading-[1.1] md:text-h3-lg">{i.title}</h3>
                 <p className="mt-3 text-h6 text-muted">{i.status}</p>
                 <div className="mt-10 max-w-prose text-body leading-relaxed text-ink/90">
-                  {/* Submissions CTA: shown on desktop, hidden on mobile.
-                      Mobile readers can reach it from the homepage outro
-                      and the SiteNav's Possibilia entry; the card on
-                      mobile collapses to first-line + Read more so we
-                      don't pile a CTA on top of the collapsed text. */}
-                  {i.note &&
-                    (i.noteHref ? (
-                      <Link href={i.noteHref} className="btn-solid hidden md:inline-flex">
-                        {i.note}
-                      </Link>
-                    ) : (
-                      <strong className="hidden md:inline">{i.note}</strong>
-                    ))}
+                  {/* Initiative CTAs: shown on desktop, hidden on mobile.
+                      Mobile readers reach these via the SiteNav or the
+                      homepage outro; the card on mobile collapses to
+                      first-line + Read more so piling CTAs on top of
+                      the collapsed text would crowd the layout.
+                      Primary CTA is btn-solid (sage). Optional
+                      secondary CTA renders next to it in a frosted-
+                      pill aesthetic — translucent ink fill, soft
+                      border, backdrop blur — at the same shape +
+                      padding as btn-solid so the two read as a pair. */}
+                  {(i.note || i.secondaryNote) && (
+                    <div className="hidden md:flex md:flex-wrap md:items-center md:gap-3">
+                      {i.note &&
+                        (i.noteHref ? (
+                          <Link href={i.noteHref} className="btn-solid">
+                            {i.note}
+                          </Link>
+                        ) : (
+                          <strong>{i.note}</strong>
+                        ))}
+                      {i.secondaryNote && i.secondaryNoteHref && (
+                        <a
+                          href={i.secondaryNoteHref}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center justify-center rounded-md border border-ink/25 bg-ink/5 px-7 py-3 text-sm uppercase tracking-[0.12em] text-ink backdrop-blur-sm transition hover:bg-ink/10"
+                        >
+                          {i.secondaryNote}
+                        </a>
+                      )}
+                    </div>
+                  )}
                   {/* InitiativeBlurb collapses the body to a single line
                       on mobile with a Read more toggle; renders straight
                       through at md+. */}
-                  <InitiativeBlurb blurb={i.blurb} hasNote={Boolean(i.note)} />
+                  <InitiativeBlurb
+                    blurb={i.blurb}
+                    hasNote={Boolean(i.note || i.secondaryNote)}
+                  />
                 </div>
               </div>
               <div>
