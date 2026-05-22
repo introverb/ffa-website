@@ -228,7 +228,11 @@
   }
 
   /* Tier amount — Saira heavy weight, green color so it reads
-     unambiguously as "money/go" against the cream background. */
+     unambiguously as "money/go" against the cream background. The
+     `.accent` modifier swaps to the orange from the palette for
+     tiers that aren't about a featured work (e.g. Event Partner) —
+     differentiates them at-a-glance from the artwork-commission
+     tiers. */
   .tier-amount {
     font-family: 'Saira', sans-serif;
     font-size: 24px;
@@ -237,6 +241,9 @@
     line-height: 1;
     margin-bottom: 2px;
     letter-spacing: -0.01em;
+  }
+  .tier-amount.accent {
+    color: var(--orange);
   }
 
   .tier-name {
@@ -523,7 +530,7 @@
 
   <div class="tier">
     <div class="tier-price">
-      <div class="tier-amount">$7.5K</div>
+      <div class="tier-amount accent">$7.5K</div>
       <div class="tier-name">Event<br>Partner</div>
     </div>
     <div class="tier-desc">
