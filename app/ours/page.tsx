@@ -204,7 +204,7 @@ export default function OursPage({
                   submitter doesn't lose their form state. */}
               <div className="mt-auto flex flex-wrap items-center gap-3 self-start">
                 <button type="submit" className="btn-solid">
-                  Submit work
+                  Submit
                 </button>
                 <a
                   href="/ours/artist-brief"
