@@ -59,17 +59,6 @@ export const PROJECTS = [
 export const INITIATIVES = [
   {
     n: '01',
-    title: 'Possibilia Magazine',
-    status: 'In Development · Issue 0',
-    note: 'Submissions are open!',
-    noteHref: '/possibilia-submissions',
-    blurb:
-      'Possibilia is the foundation’s literary magazine. Original short fiction set in believable, recognizably better tomorrows, paired with companion essays by working scientists and original artwork commissioned for each piece. We publish in print and online, and we commission the writers, artists, and researchers telling the stories that will shape and inspire our reality.',
-    image: '/images/initiative-possibilia.jpg',
-    href: '/possibilia',
-  },
-  {
-    n: '02',
     title: 'OURS: Exhibition & Salon',
     status: 'August 2026 · Space LES, NYC',
     note: 'Attend OURS',
@@ -82,6 +71,17 @@ export const INITIATIVES = [
       'A one-night exhibition and salon in New York that puts speculative artwork on the walls and the people building it into reality at the lectern. Scientists, philosophers, artists, and builders give short provocations. Original work hangs around them, available to take home. Guests from a broad spectrum of fields fill the spaces between, because the future is shaped by everyone. Space LES, Lower East Side, NYC. August 2026.',
     image: '/images/initiative-exhibitions.jpg',
     href: '/ours',
+  },
+  {
+    n: '02',
+    title: 'Possibilia Magazine',
+    status: 'In Development · Issue 0',
+    note: 'Submissions are open!',
+    noteHref: '/possibilia-submissions',
+    blurb:
+      'Possibilia is the foundation’s literary magazine. Original short fiction set in believable, recognizably better tomorrows, paired with companion essays by working scientists and original artwork commissioned for each piece. We publish in print and online, and we commission the writers, artists, and researchers telling the stories that will shape and inspire our reality.',
+    image: '/images/initiative-possibilia.jpg',
+    href: '/possibilia',
   },
   {
     n: '03',
