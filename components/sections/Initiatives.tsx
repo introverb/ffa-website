@@ -60,7 +60,7 @@ export function Initiatives() {
                       pill aesthetic — translucent ink fill, soft
                       border, backdrop blur — at the same shape +
                       padding as btn-solid so the two read as a pair. */}
-                  {(i.note || i.secondaryNote) && (
+                  {(i.note || i.secondaryNote || i.tertiaryNote) && (
                     <div className="hidden md:flex md:flex-wrap md:items-center md:gap-3">
                       {i.note &&
                         (i.noteHref ? (
@@ -80,6 +80,16 @@ export function Initiatives() {
                           {i.secondaryNote}
                         </a>
                       )}
+                      {i.tertiaryNote && i.tertiaryNoteHref && (
+                        <a
+                          href={i.tertiaryNoteHref}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center justify-center rounded-md border border-ink/25 bg-ink/5 px-7 py-3 text-sm uppercase tracking-[0.12em] text-ink backdrop-blur-sm transition hover:bg-ink/10"
+                        >
+                          {i.tertiaryNote}
+                        </a>
+                      )}
                     </div>
                   )}
                   {/* InitiativeBlurb collapses the body to a single line
@@ -87,7 +97,7 @@ export function Initiatives() {
                       through at md+. */}
                   <InitiativeBlurb
                     blurb={i.blurb}
-                    hasNote={Boolean(i.note || i.secondaryNote)}
+                    hasNote={Boolean(i.note || i.secondaryNote || i.tertiaryNote)}
                   />
                 </div>
               </div>

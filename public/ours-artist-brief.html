@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OURS — Artist Brief | Foundation for Future Aesthetics</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  /* Saira / Saira Condensed only — the site's display face. Body +
+     metadata uses the Helvetica/Arial stack to align with
+     futureaesthetics.foundation. */
+  @import url('https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@600;700&family=Saira:wght@400;500;600;700&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #282828;
+    --cream: #f0eeeb;
+    --warm: #dcdcdc;
+    --green: #5a8a5e;
+    --gold: #7a9aac;
+    --mid: #646464;
+    --orange: #e8651a;
+  }
+
+  html {
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  /* Mobile-first defaults (same architecture as sponsor brief — every
+     layout block stacks by default, desktop adds side-by-side via
+     min-width media queries at the bottom). */
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: Helvetica, Arial, system-ui, sans-serif;
+    font-weight: 400;
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 32px 20px 20px;
+    position: relative;
+    overflow-x: hidden;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  }
+
+  body::before, body::after {
+    display: none;
+  }
+
+  /* HEADER */
+  .header {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 6px;
+    border-top: 0.5px solid var(--orange);
+    border-bottom: 0.5px solid var(--orange);
+    padding: 14px 0;
+    margin-bottom: 24px;
+    text-align: center;
+  }
+
+  .org, .event-label {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mid);
+    line-height: 1.6;
+  }
+
+  /* TITLE */
+  h1 {
+    font-size: 48px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 0.9;
+    margin-bottom: 4px;
+    color: var(--ink);
+    font-family: 'Saira Condensed', 'Saira', sans-serif;
+  }
+
+  .subtitle {
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 24px;
+    line-height: 1.8;
+  }
+
+  /* TOP BANNER — discovery.jpg (4724×2362, 2:1 native) cropped to
+     20/7 (bottom 30% trimmed). Same treatment as sponsor brief for
+     brand consistency. */
+  .top-banner {
+    margin: 0 0 28px 0;
+    line-height: 0;
+    aspect-ratio: 20 / 7;
+    overflow: hidden;
+  }
+  .top-banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+  }
+
+  /* MISSION (intro paragraphs) */
+  .mission {
+    border-left: 2px solid var(--green);
+    padding-left: 14px;
+    margin-bottom: 24px;
+  }
+
+  .mission p {
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--ink);
+  }
+
+  .mission p + p {
+    margin-top: 12px;
+  }
+
+  /* DETAILS row */
+  .details {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+    margin-bottom: 24px;
+    padding: 14px 0;
+    border-top: 0.5px solid var(--warm);
+    border-bottom: 0.5px solid var(--warm);
+  }
+
+  .detail-item { min-width: 0; }
+
+  .detail-label {
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 4px;
+  }
+
+  .detail-value {
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.4;
+    color: var(--ink);
+  }
+
+  /* SECTION labels */
+  .section-label {
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 10px;
+  }
+
+  .section-intro {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--ink);
+    font-style: italic;
+    margin-bottom: 12px;
+  }
+
+  /* DEALS — three deal structures (Donation / Commission / Hybrid).
+     Same vertical-rhythm pattern as the sponsor brief's tiers, but
+     with deal-name (Saira heavy, green) and deal-tag (small caps
+     gold) sitting on the same baseline above the description. */
+  .deals { margin-bottom: 28px; }
+
+  .deals-intro {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+
+  .deals-note {
+    font-size: 11px;
+    line-height: 1.55;
+    color: var(--mid);
+    font-style: italic;
+    margin-top: 12px;
+  }
+
+  .deal {
+    border-top: 1px solid var(--warm);
+    padding: 14px 0;
+  }
+
+  .deal:last-of-type {
+    border-bottom: 0.5px solid var(--warm);
+  }
+
+  .deal-heading {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 6px;
+  }
+
+  .deal-name {
+    font-family: 'Saira', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--green);
+    letter-spacing: -0.01em;
+    line-height: 1;
+  }
+
+  .deal-tag {
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .deal-body {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--ink);
+  }
+
+  /* LISTS — used for "What FFA provides," "What FFA asks of you,"
+     and "How sales work." Bold leading phrase + body text per item. */
+  .info-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .info-list li {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--ink);
+    padding: 8px 0;
+    border-top: 1px solid var(--warm);
+  }
+
+  .info-list li:last-child {
+    border-bottom: 1px solid var(--warm);
+  }
+
+  .info-list strong {
+    font-weight: 600;
+  }
+
+  .section-note {
+    font-size: 11px;
+    line-height: 1.55;
+    color: var(--mid);
+    font-style: italic;
+    margin-top: 12px;
+  }
+
+  .provides, .asks, .sales {
+    margin-bottom: 28px;
+  }
+
+  /* SUBMIT CTA — sits at the very bottom of the brief content, before
+     the contact footer. Green pill button with Saira display face,
+     matches the tier-amount color so it reads as "go." */
+  .submit-cta {
+    margin: 28px 0 24px 0;
+    text-align: center;
+  }
+
+  .submit-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 32px;
+    font-family: 'Saira', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #fff;
+    background: var(--green);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+
+  .submit-button:hover {
+    background: #4a7a4e;
+  }
+
+  /* FOOTER */
+  .footer {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-top: 18px;
+    text-align: center;
+  }
+
+  .footer-left p {
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--gold);
+    line-height: 1.9;
+  }
+
+  .footer-left a {
+    color: var(--gold);
+    text-decoration: underline;
+    text-decoration-color: var(--gold);
+    text-underline-offset: 2px;
+  }
+
+  .footer-right {
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    line-height: 1.8;
+  }
+
+  /* MODAL — vanilla overlay + dialog for the Submit work form. */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    overflow-y: auto;
+  }
+
+  .modal-overlay.open {
+    display: flex;
+  }
+
+  .modal-content {
+    position: relative;
+    background: var(--cream);
+    color: var(--ink);
+    max-width: 520px;
+    width: 100%;
+    border-radius: 12px;
+    padding: 32px 24px;
+    box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.4);
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    line-height: 1;
+    color: var(--mid);
+    cursor: pointer;
+    padding: 8px;
+    width: 36px;
+    height: 36px;
+  }
+
+  .modal-close:hover { color: var(--ink); }
+
+  .modal-title {
+    font-family: 'Saira', sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin-bottom: 8px;
+    color: var(--ink);
+  }
+
+  .modal-intro {
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--mid);
+    margin-bottom: 18px;
+  }
+
+  /* HONEYPOT — invisible to humans, attractive to bots. Server-side
+     spam filter in lib/spam.ts drops anything where this field is
+     non-empty. */
+  .hp-field {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    height: 0;
+    width: 0;
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .form-field { margin-bottom: 14px; }
+
+  .form-field label {
+    display: block;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 6px;
+  }
+
+  .form-field .req {
+    color: var(--green);
+    margin-left: 4px;
+  }
+
+  .form-field input,
+  .form-field textarea {
+    width: 100%;
+    background: #fff;
+    border: 1px solid var(--warm);
+    border-radius: 6px;
+    padding: 10px 12px;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    resize: vertical;
+  }
+
+  .form-field input:focus,
+  .form-field textarea:focus {
+    outline: none;
+    border-color: var(--green);
+  }
+
+  .form-error {
+    background: #f9e5e0;
+    border: 1px solid #d49080;
+    color: #7a3320;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    margin-bottom: 12px;
+  }
+
+  .submit-form-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 12px 24px;
+    font-family: 'Saira', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #fff;
+    background: var(--green);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 4px;
+    transition: background 0.15s ease;
+  }
+
+  .submit-form-button:hover { background: #4a7a4e; }
+  .submit-form-button:disabled { opacity: 0.6; cursor: not-allowed; }
+
+  .submit-thanks {
+    padding: 14px 16px;
+    background: rgba(90, 138, 94, 0.15);
+    border: 1px solid var(--green);
+    border-radius: 8px;
+  }
+
+  .thanks-eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 6px;
+  }
+
+  .thanks-body {
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+
+  /* DESKTOP enhancement (≥ 768px) */
+  @media (min-width: 768px) {
+    body {
+      padding: 56px 80px 24px;
+    }
+
+    body::before, body::after {
+      content: '';
+      display: block;
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      border-color: var(--gold);
+      border-style: solid;
+      opacity: 0.4;
+    }
+    body::before { top: 24px; left: 24px; border-width: 1px 0 0 1px; }
+    body::after  { bottom: 24px; right: 24px; border-width: 0 1px 1px 0; }
+
+    .header {
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      padding: 14px 0;
+      margin-bottom: 36px;
+      text-align: initial;
+    }
+
+    .org { text-align: left; }
+    .event-label { text-align: right; }
+
+    h1 { font-size: 60px; }
+
+    .subtitle {
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      margin-bottom: 32px;
+      line-height: 1.6;
+    }
+
+    .top-banner { margin: 0 0 32px 0; }
+
+    .mission {
+      padding-left: 20px;
+      margin-bottom: 32px;
+    }
+
+    .mission p + p { margin-top: 16px; }
+
+    .details {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 40px;
+      padding: 16px 0;
+      margin-bottom: 36px;
+    }
+
+    .deals, .provides, .asks, .sales {
+      margin-bottom: 36px;
+    }
+
+    .deal { padding: 18px 0; }
+    .deal-name { font-size: 24px; }
+
+    .info-list li { padding: 10px 0; }
+
+    .footer {
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      align-items: end;
+      text-align: initial;
+    }
+
+    .footer-left { text-align: left; }
+    .footer-right { text-align: right; }
+
+    .submit-cta { margin: 36px 0 28px 0; }
+
+    .modal-content {
+      padding: 36px 32px;
+    }
+  }
+
+  @media print {
+    body { padding: 32px; max-width: 100%; overflow-x: visible; }
+    body::before, body::after { display: none; }
+    .submit-cta, .modal-overlay { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="org">
+    Foundation for Future Aesthetics<br>
+    501(c)(3) Nonprofit · New York City
+  </div>
+  <div class="event-label">
+    Artist Brief<br>
+    futureaesthetics.foundation/ours
+  </div>
+</div>
+
+<h1>OURS</h1>
+<p class="subtitle">An exhibition &amp; salon evening<br>August 9, 2026 · New York City</p>
+
+<div class="top-banner">
+  <img src="/images/discovery.jpg" alt="OURS — the exhibition" />
+</div>
+
+<div class="mission">
+  <p>OURS gathers artists whose work imagines what the future could actually be — not as warning or prediction, but as proposal. We&rsquo;re looking for pieces that take seriously the idea that the world we live in is one we make.</p>
+  <p>OURS is a curated exhibition. We approach a small number of artists each year whose practice resonates with the themes of the show — artists who treat art-making as cultural infrastructure for what&rsquo;s next, not decoration around it. If you&rsquo;re reading this, we&rsquo;d like your work in the room.</p>
+  <p>The exhibition serves as a flagship moment for the Foundation for Future Aesthetics. The Foundation exists because many of today&rsquo;s visions of the future are bleak, impersonal, and ultimately inhuman. We think art has always had the power to support and elevate scientific discovery and technological progress, and we want to put that power to work — on behalf of artists, and on behalf of the futures worth building.</p>
+</div>
+
+<div class="details">
+  <div class="detail-item">
+    <div class="detail-label">Date &amp; Venue</div>
+    <div class="detail-value">August 9, 2026<br>Space LES, Lower East Side, NYC</div>
+  </div>
+  <div class="detail-item">
+    <div class="detail-label">Format</div>
+    <div class="detail-value">Exhibition + salon<br>4–5 speaker provocations</div>
+  </div>
+  <div class="detail-item">
+    <div class="detail-label">Audience</div>
+    <div class="detail-value">70–80 invited guests<br>Artists, scientists, technologists, builders</div>
+  </div>
+  <div class="detail-item">
+    <div class="detail-label">Admission</div>
+    <div class="detail-value">Free, by invitation<br>Curated guest list</div>
+  </div>
+</div>
+
+<div class="deals">
+  <div class="section-label">How we work with artists</div>
+  <p class="deals-intro">FFA offers three deal structures. We&rsquo;ll help you find the one that fits your practice and your situation. All terms are negotiable. The goal is to make this work for you, not to fit you to a template.</p>
+
+  <div class="deal">
+    <div class="deal-heading">
+      <span class="deal-name">Donation</span>
+      <span class="deal-tag">Most Flexible</span>
+    </div>
+    <p class="deal-body">
+      Donate an existing piece, or one made specifically for the show. If the piece sells, you receive <strong>70% of the sale price</strong>; FFA retains 30% to support event costs and contribute to FFA&rsquo;s endowment for future artist grants. If the piece doesn&rsquo;t sell at the event, FFA will broker sales for a further 3 months. After that window, you can take the piece back (FFA covers return shipping), donate it permanently to FFA, or offer FFA a discounted purchase price.
+    </p>
+  </div>
+
+  <div class="deal">
+    <div class="deal-heading">
+      <span class="deal-name">Commission</span>
+      <span class="deal-tag">Work Made for OURS</span>
+    </div>
+    <p class="deal-body">
+      FFA or a sponsor commissions a new piece from you for the exhibition. You receive a <strong>full commission upfront</strong> — the amount agreed in conversation, based on the scope and ambition of the work. FFA retains ownership of the piece; you receive no further share of any future sale. A clean transaction, paid in full.
+    </p>
+  </div>
+
+  <div class="deal">
+    <div class="deal-heading">
+      <span class="deal-name">Hybrid</span>
+      <span class="deal-tag">For Working Artists</span>
+    </div>
+    <p class="deal-body">
+      FFA covers your materials and/or pays a partial commission upfront, so you&rsquo;re not subsidizing the work. If the piece sells at the event, you and FFA <strong>split the proceeds 50/50</strong>. If it doesn&rsquo;t sell, the same three options apply as in the donation structure. The exact balance between upfront pay and sale share is negotiated piece by piece.
+    </p>
+  </div>
+
+  <p class="deals-note">Across all three structures, FFA covers shipping, insurance, and installation. All terms are negotiable.</p>
+</div>
+
+<div class="provides">
+  <div class="section-label">What FFA provides</div>
+  <p class="section-intro">Across all three deal structures, every participating artist receives:</p>
+  <ul class="info-list">
+    <li><strong>Shipping</strong> of the piece to and from the venue, fully covered by FFA.</li>
+    <li><strong>Insurance</strong> of the piece during transit and the event.</li>
+    <li><strong>Installation and de-installation</strong> handled or paid for by FFA.</li>
+    <li><strong>Professional documentation</strong> — photography of the piece in the exhibition, and video coverage of the event including the work. Artists receive copies of all documentation of their piece.</li>
+    <li><strong>Wall label, printed program, and event page listing</strong> — artist credit on the piece, in the printed program (with bio and headshot), and on the permanent OURS event page on the FFA site.</li>
+    <li><strong>Artist statement on the wall label</strong> — 50 to 100 words from you about the piece, in your voice.</li>
+    <li><strong>Personal invitation</strong> for you and a guest to attend the event in NYC. Attendance is strongly encouraged but never required.</li>
+    <li><strong>Press kit inclusion</strong> — you&rsquo;re named in any press coverage of the event.</li>
+  </ul>
+</div>
+
+<div class="asks">
+  <div class="section-label">What FFA asks of you</div>
+  <p class="section-intro">The lift on your end is meant to be light:</p>
+  <ul class="info-list">
+    <li><strong>The piece delivered</strong> to the venue by an agreed window (approximately one week before the event).</li>
+    <li><strong>A 50–100 word artist statement</strong> about the piece, for the wall label and program.</li>
+    <li><strong>A bio and headshot</strong> for the program and event page.</li>
+    <li><strong>Sale prices set in advance</strong>: a pre-event price (available to sponsors first) and an event price, agreed with FFA&rsquo;s curatorial team. Sponsors who have committed before the event have first right to purchase at the pre-event price.</li>
+    <li><strong>Availability for brief documentation</strong> — willingness to be photographed or filmed briefly at the event for the post-event video, if you attend.</li>
+    <li><strong>For commissioned and hybrid pieces only</strong>: occasional check-ins during the production process. No fixed deliverable schedule unless you&rsquo;d like one.</li>
+  </ul>
+  <p class="section-note">Notably not required: attendance, social media promotion, exclusivity, or future works for FFA.</p>
+</div>
+
+<div class="sales">
+  <div class="section-label">How sales work</div>
+  <p class="section-intro">All pieces are for sale at the event, with the following mechanics:</p>
+  <ul class="info-list">
+    <li><strong>You set the prices</strong> (in conversation with FFA&rsquo;s read of the room). A pre-event price for sponsors with first-right-of-purchase, and an event price for the general room. Typically the event price is a 10–20% markup on the pre-event price; we&rsquo;ll discuss what makes sense.</li>
+    <li><strong>FFA facilitates the sale</strong> — payment, paperwork, and buyer relationship. You don&rsquo;t have to handle the transaction yourself.</li>
+    <li><strong>Sponsor first-right of purchase</strong> applies to pieces that have been tied to a sponsor before the event. After that, first serious buyer at the event price wins. No silent auction.</li>
+    <li><strong>Post-event sales window</strong> of 3 months. If a piece doesn&rsquo;t sell at the event, FFA continues to broker sales under the same split during that period.</li>
+  </ul>
+</div>
+
+<div class="submit-cta">
+  <button type="button" class="submit-button" onclick="openSubmitModal()">
+    Submit work
+  </button>
+</div>
+
+<div class="footer">
+  <div class="footer-left">
+    <p>Interested or have questions?<br>
+    Olli Payne, Founder &amp; Executive Director<br>
+    <a href="mailto:olli@futureaesthetics.foundation">olli@futureaesthetics.foundation</a><br>
+    <a href="https://calendly.com/olli-futureaesthetics" target="_blank" rel="noopener noreferrer">calendly.com/olli-futureaesthetics</a></p>
+  </div>
+  <div class="footer-right">
+    Foundation for Future Aesthetics<br>
+    501(c)(3) · New York City<br>
+    All contributions tax-deductible
+  </div>
+</div>
+
+<!-- SUBMIT WORK MODAL — vanilla CSS+JS dialog. Same form fields and
+     /api/ours endpoint (with type=artwork) that the OURS page's
+     artwork EngagementCard uses, just in a popup instead of inline.
+     Includes the standard honeypot field for spam protection. -->
+<div class="modal-overlay" id="submit-modal" onclick="if(event.target===this) closeSubmitModal()">
+  <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <button type="button" class="modal-close" onclick="closeSubmitModal()" aria-label="Close submission form">&times;</button>
+
+    <div id="submit-form-container">
+      <h2 class="modal-title" id="modal-title">Submit artwork for exhibition</h2>
+      <p class="modal-intro">Send a portfolio and a short pitch and we&rsquo;ll review.</p>
+
+      <form id="submit-form" onsubmit="handleSubmitForm(event)" novalidate>
+        <div class="hp-field" aria-hidden="true">
+          <label for="company_website">Leave empty:</label>
+          <input type="text" name="company_website" id="company_website" tabindex="-1" autocomplete="off">
+        </div>
+
+        <input type="hidden" name="type" value="artwork">
+
+        <div class="form-field">
+          <label for="modal-name">Your name<span class="req">*</span></label>
+          <input type="text" name="name" id="modal-name" required>
+        </div>
+        <div class="form-field">
+          <label for="modal-email">Email<span class="req">*</span></label>
+          <input type="email" name="email" id="modal-email" required>
+        </div>
+        <div class="form-field">
+          <label for="modal-portfolio">Portfolio link<span class="req">*</span></label>
+          <input type="url" name="portfolio" id="modal-portfolio" required>
+        </div>
+        <div class="form-field">
+          <label for="modal-pitch">Pitch: what would you bring?<span class="req">*</span></label>
+          <textarea name="pitch" id="modal-pitch" rows="5" required></textarea>
+        </div>
+
+        <div id="form-error" class="form-error" hidden></div>
+
+        <button type="submit" class="submit-form-button" id="submit-form-button">Submit work</button>
+      </form>
+    </div>
+
+    <div id="submit-thanks" class="submit-thanks" hidden>
+      <p class="thanks-eyebrow">Received</p>
+      <p class="thanks-body">Thanks, we&rsquo;ve got your submission and will reach back as we curate.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  function openSubmitModal() {
+    document.getElementById('submit-modal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeSubmitModal() {
+    document.getElementById('submit-modal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  async function handleSubmitForm(e) {
+    e.preventDefault();
+    var form = e.target;
+    var errEl = document.getElementById('form-error');
+    var submitBtn = document.getElementById('submit-form-button');
+    errEl.hidden = true;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending…';
+
+    var data = new FormData(form);
+
+    try {
+      var res = await fetch('/api/ours?modal=1', {
+        method: 'POST',
+        body: data,
+      });
+      if (!res.ok) {
+        var json = {};
+        try { json = await res.json(); } catch (e) {}
+        errEl.textContent = json.error || 'Submission failed. Try again or email us directly.';
+        errEl.hidden = false;
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit work';
+        return;
+      }
+      document.getElementById('submit-form-container').hidden = true;
+      document.getElementById('submit-thanks').hidden = false;
+    } catch (err) {
+      errEl.textContent = 'Network error. Try again or email us directly.';
+      errEl.hidden = false;
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit work';
+    }
+  }
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      var modal = document.getElementById('submit-modal');
+      if (modal.classList.contains('open')) closeSubmitModal();
+    }
+  });
+</script>
+
+</body>
+</html>

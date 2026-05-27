@@ -196,7 +196,26 @@ export default function OursPage({
                 label="Pitch: what would you bring?"
                 required
               />
-              <Submit label="Submit work" />
+              {/* Submit + "Read brief" pair. Same mt-auto self-start
+                  positioning that the lone Submit had (pushed to the
+                  bottom of the flex column, left-aligned), now as a
+                  flex row so the brief link sits inline next to the
+                  primary submit. Brief opens in a new tab so the
+                  submitter doesn't lose their form state. */}
+              <div className="mt-auto flex flex-wrap items-center gap-3 self-start">
+                <button type="submit" className="btn-solid">
+                  Submit work
+                </button>
+                <a
+                  href="/ours/artist-brief"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-goatcounter-click="ours:read-artist-brief"
+                  className="btn"
+                >
+                  Read brief
+                </a>
+              </div>
             </EngagementCard>
 
             {/* Editorial image filling the third grid slot — same panel

@@ -28,6 +28,14 @@ const nextConfig = {
         source: '/ours/sponsor-brief',
         destination: '/ours-sponsor-brief.html',
       },
+      // Same pattern as the sponsor brief — standalone static HTML in
+      // /public surfaced at a clean URL so the artist brief can be
+      // texted/shared as-is. Lives outside the Next.js PageFrame
+      // because it has its own typographic system + bespoke layout.
+      {
+        source: '/ours/artist-brief',
+        destination: '/ours-artist-brief.html',
+      },
     ];
   },
   async redirects() {
