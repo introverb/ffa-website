@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Corporate Patron Brief | Foundation for Future Aesthetics</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  @import url('https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@600;700&family=Saira:wght@400;500;600;700&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #282828;
+    --cream: #f0eeeb;
+    --warm: #dcdcdc;
+    --green: #5a8a5e;
+    --gold: #7a9aac;
+    --mid: #646464;
+    --orange: #e8651a;
+  }
+
+  html {
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: Helvetica, Arial, system-ui, sans-serif;
+    font-weight: 400;
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 32px 20px 20px;
+    position: relative;
+    overflow-x: hidden;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  }
+
+  body::before, body::after { display: none; }
+
+  /* HEADER */
+  .header {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 6px;
+    border-top: 0.5px solid var(--orange);
+    border-bottom: 0.5px solid var(--orange);
+    padding: 14px 0;
+    margin-bottom: 24px;
+    text-align: center;
+  }
+
+  .org, .event-label {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mid);
+    line-height: 1.6;
+  }
+
+  /* TITLE */
+  h1 {
+    font-size: 44px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 0.9;
+    margin-bottom: 8px;
+    color: var(--ink);
+    font-family: 'Saira Condensed', 'Saira', sans-serif;
+  }
+
+  .tagline {
+    font-family: 'Saira', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 24px;
+    line-height: 1.35;
+    letter-spacing: -0.005em;
+  }
+
+  /* TOP BANNER */
+  .top-banner {
+    margin: 0 0 28px 0;
+    line-height: 0;
+    aspect-ratio: 20 / 7;
+    overflow: hidden;
+  }
+  .top-banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+  }
+
+  /* MISSION (intro paragraphs) */
+  .mission {
+    border-left: 2px solid var(--green);
+    padding-left: 14px;
+    margin-bottom: 24px;
+  }
+
+  .mission p {
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--ink);
+  }
+
+  .mission p + p { margin-top: 12px; }
+
+  /* SECTION labels */
+  .section-label {
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 10px;
+  }
+
+  .section-body {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--ink);
+  }
+
+  .section-body + .section-body { margin-top: 12px; }
+
+  .why, .founding, .receives, .start {
+    margin-bottom: 28px;
+  }
+
+  /* LIST */
+  .info-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .info-list li {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--ink);
+    padding: 8px 0;
+    border-top: 1px solid var(--warm);
+  }
+
+  .info-list li:last-child {
+    border-bottom: 1px solid var(--warm);
+  }
+
+  .info-list strong {
+    font-weight: 600;
+  }
+
+  /* CTA — single primary button on this brief */
+  .cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 18px;
+  }
+
+  .primary-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 28px;
+    font-family: 'Saira', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #fff;
+    background: var(--green);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.15s ease;
+  }
+
+  .primary-button:hover { background: #4a7a4e; }
+
+  /* FOOTER */
+  .footer {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 0.5px solid var(--orange);
+    text-align: center;
+  }
+
+  .footer-left p {
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--gold);
+    line-height: 1.7;
+  }
+
+  .footer-right {
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    line-height: 1.8;
+  }
+
+  /* DESKTOP enhancement (≥ 768px) */
+  @media (min-width: 768px) {
+    body { padding: 56px 80px 24px; }
+
+    body::before, body::after {
+      content: '';
+      display: block;
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      border-color: var(--gold);
+      border-style: solid;
+      opacity: 0.4;
+    }
+    body::before { top: 24px; left: 24px; border-width: 1px 0 0 1px; }
+    body::after  { bottom: 24px; right: 24px; border-width: 0 1px 1px 0; }
+
+    .header {
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      padding: 14px 0;
+      margin-bottom: 36px;
+      text-align: initial;
+    }
+
+    .org { text-align: left; }
+    .event-label { text-align: right; }
+
+    h1 { font-size: 56px; }
+
+    .tagline {
+      font-size: 22px;
+      margin-bottom: 32px;
+    }
+
+    .top-banner { margin: 0 0 32px 0; }
+
+    .mission {
+      padding-left: 20px;
+      margin-bottom: 32px;
+    }
+
+    .mission p + p { margin-top: 16px; }
+
+    .why, .founding, .receives, .start {
+      margin-bottom: 36px;
+    }
+
+    .info-list li { padding: 10px 0; }
+
+    .footer {
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      align-items: end;
+      text-align: initial;
+    }
+
+    .footer-left { text-align: left; }
+    .footer-right { text-align: right; }
+  }
+
+  @media print {
+    body { padding: 32px; max-width: 100%; overflow-x: visible; }
+    body::before, body::after { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="org">
+    Foundation for Future Aesthetics<br>
+    501(c)(3) Nonprofit · New York City
+  </div>
+  <div class="event-label">
+    Corporate Patron Brief<br>
+    futureaesthetics.foundation/patrons
+  </div>
+</div>
+
+<h1>Become a Corporate Patron.</h1>
+<p class="tagline">For companies building toward a future worth wanting.</p>
+
+<div class="top-banner">
+  <img src="/images/discovery.jpg" alt="Foundation for Future Aesthetics" />
+</div>
+
+<div class="mission">
+  <p>FFA is a 501(c)(3) building cultural infrastructure for optimistic, realistic futures. We fund the artists, scientists, and writers doing that work, and we make those futures legible, desirable, and lasting.</p>
+  <p>A corporate patron backs the foundation directly, through a strategic, tax-deductible charitable donation. This is not event sponsorship. You are not buying a placement on a single evening. You become a patron of the institution at the moment it launches, and your support shows up first in public at OURS.</p>
+</div>
+
+<div class="why">
+  <div class="section-label">Why companies become patrons</div>
+  <ul class="info-list">
+    <li><strong>Category alignment.</strong> Your brand stands beside a cultural institution making the case for the future, rather than against it.</li>
+    <li><strong>Founding position.</strong> You are named among the first patrons of FFA, permanently.</li>
+    <li><strong>Real placement, real media.</strong> Named credit across the foundation&rsquo;s materials, plus professional photography and video of OURS that you can use in your own channels.</li>
+  </ul>
+</div>
+
+<div class="founding">
+  <div class="section-label">The Founding Circle</div>
+  <p class="section-body">We are closing our founding circle of corporate patrons on August 9, the night of OURS.</p>
+  <p class="section-body">Companies that join before then are named as founding patrons in the foundation&rsquo;s permanent record and announced at the debut. Treat it the way you would an early round: the position is strongest at the start, and it is only available once.</p>
+</div>
+
+<div class="receives">
+  <div class="section-label">What a Corporate Patron receives</div>
+  <ul class="info-list">
+    <li>Named credit as a Founding Corporate Patron across the OURS event page, printed program, and event signage.</li>
+    <li>Professional photography and video of OURS, deliverable for your marketing use.</li>
+    <li>An invitation for two or more guests to the August 9 evening, a curated room of 70 to 80 artists, scientists, writers, and builders.</li>
+    <li>Permanent placement on the FFA patrons page.</li>
+    <li>Recognition in the inaugural credits of Possibilia.</li>
+    <li>Real, tax-deductible charitable support of a 501(c)(3).</li>
+  </ul>
+</div>
+
+<div class="start">
+  <div class="section-label">Start</div>
+  <p class="section-body">From $5,000. The right number, and the shape of the credit, come out of a short conversation.</p>
+  <div class="cta-row">
+    <a href="/contact?topic=Corporate%20Patron" class="primary-button">Start the conversation</a>
+  </div>
+</div>
+
+<div class="footer">
+  <div class="footer-left">
+    <p>FFA is a 501(c)(3); contributions are tax-deductible to the extent allowed by law.</p>
+  </div>
+  <div class="footer-right">
+    Foundation for Future Aesthetics<br>
+    501(c)(3) · New York City
+  </div>
+</div>
+
+</body>
+</html>

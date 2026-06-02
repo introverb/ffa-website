@@ -18,55 +18,27 @@ export const metadata: Metadata = {
   twitter: { images: ['/images/mission.jpg'] },
 };
 
-// Re-render every 10 minutes so the ETH/USD spot price stays fresh
-// without hammering CoinGecko's free-tier rate limit. The actual
-// on-chain amount is computed at click time anyway — the displayed
-// figure is only a sized suggestion.
-export const revalidate = 600;
-
-async function getEthPriceUsd(): Promise<number | null> {
-  try {
-    const res = await fetch(
-      'https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd',
-      { next: { revalidate: 600 } },
-    );
-    if (!res.ok) return null;
-    const data = (await res.json()) as { ethereum?: { usd?: number } };
-    const price = data?.ethereum?.usd;
-    return typeof price === 'number' && price > 0 ? price : null;
-  } catch {
-    return null;
-  }
-}
-
-// `slug` powers the GoatCounter event names so analytics stays stable
-// even if the display `name` later changes (e.g. "Patron" → "Sustaining
-// Patron"). Each tier emits two events: `give:tier-<slug>-usd` and
-// `give:tier-<slug>-eth`.
-const TIERS = [
+// Patronage paths — the two ways an individual or company can become
+// a patron of the foundation itself (not a project sponsor). Each card
+// links to its standalone brief in /public (rewritten at /patrons/...)
+// rather than a one-click donate, because the patron relationship
+// starts with a conversation, not a checkout.
+const PATRONAGE = [
   {
-    name: 'Patron',
-    slug: 'patron',
-    amount: '$500',
-    usd: 500,
+    name: 'Private Patron',
+    slug: 'private-patron',
+    amount: 'From $1,000',
     blurb:
-      "Fund one contributor in an upcoming Possibilia issue — a writer, illustrator, or essayist’s honorarium for their work.",
+      'For individuals backing the foundation at the start. The founding circle closes August 9, the night of OURS.',
+    href: '/patrons/private',
   },
   {
-    name: 'Editorial Sponsor',
-    slug: 'editorial',
-    amount: '$2,500',
-    usd: 2500,
+    name: 'Corporate Patron',
+    slug: 'corporate-patron',
+    amount: 'From $5,000',
     blurb:
-      'A full editorial package — story, artwork, and companion essay — commissioned around the vision behind your lab, company, or initiative.',
-  },
-  {
-    name: 'Presenting Sponsor',
-    slug: 'presenting',
-    amount: '$5,000',
-    usd: 5000,
-    blurb:
-      'Sponsor a single FFA program — an event, exhibition, or special feature — with named recognition.',
+      'For companies building toward a future worth wanting. Founding position is named, permanent, and only open once.',
+    href: '/patrons/corporate',
   },
 ];
 
@@ -138,8 +110,7 @@ const OTHER_WAYS: OtherWay[] = [
   },
 ];
 
-export default async function SupportPage() {
-  const ethPriceUsd = await getEthPriceUsd();
+export default function SupportPage() {
   return (
     <>
       <PageHeader
@@ -303,69 +274,47 @@ export default async function SupportPage() {
         </div>
       </Panel>
 
-      {/* Partner — named sponsorships, in priority of velocity:
-          (1) Tier grid is the fast-pay path: click → every.org with
-              the tier amount already pre-filled.
-          (2) Issue underwriter callout is the slow-conversation path
-              for the $20k full-issue commitment.
-          (3) In-development sponsorships (OURS, Industrial Garden)
-              are named initiatives whose sponsorship offerings are
-              still being finalized — they route through dedicated
-              dialogs / contact flows. */}
+      {/* Patronage — the two patron paths (Private / Corporate). Each
+          card links to its standalone brief in /public; the patron
+          relationship starts with a conversation, not a checkout, so
+          the card CTAs route to the brief rather than every.org.
+          Below the cards, the issue-underwriter callout (slow-
+          conversation $20k commitment) and the named-initiative
+          sponsorships (OURS, Industrial Garden) continue to live in
+          this panel — they are the other shapes of partner support
+          beyond patronage proper. id="partner" retained so any
+          inbound anchor links from elsewhere on the site still land
+          here. */}
       <Panel id="partner" variant="white" className="md:p-16">
         <ScrollDepthMarker eventName="scroll:support:partner-visible" />
-        <p className="text-sm uppercase tracking-[0.08em] text-sage">Partner</p>
+        <p className="text-sm uppercase tracking-[0.08em] text-sage">Patronage</p>
         <h2 className="mt-6 max-w-4xl text-h2 leading-[1.05] md:text-h2-lg">
           Fund a more optimistic future.
         </h2>
 
-        <div className="mt-12 grid gap-10 md:grid-cols-3">
-          {TIERS.map((t) => {
-            const isPlus = t.amount.endsWith('+');
-            // Computed once per tier so the same number drives the
-            // button label AND the in-modal "Suggested amount" + the
-            // EIP-681 QR encoding. Page revalidates every 10 min via
-            // ISR so this figure refreshes with the live ETH/USD spot
-            // price; the modal always reflects whatever ethAmount was
-            // current at the most recent server render.
-            const ethAmount = ethPriceUsd
-              ? (t.usd / ethPriceUsd).toFixed(2)
-              : undefined;
-            const ethLabel = ethAmount
-              ? `Give ${ethAmount}${isPlus ? '+' : ''} ETH`
-              : 'Give in ETH';
-            return (
-              <div
-                key={t.name}
-                className="flex flex-col justify-between rounded-2xl bg-cream p-6 md:p-10"
-              >
-                <div>
-                  <p className="text-sm uppercase tracking-[0.08em] text-sage">{t.name}</p>
-                  <p className="mt-5 text-h2 md:text-h2-lg">{t.amount}</p>
-                  <p className="mt-5 text-body leading-relaxed text-ink/80">{t.blurb}</p>
-                </div>
-                <div className="mt-8 flex flex-nowrap gap-2">
-                  <a
-                    href={`https://www.every.org/foundation-for-future-aesthetics/donate?amount=${t.usd}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    data-goatcounter-click={`give:tier-${t.slug}-usd`}
-                    className="inline-flex min-w-0 flex-1 items-center justify-center whitespace-nowrap rounded-xl bg-sage px-3 py-3 text-xs uppercase tracking-[0.08em] text-white transition-colors hover:bg-dark"
-                  >
-                    Give {t.amount.replace('+', '')}
-                  </a>
-                  <EthGiveButton
-                    label={ethLabel}
-                    ethAmount={ethAmount}
-                    usdAmount={t.usd}
-                    eventName={`give:tier-${t.slug}-eth`}
-                  />
-                </div>
+        <div className="mt-12 grid gap-10 md:grid-cols-2">
+          {PATRONAGE.map((p) => (
+            <div
+              key={p.name}
+              className="flex flex-col justify-between rounded-2xl bg-cream p-6 md:p-10"
+            >
+              <div>
+                <p className="text-sm uppercase tracking-[0.08em] text-sage">{p.name}</p>
+                <p className="mt-5 text-h2 md:text-h2-lg">{p.amount}</p>
+                <p className="mt-5 text-body leading-relaxed text-ink/80">{p.blurb}</p>
               </div>
-            );
-          })}
+              <div className="mt-8">
+                <Link
+                  href={p.href}
+                  data-goatcounter-click={`patron:${p.slug}-brief`}
+                  className="btn-solid"
+                >
+                  View the patron brief
+                </Link>
+              </div>
+            </div>
+          ))}
         </div>
-        <p className="mt-8 text-sm text-muted">All tiers include recognition.</p>
 
         {/* Issue-underwriter callout — bordered card with no fill
             distinguishes it from the solid cream tier cards above:

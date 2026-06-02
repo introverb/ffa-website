@@ -36,6 +36,20 @@ const nextConfig = {
         source: '/ours/artist-brief',
         destination: '/ours-artist-brief.html',
       },
+      // Patron briefs — same rewrite pattern as the OURS briefs.
+      // Two siblings under /patrons/: the private path (individual
+      // donors, $1k+, two CTAs — start the conversation + give now)
+      // and the corporate path ($5k+, single conversation CTA).
+      // Each is a standalone static HTML doc in /public, surfaced
+      // at a clean shareable URL.
+      {
+        source: '/patrons/private',
+        destination: '/patrons-private.html',
+      },
+      {
+        source: '/patrons/corporate',
+        destination: '/patrons-corporate.html',
+      },
     ];
   },
   async redirects() {
