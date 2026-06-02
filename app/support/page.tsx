@@ -379,12 +379,14 @@ export default async function SupportPage() {
                 Underwrite an issue
               </p>
               <p className="mt-5 text-h2 leading-[1.05] md:text-h2-lg">
-                $20,000 funds a complete issue of Possibilia.
+                Underwrite a complete issue of Possibilia Magazine.
               </p>
               <p className="mt-5 text-body leading-relaxed text-ink/80">
-                Story, artwork, companion essays, print, and distribution. If
-                you&rsquo;re interested in underwriting a full issue, we&rsquo;d
-                love to start a conversation.
+                Pick the futures you want to see come to life. Choose the
+                concepts for ten short stories, the scientific fields and
+                technological innovations to explore, and the direction of the
+                artwork commissioned around them. If you&rsquo;d like to
+                underwrite a full issue, we&rsquo;d love to start a conversation.
               </p>
             </div>
             <Link
