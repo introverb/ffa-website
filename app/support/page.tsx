@@ -304,8 +304,16 @@ export default function SupportPage() {
                 <p className="mt-5 text-body leading-relaxed text-ink/80">{p.blurb}</p>
               </div>
               <div className="mt-8">
+                {/* Opens in a new tab — the brief is a standalone
+                    shareable document (its own typography, full
+                    print styles, no SiteNav around it), so popping
+                    a new tab keeps the visitor's place on /support
+                    when they close the brief. Same pattern as the
+                    OURS sponsorship-brief link further down. */}
                 <Link
                   href={p.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   data-goatcounter-click={`patron:${p.slug}-brief`}
                   className="btn-solid"
                 >
