@@ -376,7 +376,7 @@ export default async function SupportPage() {
           <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between md:gap-10">
             <div className="md:max-w-2xl">
               <p className="text-sm uppercase tracking-[0.08em] text-sage">
-                Underwrite an issue
+                Fund your vision
               </p>
               <p className="mt-5 text-h2 leading-[1.05] md:text-h2-lg">
                 Underwrite a complete issue of Possibilia Magazine.
