@@ -172,7 +172,7 @@ export default function SupportPage() {
                   data-goatcounter-click={`patron:${p.slug}-brief`}
                   className="btn-solid"
                 >
-                  View the patron brief
+                  View the brief
                 </Link>
               </div>
             </div>
