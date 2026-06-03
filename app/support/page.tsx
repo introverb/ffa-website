@@ -125,155 +125,6 @@ export default function SupportPage() {
         }
       />
 
-      {/* Donor-action panel — three sections in one card. Top row is
-          the Give | Other Ways vertical split (conversion path on the
-          left, tax-savvier vehicles on the right). Below the row, a
-          full-width Refer Us section for connectors who can introduce
-          us to a donor or fund. All three are the actions a sympathetic
-          visitor can take from this page; consolidating them keeps the
-          donor-paths in one panel and lets Partner / catch-all below
-          serve their distinct registers (institutional sponsorship
-          and "didn't see your shape," respectively).
-          3px dividers — vertical between Give / Other Ways on desktop,
-          horizontal under the row before Refer — match the stroke of
-          the rest of the site's decorative hairlines. */}
-      <Panel id="give" variant="white" full className="overflow-hidden">
-        <div className="grid md:grid-cols-2 md:divide-x-[3px] md:divide-ink/20">
-          {/* Left half — Give. Primary CTA path. Flex column so the
-              buttons sink to the bottom even when the right column is
-              taller (3 items + footnote), keeping the two halves
-              visually balanced. */}
-          <div className="flex flex-col p-8 md:p-14">
-            <p className="text-sm uppercase tracking-[0.08em] text-sage">Give</p>
-            <h2 className="mt-6 text-h2 leading-[1.05] md:text-h2-lg">
-              Every gift welcome.
-            </h2>
-            {/* Body shifted from sales-pitch ("fast, no-strings,
-                tax-deductible") to FFA's three-role philosophy +
-                stewardship close.
-                First paragraph: artists imagine, scientists discover,
-                technologists build — three distinct roles, each
-                carrying a piece of "a future worth having." Names the
-                current misalignment (art toward dystopia, tech toward
-                power, science toward whatever's fundable), then
-                positions FFA as the corrective: funding the version
-                where all three pull together, aligned toward human
-                flourishing.
-                Second paragraph: today's flagship initiatives named
-                concretely + the granting-program ambition for all
-                three groups + personal-note close instead of
-                transactional thanks. */}
-            <div className="mt-6 space-y-4 text-body-lg leading-relaxed text-ink/80">
-              <p>
-                Artists imagine a future worth having. Scientists
-                discover how it&rsquo;s possible. Technologists build
-                the pieces. Right now those three pull in different
-                directions — art toward dystopia, tech toward power,
-                science toward whatever&rsquo;s fundable. FFA funds the
-                version where they pull together, aligned toward human
-                flourishing.
-              </p>
-              <p>
-                <strong>Today:</strong> Possibilia stories, OURS
-                exhibitions, the Industrial Garden initiative.{' '}
-                <strong>Next:</strong> granting programs for the
-                artists, scientists, and technologists building futures
-                of their own. Every gift, no matter the size, moves the
-                work forward — and we&rsquo;ll write back personally.
-              </p>
-            </div>
-            <div className="mt-auto flex flex-col gap-3 pt-10 sm:flex-row">
-              <a
-                href="https://www.every.org/foundation-for-future-aesthetics/donate"
-                target="_blank"
-                rel="noopener noreferrer"
-                data-goatcounter-click="give:usd-general"
-                className="inline-flex flex-1 items-center justify-center whitespace-nowrap rounded-xl bg-sage px-6 py-4 text-sm uppercase tracking-[0.1em] text-white transition-colors hover:bg-dark"
-              >
-                Give in USD
-              </a>
-              <EthGiveButton
-                label="Give in ETH"
-                eventName="give:eth-general"
-              />
-            </div>
-          </div>
-
-          {/* Right half — Other ways. Definition-list rhythm: bold
-              ink label + body. Quieter than sage-eyebrow per-item
-              labels so the section's own "Other ways" eyebrow stays
-              the dominant marker on this side. */}
-          <div className="flex flex-col p-8 md:p-14">
-            <p className="text-sm uppercase tracking-[0.08em] text-sage">Other ways</p>
-            <h2 className="mt-6 text-h2 leading-[1.05] md:text-h2-lg">
-              Or give another way.
-            </h2>
-            <ul className="mt-8 space-y-6 text-body leading-relaxed text-ink/80">
-              {OTHER_WAYS.map((w) => (
-                <li key={w.label}>
-                  <p className="font-medium text-ink">{w.label}</p>
-                  <p className="mt-1.5">{w.body}</p>
-                </li>
-              ))}
-            </ul>
-            <p className="mt-auto pt-8 text-sm text-muted">
-              For any of these, start with a note via{' '}
-              <Link
-                href="/contact"
-                className="underline decoration-from-font underline-offset-4 text-ink hover:text-sage"
-              >
-                our contact form
-              </Link>{' '}
-              and we&rsquo;ll route you to the right place.
-            </p>
-          </div>
-        </div>
-
-        {/* Horizontal divider matching the 3px vertical divider above;
-            on mobile (columns stacked), it sits between Other Ways and
-            Refer Us, keeping the rhythm continuous. */}
-        <div className="h-[3px] bg-ink/20" />
-
-        {/* Refer Us — folded in from its own standalone panel. Lives
-            as a horizontal third section under the Give | Other Ways
-            split. Full-width because the body copy + CTA wants the
-            horizontal breathing room rather than fighting for a narrow
-            column. id="refer" preserved so any anchor links to #refer
-            from elsewhere on the site still land here. */}
-        <div id="refer" className="p-8 md:p-14">
-          <div className="grid gap-12 md:grid-cols-[1fr_1.6fr]">
-            <div>
-              <p className="text-sm uppercase tracking-[0.08em] text-sage">Refer us</p>
-              <h2 className="mt-6 text-h2 leading-[1.05] md:text-h2-lg">
-                Open a door for us.
-              </h2>
-            </div>
-            <div className="flex flex-col text-body-lg leading-relaxed text-ink/85">
-              <p>
-                If you sit on a foundation board, advise a grant program, or have ties to a
-                donor, fund, or competition that supports the arts, science writing, or
-                future-oriented media, we&rsquo;d love an introduction. We&rsquo;re a
-                501(c)(3) actively building the grant pipeline for Possibilia, the OURS
-                exhibition, and the Industrial Garden initiative.
-              </p>
-              <p className="mt-5">
-                We can prepare a tailored brief for your contact within a week. Send a name,
-                an email, and a sentence about why you think it&rsquo;s a fit.
-              </p>
-              <div className="mt-auto pt-10">
-                <Link
-                  href="/contact?topic=Refer a donor or foundation"
-                  data-goatcounter-click="refer:make-introduction"
-                  className="btn-solid"
-                >
-                  Make an introduction
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </Panel>
-
       {/* Patronage — the two patron paths (Private / Corporate). Each
           card links to its standalone brief in /public; the patron
           relationship starts with a conversation, not a checkout, so
@@ -284,7 +135,11 @@ export default function SupportPage() {
           this panel — they are the other shapes of partner support
           beyond patronage proper. id="partner" retained so any
           inbound anchor links from elsewhere on the site still land
-          here. */}
+          here.
+          Leads the page (above the Give / Refer / Other-ways donor-
+          action panel) because patronage is the foundation-defining
+          relationship offer — the rest of the page is funded by it,
+          so the patron paths get first read. */}
       <Panel id="partner" variant="white" className="md:p-16">
         <ScrollDepthMarker eventName="scroll:support:partner-visible" />
         <p className="text-sm uppercase tracking-[0.08em] text-sage">Patronage</p>
@@ -438,9 +293,160 @@ export default function SupportPage() {
         </div>
       </Panel>
 
+      {/* Donor-action panel — three sections in one card. Top row is
+          the Give | Other Ways vertical split (conversion path on the
+          left, tax-savvier vehicles on the right). Below the row, a
+          full-width Refer Us section for connectors who can introduce
+          us to a donor or fund. All three are the actions a sympathetic
+          visitor can take from this page; consolidating them keeps the
+          donor-paths in one panel. Sits between the Patronage lead
+          panel above and the "Not sure where you fit?" catch-all
+          below — donor-paths in the middle so the relationship-shaped
+          patron offer leads, the broad give/refer mechanics follow,
+          and the soft off-ramp closes.
+          3px dividers — vertical between Give / Other Ways on desktop,
+          horizontal under the row before Refer — match the stroke of
+          the rest of the site's decorative hairlines. */}
+      <Panel id="give" variant="white" full className="overflow-hidden">
+        <div className="grid md:grid-cols-2 md:divide-x-[3px] md:divide-ink/20">
+          {/* Left half — Give. Primary CTA path. Flex column so the
+              buttons sink to the bottom even when the right column is
+              taller (3 items + footnote), keeping the two halves
+              visually balanced. */}
+          <div className="flex flex-col p-8 md:p-14">
+            <p className="text-sm uppercase tracking-[0.08em] text-sage">Give</p>
+            <h2 className="mt-6 text-h2 leading-[1.05] md:text-h2-lg">
+              Every gift welcome.
+            </h2>
+            {/* Body shifted from sales-pitch ("fast, no-strings,
+                tax-deductible") to FFA's three-role philosophy +
+                stewardship close.
+                First paragraph: artists imagine, scientists discover,
+                technologists build — three distinct roles, each
+                carrying a piece of "a future worth having." Names the
+                current misalignment (art toward dystopia, tech toward
+                power, science toward whatever's fundable), then
+                positions FFA as the corrective: funding the version
+                where all three pull together, aligned toward human
+                flourishing.
+                Second paragraph: today's flagship initiatives named
+                concretely + the granting-program ambition for all
+                three groups + personal-note close instead of
+                transactional thanks. */}
+            <div className="mt-6 space-y-4 text-body-lg leading-relaxed text-ink/80">
+              <p>
+                Artists imagine a future worth having. Scientists
+                discover how it&rsquo;s possible. Technologists build
+                the pieces. Right now those three pull in different
+                directions — art toward dystopia, tech toward power,
+                science toward whatever&rsquo;s fundable. FFA funds the
+                version where they pull together, aligned toward human
+                flourishing.
+              </p>
+              <p>
+                <strong>Today:</strong> Possibilia stories, OURS
+                exhibitions, the Industrial Garden initiative.{' '}
+                <strong>Next:</strong> granting programs for the
+                artists, scientists, and technologists building futures
+                of their own. Every gift, no matter the size, moves the
+                work forward — and we&rsquo;ll write back personally.
+              </p>
+            </div>
+            <div className="mt-auto flex flex-col gap-3 pt-10 sm:flex-row">
+              <a
+                href="https://www.every.org/foundation-for-future-aesthetics/donate"
+                target="_blank"
+                rel="noopener noreferrer"
+                data-goatcounter-click="give:usd-general"
+                className="inline-flex flex-1 items-center justify-center whitespace-nowrap rounded-xl bg-sage px-6 py-4 text-sm uppercase tracking-[0.1em] text-white transition-colors hover:bg-dark"
+              >
+                Give in USD
+              </a>
+              <EthGiveButton
+                label="Give in ETH"
+                eventName="give:eth-general"
+              />
+            </div>
+          </div>
+
+          {/* Right half — Other ways. Definition-list rhythm: bold
+              ink label + body. Quieter than sage-eyebrow per-item
+              labels so the section's own "Other ways" eyebrow stays
+              the dominant marker on this side. */}
+          <div className="flex flex-col p-8 md:p-14">
+            <p className="text-sm uppercase tracking-[0.08em] text-sage">Other ways</p>
+            <h2 className="mt-6 text-h2 leading-[1.05] md:text-h2-lg">
+              Or give another way.
+            </h2>
+            <ul className="mt-8 space-y-6 text-body leading-relaxed text-ink/80">
+              {OTHER_WAYS.map((w) => (
+                <li key={w.label}>
+                  <p className="font-medium text-ink">{w.label}</p>
+                  <p className="mt-1.5">{w.body}</p>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-auto pt-8 text-sm text-muted">
+              For any of these, start with a note via{' '}
+              <Link
+                href="/contact"
+                className="underline decoration-from-font underline-offset-4 text-ink hover:text-sage"
+              >
+                our contact form
+              </Link>{' '}
+              and we&rsquo;ll route you to the right place.
+            </p>
+          </div>
+        </div>
+
+        {/* Horizontal divider matching the 3px vertical divider above;
+            on mobile (columns stacked), it sits between Other Ways and
+            Refer Us, keeping the rhythm continuous. */}
+        <div className="h-[3px] bg-ink/20" />
+
+        {/* Refer Us — folded in from its own standalone panel. Lives
+            as a horizontal third section under the Give | Other Ways
+            split. Full-width because the body copy + CTA wants the
+            horizontal breathing room rather than fighting for a narrow
+            column. id="refer" preserved so any anchor links to #refer
+            from elsewhere on the site still land here. */}
+        <div id="refer" className="p-8 md:p-14">
+          <div className="grid gap-12 md:grid-cols-[1fr_1.6fr]">
+            <div>
+              <p className="text-sm uppercase tracking-[0.08em] text-sage">Refer us</p>
+              <h2 className="mt-6 text-h2 leading-[1.05] md:text-h2-lg">
+                Open a door for us.
+              </h2>
+            </div>
+            <div className="flex flex-col text-body-lg leading-relaxed text-ink/85">
+              <p>
+                If you sit on a foundation board, advise a grant program, or have ties to a
+                donor, fund, or competition that supports the arts, science writing, or
+                future-oriented media, we&rsquo;d love an introduction. We&rsquo;re a
+                501(c)(3) actively building the grant pipeline for Possibilia, the OURS
+                exhibition, and the Industrial Garden initiative.
+              </p>
+              <p className="mt-5">
+                We can prepare a tailored brief for your contact within a week. Send a name,
+                an email, and a sentence about why you think it&rsquo;s a fit.
+              </p>
+              <div className="mt-auto pt-10">
+                <Link
+                  href="/contact?topic=Refer a donor or foundation"
+                  data-goatcounter-click="refer:make-introduction"
+                  className="btn-solid"
+                >
+                  Make an introduction
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Panel>
+
       {/* Catch-all soft off-ramp — folded in from the old /partnerships
           page. Gentle invitation for visitors whose shape didn't fit
-          into Partner / Refer / Give. Dark variant breaks the run of
+          into Patronage / Give / Refer. Dark variant breaks the run of
           white panels and signals "different register of conversation." */}
       <Panel variant="dark" className="md:p-16">
         <ScrollDepthMarker eventName="scroll:support:catch-all-visible" />
