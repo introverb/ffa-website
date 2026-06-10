@@ -42,6 +42,28 @@ const PATRONAGE = [
   },
 ];
 
+// Funders who back the foundation, surfaced in the Benefactors panel
+// between Patronage and Give. Each entry renders as logo + program
+// caption; the wrapping anchor sends visitors to the funder's site
+// (in a new tab) and fires a per-funder GoatCounter event so we can
+// see which credit gets clicked.
+const BENEFACTORS = [
+  {
+    name: "O'Shaughnessy Ventures",
+    slug: 'oshaughnessy-ventures',
+    program: 'Fellowship Grant',
+    logo: '/images/funders/oshaughnessy-ventures.svg',
+    href: 'https://www.osv.llc',
+  },
+  {
+    name: 'The Mercatus Center',
+    slug: 'mercatus-center',
+    program: 'Emergent Ventures',
+    logo: '/images/funders/mercatus-center.svg',
+    href: 'https://www.mercatus.org/emergent-ventures',
+  },
+];
+
 // FFA's on-chain donation wallet, duplicated here (also defined in
 // EthGiveButton.tsx) for the streaming-protocol links below. A small
 // duplication trade-off vs. introducing a shared constants file for
@@ -290,6 +312,50 @@ export default function SupportPage() {
               </div>
             </div>
           </div>
+        </div>
+      </Panel>
+
+      {/* Benefactors — quiet credit roll for the foundations and grant
+          programs backing FFA. Sits between Patronage above and Give
+          below so it lands as social proof at the moment of decision:
+          a visitor reading the patron cards immediately sees the
+          circle is real. Treatment is restrained: centered logos
+          normalized to a shared display height (different source
+          aspect ratios), program name in the sage eyebrow style as
+          a caption. Each logo links to the funder in a new tab so
+          the visitor's place on /support is preserved. */}
+      <Panel variant="white" className="md:p-16">
+        <p className="text-sm uppercase tracking-[0.08em] text-sage">Benefactors</p>
+        <h2 className="mt-6 text-h2 leading-[1.05] md:text-h2-lg">
+          With gratitude.
+        </h2>
+
+        <div className="mt-14 grid gap-12 md:grid-cols-2 md:gap-20">
+          {BENEFACTORS.map((b) => (
+            <a
+              key={b.slug}
+              href={b.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-goatcounter-click={`benefactor:${b.slug}`}
+              className="group flex flex-col items-center text-center"
+            >
+              {/* Fixed-height container with centered alignment so
+                  logos of different aspect ratios (OSV ~3.2:1,
+                  Mercatus ~5.6:1) read as the same visual weight. */}
+              <div className="flex h-16 items-center justify-center md:h-20">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={b.logo}
+                  alt={b.name}
+                  className="max-h-full w-auto max-w-[260px] object-contain"
+                />
+              </div>
+              <p className="mt-6 text-sm uppercase tracking-[0.08em] text-sage transition-colors group-hover:text-ink">
+                {b.program}
+              </p>
+            </a>
+          ))}
         </div>
       </Panel>
 
