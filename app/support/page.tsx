@@ -58,7 +58,7 @@ const BENEFACTORS = [
   {
     name: 'The Mercatus Center',
     slug: 'mercatus-center',
-    program: 'Emergent Ventures',
+    program: 'Emergent Ventures Grant',
     // Filename carries the program, not just the org — and doubles as
     // a cache-bust: the original mercatus-center.svg shipped briefly
     // as an unparseable Illustrator export, and browsers that cached
