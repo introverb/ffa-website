@@ -68,13 +68,13 @@ const BENEFACTORS = [
   },
 ];
 
-// Individual benefactors — second row of the Benefactors panel, under
-// the org logos. Portraits instead of logos: square tiles with the
-// person's name as the caption. Sources are 600×600 squares supplied
-// by each benefactor (photo as JPEG, pixel art as PNG to keep its
-// hard edges), displayed well under native size so they stay crisp
-// on retina. No links: unlike the org entries there's no program
-// page to send visitors to.
+// Individual benefactors — right-hand group of the Benefactors row,
+// beside the org logos. Portraits instead of logos: square tiles with
+// the person's name as the caption. Sources are 600×600 squares
+// supplied by each benefactor (photo as JPEG, pixel art as PNG to
+// keep its hard edges), displayed well under native size so they
+// stay crisp on retina. No links: unlike the org entries there's no
+// program page to send visitors to.
 const INDIVIDUAL_BENEFACTORS = [
   {
     name: 'Geoff Anders',
@@ -354,53 +354,64 @@ export default function SupportPage() {
           Thanks to our partners, sponsors, and benefactors.
         </h2>
 
-        <div className="mt-14 grid gap-12 md:grid-cols-2 md:gap-20">
-          {BENEFACTORS.map((b) => (
-            <a
-              key={b.slug}
-              href={b.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              data-goatcounter-click={`benefactor:${b.slug}`}
-              className="group flex flex-col items-center text-center"
-            >
-              {/* Fixed-height container with centered alignment so
-                  logos of different aspect ratios (OSV ~3.2:1,
-                  Mercatus ~5.6:1) read as the same visual weight. */}
-              <div className="flex h-16 items-center justify-center md:h-20">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={b.logo}
-                  alt={b.name}
-                  className="max-h-full w-auto max-w-[260px] object-contain"
-                />
-              </div>
-              <p className="mt-6 text-sm uppercase tracking-[0.08em] text-sage transition-colors group-hover:text-ink">
-                {b.program}
-              </p>
-            </a>
-          ))}
-        </div>
+        {/* One row, two groups: grant programs left, individual
+            benefactors right, split by the site's 3px hairline (the
+            same stroke as the Give | Other Ways divider below) —
+            vertical at md+, absent on mobile where the groups stack.
+            All four entries share a fixed-height media box so the
+            wide logos and the square portraits sit on one centerline
+            and the caption row aligns across the full panel; the
+            divider makes the logo/portrait shape mismatch read as
+            two deliberate groups rather than inconsistency. */}
+        <div className="mt-14 grid gap-14 md:grid-cols-2 md:gap-0 md:divide-x-[3px] md:divide-ink/20">
+          <div className="grid grid-cols-2 gap-8 md:pr-14">
+            {BENEFACTORS.map((b) => (
+              <a
+                key={b.slug}
+                href={b.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-goatcounter-click={`benefactor:${b.slug}`}
+                className="group flex flex-col items-center text-center"
+              >
+                {/* max-h keeps OSV's squarer mark and Mercatus's wide
+                    wordmark on the same optical band; max-w-full lets
+                    the narrow four-up columns cap Mercatus's width. */}
+                <div className="flex h-20 items-center justify-center md:h-24">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={b.logo}
+                    alt={b.name}
+                    className="max-h-12 w-auto max-w-full object-contain md:max-h-14"
+                  />
+                </div>
+                <p className="mt-5 text-sm uppercase tracking-[0.08em] text-sage transition-colors group-hover:text-ink">
+                  {b.program}
+                </p>
+              </a>
+            ))}
+          </div>
 
-        {/* Individual benefactors — portraits row under the org logos.
-            Square tiles, rounded to match the site's card radius,
-            object-cover so any future non-square source still crops
-            cleanly. Name caption mirrors the program captions above
-            so the two rows read as one credit roll. */}
-        <div className="mt-14 grid gap-12 md:grid-cols-2 md:gap-20">
-          {INDIVIDUAL_BENEFACTORS.map((b) => (
-            <div key={b.slug} className="flex flex-col items-center text-center">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={b.image}
-                alt={b.name}
-                className="h-36 w-36 rounded-2xl object-cover md:h-40 md:w-40"
-              />
-              <p className="mt-6 text-sm uppercase tracking-[0.08em] text-sage">
-                {b.name}
-              </p>
-            </div>
-          ))}
+          <div className="grid grid-cols-2 gap-8 md:pl-14">
+            {INDIVIDUAL_BENEFACTORS.map((b) => (
+              <div key={b.slug} className="flex flex-col items-center text-center">
+                {/* Same fixed-height media box as the logo slots so the
+                    portrait centers on the shared centerline and the
+                    captions align across all four entries. */}
+                <div className="flex h-20 items-center justify-center md:h-24">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={b.image}
+                    alt={b.name}
+                    className="h-20 w-20 rounded-2xl object-cover md:h-24 md:w-24"
+                  />
+                </div>
+                <p className="mt-5 text-sm uppercase tracking-[0.08em] text-sage">
+                  {b.name}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
       </Panel>
 
