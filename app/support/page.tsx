@@ -54,6 +54,11 @@ const BENEFACTORS = [
     program: 'Fellowship Grant',
     logo: '/images/funders/oshaughnessy-ventures.svg',
     href: 'https://www.osv.llc',
+    // Per-logo size tuning: a shared max-height alone makes the wide
+    // Mercatus wordmark (5.6:1) sprawl to ~280px beside OSV's compact
+    // 3.2:1 mark at ~180px. Height-capping OSV and width-capping
+    // Mercatus brings their optical weight level.
+    logoClass: 'max-h-12 md:max-h-14',
   },
   {
     name: 'The Mercatus Center',
@@ -65,6 +70,7 @@ const BENEFACTORS = [
     // that dead file would keep showing a blank at the old URL.
     logo: '/images/funders/mercatus-emergent-ventures.svg',
     href: 'https://www.mercatus.org/emergent-ventures',
+    logoClass: 'max-w-[180px] md:max-w-[205px]',
   },
 ];
 
@@ -374,15 +380,16 @@ export default function SupportPage() {
                 data-goatcounter-click={`benefactor:${b.slug}`}
                 className="group flex flex-col items-center text-center"
               >
-                {/* max-h keeps OSV's squarer mark and Mercatus's wide
-                    wordmark on the same optical band; max-w-full lets
-                    the narrow four-up columns cap Mercatus's width. */}
+                {/* Each logo carries its own size cap (logoClass) —
+                    see the BENEFACTORS comment for the optical-weight
+                    rationale. max-w-full stays as the column-width
+                    backstop on narrow screens. */}
                 <div className="flex h-20 items-center justify-center md:h-24">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={b.logo}
                     alt={b.name}
-                    className="max-h-12 w-auto max-w-full object-contain md:max-h-14"
+                    className={`w-auto max-w-full object-contain ${b.logoClass}`}
                   />
                 </div>
                 <p className="mt-5 text-sm uppercase tracking-[0.08em] text-sage transition-colors group-hover:text-ink">
