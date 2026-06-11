@@ -196,6 +196,108 @@ export default function SupportPage() {
         }
       />
 
+      {/* Benefactors — quiet credit roll for the foundations, grant
+          programs, and founding patrons backing FFA. Leads the page,
+          above Patronage, as the credibility signal: a visitor meets
+          the real backers before the page asks them to become one.
+          Treatment is restrained: lockups normalized to a shared
+          optical band, captions in the sage eyebrow style. Each entry
+          links out in a new tab so the visitor's place on /support
+          is preserved. */}
+      <Panel variant="white" className="md:p-16">
+        <p className="text-sm uppercase tracking-[0.08em] text-sage">With gratitude</p>
+        <h2 className="mt-6 text-h2 leading-[1.05] md:text-h2-lg">
+          Thanks to our partners, sponsors, and benefactors.
+        </h2>
+
+        {/* One row, two groups: grant programs left, individual
+            benefactors right, split by the site's 3px hairline (the
+            same stroke as the Give | Other Ways divider below) —
+            vertical at md+, absent on mobile where the groups stack.
+            All entries share a fixed-height media box so the wide
+            logos and the person lockups sit on one centerline and
+            the caption row aligns across the full panel; the divider
+            makes the org/person shape difference read as two
+            deliberate groups rather than inconsistency. */}
+        {/* 3fr/2fr split: three org columns + two person columns land
+            at five roughly equal widths across the row. Both groups
+            stack one-per-row on mobile (wide lockups in two phone
+            columns would crowd or orphan). */}
+        <div className="mt-14 grid gap-14 md:grid-cols-[3fr_2fr] md:gap-0 md:divide-x-[3px] md:divide-ink/20">
+          <div className="grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-8 md:pr-14">
+            {BENEFACTORS.map((b) => (
+              <a
+                key={b.slug}
+                href={b.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-goatcounter-click={`benefactor:${b.slug}`}
+                className="group flex flex-col items-center text-center"
+              >
+                {/* Each logo carries its own size cap (logoClass) —
+                    see the BENEFACTORS comment for the optical-weight
+                    rationale. max-w-full stays as the column-width
+                    backstop on narrow screens. */}
+                <div className="flex h-20 items-center justify-center md:h-24">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={b.logo}
+                    alt={b.name}
+                    className={`w-auto max-w-full object-contain ${b.logoClass}`}
+                  />
+                </div>
+                {/* Captions at text-xs + nowrap so the five-up columns
+                    keep every caption on a single shared baseline; the
+                    longest (Fiscal Sponsor 2023-2024) center-overflows
+                    a few px into its gaps rather than wrapping to a
+                    ragged second line. */}
+                <p className="mt-5 whitespace-nowrap text-xs uppercase tracking-[0.08em] text-sage transition-colors group-hover:text-ink">
+                  {b.program}
+                </p>
+              </a>
+            ))}
+          </div>
+
+          <div className="grid grid-cols-1 gap-10 md:grid-cols-2 md:gap-8 md:pl-14">
+            {INDIVIDUAL_BENEFACTORS.map((b) => (
+              <a
+                key={b.slug}
+                href={b.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-goatcounter-click={`benefactor:${b.slug}`}
+                className="group flex flex-col items-center text-center"
+              >
+                {/* Person-as-lockup, sized to the org-logo optical
+                    band: square portrait as the mark, stacked
+                    first/last name in the heading face as the
+                    wordmark (the split is deterministic, mirroring
+                    Mercatus's two-line lockup). Same fixed-height
+                    media box keeps the row's shared centerline. */}
+                <div className="flex h-20 items-center justify-center gap-3.5 md:h-24">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={b.image}
+                    alt={b.name}
+                    className="h-12 w-12 rounded-lg object-cover md:h-14 md:w-14"
+                  />
+                  <span className="font-heading text-h6 leading-[1.15] text-ink text-left">
+                    {b.name.split(' ').map((part) => (
+                      <span key={part} className="block">
+                        {part}
+                      </span>
+                    ))}
+                  </span>
+                </div>
+                <p className="mt-5 whitespace-nowrap text-xs uppercase tracking-[0.08em] text-sage transition-colors group-hover:text-ink">
+                  {b.caption}
+                </p>
+              </a>
+            ))}
+          </div>
+        </div>
+      </Panel>
+
       {/* Patronage — the two patron paths (Private / Corporate). Each
           card links to its standalone brief in /public; the patron
           relationship starts with a conversation, not a checkout, so
@@ -207,10 +309,11 @@ export default function SupportPage() {
           beyond patronage proper. id="partner" retained so any
           inbound anchor links from elsewhere on the site still land
           here.
-          Leads the page (above the Give / Refer / Other-ways donor-
-          action panel) because patronage is the foundation-defining
-          relationship offer — the rest of the page is funded by it,
-          so the patron paths get first read. */}
+          Sits right under the Benefactors credit roll (the
+          credibility signal) and above the Give / Refer / Other-ways
+          donor-action panel, because patronage is the foundation-
+          defining relationship offer — the rest of the page is funded
+          by it. */}
       <Panel id="partner" variant="white" className="md:p-16">
         <ScrollDepthMarker eventName="scroll:support:partner-visible" />
         <p className="text-sm uppercase tracking-[0.08em] text-sage">Patronage</p>
@@ -360,109 +463,6 @@ export default function SupportPage() {
                 </Link>
               </div>
             </div>
-          </div>
-        </div>
-      </Panel>
-
-      {/* Benefactors — quiet credit roll for the foundations and grant
-          programs backing FFA. Sits between Patronage above and Give
-          below so it lands as social proof at the moment of decision:
-          a visitor reading the patron cards immediately sees the
-          circle is real. Treatment is restrained: centered logos
-          normalized to a shared display height (different source
-          aspect ratios), program name in the sage eyebrow style as
-          a caption. Each logo links to the funder in a new tab so
-          the visitor's place on /support is preserved. */}
-      <Panel variant="white" className="md:p-16">
-        <p className="text-sm uppercase tracking-[0.08em] text-sage">With gratitude</p>
-        <h2 className="mt-6 text-h2 leading-[1.05] md:text-h2-lg">
-          Thanks to our partners, sponsors, and benefactors.
-        </h2>
-
-        {/* One row, two groups: grant programs left, individual
-            benefactors right, split by the site's 3px hairline (the
-            same stroke as the Give | Other Ways divider below) —
-            vertical at md+, absent on mobile where the groups stack.
-            All four entries share a fixed-height media box so the
-            wide logos and the square portraits sit on one centerline
-            and the caption row aligns across the full panel; the
-            divider makes the logo/portrait shape mismatch read as
-            two deliberate groups rather than inconsistency. */}
-        {/* 3fr/2fr split: three org columns + two person columns land
-            at five roughly equal widths across the row. Both groups
-            stack one-per-row on mobile (wide lockups in two phone
-            columns would crowd or orphan). */}
-        <div className="mt-14 grid gap-14 md:grid-cols-[3fr_2fr] md:gap-0 md:divide-x-[3px] md:divide-ink/20">
-          <div className="grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-8 md:pr-14">
-            {BENEFACTORS.map((b) => (
-              <a
-                key={b.slug}
-                href={b.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                data-goatcounter-click={`benefactor:${b.slug}`}
-                className="group flex flex-col items-center text-center"
-              >
-                {/* Each logo carries its own size cap (logoClass) —
-                    see the BENEFACTORS comment for the optical-weight
-                    rationale. max-w-full stays as the column-width
-                    backstop on narrow screens. */}
-                <div className="flex h-20 items-center justify-center md:h-24">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={b.logo}
-                    alt={b.name}
-                    className={`w-auto max-w-full object-contain ${b.logoClass}`}
-                  />
-                </div>
-                {/* Captions at text-xs + nowrap so the five-up columns
-                    keep every caption on a single shared baseline; the
-                    longest (Fiscal Sponsorship 2023-2024) center-
-                    overflows a few px into its gaps rather than
-                    wrapping to a ragged second line. */}
-                <p className="mt-5 whitespace-nowrap text-xs uppercase tracking-[0.08em] text-sage transition-colors group-hover:text-ink">
-                  {b.program}
-                </p>
-              </a>
-            ))}
-          </div>
-
-          <div className="grid grid-cols-1 gap-10 md:grid-cols-2 md:gap-8 md:pl-14">
-            {INDIVIDUAL_BENEFACTORS.map((b) => (
-              <a
-                key={b.slug}
-                href={b.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                data-goatcounter-click={`benefactor:${b.slug}`}
-                className="group flex flex-col items-center text-center"
-              >
-                {/* Person-as-lockup, sized to the org-logo optical
-                    band: square portrait as the mark, stacked
-                    first/last name in the heading face as the
-                    wordmark (the split is deterministic, mirroring
-                    Mercatus's two-line lockup). Same fixed-height
-                    media box keeps the row's shared centerline. */}
-                <div className="flex h-20 items-center justify-center gap-3.5 md:h-24">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={b.image}
-                    alt={b.name}
-                    className="h-12 w-12 rounded-lg object-cover md:h-14 md:w-14"
-                  />
-                  <span className="font-heading text-h6 leading-[1.15] text-ink text-left">
-                    {b.name.split(' ').map((part) => (
-                      <span key={part} className="block">
-                        {part}
-                      </span>
-                    ))}
-                  </span>
-                </div>
-                <p className="mt-5 whitespace-nowrap text-xs uppercase tracking-[0.08em] text-sage transition-colors group-hover:text-ink">
-                  {b.caption}
-                </p>
-              </a>
-            ))}
           </div>
         </div>
       </Panel>
