@@ -68,6 +68,26 @@ const BENEFACTORS = [
   },
 ];
 
+// Individual benefactors — second row of the Benefactors panel, under
+// the org logos. Portraits instead of logos: square tiles with the
+// person's name as the caption. Sources are 600×600 squares supplied
+// by each benefactor (photo as JPEG, pixel art as PNG to keep its
+// hard edges), displayed well under native size so they stay crisp
+// on retina. No links: unlike the org entries there's no program
+// page to send visitors to.
+const INDIVIDUAL_BENEFACTORS = [
+  {
+    name: 'Geoff Anders',
+    slug: 'geoff-anders',
+    image: '/images/benefactors/geoff-anders.jpg',
+  },
+  {
+    name: 'Jonathan Blow',
+    slug: 'jonathan-blow',
+    image: '/images/benefactors/jonathan-blow.png',
+  },
+];
+
 // FFA's on-chain donation wallet, duplicated here (also defined in
 // EthGiveButton.tsx) for the streaming-protocol links below. A small
 // duplication trade-off vs. introducing a shared constants file for
@@ -359,6 +379,27 @@ export default function SupportPage() {
                 {b.program}
               </p>
             </a>
+          ))}
+        </div>
+
+        {/* Individual benefactors — portraits row under the org logos.
+            Square tiles, rounded to match the site's card radius,
+            object-cover so any future non-square source still crops
+            cleanly. Name caption mirrors the program captions above
+            so the two rows read as one credit roll. */}
+        <div className="mt-14 grid gap-12 md:grid-cols-2 md:gap-20">
+          {INDIVIDUAL_BENEFACTORS.map((b) => (
+            <div key={b.slug} className="flex flex-col items-center text-center">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={b.image}
+                alt={b.name}
+                className="h-36 w-36 rounded-2xl object-cover md:h-40 md:w-40"
+              />
+              <p className="mt-6 text-sm uppercase tracking-[0.08em] text-sage">
+                {b.name}
+              </p>
+            </div>
           ))}
         </div>
       </Panel>
