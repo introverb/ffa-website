@@ -59,7 +59,11 @@ const BENEFACTORS = [
     name: 'The Mercatus Center',
     slug: 'mercatus-center',
     program: 'Emergent Ventures',
-    logo: '/images/funders/mercatus-center.svg',
+    // Filename carries the program, not just the org — and doubles as
+    // a cache-bust: the original mercatus-center.svg shipped briefly
+    // as an unparseable Illustrator export, and browsers that cached
+    // that dead file would keep showing a blank at the old URL.
+    logo: '/images/funders/mercatus-emergent-ventures.svg',
     href: 'https://www.mercatus.org/emergent-ventures',
   },
 ];
