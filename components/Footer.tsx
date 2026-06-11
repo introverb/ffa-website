@@ -56,6 +56,28 @@ export function Footer() {
             </a>
             .
           </p>
+          {/* Candid (GuideStar) transparency seal — served as the
+              official SVG from Candid's widget endpoint, saved
+              locally. The seal is self-backed (orange frame, white
+              interior) so it sits directly on the dark footer with
+              no extra backing and stays legible. Links to the FFA
+              Candid profile. Small (80px) but at 108px-native SVG
+              it stays crisp. */}
+          <a
+            href="https://app.candid.org/profile/15666823/foundation-for-future-aesthetics-inc"
+            target="_blank"
+            rel="noopener noreferrer"
+            data-goatcounter-click="outbound:candid-seal"
+            className="mt-6 inline-block transition-opacity hover:opacity-80"
+          >
+            <Image
+              src="/images/candid-seal-bronze-2026.svg"
+              alt="Candid Bronze Transparency Seal 2026"
+              width={108}
+              height={108}
+              className="h-20 w-20"
+            />
+          </a>
         </div>
 
         {/* Mobile-only single-column nav. Hidden at md+ where the
