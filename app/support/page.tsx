@@ -88,22 +88,25 @@ const BENEFACTORS = [
 ];
 
 // Individual benefactors — right-hand group of the Benefactors row,
-// beside the org logos. Portraits instead of logos: square tiles with
-// the person's name as the caption. Sources are 600×600 squares
-// supplied by each benefactor (photo as JPEG, pixel art as PNG to
-// keep its hard edges), displayed well under native size so they
-// stay crisp on retina. No links: unlike the org entries there's no
-// program page to send visitors to.
+// beside the org logos. Each renders as a person-as-lockup: small
+// square portrait as the "mark," stacked first/last name in the
+// heading face as the "wordmark" (mirroring Mercatus's two-line
+// lockup), caption below — same visual grammar as the org entries.
+// Sources are 600×600 squares supplied by each benefactor (photo as
+// JPEG, pixel art as PNG to keep its hard edges). No links: unlike
+// the org entries there's no program page to send visitors to.
 const INDIVIDUAL_BENEFACTORS = [
   {
     name: 'Geoff Anders',
     slug: 'geoff-anders',
     image: '/images/benefactors/geoff-anders.jpg',
+    caption: 'Founding Patron',
   },
   {
     name: 'Jonathan Blow',
     slug: 'jonathan-blow',
     image: '/images/benefactors/jonathan-blow.png',
+    caption: 'Founding Patron',
   },
 ];
 
@@ -382,11 +385,11 @@ export default function SupportPage() {
             and the caption row aligns across the full panel; the
             divider makes the logo/portrait shape mismatch read as
             two deliberate groups rather than inconsistency. */}
-        {/* 2.2fr/1fr split gives the three org columns and the two
-            portrait columns roughly equal widths across the row.
-            Orgs stack one-per-row on mobile (three wide logos in
-            two columns would wrap 2+1 and orphan the third). */}
-        <div className="mt-14 grid gap-14 md:grid-cols-[2.2fr_1fr] md:gap-0 md:divide-x-[3px] md:divide-ink/20">
+        {/* 3fr/2fr split: three org columns + two person columns land
+            at five roughly equal widths across the row. Both groups
+            stack one-per-row on mobile (wide lockups in two phone
+            columns would crowd or orphan). */}
+        <div className="mt-14 grid gap-14 md:grid-cols-[3fr_2fr] md:gap-0 md:divide-x-[3px] md:divide-ink/20">
           <div className="grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-8 md:pr-14">
             {BENEFACTORS.map((b) => (
               <a
@@ -409,29 +412,44 @@ export default function SupportPage() {
                     className={`w-auto max-w-full object-contain ${b.logoClass}`}
                   />
                 </div>
-                <p className="mt-5 text-sm uppercase tracking-[0.08em] text-sage transition-colors group-hover:text-ink">
+                {/* Captions at text-xs + nowrap so the five-up columns
+                    keep every caption on a single shared baseline; the
+                    longest (Fiscal Sponsorship 2023-2024) center-
+                    overflows a few px into its gaps rather than
+                    wrapping to a ragged second line. */}
+                <p className="mt-5 whitespace-nowrap text-xs uppercase tracking-[0.08em] text-sage transition-colors group-hover:text-ink">
                   {b.program}
                 </p>
               </a>
             ))}
           </div>
 
-          <div className="grid grid-cols-2 gap-8 md:pl-14">
+          <div className="grid grid-cols-1 gap-10 md:grid-cols-2 md:gap-8 md:pl-14">
             {INDIVIDUAL_BENEFACTORS.map((b) => (
               <div key={b.slug} className="flex flex-col items-center text-center">
-                {/* Same fixed-height media box as the logo slots so the
-                    portrait centers on the shared centerline and the
-                    captions align across all four entries. */}
-                <div className="flex h-20 items-center justify-center md:h-24">
+                {/* Person-as-lockup, sized to the org-logo optical
+                    band: square portrait as the mark, stacked
+                    first/last name in the heading face as the
+                    wordmark (the split is deterministic, mirroring
+                    Mercatus's two-line lockup). Same fixed-height
+                    media box keeps the row's shared centerline. */}
+                <div className="flex h-20 items-center justify-center gap-3.5 md:h-24">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={b.image}
                     alt={b.name}
-                    className="h-20 w-20 rounded-2xl object-cover md:h-24 md:w-24"
+                    className="h-12 w-12 rounded-lg object-cover md:h-14 md:w-14"
                   />
+                  <span className="font-heading text-h6 leading-[1.15] text-ink text-left">
+                    {b.name.split(' ').map((part) => (
+                      <span key={part} className="block">
+                        {part}
+                      </span>
+                    ))}
+                  </span>
                 </div>
-                <p className="mt-5 text-sm uppercase tracking-[0.08em] text-sage">
-                  {b.name}
+                <p className="mt-5 whitespace-nowrap text-xs uppercase tracking-[0.08em] text-sage">
+                  {b.caption}
                 </p>
               </div>
             ))}
