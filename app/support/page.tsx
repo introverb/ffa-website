@@ -72,6 +72,19 @@ const BENEFACTORS = [
     href: 'https://www.mercatus.org/emergent-ventures',
     logoClass: 'max-w-[180px] md:max-w-[205px]',
   },
+  {
+    name: 'Leverage Research',
+    slug: 'leverage-research',
+    program: 'Fiscal Sponsorship 2023-2024',
+    // Vector lockup from their live site header (leverage.institute,
+    // where leverageresearch.org now redirects) — already black on
+    // transparent, so no inversion of the dark-background raster
+    // assets was needed. Same wide-wordmark geometry as Mercatus
+    // (~5.4:1), so it takes the same width cap.
+    logo: '/images/funders/leverage-research.svg',
+    href: 'https://www.leverage.institute',
+    logoClass: 'max-w-[180px] md:max-w-[205px]',
+  },
 ];
 
 // Individual benefactors — right-hand group of the Benefactors row,
@@ -369,8 +382,12 @@ export default function SupportPage() {
             and the caption row aligns across the full panel; the
             divider makes the logo/portrait shape mismatch read as
             two deliberate groups rather than inconsistency. */}
-        <div className="mt-14 grid gap-14 md:grid-cols-2 md:gap-0 md:divide-x-[3px] md:divide-ink/20">
-          <div className="grid grid-cols-2 gap-8 md:pr-14">
+        {/* 2.2fr/1fr split gives the three org columns and the two
+            portrait columns roughly equal widths across the row.
+            Orgs stack one-per-row on mobile (three wide logos in
+            two columns would wrap 2+1 and orphan the third). */}
+        <div className="mt-14 grid gap-14 md:grid-cols-[2.2fr_1fr] md:gap-0 md:divide-x-[3px] md:divide-ink/20">
+          <div className="grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-8 md:pr-14">
             {BENEFACTORS.map((b) => (
               <a
                 key={b.slug}
