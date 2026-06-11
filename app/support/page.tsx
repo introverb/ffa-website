@@ -75,7 +75,7 @@ const BENEFACTORS = [
   {
     name: 'Leverage Research',
     slug: 'leverage-research',
-    program: 'Fiscal Sponsorship 2023-2024',
+    program: 'Fiscal Sponsor 2023-2024',
     // Vector lockup from their live site header (leverage.institute,
     // where leverageresearch.org now redirects) — already black on
     // transparent, so no inversion of the dark-background raster
