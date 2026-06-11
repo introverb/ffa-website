@@ -93,20 +93,23 @@ const BENEFACTORS = [
 // heading face as the "wordmark" (mirroring Mercatus's two-line
 // lockup), caption below — same visual grammar as the org entries.
 // Sources are 600×600 squares supplied by each benefactor (photo as
-// JPEG, pixel art as PNG to keep its hard edges). No links: unlike
-// the org entries there's no program page to send visitors to.
+// JPEG, pixel art as PNG to keep its hard edges). Links go to each
+// patron's X profile, the same new-tab + per-entry analytics
+// treatment as the org entries.
 const INDIVIDUAL_BENEFACTORS = [
   {
     name: 'Geoff Anders',
     slug: 'geoff-anders',
     image: '/images/benefactors/geoff-anders.jpg',
     caption: 'Founding Patron',
+    href: 'https://x.com/geoffanders',
   },
   {
     name: 'Jonathan Blow',
     slug: 'jonathan-blow',
     image: '/images/benefactors/jonathan-blow.png',
     caption: 'Founding Patron',
+    href: 'https://x.com/Jonathan_Blow',
   },
 ];
 
@@ -426,7 +429,14 @@ export default function SupportPage() {
 
           <div className="grid grid-cols-1 gap-10 md:grid-cols-2 md:gap-8 md:pl-14">
             {INDIVIDUAL_BENEFACTORS.map((b) => (
-              <div key={b.slug} className="flex flex-col items-center text-center">
+              <a
+                key={b.slug}
+                href={b.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-goatcounter-click={`benefactor:${b.slug}`}
+                className="group flex flex-col items-center text-center"
+              >
                 {/* Person-as-lockup, sized to the org-logo optical
                     band: square portrait as the mark, stacked
                     first/last name in the heading face as the
@@ -448,10 +458,10 @@ export default function SupportPage() {
                     ))}
                   </span>
                 </div>
-                <p className="mt-5 whitespace-nowrap text-xs uppercase tracking-[0.08em] text-sage">
+                <p className="mt-5 whitespace-nowrap text-xs uppercase tracking-[0.08em] text-sage transition-colors group-hover:text-ink">
                   {b.caption}
                 </p>
-              </div>
+              </a>
             ))}
           </div>
         </div>
