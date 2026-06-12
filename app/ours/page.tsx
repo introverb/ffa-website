@@ -5,6 +5,7 @@ import { PageHeader } from '@/components/PageHeader';
 import { HoneypotField } from '@/components/HoneypotField';
 import { TrackSubmission } from '@/components/TrackSubmission';
 import { JsonLd } from '@/components/JsonLd';
+import { slug } from '@/lib/analytics';
 
 export const metadata: Metadata = {
   title: 'OURS',
@@ -48,6 +49,23 @@ const EVENT_SCHEMA = {
   },
   image: 'https://www.futureaesthetics.foundation/images/initiative-exhibitions.jpg',
 };
+
+// Confirmed exhibition artists — the first group of the Contributors
+// section. Installation contributors and speakers join as parallel
+// groups under the same section when they're confirmed. Two or three
+// more artists are expected, so the lineup renders as a flex-wrap
+// that absorbs additions without layout changes. Each name links out
+// to the artist's own site in a new tab with a per-artist GoatCounter
+// event (slug derived from the name).
+const ARTISTS = [
+  { name: 'RERO', href: 'https://rero-studio.squarespace.com/' },
+  { name: 'Ellynne Dec', href: 'https://ellynne.studio/' },
+  { name: 'Mauricio Pommella', href: 'https://mpommella.com/' },
+  { name: 'Anyanwu', href: 'https://weareanyanwu.com/' },
+  { name: 'Den Pakowacz', href: 'https://www.behance.net/pakowacz' },
+  { name: 'Casey Rehm', href: 'https://mcr-studio.com/' },
+  { name: 'Seungjun Na', href: 'https://www.instagram.com/na_tist' },
+];
 
 const FORMAT = [
   {
@@ -143,6 +161,47 @@ export default function OursPage({
               </li>
             ))}
           </ul>
+        </div>
+
+        {/* Contributors — artists first; installation contributors
+            and speakers will join as parallel groups once confirmed.
+            Lineup treatment: names set large in the heading face and
+            flex-wrapped like a festival bill, each linking out to
+            the artist's site. Sits between Format and Engage so a
+            visitor sees who's confirmed before the page asks them
+            to take part. */}
+        <div className="mt-20 border-t-[3px] border-rule pt-16">
+          <p className="text-sm uppercase tracking-[0.08em] text-sage">Contributors</p>
+          <h2 className="mt-6 text-h2 leading-[1.05] md:text-h2-lg">
+            The makers of the evening.
+          </h2>
+
+          <p className="mt-12 text-sm uppercase tracking-[0.08em] text-sage">Artists</p>
+          <ul className="mt-6 flex max-w-5xl flex-wrap items-baseline gap-x-10 gap-y-4">
+            {ARTISTS.map((a) => (
+              <li key={a.name}>
+                <a
+                  href={a.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-goatcounter-click={`ours:artist-${slug(a.name)}`}
+                  className="group flex items-baseline gap-1.5 font-heading text-h5 leading-tight text-ink transition-colors hover:text-sage md:text-h4"
+                >
+                  {a.name}
+                  {/* External-link cue, quiet until hover. */}
+                  <span
+                    aria-hidden
+                    className="text-[0.55em] text-ink/35 transition-colors group-hover:text-sage"
+                  >
+                    &#8599;
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-8 text-sm text-muted">
+            More artists, installation contributors, and speakers to be announced.
+          </p>
         </div>
 
         {/* Engage */}
