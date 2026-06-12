@@ -9,6 +9,10 @@ import { slug } from '@/lib/analytics';
 //   Artists                  -> orange  (#e8651a, the brief palette)
 //   Speakers                 -> green   (site sage)
 //   Installation Contributors -> blue   (#7a9aac, the brief palette)
+// Panels are color-OUTLINED (3px border, matching the site's bordered
+// card pattern) rather than color-filled; content sits in ink on the
+// white panel ground, with the group color carried by the border, the
+// selected tab's fill, hover accents, and the installation CTA.
 // Speakers are TBA for now; the installation panel carries the
 // "share your vision" contribute CTA. Color classes are written as
 // complete literals (Tailwind JIT can't see interpolated fragments).
@@ -44,19 +48,19 @@ const TABS: {
     key: 'artists',
     label: 'Artists',
     selected: 'border-[#e8651a] bg-[#e8651a] text-white',
-    panel: 'bg-[#e8651a]',
+    panel: 'border-[#e8651a]',
   },
   {
     key: 'speakers',
     label: 'Speakers',
     selected: 'border-sage bg-sage text-white',
-    panel: 'bg-sage',
+    panel: 'border-sage',
   },
   {
     key: 'installation',
     label: 'Installation Contributors',
     selected: 'border-[#7a9aac] bg-[#7a9aac] text-white',
-    panel: 'bg-[#7a9aac]',
+    panel: 'border-[#7a9aac]',
   },
 ];
 
@@ -97,7 +101,7 @@ export function OursContributors() {
           replays for each group. */}
       <div
         key={active}
-        className={`mt-5 animate-[contributors-panel-in_.35s_ease] rounded-2xl p-8 md:p-12 ${activeTab.panel}`}
+        className={`mt-5 animate-[contributors-panel-in_.35s_ease] rounded-2xl border-[3px] p-8 md:p-12 ${activeTab.panel}`}
       >
         {active === 'artists' && (
           <>
@@ -109,13 +113,13 @@ export function OursContributors() {
                     target="_blank"
                     rel="noopener noreferrer"
                     data-goatcounter-click={`ours:artist-${slug(a.name)}`}
-                    className="group flex items-baseline gap-1.5 font-heading text-h5 leading-tight text-white transition-colors hover:text-white/70 md:text-h4"
+                    className="group flex items-baseline gap-1.5 font-heading text-h5 leading-tight text-ink transition-colors hover:text-[#e8651a] md:text-h4"
                   >
                     {a.name}
                     {/* External-link cue, quiet until hover. */}
                     <span
                       aria-hidden
-                      className="text-[0.55em] text-white/50 transition-colors group-hover:text-white/70"
+                      className="text-[0.55em] text-ink/35 transition-colors group-hover:text-[#e8651a]"
                     >
                       &#8599;
                     </span>
@@ -123,21 +127,21 @@ export function OursContributors() {
                 </li>
               ))}
             </ul>
-            <p className="mt-8 text-sm text-white/75">More artists to be announced.</p>
+            <p className="mt-8 text-sm text-muted">More artists to be announced.</p>
           </>
         )}
 
         {active === 'speakers' && (
           <>
-            <p className="font-heading text-h4 leading-tight text-white md:text-h3">
+            <p className="font-heading text-h4 leading-tight text-ink md:text-h3">
               To be announced.
             </p>
-            <p className="mt-4 max-w-prose text-body-lg leading-relaxed text-white/85">
+            <p className="mt-4 max-w-prose text-body-lg leading-relaxed text-ink/80">
               Speakers are being confirmed now.{' '}
               <Link
                 href="/contact?topic=OURS event involvement"
                 data-goatcounter-click="ours:speakers-reach-out"
-                className="underline decoration-from-font underline-offset-4 text-white hover:text-white/70"
+                className="underline decoration-from-font underline-offset-4 text-ink hover:text-sage"
               >
                 Think you belong at the lectern? Reach out.
               </Link>
@@ -151,7 +155,7 @@ export function OursContributors() {
               {INSTALLATION_CONTRIBUTORS.map((c) => (
                 <li
                   key={c.name}
-                  className="font-heading text-h5 leading-tight text-white md:text-h4"
+                  className="font-heading text-h5 leading-tight text-ink md:text-h4"
                 >
                   {c.name}
                 </li>
@@ -159,19 +163,21 @@ export function OursContributors() {
             </ul>
 
             {/* Contribute invitation — the installation is open to
-                more visionaries, so this group carries its own CTA. */}
-            <div className="mt-8 border-t border-white/30 pt-8">
-              <h3 className="font-heading text-h5 leading-tight text-white">
+                more visionaries, so this group carries its own CTA.
+                Button takes the group blue so the outlined panel
+                still carries a solid hit of its color. */}
+            <div className="mt-8 border-t border-ink/15 pt-8">
+              <h3 className="font-heading text-h5 leading-tight text-ink">
                 Share your vision of a positive future with us.
               </h3>
-              <p className="mt-3 max-w-prose text-body leading-relaxed text-white/85">
+              <p className="mt-3 max-w-prose text-body leading-relaxed text-ink/80">
                 Visionaries welcome to share a 2-5 minute video to be added to
                 FFA&rsquo;s flagship installation. Reach out to participate!
               </p>
               <Link
                 href="/contact?topic=OURS event involvement"
                 data-goatcounter-click="ours:installation-contribute"
-                className="mt-6 inline-flex items-center justify-center rounded-md bg-white px-7 py-3 text-sm uppercase tracking-[0.12em] text-ink transition-colors hover:bg-cream"
+                className="mt-6 inline-flex items-center justify-center rounded-md bg-[#7a9aac] px-7 py-3 text-sm uppercase tracking-[0.12em] text-white transition-colors hover:bg-dark"
               >
                 Contribute
               </Link>
