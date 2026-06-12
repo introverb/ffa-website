@@ -3,13 +3,13 @@ import Image from 'next/image';
 import { Panel } from './PageFrame';
 
 // Top-level nav, kept in sync with components/SiteNav.tsx — flat list
-// of five entries that show on both desktop and mobile. Resources used
-// to be a sub-group containing Musings, but Musings was promoted to a
-// top-level entry, so there's no longer a second column to surface.
+// of five entries that show on both desktop and mobile. The /resources
+// page was labeled "Musings" in the nav for a while; the label now
+// matches the page's own title (Resources).
 const PRIMARY_NAV = [
   { href: '/possibilia', label: 'Possibilia' },
   { href: '/ours', label: 'OURS' },
-  { href: '/resources', label: 'Musings' },
+  { href: '/resources', label: 'Resources' },
   { href: '/support', label: 'Support' },
   { href: '/contact', label: 'Contact' },
 ];
