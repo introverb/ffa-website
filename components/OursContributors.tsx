@@ -31,8 +31,12 @@ const ARTISTS = [
 ];
 
 // Installation contributors — names only for now (no sites supplied);
-// links can be added the same way as ARTISTS when wanted.
-const INSTALLATION_CONTRIBUTORS = [{ name: 'Ada Palmer' }, { name: 'Anders Sandberg' }];
+// links can be added the same way as ARTISTS when wanted. Optional
+// role renders as a quiet parenthetical beside the name.
+const INSTALLATION_CONTRIBUTORS: { name: string; role?: string }[] = [
+  { name: 'Ada Palmer', role: 'Host' },
+  { name: 'Anders Sandberg' },
+];
 
 type GroupKey = 'artists' | 'speakers' | 'installation';
 
@@ -155,9 +159,12 @@ export function OursContributors() {
               {INSTALLATION_CONTRIBUTORS.map((c) => (
                 <li
                   key={c.name}
-                  className="font-heading text-h5 leading-tight text-ink md:text-h4"
+                  className="flex items-baseline gap-2 font-heading text-h5 leading-tight text-ink md:text-h4"
                 >
                   {c.name}
+                  {c.role && (
+                    <span className="text-[0.55em] text-ink/50">({c.role})</span>
+                  )}
                 </li>
               ))}
             </ul>
