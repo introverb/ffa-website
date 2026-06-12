@@ -101,10 +101,7 @@ const INDIVIDUAL_BENEFACTORS = [
     name: 'Geoff Anders',
     slug: 'geoff-anders',
     image: '/images/benefactors/geoff-anders.jpg',
-    // "Benefactor" deliberately outranks "Patron" — the traditional
-    // patronage hierarchy (museum/opera tiers) — to honor the larger
-    // founding gift without printing numbers or inventing tiers.
-    caption: 'Founding Benefactor',
+    caption: 'Founding Patron',
     href: 'https://x.com/geoffanders',
   },
   {
