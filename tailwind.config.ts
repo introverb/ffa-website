@@ -20,6 +20,13 @@ const config: Config = {
         // `ink` grey).
         leather: '#5A4632',
         rule: '#D8D2C6',
+        // Accent pair promoted from the static patron/sponsor briefs
+        // (where they live as --orange and --gold CSS vars) into the
+        // official palette, joining sage as the site's three accent
+        // hues. First on-site use: the OURS Contributors group colors
+        // (flare = artists, sage = speakers, horizon = installation).
+        flare: '#E8651A',
+        horizon: '#7A9AAC',
       },
       fontFamily: {
         // Body text - universal Helvetica/Arial system stack.

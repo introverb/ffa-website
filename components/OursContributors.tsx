@@ -5,10 +5,11 @@ import Link from 'next/link';
 import { slug } from '@/lib/analytics';
 
 // Contributors selector for the OURS page. Three group tabs; picking
-// one slides up a color-coded rounded panel beneath:
-//   Artists                  -> orange  (#e8651a, the brief palette)
-//   Speakers                 -> green   (site sage)
-//   Installation Contributors -> blue   (#7a9aac, the brief palette)
+// one slides up a color-coded rounded panel beneath, keyed to the
+// palette's three accent hues:
+//   Artists                   -> flare   (orange)
+//   Speakers                  -> sage    (green)
+//   Installation Contributors -> horizon (blue)
 // Panels are color-OUTLINED (3px border, matching the site's bordered
 // card pattern) rather than color-filled; content sits in ink on the
 // white panel ground, with the group color carried by the border, the
@@ -51,8 +52,8 @@ const TABS: {
   {
     key: 'artists',
     label: 'Artists',
-    selected: 'border-[#e8651a] bg-[#e8651a] text-white',
-    panel: 'border-[#e8651a]',
+    selected: 'border-flare bg-flare text-white',
+    panel: 'border-flare',
   },
   {
     key: 'speakers',
@@ -63,8 +64,8 @@ const TABS: {
   {
     key: 'installation',
     label: 'Installation Contributors',
-    selected: 'border-[#7a9aac] bg-[#7a9aac] text-white',
-    panel: 'border-[#7a9aac]',
+    selected: 'border-horizon bg-horizon text-white',
+    panel: 'border-horizon',
   },
 ];
 
@@ -117,13 +118,13 @@ export function OursContributors() {
                     target="_blank"
                     rel="noopener noreferrer"
                     data-goatcounter-click={`ours:artist-${slug(a.name)}`}
-                    className="group flex items-baseline gap-1.5 font-heading text-h5 leading-tight text-ink transition-colors hover:text-[#e8651a] md:text-h4"
+                    className="group flex items-baseline gap-1.5 font-heading text-h5 leading-tight text-ink transition-colors hover:text-flare md:text-h4"
                   >
                     {a.name}
                     {/* External-link cue, quiet until hover. */}
                     <span
                       aria-hidden
-                      className="text-[0.55em] text-ink/35 transition-colors group-hover:text-[#e8651a]"
+                      className="text-[0.55em] text-ink/35 transition-colors group-hover:text-flare"
                     >
                       &#8599;
                     </span>
@@ -184,7 +185,7 @@ export function OursContributors() {
               <Link
                 href="/contact?topic=OURS event involvement"
                 data-goatcounter-click="ours:installation-contribute"
-                className="mt-6 inline-flex items-center justify-center rounded-md bg-[#7a9aac] px-7 py-3 text-sm uppercase tracking-[0.12em] text-white transition-colors hover:bg-dark"
+                className="mt-6 inline-flex items-center justify-center rounded-md bg-horizon px-7 py-3 text-sm uppercase tracking-[0.12em] text-white transition-colors hover:bg-dark"
               >
                 Contribute
               </Link>
