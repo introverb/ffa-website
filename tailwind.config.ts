@@ -4,29 +4,31 @@ const config: Config = {
   content: ['./app/**/*.{ts,tsx}', './components/**/*.{ts,tsx}'],
   theme: {
     extend: {
+      // FFA palette. Nicknames in (parens) are for talking about the
+      // colors; the token is what you type. Full reference: PALETTE.md.
       colors: {
-        // Pulled from the live Wix site's CSS variables
-        paper: '#FFFFFF',
-        cream: '#F5EEE4',
-        taupe: '#D8D2C6',
-        ink: '#3B3A3A',
-        muted: '#625F5B',
-        sage: '#718676',
-        'sage-light': '#BDD6C3',
-        dark: '#151414',
-        // Warm dark brown for accent panels (Long Way Home section
-        // titles, anywhere we want a saddle/leather feeling that
-        // reads as warmer than the near-black `dark` or the cool
-        // `ink` grey).
+        // Foundations — neutral structure. Pulled from the live Wix
+        // site's CSS variables.
+        paper: '#FFFFFF', // Gallery wall — page/panel backgrounds
+        cream: '#F5EEE4', // Vellum — card fills
+        taupe: '#D8D2C6', // Plaster — background bands
+        ink: '#3B3A3A', // Charcoal — primary text
+        muted: '#625F5B', // Graphite — secondary text
+        sage: '#718676', // Terrarium — primary accent (CTAs, eyebrows)
+        'sage-light': '#BDD6C3', // Greenhouse mist — form-success states
+        dark: '#151414', // Blackout — footer, dark panels
+        // Reading chair — warm dark brown for accent panels (Long Way
+        // Home section titles, anywhere we want a saddle/leather
+        // feeling that reads warmer than `dark` or the cool `ink`).
         leather: '#5A4632',
-        rule: '#D8D2C6',
+        rule: '#D8D2C6', // Plaster (alias) — hairline borders
         // Accent pair promoted from the static patron/sponsor briefs
         // (where they live as --orange and --gold CSS vars) into the
         // official palette, joining sage as the site's three accent
         // hues. First on-site use: the OURS Contributors group colors
         // (flare = artists, sage = speakers, horizon = installation).
-        flare: '#E8651A',
-        horizon: '#7A9AAC',
+        flare: '#E8651A', // Signal flare — orange accent (energy/art)
+        horizon: '#7A9AAC', // Horizon line — slate blue (vision)
       },
       fontFamily: {
         // Body text - universal Helvetica/Arial system stack.
