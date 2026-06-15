@@ -2,10 +2,9 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import { Panel } from '@/components/PageFrame';
 import { PageHeader } from '@/components/PageHeader';
-import { HoneypotField } from '@/components/HoneypotField';
-import { TrackSubmission } from '@/components/TrackSubmission';
 import { JsonLd } from '@/components/JsonLd';
 import { OursContributors } from '@/components/OursContributors';
+import { OursArtworkDialog } from '@/components/OursArtworkDialog';
 
 // Public RSVP / application page for OURS, hosted on Luma. The
 // attendance CTAs (homepage "Attend OURS" button, the /ours "Apply
@@ -74,26 +73,12 @@ const FORMAT = [
   },
 ];
 
-export default function OursPage({
-  searchParams,
-}: {
-  searchParams: { sent?: string };
-}) {
-  const sent = searchParams?.sent;
+export default function OursPage() {
   return (
     <>
       {/* Schema.org Event payload — invisible, parsed by search
           engines for rich event-card results. See EVENT_SCHEMA above. */}
       <JsonLd data={EVENT_SCHEMA} />
-      {/* Fire a per-form GoatCounter submission event when a visitor
-          lands on the page in a post-submit state. Renders null, so
-          no layout impact. */}
-      {sent === 'guestlist' && (
-        <TrackSubmission eventName="submit:ours-guestlist" />
-      )}
-      {sent === 'artwork' && (
-        <TrackSubmission eventName="submit:ours-artwork" />
-      )}
       <PageHeader
         eyebrow="OURS · NYC · August 2026"
         title="An exhibition and salon for visions of the future."
@@ -165,102 +150,52 @@ export default function OursPage({
             Take part in crafting tomorrow.
           </h2>
 
-          <div className="mt-14 grid gap-10 md:grid-cols-3">
-            {/* Guestlist → applications now run through Luma; the card
-                links out to the RSVP page instead of the old in-page
-                form. The /api/ours guestlist handler is left intact in
-                case we revert. */}
-            <EngagementCard
+          {/* Three compact "doors" — one-line cards, uniform height,
+              each a single CTA. Attendance and sponsorship link out
+              (Luma RSVP, sponsor brief); artwork opens a modal so the
+              form lives off-card and the row stays short. items-stretch
+              keeps the trio equal-height; each door's CTA is pinned to
+              the bottom (mt-auto) so the buttons line up across the row. */}
+          <div className="mt-14 grid gap-6 md:grid-cols-3 md:items-stretch">
+            <EngageDoor
               title="Apply to attend"
-              blurb="The room is intimate and the list is limited, but we&rsquo;re still welcoming guests. Apply on Luma and we&rsquo;ll be in touch."
+              blurb="The room is intimate and the list is limited, but we&rsquo;re still welcoming guests."
               bgImage="/images/initiative-exhibitions.jpg"
-              cta={{
-                label: 'Apply on Luma',
-                href: LUMA_RSVP_URL,
-                event: 'ours:attend-luma',
-              }}
-            />
+            >
+              <a
+                href={LUMA_RSVP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-goatcounter-click="ours:attend-luma"
+                className="btn-solid"
+              >
+                Apply on Luma
+              </a>
+            </EngageDoor>
 
-            <EngagementCard
-              title="Submit artwork for exhibition"
-              blurb="We are still accepting works for our exhibition! Mediums open. Send a portfolio and a short pitch and we&rsquo;ll review."
-              sent={sent === 'artwork'}
-              sentMessage="Thanks, we&rsquo;ve got your submission and will reach back as we curate."
+            <EngageDoor
+              title="Submit artwork"
+              blurb="Still accepting works for the exhibition. Mediums open. Send a portfolio and a short pitch."
               bgImage="/images/initiative-possibilia.jpg"
             >
-              <input type="hidden" name="type" value="artwork" />
-              <Field id="a-name" name="name" label="Your name" required />
-              <Field id="a-email" name="email" type="email" label="Email" required />
-              <Field
-                id="a-portfolio"
-                name="portfolio"
-                type="url"
-                label="Portfolio link"
-                required
-              />
-              <TextareaField
-                id="a-pitch"
-                name="pitch"
-                label="Pitch: what would you bring?"
-                required
-              />
-              {/* Submit + "Read brief" pair. Same mt-auto self-start
-                  positioning that the lone Submit had (pushed to the
-                  bottom of the flex column, left-aligned), now as a
-                  flex row so the brief link sits inline next to the
-                  primary submit. Brief opens in a new tab so the
-                  submitter doesn't lose their form state. */}
-              <div className="mt-auto flex flex-wrap items-center gap-3 self-start">
-                <button type="submit" className="btn-solid">
-                  Submit
-                </button>
-                <a
-                  href="/ours/artist-brief"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  data-goatcounter-click="ours:read-artist-brief"
-                  className="btn"
-                >
-                  Read brief
-                </a>
-              </div>
-            </EngagementCard>
+              <OursArtworkDialog />
+            </EngageDoor>
 
-            {/* Editorial image filling the third grid slot — same panel
-                size and aspect as the form cards on its left. No frosted
-                glass over the image itself, just a frosted-pill CTA
-                anchored to the bottom for visitors who want to engage
-                outside the two structured forms (speaking, funding,
-                other contributions).
-
-                aspect-[4/5] on mobile gives the panel explicit
-                dimensions so the absolutely-positioned `<Image fill>`
-                has something to fill — without this, the panel
-                collapses to zero height on mobile (no content sizing
-                it) and the tile disappears from the grid. md:aspect-auto
-                returns to the desktop behavior where the row's grid
-                cell sizes the tile to match the form cards. */}
-            <div className="relative aspect-[4/5] overflow-hidden rounded-2xl md:aspect-auto">
-              <Image
-                src="/images/discovery.jpg"
-                alt=""
-                fill
-                sizes="(max-width: 768px) 100vw, 33vw"
-                className="object-cover"
-              />
-              {/* Frosted CTA centered on the discovery image, linking
-                  to the sponsorship brief. Opens in a new tab so the
-                  visitor doesn't lose their place on the OURS page. */}
+            <EngageDoor
+              title="Sponsor the event"
+              blurb="Back the evening and the artists in it. The brief lays out the tiers and what each includes."
+              bgImage="/images/discovery.jpg"
+            >
               <a
                 href="/ours/sponsor-brief"
                 target="_blank"
                 rel="noopener noreferrer"
                 data-goatcounter-click="ours:sponsor-event"
-                className="absolute left-1/2 top-1/2 inline-flex -translate-x-1/2 -translate-y-1/2 items-center justify-center whitespace-nowrap rounded-full border border-white/40 bg-white/15 px-7 py-3 text-sm uppercase tracking-[0.12em] text-white backdrop-blur-md transition hover:bg-white/30"
+                className="btn-solid"
               >
-                Sponsor the event
+                Read the brief
               </a>
-            </div>
+            </EngageDoor>
           </div>
         </div>
       </Panel>
@@ -268,39 +203,27 @@ export default function OursPage({
   );
 }
 
-// Engagement submission card. Background is one of the initiative
-// images, heavily frosted (blur-2xl) with a paper-tinted veil so
-// dark text stays readable. Each card uses a different image so
-// the trio carries visual variety. Form layout is flex-col + flex-1
-// so the submit button anchors to the same margin from the bottom
-// of each card regardless of how many fields the form has.
-//
-// Two body modes:
-//   - cta: renders a single link button (e.g. the guestlist card now
-//     sends visitors to the external Luma RSVP page instead of an
-//     in-page form). When cta is set, sent/sentMessage/children are
-//     ignored.
-//   - form (default): wraps `children` in the /api/ours POST form,
-//     with the post-submit `sent` confirmation state.
-function EngagementCard({
+// Compact engagement "door" — a short, uniform CTA card for the Engage
+// row. Background is one of the initiative images, heavily frosted
+// (blur-2xl) under a paper veil so dark text stays readable; each door
+// uses a different image for variety. flex-col + h-full + the CTA's
+// mt-auto keep all three doors equal-height with their buttons aligned.
+// The CTA itself (external link or modal trigger) is passed as
+// children, so a door doesn't care whether it links out or opens a
+// dialog.
+function EngageDoor({
   title,
   blurb,
-  sent = false,
-  sentMessage,
   bgImage,
-  cta,
   children,
 }: {
   title: string;
   blurb: string;
-  sent?: boolean;
-  sentMessage?: string;
   bgImage: string;
-  cta?: { label: string; href: string; event?: string };
-  children?: React.ReactNode;
+  children: React.ReactNode;
 }) {
   return (
-    <div className="relative flex flex-col overflow-hidden rounded-2xl border-[3px] border-ink/20 p-8 text-ink md:p-10">
+    <div className="relative flex h-full flex-col overflow-hidden rounded-2xl border-[3px] border-ink/20 p-6 text-ink md:p-7">
       {/* Frosted background — image scaled past edges so the heavy
           blur doesn't leave soft borders, then a paper veil for
           contrast. */}
@@ -315,97 +238,13 @@ function EngagementCard({
         <div className="absolute inset-0 bg-paper/65" />
       </div>
 
-      <h3 className="text-h5 leading-tight md:text-h4">{title}</h3>
+      <h3 className="text-h5 leading-tight">{title}</h3>
       <p
-        className="mt-3 text-body leading-relaxed text-ink/80"
+        className="mt-2 text-sm leading-relaxed text-ink/75"
         dangerouslySetInnerHTML={{ __html: blurb }}
       />
-      <div className="mt-6 flex flex-1 flex-col">
-        {cta ? (
-          // External CTA mode — single link button pinned to the
-          // bottom (mt-auto), matching where the form's Submit sits.
-          <a
-            href={cta.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            data-goatcounter-click={cta.event}
-            className="btn-solid mt-auto self-start"
-          >
-            {cta.label}
-          </a>
-        ) : sent ? (
-          <div className="rounded-xl border border-sage/40 bg-sage-light/40 p-6">
-            <p className="eyebrow text-sage">Received</p>
-            <p
-              className="mt-3 text-body leading-snug text-ink"
-              dangerouslySetInnerHTML={{ __html: sentMessage ?? '' }}
-            />
-          </div>
-        ) : (
-          <form action="/api/ours" method="POST" className="flex flex-1 flex-col gap-4">
-            <HoneypotField />
-            {children}
-          </form>
-        )}
-      </div>
-    </div>
-  );
-}
-
-function Field({
-  id,
-  name,
-  label,
-  type = 'text',
-  required = false,
-}: {
-  id: string;
-  name: string;
-  label: string;
-  type?: string;
-  required?: boolean;
-}) {
-  return (
-    <div>
-      <label htmlFor={id} className="block text-eyebrow text-ink/70">
-        {label}
-        {required && <span className="ml-1 text-sage">*</span>}
-      </label>
-      <input
-        id={id}
-        name={name}
-        type={type}
-        required={required}
-        className="mt-2 w-full rounded border border-ink/15 bg-paper px-3 py-2 text-body text-ink"
-      />
-    </div>
-  );
-}
-
-function TextareaField({
-  id,
-  name,
-  label,
-  required = false,
-}: {
-  id: string;
-  name: string;
-  label: string;
-  required?: boolean;
-}) {
-  return (
-    <div>
-      <label htmlFor={id} className="block text-eyebrow text-ink/70">
-        {label}
-        {required && <span className="ml-1 text-sage">*</span>}
-      </label>
-      <textarea
-        id={id}
-        name={name}
-        required={required}
-        rows={4}
-        className="mt-2 w-full resize-none rounded border border-ink/15 bg-paper px-3 py-2 text-body text-ink"
-      />
+      {/* CTA pinned to the bottom so buttons line up across the row. */}
+      <div className="mt-auto pt-6">{children}</div>
     </div>
   );
 }
