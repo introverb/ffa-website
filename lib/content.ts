@@ -62,7 +62,10 @@ export const INITIATIVES = [
     title: 'OURS: Exhibition & Salon',
     status: 'August 2026 · Space LES, NYC',
     note: 'Attend OURS',
-    noteHref: '/ours',
+    // External Luma RSVP / application page (attendance runs through
+    // Luma). External hrefs (http…) render as new-tab anchors in
+    // Initiatives.tsx; internal paths stay client-side Links.
+    noteHref: 'https://luma.com/0hakp1pz',
     secondaryNote: 'Sponsor the Event',
     secondaryNoteHref: '/ours/sponsor-brief',
     tertiaryNote: 'Submit Artwork',

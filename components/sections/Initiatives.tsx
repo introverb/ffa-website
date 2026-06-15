@@ -69,12 +69,26 @@ export function Initiatives() {
                           padding + smaller text. */}
                       {i.note &&
                         (i.noteHref ? (
-                          <Link
-                            href={i.noteHref}
-                            className="inline-flex items-center justify-center rounded-md bg-sage px-4 py-2.5 text-xs uppercase tracking-[0.1em] text-white transition hover:bg-dark"
-                          >
-                            {i.note}
-                          </Link>
+                          i.noteHref.startsWith('http') ? (
+                            // External (e.g. the Luma RSVP page) — open
+                            // in a new tab so the homepage stays put.
+                            <a
+                              href={i.noteHref}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              data-goatcounter-click="home:attend-ours-luma"
+                              className="inline-flex items-center justify-center rounded-md bg-sage px-4 py-2.5 text-xs uppercase tracking-[0.1em] text-white transition hover:bg-dark"
+                            >
+                              {i.note}
+                            </a>
+                          ) : (
+                            <Link
+                              href={i.noteHref}
+                              className="inline-flex items-center justify-center rounded-md bg-sage px-4 py-2.5 text-xs uppercase tracking-[0.1em] text-white transition hover:bg-dark"
+                            >
+                              {i.note}
+                            </Link>
+                          )
                         ) : (
                           <strong>{i.note}</strong>
                         ))}

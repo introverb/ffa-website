@@ -7,6 +7,11 @@ import { TrackSubmission } from '@/components/TrackSubmission';
 import { JsonLd } from '@/components/JsonLd';
 import { OursContributors } from '@/components/OursContributors';
 
+// Public RSVP / application page for OURS, hosted on Luma. The
+// attendance CTAs (homepage "Attend OURS" button, the /ours "Apply
+// to attend" card) all point here.
+const LUMA_RSVP_URL = 'https://luma.com/0hakp1pz';
+
 export const metadata: Metadata = {
   title: 'OURS',
   description:
@@ -161,25 +166,20 @@ export default function OursPage({
           </h2>
 
           <div className="mt-14 grid gap-10 md:grid-cols-3">
+            {/* Guestlist → applications now run through Luma; the card
+                links out to the RSVP page instead of the old in-page
+                form. The /api/ours guestlist handler is left intact in
+                case we revert. */}
             <EngagementCard
-              title="Sign up for the guestlist"
-              blurb="The room is intimate; the list is limited but we&rsquo;re still welcoming more guests."
-              sent={sent === 'guestlist'}
-              sentMessage="Thanks, you&rsquo;re on the radar. We&rsquo;ll reach back when invitations go out."
+              title="Apply to attend"
+              blurb="The room is intimate and the list is limited, but we&rsquo;re still welcoming guests. Apply on Luma and we&rsquo;ll be in touch."
               bgImage="/images/initiative-exhibitions.jpg"
-            >
-              <input type="hidden" name="type" value="guestlist" />
-              <Field id="g-name" name="name" label="Your name" required />
-              <Field id="g-email" name="email" type="email" label="Email" required />
-              <Field id="g-city" name="city" label="City (optional)" />
-              <TextareaField
-                id="g-why"
-                name="why"
-                label="What draws you to this?"
-                required
-              />
-              <Submit label="Request an invite" />
-            </EngagementCard>
+              cta={{
+                label: 'Apply on Luma',
+                href: LUMA_RSVP_URL,
+                event: 'ours:attend-luma',
+              }}
+            />
 
             <EngagementCard
               title="Submit artwork for exhibition"
@@ -274,20 +274,30 @@ export default function OursPage({
 // the trio carries visual variety. Form layout is flex-col + flex-1
 // so the submit button anchors to the same margin from the bottom
 // of each card regardless of how many fields the form has.
+//
+// Two body modes:
+//   - cta: renders a single link button (e.g. the guestlist card now
+//     sends visitors to the external Luma RSVP page instead of an
+//     in-page form). When cta is set, sent/sentMessage/children are
+//     ignored.
+//   - form (default): wraps `children` in the /api/ours POST form,
+//     with the post-submit `sent` confirmation state.
 function EngagementCard({
   title,
   blurb,
-  sent,
+  sent = false,
   sentMessage,
   bgImage,
+  cta,
   children,
 }: {
   title: string;
   blurb: string;
-  sent: boolean;
-  sentMessage: string;
+  sent?: boolean;
+  sentMessage?: string;
   bgImage: string;
-  children: React.ReactNode;
+  cta?: { label: string; href: string; event?: string };
+  children?: React.ReactNode;
 }) {
   return (
     <div className="relative flex flex-col overflow-hidden rounded-2xl border-[3px] border-ink/20 p-8 text-ink md:p-10">
@@ -311,12 +321,24 @@ function EngagementCard({
         dangerouslySetInnerHTML={{ __html: blurb }}
       />
       <div className="mt-6 flex flex-1 flex-col">
-        {sent ? (
+        {cta ? (
+          // External CTA mode — single link button pinned to the
+          // bottom (mt-auto), matching where the form's Submit sits.
+          <a
+            href={cta.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-goatcounter-click={cta.event}
+            className="btn-solid mt-auto self-start"
+          >
+            {cta.label}
+          </a>
+        ) : sent ? (
           <div className="rounded-xl border border-sage/40 bg-sage-light/40 p-6">
             <p className="eyebrow text-sage">Received</p>
             <p
               className="mt-3 text-body leading-snug text-ink"
-              dangerouslySetInnerHTML={{ __html: sentMessage }}
+              dangerouslySetInnerHTML={{ __html: sentMessage ?? '' }}
             />
           </div>
         ) : (
@@ -385,13 +407,5 @@ function TextareaField({
         className="mt-2 w-full resize-none rounded border border-ink/15 bg-paper px-3 py-2 text-body text-ink"
       />
     </div>
-  );
-}
-
-function Submit({ label }: { label: string }) {
-  return (
-    <button type="submit" className="btn-solid mt-auto self-start">
-      {label}
-    </button>
   );
 }
