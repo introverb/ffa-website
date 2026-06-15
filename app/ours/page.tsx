@@ -197,6 +197,18 @@ export default function OursPage() {
                 sizes="(max-width: 768px) 100vw, 33vw"
                 className="object-cover"
               />
+              {/* Top scrim so the white title reads over the bright sky
+                  in the discovery image. */}
+              <div
+                aria-hidden
+                className="absolute inset-x-0 top-0 h-2/3 bg-gradient-to-b from-ink/65 to-transparent"
+              />
+              {/* Title overlaid top-left, matching the other doors'
+                  title position (same p-6/p-7 inset), white on the
+                  scrim. */}
+              <h3 className="absolute left-6 right-6 top-6 text-h5 leading-tight text-white md:left-7 md:right-7 md:top-7">
+                Become a Patron or Partner
+              </h3>
               <a
                 href="/ours/sponsor-brief"
                 target="_blank"

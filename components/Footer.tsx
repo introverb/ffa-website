@@ -56,29 +56,6 @@ export function Footer() {
             </a>
             .
           </p>
-          {/* Candid (GuideStar) transparency seal — served as the
-              official SVG from Candid's widget endpoint, saved
-              locally. The seal is self-backed (silver frame, white
-              interior) so it sits directly on the dark footer with
-              no extra backing and stays legible. Links to the FFA
-              Candid profile. Small (80px) but at 108px-native SVG
-              it stays crisp. Re-fetch the widget endpoint when the
-              tier changes; the filename carries the tier + year. */}
-          <a
-            href="https://app.candid.org/profile/15666823/foundation-for-future-aesthetics-inc"
-            target="_blank"
-            rel="noopener noreferrer"
-            data-goatcounter-click="outbound:candid-seal"
-            className="mt-6 inline-block transition-opacity hover:opacity-80"
-          >
-            <Image
-              src="/images/candid-seal-silver-2026.svg"
-              alt="Candid Silver Transparency Seal 2026"
-              width={108}
-              height={108}
-              className="h-20 w-20"
-            />
-          </a>
         </div>
 
         {/* Mobile-only single-column nav. Hidden at md+ where the
@@ -99,38 +76,44 @@ export function Footer() {
           </ul>
         </div>
 
-        {/* Desktop right-side single-column nav. Hidden on mobile where
-            the two-column grid above takes over. */}
-        <div className="hidden flex-col items-start gap-2 text-white md:flex md:items-end">
-          <ul className="space-y-2 text-right">
-            {PRIMARY_NAV.map((n) => (
-              <li key={n.href}>
-                <Link
-                  href={n.href}
-                  className="text-sm underline decoration-from-font underline-offset-4 hover:text-sage-light"
-                >
-                  {n.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-          <a
-            href="https://twitter.com/possibiliamag"
-            target="_blank"
-            rel="noreferrer"
-            aria-label="Twitter / X"
-            className="mt-6 inline-block text-white/60 hover:text-white"
-          >
-            <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor">
-              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-            </svg>
-          </a>
+        {/* Desktop right side — nav links + X stacked, with the Candid
+            seal sitting just to their right (bottom-aligned). Moving
+            the seal out of the left column and inline here keeps the
+            footer short. Hidden on mobile, where the block above and
+            the row below take over. */}
+        <div className="hidden md:flex md:items-end md:gap-8">
+          <div className="flex flex-col items-end gap-2 text-white">
+            <ul className="space-y-2 text-right">
+              {PRIMARY_NAV.map((n) => (
+                <li key={n.href}>
+                  <Link
+                    href={n.href}
+                    className="text-sm underline decoration-from-font underline-offset-4 hover:text-sage-light"
+                  >
+                    {n.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <a
+              href="https://twitter.com/possibiliamag"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Twitter / X"
+              className="mt-6 inline-block text-white/60 hover:text-white"
+            >
+              <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+              </svg>
+            </a>
+          </div>
+          <CandidSeal />
         </div>
       </div>
 
-      {/* Mobile-only X icon, anchored at the bottom edge. Hidden at md+
-          where the desktop block above carries it. */}
-      <div className="mt-10 flex md:hidden">
+      {/* Mobile-only bottom row — X icon + Candid seal. Hidden at md+
+          where the desktop block above carries both. */}
+      <div className="mt-10 flex items-center gap-6 md:hidden">
         <a
           href="https://twitter.com/possibiliamag"
           target="_blank"
@@ -142,7 +125,35 @@ export function Footer() {
             <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
           </svg>
         </a>
+        <CandidSeal />
       </div>
     </Panel>
+  );
+}
+
+// Candid (GuideStar) transparency seal — the official SVG from Candid's
+// widget endpoint, saved locally. Self-backed (silver frame, white
+// interior) so it sits on the dark footer with no extra backing and
+// stays legible. 80px display, 108px-native SVG so it stays crisp.
+// Re-fetch the widget endpoint when the tier changes; the filename
+// carries the tier + year. Rendered both in the desktop right block
+// (right of the links) and the mobile bottom row.
+function CandidSeal() {
+  return (
+    <a
+      href="https://app.candid.org/profile/15666823/foundation-for-future-aesthetics-inc"
+      target="_blank"
+      rel="noopener noreferrer"
+      data-goatcounter-click="outbound:candid-seal"
+      className="inline-block shrink-0 transition-opacity hover:opacity-80"
+    >
+      <Image
+        src="/images/candid-seal-silver-2026.svg"
+        alt="Candid Silver Transparency Seal 2026"
+        width={108}
+        height={108}
+        className="h-20 w-20"
+      />
+    </a>
   );
 }
