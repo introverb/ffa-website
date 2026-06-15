@@ -120,43 +120,19 @@ export default function OursPage() {
           </div>
         </div>
 
-        {/* Format */}
-        <div className="mt-20 border-t-[3px] border-rule pt-16">
-          <p className="text-sm uppercase tracking-[0.08em] text-sage">The format</p>
-          <h2 className="mt-6 text-h2 leading-[1.05] md:text-h2-lg">
-            An intimate discussion of what&rsquo;s to come.
-          </h2>
-          <ul className="mt-12 grid gap-12 text-body leading-relaxed text-ink/80 md:grid-cols-2 lg:grid-cols-4">
-            {FORMAT.map((f) => (
-              <li key={f.label}>
-                <p className="text-sm uppercase tracking-[0.08em] text-sage">{f.label}</p>
-                <p className="mt-4 whitespace-pre-line">{f.body}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Contributors — interactive group selector (client
-            component): Artists / Speakers / Installation
-            Contributors tabs, each revealing a color-coded panel.
-            Sits between Format and Engage so a visitor sees who's
-            confirmed before the page asks them to take part. */}
-        <OursContributors />
-
-        {/* Engage */}
+        {/* Engage doors — three compact CTA cards, moved directly
+            under "Why now" (the Engage eyebrow + heading were removed)
+            so the asks sit right after the hook, ahead of the format
+            and contributors detail. id="engage" kept for inbound
+            anchors. */}
         <div id="engage" className="mt-20 border-t-[3px] border-rule pt-16">
-          <p className="text-sm uppercase tracking-[0.08em] text-sage">Engage</p>
-          <h2 className="mt-6 max-w-3xl text-h2 leading-[1.05] md:text-h2-lg">
-            Take part in crafting tomorrow.
-          </h2>
-
           {/* Three compact "doors" — one-line cards, uniform height,
               each a single CTA. Attendance and sponsorship link out
               (Luma RSVP, sponsor brief); artwork opens a modal so the
               form lives off-card and the row stays short. items-stretch
               keeps the trio equal-height; each door's CTA is pinned to
               the bottom (mt-auto) so the buttons line up across the row. */}
-          <div className="mt-14 grid gap-6 md:grid-cols-3 md:items-stretch">
+          <div className="grid gap-6 md:grid-cols-3 md:items-stretch">
             <EngageDoor
               title="Apply to attend"
               blurb="The room is intimate and the list is limited, but we&rsquo;re still welcoming guests."
@@ -221,6 +197,29 @@ export default function OursPage() {
             </div>
           </div>
         </div>
+
+        {/* Format */}
+        <div className="mt-20 border-t-[3px] border-rule pt-16">
+          <p className="text-sm uppercase tracking-[0.08em] text-sage">The format</p>
+          <h2 className="mt-6 text-h2 leading-[1.05] md:text-h2-lg">
+            An intimate discussion of what&rsquo;s to come.
+          </h2>
+          <ul className="mt-12 grid gap-12 text-body leading-relaxed text-ink/80 md:grid-cols-2 lg:grid-cols-4">
+            {FORMAT.map((f) => (
+              <li key={f.label}>
+                <p className="text-sm uppercase tracking-[0.08em] text-sage">{f.label}</p>
+                <p className="mt-4 whitespace-pre-line">{f.body}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Contributors — interactive group selector (client
+            component): Artists / Speakers / Installation Contributors
+            tabs, each revealing a color-coded panel. Now closes the
+            page (after the Engage doors and Format), so the confirmed
+            lineup is the last thing a visitor sees. */}
+        <OursContributors />
       </Panel>
     </>
   );
