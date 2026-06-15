@@ -182,10 +182,13 @@ export default function OursPage() {
             </EngageDoor>
 
             {/* Sponsor door keeps the sharp discovery artwork with a
-                centered frosted-glass CTA (rather than the frosted-
-                blur text-card treatment of the other two). Compact
-                fixed height on mobile; md:h-full lets the grid stretch
-                it to match the two text doors on desktop. */}
+                frosted-glass CTA (rather than the frosted-blur text-
+                card treatment of the other two). The button matches
+                the other doors' shape (rounded-md) and position
+                (bottom-left, at the same p-6/p-7 inset their CTAs
+                sit), just kept frosted so it reads on the image.
+                Compact fixed height on mobile; md:h-full lets the grid
+                stretch it to match the two text doors on desktop. */}
             <div className="relative h-52 overflow-hidden rounded-2xl md:h-full">
               <Image
                 src="/images/discovery.jpg"
@@ -199,7 +202,7 @@ export default function OursPage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 data-goatcounter-click="ours:sponsor-event"
-                className="absolute left-1/2 top-1/2 inline-flex -translate-x-1/2 -translate-y-1/2 items-center justify-center whitespace-nowrap rounded-full border border-white/40 bg-white/15 px-7 py-3 text-sm uppercase tracking-[0.12em] text-white backdrop-blur-md transition hover:bg-white/30"
+                className="absolute bottom-6 left-6 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-white/40 bg-white/15 px-7 py-3 text-sm uppercase tracking-[0.12em] text-white backdrop-blur-md transition hover:bg-white/30 md:bottom-7 md:left-7"
               >
                 Sponsor the event
               </a>
