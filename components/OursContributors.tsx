@@ -14,9 +14,10 @@ import { slug } from '@/lib/analytics';
 // card pattern) rather than color-filled; content sits in ink on the
 // white panel ground, with the group color carried by the border, the
 // selected tab's fill, hover accents, and the installation CTA.
-// Speakers are TBA for now; the installation panel carries the
-// "share your vision" contribute CTA. Color classes are written as
-// complete literals (Tailwind JIT can't see interpolated fragments).
+// Speakers and installation contributors are both TBA for now; the
+// installation panel still carries the "share your vision" contribute
+// CTA. Color classes are written as complete literals (Tailwind JIT
+// can't see interpolated fragments).
 
 // Confirmed exhibition artists. Two or three more are expected; the
 // lineup is a flex-wrap so additions are one-line edits. Each name
@@ -31,13 +32,14 @@ const ARTISTS = [
   { name: 'Seungjun Na', href: 'https://www.instagram.com/na_tist' },
 ];
 
-// Installation contributors — names only for now (no sites supplied);
-// links can be added the same way as ARTISTS when wanted. Optional
-// role renders as a quiet parenthetical beside the name.
-const INSTALLATION_CONTRIBUTORS: { name: string; role?: string }[] = [
-  { name: 'Ada Palmer', role: 'Host' },
-  { name: 'Anders Sandberg' },
-];
+// Installation contributors — held as TBA for now; the panel shows a
+// "to be announced" placeholder plus the standing Contribute CTA.
+// When names are public again, drop them back into this array and
+// restore the lineup <ul> in the render (preserved in a comment
+// there). Optional role renders as a quiet parenthetical beside the
+// name. Confirmed but not yet listed: Ada Palmer (Host), Anders
+// Sandberg.
+const INSTALLATION_CONTRIBUTORS: { name: string; role?: string }[] = [];
 
 type GroupKey = 'artists' | 'speakers' | 'installation';
 
@@ -156,19 +158,29 @@ export function OursContributors() {
 
         {active === 'installation' && (
           <>
-            <ul className="flex max-w-5xl flex-wrap items-baseline gap-x-10 gap-y-4">
-              {INSTALLATION_CONTRIBUTORS.map((c) => (
-                <li
-                  key={c.name}
-                  className="flex items-baseline gap-2 font-heading text-h5 leading-tight text-ink md:text-h4"
-                >
-                  {c.name}
-                  {c.role && (
-                    <span className="text-[0.55em] text-ink/50">({c.role})</span>
-                  )}
-                </li>
-              ))}
-            </ul>
+            {/* Lineup when names are confirmed; "to be announced"
+                placeholder while INSTALLATION_CONTRIBUTORS is empty.
+                Refilling the array above restores the lineup with no
+                JSX change. */}
+            {INSTALLATION_CONTRIBUTORS.length > 0 ? (
+              <ul className="flex max-w-5xl flex-wrap items-baseline gap-x-10 gap-y-4">
+                {INSTALLATION_CONTRIBUTORS.map((c) => (
+                  <li
+                    key={c.name}
+                    className="flex items-baseline gap-2 font-heading text-h5 leading-tight text-ink md:text-h4"
+                  >
+                    {c.name}
+                    {c.role && (
+                      <span className="text-[0.55em] text-ink/50">({c.role})</span>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="font-heading text-h4 leading-tight text-ink md:text-h3">
+                To be announced.
+              </p>
+            )}
 
             {/* Contribute invitation — the installation is open to
                 more visionaries, so this group carries its own CTA.
