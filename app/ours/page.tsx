@@ -181,21 +181,29 @@ export default function OursPage() {
               <OursArtworkDialog />
             </EngageDoor>
 
-            <EngageDoor
-              title="Sponsor the event"
-              blurb="Back the evening and the artists in it. The brief lays out the tiers and what each includes."
-              bgImage="/images/discovery.jpg"
-            >
+            {/* Sponsor door keeps the sharp discovery artwork with a
+                centered frosted-glass CTA (rather than the frosted-
+                blur text-card treatment of the other two). Compact
+                fixed height on mobile; md:h-full lets the grid stretch
+                it to match the two text doors on desktop. */}
+            <div className="relative h-52 overflow-hidden rounded-2xl md:h-full">
+              <Image
+                src="/images/discovery.jpg"
+                alt=""
+                fill
+                sizes="(max-width: 768px) 100vw, 33vw"
+                className="object-cover"
+              />
               <a
                 href="/ours/sponsor-brief"
                 target="_blank"
                 rel="noopener noreferrer"
                 data-goatcounter-click="ours:sponsor-event"
-                className="btn-solid"
+                className="absolute left-1/2 top-1/2 inline-flex -translate-x-1/2 -translate-y-1/2 items-center justify-center whitespace-nowrap rounded-full border border-white/40 bg-white/15 px-7 py-3 text-sm uppercase tracking-[0.12em] text-white backdrop-blur-md transition hover:bg-white/30"
               >
-                Read the brief
+                Sponsor the event
               </a>
-            </EngageDoor>
+            </div>
           </div>
         </div>
       </Panel>
