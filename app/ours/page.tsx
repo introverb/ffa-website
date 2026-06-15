@@ -120,19 +120,21 @@ export default function OursPage() {
           </div>
         </div>
 
-        {/* Engage doors — three compact CTA cards, moved directly
-            under "Why now" (the Engage eyebrow + heading were removed)
-            so the asks sit right after the hook, ahead of the format
-            and contributors detail. id="engage" kept for inbound
+        {/* Engage doors — three compact CTA cards under "Why now":
+            the three ways to join the evening (attend, exhibit,
+            sponsor). Eyebrow only, no heading and no divider line
+            above, so it reads as a continuation of the hook rather
+            than a separate section. id="engage" kept for inbound
             anchors. */}
-        <div id="engage" className="mt-20 border-t-[3px] border-rule pt-16">
+        <div id="engage" className="mt-16">
+          <p className="text-sm uppercase tracking-[0.08em] text-sage">The invitation</p>
           {/* Three compact "doors" — one-line cards, uniform height,
               each a single CTA. Attendance and sponsorship link out
               (Luma RSVP, sponsor brief); artwork opens a modal so the
               form lives off-card and the row stays short. items-stretch
               keeps the trio equal-height; each door's CTA is pinned to
               the bottom (mt-auto) so the buttons line up across the row. */}
-          <div className="grid gap-6 md:grid-cols-3 md:items-stretch">
+          <div className="mt-8 grid gap-6 md:grid-cols-3 md:items-stretch">
             <EngageDoor
               title="Apply to attend"
               blurb="The room is intimate and the list is limited, but we&rsquo;re still welcoming guests."
