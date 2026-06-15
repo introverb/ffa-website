@@ -76,12 +76,13 @@ export function Footer() {
           </ul>
         </div>
 
-        {/* Desktop right side — nav links + X stacked, with the Candid
-            seal sitting just to their right (bottom-aligned). Moving
+        {/* Desktop right side — Candid seal at the left, then nav
+            links + X stacked at the far right (bottom-aligned). Moving
             the seal out of the left column and inline here keeps the
             footer short. Hidden on mobile, where the block above and
             the row below take over. */}
         <div className="hidden md:flex md:items-end md:gap-8">
+          <CandidSeal />
           <div className="flex flex-col items-end gap-2 text-white">
             <ul className="space-y-2 text-right">
               {PRIMARY_NAV.map((n) => (
@@ -107,7 +108,6 @@ export function Footer() {
               </svg>
             </a>
           </div>
-          <CandidSeal />
         </div>
       </div>
 
