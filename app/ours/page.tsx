@@ -92,10 +92,13 @@ export default function OursPage() {
       />
 
       <Panel variant="white" className="md:p-16">
-        {/* Why now */}
+        {/* The invitation — the hook ("the future isn't fixed") plus
+            the three ways to join below it. One eyebrow spans this
+            whole area through the doors; the Why-now content and the
+            engage doors share it. */}
         <div className="grid gap-12 md:grid-cols-[1fr_1.6fr] md:items-start">
           <div>
-            <p className="text-sm uppercase tracking-[0.08em] text-sage">Why now</p>
+            <p className="text-sm uppercase tracking-[0.08em] text-sage">The invitation</p>
             <h2 className="mt-6 text-h2 leading-[1.05] md:text-h2-lg">
               The future isn&rsquo;t fixed.
             </h2>
@@ -120,21 +123,20 @@ export default function OursPage() {
           </div>
         </div>
 
-        {/* Engage doors — three compact CTA cards under "Why now":
-            the three ways to join the evening (attend, exhibit,
-            sponsor). Eyebrow only, no heading and no divider line
-            above, so it reads as a continuation of the hook rather
-            than a separate section. id="engage" kept for inbound
-            anchors. */}
+        {/* Engage doors — three compact CTA cards (attend, exhibit,
+            sponsor): the three ways to join the evening. No eyebrow or
+            heading of its own and no divider line above — the single
+            "The invitation" eyebrow on the Why-now block above covers
+            this whole area, so the doors read as its continuation.
+            id="engage" kept for inbound anchors. */}
         <div id="engage" className="mt-16">
-          <p className="text-sm uppercase tracking-[0.08em] text-sage">The invitation</p>
           {/* Three compact "doors" — one-line cards, uniform height,
               each a single CTA. Attendance and sponsorship link out
               (Luma RSVP, sponsor brief); artwork opens a modal so the
               form lives off-card and the row stays short. items-stretch
               keeps the trio equal-height; each door's CTA is pinned to
               the bottom (mt-auto) so the buttons line up across the row. */}
-          <div className="mt-8 grid gap-6 md:grid-cols-3 md:items-stretch">
+          <div className="grid gap-6 md:grid-cols-3 md:items-stretch">
             <EngageDoor
               title="Apply to attend"
               blurb="The room is intimate and the list is limited, but we&rsquo;re still welcoming guests."
