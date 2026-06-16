@@ -79,7 +79,7 @@ export async function POST(req: NextRequest) {
       from:
         process.env.POSSIBILIA_FROM_EMAIL ||
         'FFA OURS <onboarding@resend.dev>',
-      to: process.env.POSSIBILIA_TO_EMAIL || 'ollipayne182@gmail.com',
+      to: process.env.POSSIBILIA_TO_EMAIL || 'olli@futureaesthetics.foundation',
       replyTo: composed.replyTo,
       subject: composed.subject,
       text: composed.text,

@@ -71,7 +71,7 @@ ${message}`;
       from:
         process.env.POSSIBILIA_FROM_EMAIL ||
         'FFA Contact <onboarding@resend.dev>',
-      to: process.env.POSSIBILIA_TO_EMAIL || 'ollipayne182@gmail.com',
+      to: process.env.POSSIBILIA_TO_EMAIL || 'olli@futureaesthetics.foundation',
       replyTo: email,
       subject: `Contact form - ${topic} from ${name}`,
       text,
