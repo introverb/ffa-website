@@ -33,14 +33,23 @@ const ARTISTS = [
   { name: 'Seungjun Na', href: 'https://www.instagram.com/na_tist' },
 ];
 
-// Installation contributors — held as TBA for now; the panel shows a
-// "to be announced" placeholder plus the standing Contribute CTA.
-// When names are public again, drop them back into this array and
-// restore the lineup <ul> in the render (preserved in a comment
-// there). Optional role renders as a quiet parenthetical beside the
-// name. Confirmed but not yet listed: Ada Palmer (Host), Anders
-// Sandberg.
-const INSTALLATION_CONTRIBUTORS: { name: string; role?: string }[] = [];
+// Installation contributors — the confirmed roster is held here as
+// real data (names, optional role, optional link), but kept hidden
+// behind SHOW_INSTALLATION so the panel shows "to be announced" plus
+// the standing Contribute CTA. Flip SHOW_INSTALLATION to true to
+// reveal the lineup; names with an href render as links (same
+// treatment as the artists), the rest as plain text.
+const SHOW_INSTALLATION = false;
+
+const INSTALLATION_CONTRIBUTORS: {
+  name: string;
+  role?: string;
+  href?: string;
+}[] = [
+  { name: 'Ada Palmer', role: 'Host' },
+  { name: 'Anders Sandberg' },
+  { name: 'Audrey Tang', href: 'https://cyberambassador.tw/' },
+];
 
 type GroupKey = 'artists' | 'speakers' | 'installation';
 
@@ -159,18 +168,38 @@ export function OursContributors() {
 
         {active === 'installation' && (
           <>
-            {/* Lineup when names are confirmed; "to be announced"
-                placeholder while INSTALLATION_CONTRIBUTORS is empty.
-                Refilling the array above restores the lineup with no
-                JSX change. */}
-            {INSTALLATION_CONTRIBUTORS.length > 0 ? (
+            {/* Lineup when SHOW_INSTALLATION is on; "to be announced"
+                placeholder while it's held. Names with an href render
+                as links (matching the artists), names without as
+                plain heading text; optional role is a quiet
+                parenthetical. Flipping SHOW_INSTALLATION reveals the
+                roster with no JSX change. */}
+            {SHOW_INSTALLATION && INSTALLATION_CONTRIBUTORS.length > 0 ? (
               <ul className="flex max-w-5xl flex-wrap items-baseline gap-x-10 gap-y-4">
                 {INSTALLATION_CONTRIBUTORS.map((c) => (
                   <li
                     key={c.name}
                     className="flex items-baseline gap-2 font-heading text-h5 leading-tight text-ink md:text-h4"
                   >
-                    {c.name}
+                    {c.href ? (
+                      <a
+                        href={c.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        data-goatcounter-click={`ours:installation-${slug(c.name)}`}
+                        className="group flex items-baseline gap-1.5 transition-colors hover:text-horizon"
+                      >
+                        {c.name}
+                        <span
+                          aria-hidden
+                          className="text-[0.55em] text-ink/35 transition-colors group-hover:text-horizon"
+                        >
+                          &#8599;
+                        </span>
+                      </a>
+                    ) : (
+                      c.name
+                    )}
                     {c.role && (
                       <span className="text-[0.55em] text-ink/50">({c.role})</span>
                     )}
