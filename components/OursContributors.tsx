@@ -32,7 +32,7 @@ const ARTISTS: { name: string; href?: string }[] = [
   { name: 'Den Pakowacz', href: 'https://www.behance.net/pakowacz' },
   { name: 'Casey Rehm', href: 'https://mcr-studio.com/' },
   { name: 'Seungjun Na', href: 'https://www.instagram.com/na_tist' },
-  { name: 'Dylan Weiss' },
+  { name: 'Dylan Weiler', href: 'https://www.dylanevansweiler.com/' },
   { name: 'Olli Payne', href: 'https://olli.vision' },
 ];
 
