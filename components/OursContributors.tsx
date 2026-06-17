@@ -24,6 +24,7 @@ import { slug } from '@/lib/analytics';
 // links out with a per-artist GoatCounter event.
 const ARTISTS = [
   { name: 'RERO', href: 'https://rero-studio.squarespace.com/' },
+  { name: 'Giorgia Lupi', href: 'https://studio.giorgialupi.com/' },
   { name: 'Ellynne Dec', href: 'https://ellynne.studio/' },
   { name: 'Mauricio Pommella', href: 'https://mpommella.com/' },
   { name: 'Anyanwu', href: 'https://weareanyanwu.com/' },
