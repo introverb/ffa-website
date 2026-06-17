@@ -48,8 +48,11 @@ const INSTALLATION_CONTRIBUTORS: {
   role?: string;
   href?: string;
 }[] = [
-  { name: 'Ada Palmer', role: 'Host' },
-  { name: 'Anders Sandberg' },
+  { name: 'Ada Palmer', role: 'Host', href: 'https://www.adapalmer.com/' },
+  {
+    name: 'Anders Sandberg',
+    href: 'https://scholar.google.com/citations?user=aefVOM4AAAAJ&hl=en',
+  },
   { name: 'Audrey Tang', href: 'https://cyberambassador.tw/' },
 ];
 
