@@ -191,7 +191,7 @@ export default function SupportPage() {
         body={
           <p>
             The Foundation for Future Aesthetics is a 501(c)(3) nonprofit. Give,
-            partner with us, or open a door — every path is tax-deductible.
+            partner with us, or open a door.
           </p>
         }
       />
