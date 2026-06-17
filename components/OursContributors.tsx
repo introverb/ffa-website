@@ -19,10 +19,11 @@ import { slug } from '@/lib/analytics';
 // CTA. Color classes are written as complete literals (Tailwind JIT
 // can't see interpolated fragments).
 
-// Confirmed exhibition artists. Two or three more are expected; the
-// lineup is a flex-wrap so additions are one-line edits. Each name
-// links out with a per-artist GoatCounter event.
-const ARTISTS = [
+// Confirmed exhibition artists. The lineup is a flex-wrap so additions
+// are one-line edits. Names with an href link out (per-artist
+// GoatCounter event); a name without one renders as plain text until
+// its link is added (e.g. Dylan Weiss, link pending).
+const ARTISTS: { name: string; href?: string }[] = [
   { name: 'RERO', href: 'https://rero-studio.squarespace.com/' },
   { name: 'Giorgia Lupi', href: 'https://studio.giorgialupi.com/' },
   { name: 'Ellynne Dec', href: 'https://ellynne.studio/' },
@@ -31,6 +32,7 @@ const ARTISTS = [
   { name: 'Den Pakowacz', href: 'https://www.behance.net/pakowacz' },
   { name: 'Casey Rehm', href: 'https://mcr-studio.com/' },
   { name: 'Seungjun Na', href: 'https://www.instagram.com/na_tist' },
+  { name: 'Dylan Weiss' },
 ];
 
 // Installation contributors — the confirmed roster is held here as
@@ -125,22 +127,30 @@ export function OursContributors() {
             <ul className="flex max-w-5xl flex-wrap items-baseline gap-x-10 gap-y-4">
               {ARTISTS.map((a) => (
                 <li key={a.name}>
-                  <a
-                    href={a.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    data-goatcounter-click={`ours:artist-${slug(a.name)}`}
-                    className="group flex items-baseline gap-1.5 font-heading text-h5 leading-tight text-ink transition-colors hover:text-flare md:text-h4"
-                  >
-                    {a.name}
-                    {/* External-link cue, quiet until hover. */}
-                    <span
-                      aria-hidden
-                      className="text-[0.55em] text-ink/35 transition-colors group-hover:text-flare"
+                  {a.href ? (
+                    <a
+                      href={a.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      data-goatcounter-click={`ours:artist-${slug(a.name)}`}
+                      className="group flex items-baseline gap-1.5 font-heading text-h5 leading-tight text-ink transition-colors hover:text-flare md:text-h4"
                     >
-                      &#8599;
+                      {a.name}
+                      {/* External-link cue, quiet until hover. */}
+                      <span
+                        aria-hidden
+                        className="text-[0.55em] text-ink/35 transition-colors group-hover:text-flare"
+                      >
+                        &#8599;
+                      </span>
+                    </a>
+                  ) : (
+                    // No link yet — plain heading text, sits inline with
+                    // the linked names. Add an href above to make it a link.
+                    <span className="font-heading text-h5 leading-tight text-ink md:text-h4">
+                      {a.name}
                     </span>
-                  </a>
+                  )}
                 </li>
               ))}
             </ul>
