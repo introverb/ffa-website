@@ -36,13 +36,12 @@ const ARTISTS: { name: string; href?: string }[] = [
   { name: 'Olli Payne', href: 'https://olli.vision' },
 ];
 
-// Installation contributors — the confirmed roster is held here as
-// real data (names, optional role, optional link), but kept hidden
-// behind SHOW_INSTALLATION so the panel shows "to be announced" plus
-// the standing Contribute CTA. Flip SHOW_INSTALLATION to true to
-// reveal the lineup; names with an href render as links (same
-// treatment as the artists), the rest as plain text.
-const SHOW_INSTALLATION = false;
+// Installation contributors — the confirmed roster, now revealed
+// (SHOW_INSTALLATION = true). Names with an href render as links
+// (same treatment as the artists), the rest as plain text; the
+// Contribute CTA still sits below. Set SHOW_INSTALLATION = false to
+// hold the group as "to be announced" again.
+const SHOW_INSTALLATION = true;
 
 const INSTALLATION_CONTRIBUTORS: {
   name: string;
