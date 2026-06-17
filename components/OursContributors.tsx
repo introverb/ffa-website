@@ -33,6 +33,7 @@ const ARTISTS: { name: string; href?: string }[] = [
   { name: 'Casey Rehm', href: 'https://mcr-studio.com/' },
   { name: 'Seungjun Na', href: 'https://www.instagram.com/na_tist' },
   { name: 'Dylan Weiss' },
+  { name: 'Olli Payne', href: 'https://olli.vision' },
 ];
 
 // Installation contributors — the confirmed roster is held here as
