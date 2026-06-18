@@ -94,10 +94,10 @@ export default async function ArtifactPage({ params }: Params) {
       name: 'Foundation for Future Aesthetics',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://www.futureaesthetics.foundation/images/logo.png',
+        url: 'https://futureaesthetics.foundation/images/logo.png',
       },
     },
-    image: `https://www.futureaesthetics.foundation${meta.hero.src}`,
+    image: `https://futureaesthetics.foundation${meta.hero.src}`,
     inLanguage: 'en-US',
     articleSection: 'Artifacts from Tomorrow',
   };

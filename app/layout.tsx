@@ -35,7 +35,7 @@ const display = Saira({
 const SITE_NAME = 'Foundation for Future Aesthetics';
 const SITE_DESCRIPTION =
   'A nonprofit curating, promoting, and supporting visions of an optimistic and realistic future expressed through the arts.';
-const SITE_URL = 'https://www.futureaesthetics.foundation';
+const SITE_URL = 'https://futureaesthetics.foundation';
 // Default Open Graph + Twitter card image. /images/hero.jpg is the
 // homepage atmospheric image and reads well at OG dimensions
 // (~1200×630 after platform crop). Pages can override by setting

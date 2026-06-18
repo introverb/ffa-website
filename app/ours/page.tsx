@@ -49,9 +49,9 @@ const EVENT_SCHEMA = {
   organizer: {
     '@type': 'NonprofitOrganization',
     name: 'Foundation for Future Aesthetics',
-    url: 'https://www.futureaesthetics.foundation',
+    url: 'https://futureaesthetics.foundation',
   },
-  image: 'https://www.futureaesthetics.foundation/images/initiative-exhibitions.jpg',
+  image: 'https://futureaesthetics.foundation/images/initiative-exhibitions.jpg',
 };
 
 const FORMAT = [

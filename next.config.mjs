@@ -54,6 +54,18 @@ const nextConfig = {
   },
   async redirects() {
     return [
+      // Canonical-domain redirect: send all www traffic to the bare
+      // apex domain with a permanent (308) redirect, so search engines
+      // and visitors consolidate on one host. Pairs with SITE_URL
+      // (bare) used across metadata, sitemap, robots, and schema. Both
+      // hosts already route to this app on Railway, so this rewrite is
+      // what actually performs the consolidation.
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'www.futureaesthetics.foundation' }],
+        destination: 'https://futureaesthetics.foundation/:path*',
+        permanent: true,
+      },
       // The /resources/[slug] dynamic route was a placeholder shell that
       // shipped dev-facing copy if anyone hit it. Removed in this commit;
       // permanent redirect catches the only valid slug ("submit-to-possibilia")
