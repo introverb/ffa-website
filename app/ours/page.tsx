@@ -149,7 +149,7 @@ export default function OursPage() {
                 data-goatcounter-click="ours:attend-luma"
                 className="btn-solid"
               >
-                Apply on Luma
+                Apply to attend
               </a>
             </EngageDoor>
 
