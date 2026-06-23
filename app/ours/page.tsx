@@ -38,7 +38,7 @@ const EVENT_SCHEMA = {
   eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
   location: {
     '@type': 'Place',
-    name: 'New York City',
+    name: 'Space LES',
     address: {
       '@type': 'PostalAddress',
       addressLocality: 'New York',
@@ -69,7 +69,7 @@ const FORMAT = [
   },
   {
     label: 'Setting',
-    body: 'Venue: [TBA]\nNew York City\nAugust 2026',
+    body: 'Venue: Space LES\nNew York City\nAugust 2026',
   },
 ];
 
@@ -138,7 +138,7 @@ export default function OursPage() {
               the bottom (mt-auto) so the buttons line up across the row. */}
           <div className="grid gap-6 md:grid-cols-3 md:items-stretch">
             <EngageDoor
-              title="Apply to attend"
+              title="Join the evening"
               blurb="The room is intimate and the list is limited, but we&rsquo;re still welcoming guests."
               bgImage="/images/initiative-exhibitions.jpg"
             >
