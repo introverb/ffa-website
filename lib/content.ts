@@ -91,7 +91,7 @@ export const INITIATIVES = [
     title: 'Eucatastrophe',
     status: 'In Development · Research Tool',
     blurb:
-      'An AI tool that generates grounded visions of a better future — optimism with receipts. Where speculation usually runs on vibes, Eucatastrophe builds each scenario on a chain of real evidence, then puts it through expert scrutiny before it sees the light. Every hopeful claim arrives cited, checked, and defensible. We’re developing it as connective tissue across the foundation’s work: a way to imagine tomorrows that are not only inspiring, but true.',
+      'A free tool for anyone who’s lost the plot on the future. Doomerism is easy and everywhere; hope is harder, because it has to be earned. Eucatastrophe generates grounded visions of a better tomorrow, building each scenario on a chain of real evidence and putting it through expert scrutiny before it sees the light of your screen. Every hopeful claim arrives cited, checked, and defensible. It’s a place to come when the headlines have you convinced it’s all downhill: proof, not platitudes, that better futures are still on the table.',
     image: '/images/contact.jpg',
     href: '/contact',
   },
