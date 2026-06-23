@@ -88,6 +88,15 @@ export const INITIATIVES = [
   },
   {
     n: '03',
+    title: 'Eucatastrophe',
+    status: 'In Development · Research Tool',
+    blurb:
+      'An AI tool that generates grounded visions of a better future — optimism with receipts. Where speculation usually runs on vibes, Eucatastrophe builds each scenario on a chain of real evidence, then puts it through expert scrutiny before it sees the light. Every hopeful claim arrives cited, checked, and defensible. We’re developing it as connective tissue across the foundation’s work: a way to imagine tomorrows that are not only inspiring, but true.',
+    image: '/images/contact.jpg',
+    href: '/contact',
+  },
+  {
+    n: '04',
     title: 'Industrial Garden',
     status: 'Summer 2027 · Proposal Exhibit',
     blurb:
