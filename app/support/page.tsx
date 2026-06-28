@@ -2,6 +2,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 import { Panel } from '@/components/PageFrame';
 import { PageHeader } from '@/components/PageHeader';
+import { CommunityFund } from '@/components/CommunityFund';
 import { EthGiveButton } from '@/components/EthGiveButton';
 import { OursSponsorshipDialog } from '@/components/OursSponsorshipDialog';
 import { DafGrantDialog } from '@/components/DafGrantDialog';
@@ -297,6 +298,14 @@ export default function SupportPage() {
           </div>
         </div>
       </Panel>
+
+      {/* Community Fund — FFA's match fund on Artizen, surfaced live.
+          Sits right under the Benefactors credit roll: the visitor meets
+          the backers, then the community-powered way to join them, before
+          the larger Patronage asks. Artizen blocks iframing, so this is a
+          native panel that reads the live numbers from their public API
+          (see CommunityFund.tsx). */}
+      <CommunityFund />
 
       {/* Patronage — the two patron paths (Private / Corporate). Each
           card links to its standalone brief in /public; the patron
