@@ -56,6 +56,7 @@ const INSTALLATION_CONTRIBUTORS: {
   { name: 'Audrey Tang', href: 'https://cyberambassador.tw/' },
   { name: 'Shannon Wong', href: 'https://www.girlfliesworld.com/' },
   { name: 'Neil Harbisson', href: 'https://www.cyborgarts.com/neil-harbisson' },
+  { name: 'Michael Edward Johnson', href: 'https://opentheory.net/' },
 ];
 
 type GroupKey = 'artists' | 'speakers' | 'installation';
