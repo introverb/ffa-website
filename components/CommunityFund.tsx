@@ -34,10 +34,10 @@ type Drive = {
   image: string | null;
   multiplier: number | null;
 };
-// The fund's standing in the drive, broken into the three values Artizen
-// shows on its bar: supporter sales, the match those sales unlocked, and
-// the projected prize (the fund's slice of the drive's prize pot).
-type Breakdown = { sales: number; match: number; prize: number };
+// The fund's standing in the drive: supporter sales and the match those
+// sales unlocked. Both are exact API fields. (Prize is intentionally left
+// out — Artizen computes it with an opaque variable we can't reproduce.)
+type Breakdown = { sales: number; match: number };
 type FundData = {
   raised: number | null;
   drive: Drive | null;
@@ -72,7 +72,6 @@ async function getFundData(): Promise<FundData> {
 
   // 2) The current, active "fund drive" (latest by start date).
   let driveId: string | null = null;
-  let prizePot: number | null = null;
   try {
     const r = (await api(
       `boost?${constraints([
@@ -86,7 +85,6 @@ async function getFundData(): Promise<FundData> {
     const d = drives[0];
     if (d) {
       driveId = String(d._id);
-      prizePot = num(d['prize pot funds']);
       const endMs = d['end date'] ? new Date(String(d['end date'])).getTime() : NaN;
       const endsInDays = Number.isFinite(endMs)
         ? Math.max(0, Math.ceil((endMs - Date.now()) / 86_400_000))
@@ -126,18 +124,11 @@ async function getFundData(): Promise<FundData> {
         const me = funds[idx];
         out.rank = idx + 1;
         out.score = Math.round((num(me['boost score']) ?? 0) / 100);
-        // Sales + match are exact, read fields. Prize is computed by
-        // Artizen's fluid-QF with an opaque variable and isn't exposed, so
-        // it's an ESTIMATE (labelled "(est.)" in the UI): this fund's score
-        // share of the drive's fund prize pot — the closest reproducible
-        // approximation of their figure.
+        // Sales + the match they unlocked — both exact, read fields.
         const sales = num(me['fund drive sales (both)']);
         const match = num(me['match boost unlocked (both)']);
-        const myScore = num(me['boost score']) ?? 0;
-        const sumScores = funds.reduce((s, f) => s + (num(f['boost score']) ?? 0), 0);
-        const prize = prizePot != null && sumScores > 0 ? (myScore / sumScores) * prizePot : null;
-        if (sales != null && match != null && prize != null) {
-          out.breakdown = { sales, match, prize };
+        if (sales != null && match != null) {
+          out.breakdown = { sales, match };
         }
       }
     } catch {
@@ -150,29 +141,35 @@ async function getFundData(): Promise<FundData> {
 
 const usd = (n: number) => '$' + Math.round(n).toLocaleString('en-US');
 
-// One stacked bar showing the fund's drive standing as three distinct,
-// colour-keyed segments: sales (sage), the match those sales unlocked
-// (pale sage), and the projected prize (leather). Widths are
-// proportional to each dollar value; a thin gap keeps them legible.
+// Goal bar — how far sales + the match they unlocked fill a $2,000 target.
+// Both are exact API fields. Segment widths are taken against the goal (not
+// each other), so the fill accurately reflects progress; sales and match
+// stay distinguishable, and the remainder shows as empty track.
+const FUND_GOAL = 2000;
+
 function DriveBar({ b }: { b: Breakdown }) {
   const segments = [
-    { key: 'sales', label: 'Sales', value: b.sales, color: '#718676', title: 'Supporter purchases to this fund during the drive.' },
-    { key: 'match', label: 'Match unlocked', value: b.match, color: '#BDD6C3', title: 'Match those sales unlocked (the drive’s 3×).' },
-    {
-      key: 'prize',
-      label: 'Artizen Prize (est.)',
-      value: b.prize,
-      color: '#5A4632',
-      title: 'Estimated from this fund’s score share of the Artizen prize pot. Artizen’s exact figure is set by their match algorithm and isn’t published.',
-    },
+    { key: 'sales', label: 'Donations', value: b.sales, color: '#718676', title: 'Donations to this fund during the drive.' },
+    { key: 'match', label: 'Match unlocked', value: b.match, color: '#E8651A', title: 'Match those sales unlocked (the drive’s 3×).' },
   ];
-  const total = segments.reduce((s, x) => s + Math.max(0, x.value), 0) || 1;
+  const raised = b.sales + b.match;
+  const pct = Math.min(100, Math.round((raised / FUND_GOAL) * 100));
   return (
     <div className="mt-4">
-      <div className="flex h-3 gap-px overflow-hidden rounded-full bg-taupe">
+      <div className="flex items-baseline justify-between text-sm">
+        <span>
+          <span className="font-semibold text-ink">{usd(raised)}</span>{' '}
+          <span className="text-ink/60">of {usd(FUND_GOAL)} goal</span>
+        </span>
+        <span className="text-ink/60">{pct}%</span>
+      </div>
+      <div className="mt-2 flex h-6 w-full gap-px overflow-hidden rounded-full border border-ink bg-taupe">
         {segments.map((s) =>
           s.value > 0 ? (
-            <div key={s.key} style={{ width: `${(s.value / total) * 100}%`, background: s.color }} />
+            <div
+              key={s.key}
+              style={{ width: `${Math.min(100, (s.value / FUND_GOAL) * 100)}%`, background: s.color }}
+            />
           ) : null,
         )}
       </div>
@@ -222,16 +219,17 @@ export async function CommunityFund() {
             Future Aesthetics Fund: Worlds Worth Building
           </h2>
 
-          {/* Fund total — Artizen's own "Total" figure. Labelled honestly
-              (not "raised this season"): it's mostly a founding gift and
-              also includes match, so a caption spells that out. */}
+          {/* FFA's growing endowment — the Artizen fund total, framed as
+              progress toward FFA's 2026 fundraising goal. */}
           {d.raised != null && (
             <div className="mt-6">
               <p className="text-sm">
-                <span className="uppercase tracking-[0.08em] text-sage">Fund total</span>{' '}
+                <span className="uppercase tracking-[0.08em] text-sage">Current Endowment</span>{' '}
                 <span className="font-medium text-ink">{usd(d.raised)}</span>
               </p>
-              <p className="mt-1 text-xs text-muted">Founding gift + community giving, including match.</p>
+              <p className="mt-1 text-xs text-muted">
+                Our goal is to raise $250,000 to fund arts and science initiatives in 2026.
+              </p>
             </div>
           )}
 
@@ -268,9 +266,8 @@ export async function CommunityFund() {
             </div>
           )}
 
-          {/* Drive standing — the three values from Artizen's bar (sales,
-              match unlocked, projected prize) as one stacked, colour-keyed
-              bar below the drive panel. */}
+          {/* Goal bar — how far sales + match fill a $2,000 target, with
+              sales and match as two distinguishable segments. */}
           {d.breakdown && <DriveBar b={d.breakdown} />}
 
           {/* How Artizen works — the reason to give through the fund: the
