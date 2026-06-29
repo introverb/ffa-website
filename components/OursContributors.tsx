@@ -54,6 +54,8 @@ const INSTALLATION_CONTRIBUTORS: {
     href: 'https://scholar.google.com/citations?user=aefVOM4AAAAJ&hl=en',
   },
   { name: 'Audrey Tang', href: 'https://cyberambassador.tw/' },
+  { name: 'Shannon Wong', href: 'https://www.girlfliesworld.com/' },
+  { name: 'Neil Harbisson', href: 'https://www.cyborgarts.com/neil-harbisson' },
 ];
 
 type GroupKey = 'artists' | 'speakers' | 'installation';
