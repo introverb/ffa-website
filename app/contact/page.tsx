@@ -24,8 +24,8 @@ export const metadata: Metadata = {
 // context — e.g., "Contact form - Industrial Garden sponsorship from Olli".
 const TOPICS = [
   'Partnership',
-  'Private Patron',
-  'Corporate Patron',
+  'Patron',
+  'Sponsor',
   'Possibilia editorial partnership',
   'Industrial Garden sponsorship',
   'OURS exhibition sponsorship',

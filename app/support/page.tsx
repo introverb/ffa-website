@@ -26,19 +26,19 @@ export const metadata: Metadata = {
 // starts with a conversation, not a checkout.
 const PATRONAGE = [
   {
-    name: 'Private Patron',
+    name: 'Patron',
     slug: 'private-patron',
     amount: 'From $1,000',
     blurb:
-      'For individuals backing the foundation at the start. The founding circle closes August 9, the night of OURS.',
+      'For individuals backing the foundation itself — recognized in Possibilia, with a standing invitation to OURS and FFA events.',
     href: '/patrons/private',
   },
   {
-    name: 'Corporate Patron',
+    name: 'Sponsor',
     slug: 'corporate-patron',
     amount: 'From $5,000',
     blurb:
-      'For companies building toward a future worth wanting. Founding position is named, permanent, and only open once.',
+      'For companies building toward a future worth wanting — named credit, a presence at OURS, and a commissioned Possibilia story.',
     href: '/patrons/corporate',
   },
 ];
