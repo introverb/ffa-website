@@ -26,14 +26,15 @@ import { slug } from '@/lib/analytics';
 const ARTISTS: { name: string; href?: string }[] = [
   { name: 'RERO', href: 'https://rero-studio.squarespace.com/' },
   { name: 'Giorgia Lupi', href: 'https://studio.giorgialupi.com/' },
-  { name: 'Ellynne Dec', href: 'https://ellynne.studio/' },
-  { name: 'Mauricio Pommella', href: 'https://mpommella.com/' },
   { name: 'Anyanwu', href: 'https://weareanyanwu.com/' },
-  { name: 'Den Pakowacz', href: 'https://www.behance.net/pakowacz' },
-  { name: 'Casey Rehm', href: 'https://mcr-studio.com/' },
+  { name: 'Mauricio Pommella', href: 'https://mpommella.com/' },
+  { name: 'Ellynne Dec', href: 'https://ellynne.studio/' },
   { name: 'Seungjun Na', href: 'https://www.instagram.com/na_tist' },
+  { name: 'Den Pakowacz', href: 'https://www.behance.net/pakowacz' },
+  { name: 'Sue Ellen Zhang' },
+  { name: 'Sev Gedra' },
   { name: 'Dylan Weiler', href: 'https://www.dylanevansweiler.com/' },
-  { name: 'Olli Payne', href: 'https://olli.vision' },
+  { name: 'Nahuel Aquiles' },
 ];
 
 // Installation contributors — the confirmed roster, now revealed
@@ -48,14 +49,11 @@ const INSTALLATION_CONTRIBUTORS: {
   role?: string;
   href?: string;
 }[] = [
-  { name: 'Ada Palmer', role: 'Host', href: 'https://www.adapalmer.com/' },
-  {
-    name: 'Anders Sandberg',
-    href: 'https://scholar.google.com/citations?user=aefVOM4AAAAJ&hl=en',
-  },
   { name: 'Audrey Tang', href: 'https://cyberambassador.tw/' },
-  { name: 'Shannon Wong', href: 'https://www.girlfliesworld.com/' },
   { name: 'Neil Harbisson', href: 'https://www.cyborgarts.com/neil-harbisson' },
+  { name: 'Stephen Wolfram', href: 'https://www.stephenwolfram.com/' },
+  { name: 'Shannon Wong', href: 'https://www.girlfliesworld.com/' },
+  { name: 'Michael Balangue' },
   { name: 'Michael Edward Johnson', href: 'https://opentheory.net/' },
 ];
 
@@ -83,7 +81,7 @@ const TABS: {
   },
   {
     key: 'installation',
-    label: 'Installation Contributors',
+    label: 'Visions of the Future',
     selected: 'border-horizon bg-horizon text-white',
     panel: 'border-horizon',
   },
