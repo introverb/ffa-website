@@ -40,8 +40,8 @@ export default function OursCollectPage() {
         </ul>
 
         <p className="mt-16 border-t border-rule pt-8 text-sm text-muted">
-          Prices include a 20% charitable premium supporting FFA, a 501(c)(3) nonprofit.
-          Sales tax is calculated at checkout.
+          Prices include a 20% charitable, tax-deductible premium supporting FFA, a 501(c)(3)
+          nonprofit. Sales tax is calculated at checkout.
         </p>
       </Panel>
     </>

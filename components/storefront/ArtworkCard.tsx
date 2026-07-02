@@ -45,7 +45,7 @@ export function ArtworkCard({ artwork }: { artwork: Artwork }) {
           </span>
         )}
         {artwork.isNFT && (
-          <span className="absolute right-3 top-3 rounded-full border border-ink/20 bg-paper/90 px-3 py-1 text-xs uppercase tracking-[0.1em] text-ink">
+          <span className="absolute right-3 top-3 rounded-full border border-ink/20 bg-paper/90 px-4 py-1.5 text-sm font-medium uppercase tracking-[0.1em] text-ink">
             NFT
           </span>
         )}
