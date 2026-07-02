@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { type Artwork, displayPrice } from '@/lib/storefront';
+import { type Artwork, displayPrice, isSoldOut, statusLabel } from '@/lib/storefront';
 
 // Neutral gray image slot for the storefront grid — deliberately plain
 // (not the site's warm editorial Placeholder gradient) so it reads as
@@ -26,22 +26,19 @@ function ArtworkImage({ artwork }: { artwork: Artwork }) {
   );
 }
 
-const STATUS_LABEL: Record<Exclude<ArtworkStatusForBadge, 'available'>, string> = {
-  sold: 'Sold',
-  reserved: 'Reserved',
-};
-
-type ArtworkStatusForBadge = Artwork['status'];
-
 export function ArtworkCard({ artwork }: { artwork: Artwork }) {
-  const unavailable = artwork.status !== 'available';
+  const label = statusLabel(artwork);
+  const soldOut = isSoldOut(artwork);
+  const price = displayPrice(artwork);
+  const showBuy = !soldOut && artwork.status !== 'reserved' && price != null;
+
   return (
-    <div className={`relative ${unavailable ? 'opacity-60' : ''}`}>
+    <div className={`relative ${soldOut || artwork.status === 'reserved' ? 'opacity-60' : ''}`}>
       <div className="relative">
         <ArtworkImage artwork={artwork} />
-        {unavailable && (
+        {label && (
           <span className="absolute left-3 top-3 rounded-full bg-dark px-3 py-1 text-xs uppercase tracking-[0.1em] text-white">
-            {STATUS_LABEL[artwork.status as Exclude<ArtworkStatusForBadge, 'available'>]}
+            {label}
           </span>
         )}
         {artwork.isNFT && (
@@ -53,18 +50,25 @@ export function ArtworkCard({ artwork }: { artwork: Artwork }) {
 
       <h3 className="mt-5 text-h6 leading-tight text-ink md:text-h5">{artwork.title}</h3>
       <p className="mt-1.5 text-sm uppercase tracking-[0.08em] text-sage">{artwork.artistName}</p>
-      <p className="mt-1 text-sm text-muted">
-        {artwork.medium}
-        {artwork.editionSize && ` · Edition of ${artwork.editionSize}`}
-      </p>
+      <p className="mt-1 text-sm text-muted">{artwork.medium}</p>
 
       <div className="mt-4 flex items-center justify-between gap-4">
-        <p className="text-h6 text-ink">${displayPrice(artwork).toLocaleString('en-US')}</p>
-        {unavailable ? (
-          <span className="inline-flex items-center justify-center rounded-md border border-ink/20 px-6 py-2.5 text-sm uppercase tracking-[0.1em] text-muted">
-            {STATUS_LABEL[artwork.status as Exclude<ArtworkStatusForBadge, 'available'>]}
-          </span>
+        {/* Once a piece is gone, its price comes off the page entirely
+            — there's nothing left to buy at that number, so showing it
+            just invites confusion. */}
+        {soldOut ? (
+          <span />
+        ) : price != null ? (
+          <p className="text-h6 text-ink">${price.toLocaleString('en-US')}</p>
         ) : (
+          <p className="text-h6 text-muted">Price TBD</p>
+        )}
+
+        {label ? (
+          <span className="inline-flex items-center justify-center rounded-md border border-ink/20 px-6 py-2.5 text-sm uppercase tracking-[0.1em] text-muted">
+            {label}
+          </span>
+        ) : showBuy ? (
           // Not yet wired to checkout — the Stripe integration step
           // turns this into a real Buy flow. Kept full-strength (not
           // visually disabled) so the true weight of the CTA can be
@@ -72,7 +76,7 @@ export function ArtworkCard({ artwork }: { artwork: Artwork }) {
           <button type="button" className="btn-solid">
             Buy
           </button>
-        )}
+        ) : null}
       </div>
     </div>
   );
