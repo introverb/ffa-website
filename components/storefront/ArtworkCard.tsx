@@ -30,7 +30,9 @@ export function ArtworkCard({ artwork }: { artwork: Artwork }) {
   const label = statusLabel(artwork);
   const soldOut = isSoldOut(artwork);
   const price = displayPrice(artwork);
-  const showBuy = !soldOut && artwork.status !== 'reserved' && price != null;
+  // A price flagged as an estimate isn't final yet, so it isn't
+  // purchasable — same reasoning as "Price TBD" holding the button.
+  const showBuy = !soldOut && artwork.status !== 'reserved' && price != null && !artwork.priceIsEstimate;
 
   return (
     <div className={`relative ${soldOut || artwork.status === 'reserved' ? 'opacity-60' : ''}`}>
@@ -50,7 +52,7 @@ export function ArtworkCard({ artwork }: { artwork: Artwork }) {
 
       <h3 className="mt-5 text-h6 leading-tight text-ink md:text-h5">{artwork.title}</h3>
       <p className="mt-1.5 text-sm uppercase tracking-[0.08em] text-sage">{artwork.artistName}</p>
-      <p className="mt-1 text-sm text-muted">{artwork.medium}</p>
+      {artwork.medium && <p className="mt-1 text-sm text-muted">{artwork.medium}</p>}
 
       <div className="mt-4 flex items-center justify-between gap-4">
         {/* Once a piece is gone, its price comes off the page entirely
@@ -59,7 +61,14 @@ export function ArtworkCard({ artwork }: { artwork: Artwork }) {
         {soldOut ? (
           <span />
         ) : price != null ? (
-          <p className="text-h6 text-ink">${price.toLocaleString('en-US')}</p>
+          <div>
+            <p className="text-h6 text-ink">
+              {artwork.priceIsEstimate && '~'}${price.toLocaleString('en-US')}
+            </p>
+            {artwork.priceIsEstimate && (
+              <p className="mt-0.5 text-xs text-muted">Estimate, not final</p>
+            )}
+          </div>
         ) : (
           <p className="text-h6 text-muted">Price TBD</p>
         )}

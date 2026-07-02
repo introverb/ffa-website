@@ -1,9 +1,12 @@
 // OURS storefront — data model + roster for /ours/collect.
 //
-// REAL DATA, confirmed piece-by-piece as it's shared — this file grows
-// as more artists' pieces come in. Where a fact (price, title) isn't
-// confirmed yet, the field is left unset rather than guessed; the card
-// shows "Price TBD" and holds the Buy button until it's filled in.
+// Source of truth: the Sales Log tab Olli shares (title, artist, qty,
+// NFT?, status, artist price). Entries are transcribed close to
+// verbatim rather than polished, so it's easy to diff against the
+// sheet and correct — get the info in, refine later. Where the sheet
+// says "TBD" / "placeholder" / "see notes", the field is left unset
+// here rather than guessed; the card shows "Price TBD" and holds the
+// Buy button until a real number lands.
 
 export type ArtworkStatus = 'available' | 'reserved' | 'sold';
 
@@ -11,12 +14,15 @@ export interface Artwork {
   id: string;
   title: string;
   artistName: string;
-  medium: string;
+  /** Only set where it adds real clarity beyond the title (the sheet has no medium column). */
+  medium?: string;
   /** 100% of this goes to the artist. Unset = not priced yet ("Price TBD"). */
   artistPrice?: number;
+  /** True when the sheet flags a price as approximate/not final (e.g. "TBD ~$3,200"). */
+  priceIsEstimate?: boolean;
   status: ArtworkStatus;
   isNFT?: boolean;
-  /** Set for limited editions (e.g. prints); omit for 1-of-1 originals. */
+  /** Set for limited editions sold as "any of N" (e.g. Lupi's 5 prints); omit for 1-of-1s — including a single numbered piece from an edition elsewhere, like Anyanwu's 1/5. */
   editionSize?: number;
   /** How many of an edition have sold. Only meaningful with editionSize. */
   unitsSold?: number;
@@ -52,19 +58,23 @@ export function statusLabel(artwork: Artwork): 'Sold out' | 'Sold' | 'Reserved' 
 
 export const ARTWORKS: Artwork[] = [
   {
-    id: 'rero',
-    title: 'Piece details pending',
+    id: 'rero-a-new-city-will-be-built',
+    title: 'A New City Will Be Built',
     artistName: 'RERO',
-    medium: 'Details pending',
     status: 'sold', // sold in-kind
   },
   {
-    id: 'giorgia-lupi-02-blue-print',
-    // The wall piece itself is an original, one-of-a-kind — what's for
-    // sale here is a limited archival print of it, made explicit in
-    // both the title and medium so nobody mistakes this for the
-    // original.
-    title: '02 Blue — Archival Print',
+    id: 'dylan-weiler-possibilia',
+    title: 'Possibilia (oil)',
+    artistName: 'Dylan Weiler',
+    status: 'available',
+  },
+  {
+    id: 'giorgia-lupi-02-blue-prints',
+    // The wall piece is an original, one-of-a-kind — what's for sale
+    // here is a limited archival print of it, made explicit in the
+    // medium so nobody mistakes this for the original.
+    title: '02 Blue (prints)',
     artistName: 'Giorgia Lupi',
     medium: 'Archival print, edition of 5',
     editionSize: 5,
@@ -72,11 +82,47 @@ export const ARTWORKS: Artwork[] = [
     status: 'available',
   },
   {
-    id: 'mauricio-pommella',
-    title: 'Piece details pending',
+    id: 'ellynne-dec-glass-bead-piece',
+    title: 'glass-bead piece',
+    artistName: 'Ellynne Dec',
+    status: 'available',
+  },
+  {
+    id: 'seungjun-na-printed-collage',
+    title: 'printed collage',
+    artistName: 'Seungjun Na',
+    status: 'available',
+    // Sheet says "see notes" for price — no note text to go on yet.
+  },
+  {
+    id: 'anyanwu-pyramid',
+    // Qty 1 in the sheet — this is one specific numbered piece (1 of a
+    // 5-piece edition elsewhere), not "any of 5 available" like
+    // Lupi's, so no editionSize here.
+    title: 'PYRAMID (ed. 1/5)',
+    artistName: 'Anyanwu / Somto',
+    status: 'available',
+  },
+  {
+    id: 'sue-ellen-zhang-oil-painting',
+    title: 'oil painting',
+    artistName: 'Sue Ellen Zhang',
+    status: 'available',
+  },
+  {
+    id: 'olli-payne-nucleonics',
+    title: 'Nucleonics (framed metal)',
+    artistName: 'Olli Payne',
+    artistPrice: 3200,
+    priceIsEstimate: true,
+    status: 'available',
+  },
+  {
+    id: 'mauricio-pommella-the-pope',
+    title: 'The Pope',
     artistName: 'Mauricio Pommella',
-    medium: 'Details pending',
     status: 'available',
     isNFT: true,
+    // Sheet: "USD-fixed TBD" — priced in USD (not floating), number pending.
   },
 ];
