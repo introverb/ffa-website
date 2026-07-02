@@ -35,6 +35,7 @@ const ARTISTS: { name: string; href?: string }[] = [
   { name: 'Sev Gedra' },
   { name: 'Dylan Weiler', href: 'https://www.dylanevansweiler.com/' },
   { name: 'Nahuel Aquiles' },
+  { name: 'Olli Payne', href: 'https://olli.vision' },
 ];
 
 // Installation contributors — the confirmed roster, now revealed
