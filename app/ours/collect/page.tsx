@@ -2,20 +2,29 @@ import type { Metadata } from 'next';
 import { PageHeader } from '@/components/PageHeader';
 import { Panel } from '@/components/PageFrame';
 import { ArtworkCard } from '@/components/storefront/ArtworkCard';
-import { ARTWORKS } from '@/lib/storefront';
+import { getArtworksForDisplay } from '@/lib/storefront';
 
 // OURS storefront — unlisted on purpose (see the build brief in
 // /storefront). Not linked from SiteNav, the /ours page, or the
 // sitemap; reachable only by direct URL. `robots: noindex` keeps it
-// out of search results too. Password-gating (middleware) and Stripe
-// checkout land in a later step — this pass is the on-brand page shell
-// + grid, reviewable before either of those are wired up.
+// out of search results too.
+//
+// getArtworksForDisplay() merges the static catalog (lib/storefront.ts)
+// with live sold/reserved state from Redis (lib/storefront-store.ts),
+// which the Stripe webhook updates on each sale — so this render
+// always reflects the current inventory without a page rebuild.
 export const metadata: Metadata = {
   title: 'Collect',
   robots: { index: false, follow: false },
 };
 
-export default function OursCollectPage() {
+// Reads live Redis state on every request — without this, Next would
+// statically render the page once at build time and never check
+// Redis again, so sold-out pieces would keep showing as available.
+export const dynamic = 'force-dynamic';
+
+export default async function OursCollectPage() {
+  const artworks = await getArtworksForDisplay();
   return (
     <>
       <PageHeader
@@ -32,7 +41,7 @@ export default function OursCollectPage() {
 
       <Panel variant="white" className="md:p-16">
         <ul className="grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
-          {ARTWORKS.map((artwork) => (
+          {artworks.map((artwork) => (
             <li key={artwork.id}>
               <ArtworkCard artwork={artwork} />
             </li>

@@ -78,13 +78,15 @@ export function ArtworkCard({ artwork }: { artwork: Artwork }) {
             {label}
           </span>
         ) : showBuy ? (
-          // Not yet wired to checkout — the Stripe integration step
-          // turns this into a real Buy flow. Kept full-strength (not
-          // visually disabled) so the true weight of the CTA can be
-          // reviewed now rather than re-reviewed once it's live.
-          <button type="button" className="btn-solid">
-            Buy
-          </button>
+          // Plain form POST to a server-side Checkout Session creator,
+          // same "boring HTML form" pattern as the rest of the site's
+          // endpoints — works without any client JS.
+          <form action="/api/storefront-checkout" method="POST">
+            <input type="hidden" name="artworkId" value={artwork.id} />
+            <button type="submit" className="btn-solid">
+              Buy
+            </button>
+          </form>
         ) : null}
       </div>
     </div>

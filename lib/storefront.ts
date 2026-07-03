@@ -56,6 +56,32 @@ export function statusLabel(artwork: Artwork): 'Sold out' | 'Sold' | 'Reserved' 
   return null;
 }
 
+// Merges the static catalog entry with whatever the live store (Redis,
+// driven by the Stripe webhook) knows right now. The static `status`/
+// `unitsSold` in ARTWORKS below are just the starting point — once a
+// sale or reservation happens, the live store is authoritative.
+function mergeLiveState(
+  artwork: Artwork,
+  live: { sold?: boolean; reserved?: boolean; unitsSold?: number } | undefined,
+): Artwork {
+  if (!live) return artwork;
+  return {
+    ...artwork,
+    status: live.sold ? 'sold' : live.reserved ? 'reserved' : artwork.status,
+    unitsSold: live.unitsSold ?? artwork.unitsSold,
+  };
+}
+
+// The page's read path: static catalog + live overrides, merged. Kept
+// here (rather than in the page component) so both the page and the
+// checkout route can ask "what does this artwork look like right now?"
+// the same way.
+export async function getArtworksForDisplay(): Promise<Artwork[]> {
+  const { getLiveStates } = await import('./storefront-store');
+  const liveStates = await getLiveStates(ARTWORKS.map((a) => a.id));
+  return ARTWORKS.map((a) => mergeLiveState(a, liveStates[a.id]));
+}
+
 export const ARTWORKS: Artwork[] = [
   {
     id: 'rero-a-new-city-will-be-built',
