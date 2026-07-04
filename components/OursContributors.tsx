@@ -26,7 +26,7 @@ import { slug } from '@/lib/analytics';
 // plain text until its link is added.
 const EXHIBITION_ARTISTS: { name: string; href?: string }[] = [
   { name: 'RERO', href: 'https://rero-studio.squarespace.com/' },
-  { name: 'Anyanwu / Somto', href: 'https://weareanyanwu.com/' },
+  { name: 'Anyanwu', href: 'https://weareanyanwu.com/' },
   { name: 'Giorgia Lupi', href: 'https://studio.giorgialupi.com/' },
   { name: 'Dylan Weiler', href: 'https://www.dylanevansweiler.com/' },
   { name: 'Seungjun Na', href: 'https://www.instagram.com/na_tist' },
@@ -180,7 +180,7 @@ export function OursContributors() {
                 still part of the one exhibition roster. */}
             <div className="mt-10 border-t border-ink/15 pt-10">
               <p className="text-sm uppercase tracking-[0.08em] text-muted">
-                Web3 Wall (confirmed)
+                Web3 Wall
               </p>
               <div className="mt-5">
                 <ArtistList artists={WEB3_WALL_ARTISTS} />
