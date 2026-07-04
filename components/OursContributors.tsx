@@ -94,6 +94,28 @@ const TABS: {
   },
 ];
 
+// Real vector arrow for outbound links — a Unicode "↗" glyph renders
+// as a colorful emoji on several mobile browsers/fonts instead of
+// plain text, so this draws it as an inline SVG (stroke: currentColor)
+// for crisp, on-brand, colorable rendering everywhere.
+function ExternalLinkArrow({ className = '' }: { className?: string }) {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={`h-[0.55em] w-[0.55em] shrink-0 ${className}`}
+    >
+      <path d="M7 7h10v10" />
+      <path d="M7 17 17 7" />
+    </svg>
+  );
+}
+
 // Shared name-list rendering for both artist groups within the Artists
 // tab (Exhibition, Web3 Wall) — same link/plain-text treatment either
 // way, so adding an artist to either group is a one-line data edit.
@@ -112,12 +134,7 @@ function ArtistList({ artists }: { artists: { name: string; href?: string }[] })
             >
               {a.name}
               {/* External-link cue, quiet until hover. */}
-              <span
-                aria-hidden
-                className="text-[0.55em] text-ink/35 transition-colors group-hover:text-flare"
-              >
-                &#8599;
-              </span>
+              <ExternalLinkArrow className="text-ink/35 transition-colors group-hover:text-flare" />
             </a>
           ) : (
             // No link yet — plain heading text, sits inline with the
@@ -233,12 +250,7 @@ export function OursContributors() {
                         className="group flex items-baseline gap-1.5 transition-colors hover:text-horizon"
                       >
                         {c.name}
-                        <span
-                          aria-hidden
-                          className="text-[0.55em] text-ink/35 transition-colors group-hover:text-horizon"
-                        >
-                          &#8599;
-                        </span>
+                        <ExternalLinkArrow className="text-ink/35 transition-colors group-hover:text-horizon" />
                       </a>
                     ) : (
                       c.name

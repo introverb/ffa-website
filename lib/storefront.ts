@@ -126,7 +126,7 @@ export const ARTWORKS: Artwork[] = [
     // 5-piece edition elsewhere), not "any of 5 available" like
     // Lupi's, so no editionSize here.
     title: 'PYRAMID (ed. 1/5)',
-    artistName: 'Anyanwu / Somto',
+    artistName: 'Anyanwu',
     status: 'available',
   },
   {
