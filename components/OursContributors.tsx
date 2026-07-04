@@ -19,23 +19,29 @@ import { slug } from '@/lib/analytics';
 // CTA. Color classes are written as complete literals (Tailwind JIT
 // can't see interpolated fragments).
 
-// Confirmed exhibition artists. The lineup is a flex-wrap so additions
-// are one-line edits. Names with an href link out (per-artist
-// GoatCounter event); a name without one renders as plain text until
-// its link is added (e.g. Dylan Weiss, link pending).
-const ARTISTS: { name: string; href?: string }[] = [
+// Confirmed exhibition artists, in two groups within the same Artists
+// tab: the main exhibition roster, and the Web3 Wall. Each lineup is a
+// flex-wrap so additions are one-line edits. Names with an href link
+// out (per-artist GoatCounter event); a name without one renders as
+// plain text until its link is added.
+const EXHIBITION_ARTISTS: { name: string; href?: string }[] = [
   { name: 'RERO', href: 'https://rero-studio.squarespace.com/' },
+  { name: 'Anyanwu / Somto', href: 'https://weareanyanwu.com/' },
   { name: 'Giorgia Lupi', href: 'https://studio.giorgialupi.com/' },
-  { name: 'Anyanwu', href: 'https://weareanyanwu.com/' },
-  { name: 'Mauricio Pommella', href: 'https://mpommella.com/' },
-  { name: 'Ellynne Dec', href: 'https://ellynne.studio/' },
+  { name: 'Dylan Weiler', href: 'https://www.dylanevansweiler.com/' },
   { name: 'Seungjun Na', href: 'https://www.instagram.com/na_tist' },
-  { name: 'Den Pakowacz', href: 'https://www.behance.net/pakowacz' },
+  { name: 'Denis Pakowacz', href: 'https://www.behance.net/pakowacz' },
   { name: 'Sue Ellen Zhang' },
   { name: 'Sev Gedra' },
-  { name: 'Dylan Weiler', href: 'https://www.dylanevansweiler.com/' },
-  { name: 'Nahuel Aquiles' },
+  { name: 'Ellynne Dec', href: 'https://ellynne.studio/' },
   { name: 'Olli Payne', href: 'https://olli.vision' },
+];
+
+const WEB3_WALL_ARTISTS: { name: string; href?: string }[] = [
+  { name: 'Mauricio Pommella', href: 'https://mpommella.com/' },
+  { name: 'Nahuel Aquiles', href: 'https://genpi.org' },
+  { name: 'Yura Miron' },
+  { name: 'AnjolaDave' },
 ];
 
 // Installation contributors — the confirmed roster, now revealed
@@ -88,6 +94,44 @@ const TABS: {
   },
 ];
 
+// Shared name-list rendering for both artist groups within the Artists
+// tab (Exhibition, Web3 Wall) — same link/plain-text treatment either
+// way, so adding an artist to either group is a one-line data edit.
+function ArtistList({ artists }: { artists: { name: string; href?: string }[] }) {
+  return (
+    <ul className="flex max-w-5xl flex-wrap items-baseline gap-x-10 gap-y-4">
+      {artists.map((a) => (
+        <li key={a.name}>
+          {a.href ? (
+            <a
+              href={a.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-goatcounter-click={`ours:artist-${slug(a.name)}`}
+              className="group flex items-baseline gap-1.5 font-heading text-h5 leading-tight text-ink transition-colors hover:text-flare md:text-h4"
+            >
+              {a.name}
+              {/* External-link cue, quiet until hover. */}
+              <span
+                aria-hidden
+                className="text-[0.55em] text-ink/35 transition-colors group-hover:text-flare"
+              >
+                &#8599;
+              </span>
+            </a>
+          ) : (
+            // No link yet — plain heading text, sits inline with the
+            // linked names. Add an href above to make it a link.
+            <span className="font-heading text-h5 leading-tight text-ink md:text-h4">
+              {a.name}
+            </span>
+          )}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 export function OursContributors() {
   const [active, setActive] = useState<GroupKey>('artists');
   const activeTab = TABS.find((t) => t.key === active)!;
@@ -129,36 +173,20 @@ export function OursContributors() {
       >
         {active === 'artists' && (
           <>
-            <ul className="flex max-w-5xl flex-wrap items-baseline gap-x-10 gap-y-4">
-              {ARTISTS.map((a) => (
-                <li key={a.name}>
-                  {a.href ? (
-                    <a
-                      href={a.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      data-goatcounter-click={`ours:artist-${slug(a.name)}`}
-                      className="group flex items-baseline gap-1.5 font-heading text-h5 leading-tight text-ink transition-colors hover:text-flare md:text-h4"
-                    >
-                      {a.name}
-                      {/* External-link cue, quiet until hover. */}
-                      <span
-                        aria-hidden
-                        className="text-[0.55em] text-ink/35 transition-colors group-hover:text-flare"
-                      >
-                        &#8599;
-                      </span>
-                    </a>
-                  ) : (
-                    // No link yet — plain heading text, sits inline with
-                    // the linked names. Add an href above to make it a link.
-                    <span className="font-heading text-h5 leading-tight text-ink md:text-h4">
-                      {a.name}
-                    </span>
-                  )}
-                </li>
-              ))}
-            </ul>
+            <ArtistList artists={EXHIBITION_ARTISTS} />
+
+            {/* Web3 Wall — its own labeled group within the same
+                Artists tab, rather than a separate tab, since it's
+                still part of the one exhibition roster. */}
+            <div className="mt-10 border-t border-ink/15 pt-10">
+              <p className="text-sm uppercase tracking-[0.08em] text-muted">
+                Web3 Wall (confirmed)
+              </p>
+              <div className="mt-5">
+                <ArtistList artists={WEB3_WALL_ARTISTS} />
+              </div>
+            </div>
+
             <p className="mt-8 text-sm text-muted">More artists to be announced.</p>
           </>
         )}
