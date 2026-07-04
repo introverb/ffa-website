@@ -14,7 +14,7 @@ const LUMA_RSVP_URL = 'https://luma.com/0hakp1pz';
 export const metadata: Metadata = {
   title: 'OURS',
   description:
-    'OURS is an exhibition and salon evening for visions of the future, presented by the Foundation for Future Aesthetics in New York City, August 2026.',
+    'OURS is an exhibition and salon evening for visions of the future, presented by the Foundation for Future Aesthetics in LES, NY, August 9, 2026.',
   alternates: { canonical: '/ours' },
   openGraph: {
     images: [{ url: '/images/initiative-exhibitions.jpg', alt: 'OURS' }],
@@ -23,17 +23,14 @@ export const metadata: Metadata = {
 };
 
 // Schema.org Event payload — generates a structured event card in
-// search results (date, location, organizer). Date is approximate
-// (just "August 2026" on the page); using the 1st of the month as
-// the schema.org-required ISO date until a specific evening is set.
-// Update startDate when the date locks in.
+// search results (date, location, organizer).
 const EVENT_SCHEMA = {
   '@context': 'https://schema.org',
   '@type': 'Event',
   name: 'OURS',
   description:
-    'OURS is an exhibition and salon evening for visions of the future, presented by the Foundation for Future Aesthetics in New York City, August 2026.',
-  startDate: '2026-08-01',
+    'OURS is an exhibition and salon evening for visions of the future, presented by the Foundation for Future Aesthetics in LES, NY, August 9, 2026.',
+  startDate: '2026-08-09',
   eventStatus: 'https://schema.org/EventScheduled',
   eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
   location: {
@@ -69,7 +66,7 @@ const FORMAT = [
   },
   {
     label: 'Setting',
-    body: 'Venue: Space LES\nNew York City\nAugust 2026',
+    body: 'Venue: Space LES\nLES, NY\nAugust 9, 2026',
   },
 ];
 
@@ -80,7 +77,7 @@ export default function OursPage() {
           engines for rich event-card results. See EVENT_SCHEMA above. */}
       <JsonLd data={EVENT_SCHEMA} />
       <PageHeader
-        eyebrow="OURS · NYC · August 2026"
+        eyebrow="OURS · LES, NY · Aug 9, 2026"
         title="An exhibition and salon for visions of the future."
         image="/images/initiative-exhibitions.jpg"
         body={
