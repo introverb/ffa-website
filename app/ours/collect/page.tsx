@@ -52,6 +52,21 @@ export default async function OursCollectPage() {
           Prices include a 20% charitable, tax-deductible premium supporting FFA, a 501(c)(3)
           nonprofit. Sales tax is calculated at checkout.
         </p>
+
+        {/* Web3 Wall — the /q/web3 QR in the printed OURS program lands
+            here (#web3). Shell section for now; the on-chain collect
+            links replace the coming-soon line when they're ready.
+            scroll-mt keeps the heading clear of the viewport top when
+            the anchor jumps. */}
+        <div id="web3" className="mt-20 scroll-mt-24 border-t-[3px] border-rule pt-16">
+          <p className="text-sm uppercase tracking-[0.08em] text-sage">Web3 Wall</p>
+          <h2 className="mt-6 text-h2 leading-[1.05] md:text-h2-lg">Collect on-chain.</h2>
+          <p className="mt-6 max-w-2xl text-body leading-relaxed text-ink/80">
+            A dedicated wall of on-chain works from the exhibition&rsquo;s Web3 artists,
+            collectible during and after the evening. Details coming soon &mdash; check
+            back shortly.
+          </p>
+        </div>
       </Panel>
     </>
   );

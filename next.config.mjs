@@ -105,16 +105,14 @@ const nextConfig = {
         destination: 'https://artizen.fund/index/p/possibilia-magazine',
         statusCode: 302,
       },
-      // Sponsor credit, program p18. Intended destination is
-      // https://medicimag.com, but as of Jul 2026 that host serves a
-      // TLS unrecognized_name alert (no HTTPS vhost for the domain) —
-      // a scanned QR would hit a browser security error. Parked at
-      // the homepage per the QR brief's fallback rule; repoint to
-      // https://medicimag.com once their cert is fixed (plain HTTP
-      // works today, but the program QRs are HTTPS-only).
+      // Sponsor credit, program p18. NOTE: as of Jul 2026 this host's
+      // HTTPS is still being set up (TLS unrecognized_name alert) —
+      // Medici's site is expected up before the Aug 9 show. If a
+      // pre-show scan test still hits a browser security error, park
+      // this at '/' until their cert lands.
       {
         source: '/q/medici',
-        destination: '/',
+        destination: 'https://medicimag.com',
         statusCode: 302,
       },
       // Sponsor credit, program p19.
@@ -129,10 +127,19 @@ const nextConfig = {
         destination: '/ours/collect',
         statusCode: 302,
       },
-      // Web3 Wall on-chain collect index.
+      // Web3 Wall — lands on the Web3 section at the bottom of the
+      // storefront page.
       {
         source: '/q/web3',
-        destination: '/ours/web3',
+        destination: '/ours/collect#web3',
+        statusCode: 302,
+      },
+      // The short-lived standalone /ours/web3 placeholder route was
+      // folded into the storefront page (Jul 2026); catch anyone who
+      // saved the old URL.
+      {
+        source: '/ours/web3',
+        destination: '/ours/collect#web3',
         statusCode: 302,
       },
       // Private-patron brief (the individual-donor path from the
@@ -149,11 +156,11 @@ const nextConfig = {
         destination: '/ours/sponsor-brief',
         statusCode: 302,
       },
-      // Afterparty (?) — destination on hold as of Jul 2026; parked at
-      // the homepage so the printed QR never 404s. Repoint when known.
+      // Afterparty — shell page for now; fill in details (or repoint)
+      // once the afterparty plan is set.
       {
         source: '/q/after',
-        destination: '/',
+        destination: '/ours/after',
         statusCode: 302,
       },
     ];
