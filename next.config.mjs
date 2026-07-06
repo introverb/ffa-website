@@ -84,6 +84,78 @@ const nextConfig = {
         destination: '/support#partner',
         permanent: true,
       },
+      // OURS program QRs — printed Aug 2026, do not delete slugs.
+      // Each /q/* short path is baked into a QR code in the printed
+      // OURS program (22mm codes; short paths keep scan density low).
+      // Destinations are intentionally editable: statusCode 302 (not
+      // permanent/308, not 307) so browsers never cache the hop and
+      // targets can be repointed after print. Next.js's default
+      // trailing-slash normalization means /q/give/ also resolves.
+      // ─────────────────────────────────────────────────────────────
+      // Donate — same destination as the support page's "Give in USD"
+      // button (every.org checkout).
+      {
+        source: '/q/give',
+        destination: 'https://www.every.org/foundation-for-future-aesthetics/donate',
+        statusCode: 302,
+      },
+      // Possibilia Issue 0 pre-order (program p17 + p45).
+      {
+        source: '/q/mag',
+        destination: 'https://artizen.fund/index/p/possibilia-magazine',
+        statusCode: 302,
+      },
+      // Sponsor credit, program p18. Intended destination is
+      // https://medicimag.com, but as of Jul 2026 that host serves a
+      // TLS unrecognized_name alert (no HTTPS vhost for the domain) —
+      // a scanned QR would hit a browser security error. Parked at
+      // the homepage per the QR brief's fallback rule; repoint to
+      // https://medicimag.com once their cert is fixed (plain HTTP
+      // works today, but the program QRs are HTTPS-only).
+      {
+        source: '/q/medici',
+        destination: '/',
+        statusCode: 302,
+      },
+      // Sponsor credit, program p19.
+      {
+        source: '/q/leverage',
+        destination: 'https://leverage.institute',
+        statusCode: 302,
+      },
+      // OURS artwork storefront (live sales page).
+      {
+        source: '/q/collect',
+        destination: '/ours/collect',
+        statusCode: 302,
+      },
+      // Web3 Wall on-chain collect index.
+      {
+        source: '/q/web3',
+        destination: '/ours/web3',
+        statusCode: 302,
+      },
+      // Private-patron brief (the individual-donor path from the
+      // support page's Patronage cards).
+      {
+        source: '/q/patron',
+        destination: '/patrons/private',
+        statusCode: 302,
+      },
+      // OURS sponsorship brief (linked from the sponsor section on
+      // /support).
+      {
+        source: '/q/sponsor',
+        destination: '/ours/sponsor-brief',
+        statusCode: 302,
+      },
+      // Afterparty (?) — destination on hold as of Jul 2026; parked at
+      // the homepage so the printed QR never 404s. Repoint when known.
+      {
+        source: '/q/after',
+        destination: '/',
+        statusCode: 302,
+      },
     ];
   },
 };
