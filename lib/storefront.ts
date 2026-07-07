@@ -246,6 +246,7 @@ export const ARTWORKS: Artwork[] = [
     title: 'Solara Plaza',
     artistName: 'Yura Miron',
     medium: 'Digital work, on-chain',
+    note: 'Includes a physical print from the exhibition',
     isNFT: true,
     status: 'available',
     // No price confirmed yet.
@@ -268,7 +269,7 @@ export const ARTWORKS: Artwork[] = [
     title: 'Forest of Expired Links',
     artistName: 'Recycle Group',
     medium: 'ERC-721 video, on-chain',
-    note: 'Represented by Gazelli Art House',
+    note: 'Represented by Gazelli Art House. Includes the photographic print from the exhibition.',
     isNFT: true,
     // $13,200 is the final buyer price — the 20% premium is already
     // folded in, not added on top.

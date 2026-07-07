@@ -60,7 +60,7 @@ export function ArtworkCard({ artwork }: { artwork: Artwork }) {
       {artwork.medium && <p className="mt-1 text-sm text-muted">{artwork.medium}</p>}
       {artwork.note && <p className="mt-2 text-sm italic text-muted">{artwork.note}</p>}
 
-      <div className="mt-4 flex items-center justify-between gap-4">
+      <div className="mt-4 flex flex-col items-start gap-3">
         {/* Sold pieces keep their price on the page — red-dot gallery
             convention; the number is part of the record. Only a piece
             with no price yet AND nothing sold shows "Price TBD". */}
