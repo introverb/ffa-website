@@ -56,12 +56,10 @@ export function ArtworkCard({ artwork }: { artwork: Artwork }) {
       {artwork.note && <p className="mt-2 text-sm italic text-muted">{artwork.note}</p>}
 
       <div className="mt-4 flex items-center justify-between gap-4">
-        {/* Once a piece is gone, its price comes off the page entirely
-            — there's nothing left to buy at that number, so showing it
-            just invites confusion. */}
-        {soldOut ? (
-          <span />
-        ) : price != null ? (
+        {/* Sold pieces keep their price on the page — red-dot gallery
+            convention; the number is part of the record. Only a piece
+            with no price yet AND nothing sold shows "Price TBD". */}
+        {price != null ? (
           <div>
             <p className="text-h6 text-ink">
               {artwork.priceIsEstimate && '~'}${price.toLocaleString('en-US')}
@@ -70,6 +68,8 @@ export function ArtworkCard({ artwork }: { artwork: Artwork }) {
               <p className="mt-0.5 text-xs text-muted">Estimate, not final</p>
             )}
           </div>
+        ) : soldOut ? (
+          <span />
         ) : (
           <p className="text-h6 text-muted">Price TBD</p>
         )}

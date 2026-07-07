@@ -166,6 +166,8 @@ export const ARTWORKS: Artwork[] = [
     artistName: 'Denis Pakowacz',
     medium: 'Framed prints ×5 (originals sold)',
     note: 'Commissioned by Leverage for OURS',
+    // Placard: $5,600 for the 5-piece set — shown with the Sold mark.
+    listPrice: 5600,
     status: 'sold',
   },
   {
