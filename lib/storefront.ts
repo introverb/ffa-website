@@ -117,7 +117,7 @@ export const ARTWORKS: Artwork[] = [
     status: 'available',
     image: '/images/storefront/rero-a-new-city-will-be-built.jpg',
     imageWidth: 2000,
-    imageHeight: 1500,
+    imageHeight: 1539,
   },
   {
     id: 'anyanwu-pyramid',
