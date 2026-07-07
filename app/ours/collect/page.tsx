@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import { PageHeader } from '@/components/PageHeader';
 import { Panel } from '@/components/PageFrame';
 import { ArtworkCard } from '@/components/storefront/ArtworkCard';
@@ -26,12 +27,18 @@ export const dynamic = 'force-dynamic';
 // Confirmed Web3 Wall roster, from the FFA_Master Web3 Wall tab. These
 // works collect on-chain or via an external route (not Stripe), so
 // they carry a link where one is public and "coming soon" otherwise.
+// image/imageWidth/imageHeight follow the same convention as
+// lib/storefront.ts's Artwork type — intrinsic sizing, no photo yet =
+// gray placeholder (see Web3Image below).
 const WEB3_WORKS: Array<{
   artist: string;
   title: string;
   note: string;
   href?: string;
   cta?: string;
+  image?: string;
+  imageWidth?: number;
+  imageHeight?: number;
 }> = [
   {
     artist: 'Mauricio Pommella',
@@ -44,6 +51,9 @@ const WEB3_WORKS: Array<{
     note: 'Generative fractal from DNA data — create your own biodata print and collect the NFT, $40 / $90. A share of each sale supports FFA.',
     href: 'https://genpi.org',
     cta: 'Collect via genpi.org',
+    image: '/images/storefront/nahuel-aquiles-dna-fractal-print.png',
+    imageWidth: 1333,
+    imageHeight: 2000,
   },
   {
     artist: 'Yura Miron',
@@ -54,6 +64,9 @@ const WEB3_WORKS: Array<{
     artist: 'AnjolaDave',
     title: 'An Ending, A Beginning',
     note: 'Digital work, on-chain, with a physical print in the exhibition.',
+    image: '/images/storefront/anjoladave-an-ending-a-beginning.png',
+    imageWidth: 814,
+    imageHeight: 1020,
   },
   {
     artist: 'Recycle Group',
@@ -63,6 +76,43 @@ const WEB3_WORKS: Array<{
     cta: 'View at gazell.io',
   },
 ];
+
+// Same image-slot treatment as ArtworkCard's — intrinsic sizing for a
+// real photo, neutral gray placeholder when one isn't in yet. Kept
+// local to this file since WEB3_WORKS isn't an Artwork object.
+function Web3Image({
+  title,
+  artist,
+  image,
+  imageWidth,
+  imageHeight,
+}: {
+  title: string;
+  artist: string;
+  image?: string;
+  imageWidth?: number;
+  imageHeight?: number;
+}) {
+  if (image && imageWidth && imageHeight) {
+    return (
+      <Image
+        src={image}
+        alt={`${title}, by ${artist}`}
+        width={imageWidth}
+        height={imageHeight}
+        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        className="h-auto w-full rounded-xl"
+      />
+    );
+  }
+  return (
+    <div className="relative aspect-[4/5] overflow-hidden rounded-xl bg-ink/10">
+      <div className="absolute inset-0 grid place-items-center font-sans text-xs uppercase tracking-[0.14em] text-muted">
+        Image coming soon
+      </div>
+    </div>
+  );
+}
 
 export default async function OursCollectPage() {
   const artworks = await getArtworksForDisplay();
@@ -114,10 +164,17 @@ export default async function OursCollectPage() {
             A dedicated wall of on-chain works from the exhibition&rsquo;s Web3 artists,
             collectible during and after the evening.
           </p>
-          <ul className="mt-12 grid gap-12 text-body leading-relaxed text-ink/80 md:grid-cols-2 lg:grid-cols-3">
+          <ul className="mt-12 columns-1 gap-x-8 text-body leading-relaxed text-ink/80 sm:columns-2 lg:columns-3">
             {WEB3_WORKS.map((work) => (
-              <li key={work.title}>
-                <p className="text-sm uppercase tracking-[0.08em] text-sage">{work.artist}</p>
+              <li key={work.title} className="mb-14 break-inside-avoid">
+                <Web3Image
+                  title={work.title}
+                  artist={work.artist}
+                  image={work.image}
+                  imageWidth={work.imageWidth}
+                  imageHeight={work.imageHeight}
+                />
+                <p className="mt-5 text-sm uppercase tracking-[0.08em] text-sage">{work.artist}</p>
                 <h3 className="mt-3 text-h6 leading-tight text-ink md:text-h5">{work.title}</h3>
                 <p className="mt-2 text-sm text-muted">{work.note}</p>
                 {work.href ? (
