@@ -235,7 +235,56 @@ export const ARTWORKS: Artwork[] = [
     listPrice: 1800,
     status: 'available',
   },
-  // Ledgerworks pieces (Pommella's "The Pope", etc.) are listed in the
-  // page's Ledgerworks section, not here — they collect on-chain or via
-  // external routes, not through the Stripe checkout.
+  // Ledgerworks (on-chain) pieces that FFA sells directly, same as the
+  // physical works above: buyer pays through Stripe (20% premium
+  // included), FFA transfers the NFT afterward — the wallet-address
+  // field + "confirmation before transfer" copy on the checkout route
+  // is what isNFT: true turns on. This is the model in the program and
+  // in the artists' contracts. Ledgerworks pieces that collect through
+  // an external route instead (e.g. Nahuel Aquiles' personalized mints
+  // via genpi.org) stay out of this catalog — they're listed directly
+  // in the page's Ledgerworks section.
+  {
+    id: 'mauricio-pommella-the-pope',
+    title: 'The Pope',
+    artistName: 'Mauricio Pommella',
+    medium: 'Digital 1/1, on-chain',
+    isNFT: true,
+    status: 'available',
+    // No price confirmed yet.
+  },
+  {
+    id: 'yura-miron-solara-plaza',
+    title: 'Solara Plaza',
+    artistName: 'Yura Miron',
+    medium: 'Digital work, on-chain',
+    isNFT: true,
+    status: 'available',
+    // No price confirmed yet.
+  },
+  {
+    id: 'anjoladave-an-ending-a-beginning',
+    title: 'An Ending, A Beginning',
+    artistName: 'AnjolaDave',
+    medium: 'Digital work, on-chain',
+    note: 'Includes a physical print in the exhibition',
+    isNFT: true,
+    status: 'available',
+    image: '/images/storefront/anjoladave-an-ending-a-beginning.png',
+    imageWidth: 814,
+    imageHeight: 1020,
+    // No price confirmed yet.
+  },
+  {
+    id: 'recycle-group-forest-of-expired-links',
+    title: 'Forest of Expired Links',
+    artistName: 'Recycle Group',
+    medium: 'ERC-721 video, on-chain',
+    note: 'Represented by Gazelli Art House',
+    isNFT: true,
+    // $13,200 to the artist; the 20% premium is added on top, same as
+    // every other Ledgerworks and exhibition piece.
+    artistPrice: 13200,
+    status: 'available',
+  },
 ];

@@ -24,12 +24,16 @@ export const metadata: Metadata = {
 // Redis again, so sold-out pieces would keep showing as available.
 export const dynamic = 'force-dynamic';
 
-// Confirmed Ledgerworks roster (née "Web3 Wall"), from the FFA_Master
-// Web3 Wall tab. These works collect on-chain or via an external route
-// (not Stripe), so they carry a link where one is public and "coming
-// soon" otherwise. image/imageWidth/imageHeight follow the same
-// convention as lib/storefront.ts's Artwork type — intrinsic sizing, no
-// photo yet = gray placeholder (see LedgerworksImage below).
+// Ledgerworks pieces that collect through an EXTERNAL route rather than
+// FFA's own Stripe checkout — currently just Nahuel Aquiles, whose
+// piece is a personalized, variably-priced mint fulfilled entirely on
+// his own platform (genpi.org), not a single fixed-price 1-of-1. Every
+// other Ledgerworks piece is a real Artwork in lib/storefront.ts
+// (isNFT: true) and sells the same way the physical works do — see the
+// comment above the Ledgerworks entries there. image/imageWidth/
+// imageHeight follow the same convention as lib/storefront.ts's Artwork
+// type — intrinsic sizing, no photo yet = gray placeholder (see
+// LedgerworksImage below).
 const LEDGERWORKS_WORKS: Array<{
   artist: string;
   title: string;
@@ -41,11 +45,6 @@ const LEDGERWORKS_WORKS: Array<{
   imageHeight?: number;
 }> = [
   {
-    artist: 'Mauricio Pommella',
-    title: 'The Pope',
-    note: 'Digital 1/1, on-chain — 20% of a sale is donated to FFA.',
-  },
-  {
     artist: 'Nahuel Aquiles',
     title: 'DNA-fractal print',
     note: 'Generative fractal from DNA data — create your own biodata print and collect the NFT, $40 / $90. A share of each sale supports FFA.',
@@ -54,26 +53,6 @@ const LEDGERWORKS_WORKS: Array<{
     image: '/images/storefront/nahuel-aquiles-dna-fractal-print.png',
     imageWidth: 1333,
     imageHeight: 2000,
-  },
-  {
-    artist: 'Yura Miron',
-    title: 'Solara Plaza',
-    note: 'Digital work, on-chain.',
-  },
-  {
-    artist: 'AnjolaDave',
-    title: 'An Ending, A Beginning',
-    note: 'Digital work, on-chain, with a physical print in the exhibition.',
-    image: '/images/storefront/anjoladave-an-ending-a-beginning.png',
-    imageWidth: 814,
-    imageHeight: 1020,
-  },
-  {
-    artist: 'Recycle Group',
-    title: 'Forest of Expired Links',
-    note: 'ERC-721 video — 3D modeled generated graphics; installation photograph shown at OURS. Represented by Gazelli Art House.',
-    href: 'https://gazell.io',
-    cta: 'View at gazell.io',
   },
 ];
 
@@ -116,6 +95,11 @@ function LedgerworksImage({
 
 export default async function OursCollectPage() {
   const artworks = await getArtworksForDisplay();
+  // Ledgerworks pieces sold through FFA's own checkout are real
+  // Artwork entries (isNFT: true) — split them out so they render in
+  // the Ledgerworks section below rather than the main exhibition grid.
+  const physicalArtworks = artworks.filter((a) => !a.isNFT);
+  const nftArtworks = artworks.filter((a) => a.isNFT);
   return (
     <>
       <PageHeader
@@ -139,7 +123,7 @@ export default async function OursCollectPage() {
             each item's own bottom margin spaces them vertically since
             column layout has no row-gap equivalent. */}
         <ul className="columns-1 gap-x-8 sm:columns-2 lg:columns-3">
-          {artworks.map((artwork) => (
+          {physicalArtworks.map((artwork) => (
             <li key={artwork.id} className="mb-14 break-inside-avoid">
               <ArtworkCard artwork={artwork} />
             </li>
@@ -153,20 +137,27 @@ export default async function OursCollectPage() {
 
         {/* Ledgerworks (née "Web3 Wall") — the /q/web3 QR in the
             printed OURS program still points here (physical QR, source
-            path unchanged) but now lands on #ledgerworks. Roster from
-            the FFA_Master Web3 Wall tab (confirmed works only;
-            prospects stay off the page). Plain list rather than
-            ArtworkCards since nothing here checks out through Stripe.
-            scroll-mt keeps the heading clear of the viewport top when
-            the anchor jumps. */}
+            path unchanged) but now lands on #ledgerworks. Most pieces
+            here now sell through the same FFA/Stripe checkout as the
+            exhibition above (real ArtworkCards, isNFT: true — see
+            lib/storefront.ts); FFA transfers the NFT after purchase.
+            Nahuel's is fulfilled externally (genpi.org) and keeps the
+            plain link-card treatment. scroll-mt keeps the heading clear
+            of the viewport top when the anchor jumps — important since
+            QR scans land here directly, skipping the grid above. */}
         <div id="ledgerworks" className="mt-20 scroll-mt-24 border-t-[3px] border-rule pt-16">
           <p className="text-sm uppercase tracking-[0.08em] text-sage">Ledgerworks</p>
           <h2 className="mt-6 text-h2 leading-[1.05] md:text-h2-lg">Collect on-chain.</h2>
           <p className="mt-6 max-w-2xl text-body leading-relaxed text-ink/80">
-            A dedicated wall of on-chain works from the exhibition&rsquo;s Ledgerworks artists,
-            collectible during and after the evening.
+            On-chain works from the exhibition&rsquo;s Ledgerworks artists. Buy through the
+            page and FFA transfers the piece to your wallet after the sale.
           </p>
           <ul className="mt-12 columns-1 gap-x-8 text-body leading-relaxed text-ink/80 sm:columns-2 lg:columns-3">
+            {nftArtworks.map((artwork) => (
+              <li key={artwork.id} className="mb-14 break-inside-avoid">
+                <ArtworkCard artwork={artwork} />
+              </li>
+            ))}
             {LEDGERWORKS_WORKS.map((work) => (
               <li key={work.title} className="mb-14 break-inside-avoid">
                 <LedgerworksImage
@@ -196,6 +187,14 @@ export default async function OursCollectPage() {
               </li>
             ))}
           </ul>
+
+          {/* Same disclosure as the exhibition grid, repeated here —
+              visitors from the /q/web3 QR code land on this anchor
+              directly and may never scroll past the grid above. */}
+          <p className="mt-4 border-t border-rule pt-8 text-sm text-muted">
+            Prices include a 20% charitable, tax-deductible premium supporting FFA, a 501(c)(3)
+            nonprofit. Sales tax is calculated at checkout.
+          </p>
         </div>
       </Panel>
     </>
