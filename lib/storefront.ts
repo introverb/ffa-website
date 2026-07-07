@@ -1,7 +1,7 @@
 // OURS storefront — data model + roster for /ours/collect.
 //
 // Source of truth: FFA_Master.xlsx (Exhibition tab for physical works;
-// the Web3 Wall tab drives the page's Web3 section). Entries are
+// the Web3 Wall tab drives the page's Ledgerworks section). Entries are
 // transcribed close to verbatim rather than polished, so it's easy to
 // diff against the sheet and correct — get the info in, refine later.
 // Where the sheet says "TBD" / "placeholder" / "see notes", the field
@@ -235,7 +235,7 @@ export const ARTWORKS: Artwork[] = [
     listPrice: 1800,
     status: 'available',
   },
-  // Web3 Wall works (Pommella's "The Pope", etc.) are listed in the
-  // page's Web3 section, not here — they collect on-chain or via
+  // Ledgerworks pieces (Pommella's "The Pope", etc.) are listed in the
+  // page's Ledgerworks section, not here — they collect on-chain or via
   // external routes, not through the Stripe checkout.
 ];

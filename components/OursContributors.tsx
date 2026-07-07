@@ -20,7 +20,7 @@ import { slug } from '@/lib/analytics';
 // can't see interpolated fragments).
 
 // Confirmed exhibition artists, in two groups within the same Artists
-// tab: the main exhibition roster, and the Web3 Wall. Each lineup is a
+// tab: the main exhibition roster, and Ledgerworks. Each lineup is a
 // flex-wrap so additions are one-line edits. Names with an href link
 // out (per-artist GoatCounter event); a name without one renders as
 // plain text until its link is added.
@@ -37,7 +37,7 @@ const EXHIBITION_ARTISTS: { name: string; href?: string }[] = [
   { name: 'Olli Payne', href: 'https://olli.vision' },
 ];
 
-const WEB3_WALL_ARTISTS: { name: string; href?: string }[] = [
+const LEDGERWORKS_ARTISTS: { name: string; href?: string }[] = [
   { name: 'Mauricio Pommella', href: 'https://mpommella.com/' },
   { name: 'Nahuel Aquiles', href: 'https://genpi.org' },
   { name: 'Yura Miron' },
@@ -117,7 +117,7 @@ function ExternalLinkArrow({ className = '' }: { className?: string }) {
 }
 
 // Shared name-list rendering for both artist groups within the Artists
-// tab (Exhibition, Web3 Wall) — same link/plain-text treatment either
+// tab (Exhibition, Ledgerworks) — same link/plain-text treatment either
 // way, so adding an artist to either group is a one-line data edit.
 function ArtistList({ artists }: { artists: { name: string; href?: string }[] }) {
   return (
@@ -192,15 +192,15 @@ export function OursContributors() {
           <>
             <ArtistList artists={EXHIBITION_ARTISTS} />
 
-            {/* Web3 Wall — its own labeled group within the same
+            {/* Ledgerworks — its own labeled group within the same
                 Artists tab, rather than a separate tab, since it's
                 still part of the one exhibition roster. */}
             <div className="mt-10 border-t border-ink/15 pt-10">
               <p className="text-sm uppercase tracking-[0.08em] text-muted">
-                Web3 Wall
+                Ledgerworks
               </p>
               <div className="mt-5">
-                <ArtistList artists={WEB3_WALL_ARTISTS} />
+                <ArtistList artists={LEDGERWORKS_ARTISTS} />
               </div>
             </div>
 

@@ -127,19 +127,23 @@ const nextConfig = {
         destination: '/ours/collect',
         statusCode: 302,
       },
-      // Web3 Wall — lands on the Web3 section at the bottom of the
-      // storefront page.
+      // Ledgerworks (née "Web3 Wall") — lands on the Ledgerworks
+      // section at the bottom of the storefront page. Source path is
+      // unchanged: it's printed on physical QR codes in the OURS
+      // program, so it can't be renamed even though the on-page
+      // section it points to now goes by a different name.
       {
         source: '/q/web3',
-        destination: '/ours/collect#web3',
+        destination: '/ours/collect#ledgerworks',
         statusCode: 302,
       },
       // The short-lived standalone /ours/web3 placeholder route was
       // folded into the storefront page (Jul 2026); catch anyone who
-      // saved the old URL.
+      // saved the old URL. Source kept as the old name for the same
+      // reason as /q/web3 above — it's what old links actually point to.
       {
         source: '/ours/web3',
-        destination: '/ours/collect#web3',
+        destination: '/ours/collect#ledgerworks',
         statusCode: 302,
       },
       // Private-patron brief (the individual-donor path from the

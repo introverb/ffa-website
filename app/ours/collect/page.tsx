@@ -24,13 +24,13 @@ export const metadata: Metadata = {
 // Redis again, so sold-out pieces would keep showing as available.
 export const dynamic = 'force-dynamic';
 
-// Confirmed Web3 Wall roster, from the FFA_Master Web3 Wall tab. These
-// works collect on-chain or via an external route (not Stripe), so
-// they carry a link where one is public and "coming soon" otherwise.
-// image/imageWidth/imageHeight follow the same convention as
-// lib/storefront.ts's Artwork type — intrinsic sizing, no photo yet =
-// gray placeholder (see Web3Image below).
-const WEB3_WORKS: Array<{
+// Confirmed Ledgerworks roster (née "Web3 Wall"), from the FFA_Master
+// Web3 Wall tab. These works collect on-chain or via an external route
+// (not Stripe), so they carry a link where one is public and "coming
+// soon" otherwise. image/imageWidth/imageHeight follow the same
+// convention as lib/storefront.ts's Artwork type — intrinsic sizing, no
+// photo yet = gray placeholder (see LedgerworksImage below).
+const LEDGERWORKS_WORKS: Array<{
   artist: string;
   title: string;
   note: string;
@@ -79,8 +79,8 @@ const WEB3_WORKS: Array<{
 
 // Same image-slot treatment as ArtworkCard's — intrinsic sizing for a
 // real photo, neutral gray placeholder when one isn't in yet. Kept
-// local to this file since WEB3_WORKS isn't an Artwork object.
-function Web3Image({
+// local to this file since LEDGERWORKS_WORKS isn't an Artwork object.
+function LedgerworksImage({
   title,
   artist,
   image,
@@ -151,23 +151,25 @@ export default async function OursCollectPage() {
           nonprofit. Sales tax is calculated at checkout.
         </p>
 
-        {/* Web3 Wall — the /q/web3 QR in the printed OURS program lands
-            here (#web3). Roster from the FFA_Master Web3 Wall tab
-            (confirmed works only; prospects stay off the page). Plain
-            list rather than ArtworkCards since nothing here checks out
-            through Stripe. scroll-mt keeps the heading clear of the
-            viewport top when the anchor jumps. */}
-        <div id="web3" className="mt-20 scroll-mt-24 border-t-[3px] border-rule pt-16">
-          <p className="text-sm uppercase tracking-[0.08em] text-sage">Web3 Wall</p>
+        {/* Ledgerworks (née "Web3 Wall") — the /q/web3 QR in the
+            printed OURS program still points here (physical QR, source
+            path unchanged) but now lands on #ledgerworks. Roster from
+            the FFA_Master Web3 Wall tab (confirmed works only;
+            prospects stay off the page). Plain list rather than
+            ArtworkCards since nothing here checks out through Stripe.
+            scroll-mt keeps the heading clear of the viewport top when
+            the anchor jumps. */}
+        <div id="ledgerworks" className="mt-20 scroll-mt-24 border-t-[3px] border-rule pt-16">
+          <p className="text-sm uppercase tracking-[0.08em] text-sage">Ledgerworks</p>
           <h2 className="mt-6 text-h2 leading-[1.05] md:text-h2-lg">Collect on-chain.</h2>
           <p className="mt-6 max-w-2xl text-body leading-relaxed text-ink/80">
-            A dedicated wall of on-chain works from the exhibition&rsquo;s Web3 artists,
+            A dedicated wall of on-chain works from the exhibition&rsquo;s Ledgerworks artists,
             collectible during and after the evening.
           </p>
           <ul className="mt-12 columns-1 gap-x-8 text-body leading-relaxed text-ink/80 sm:columns-2 lg:columns-3">
-            {WEB3_WORKS.map((work) => (
+            {LEDGERWORKS_WORKS.map((work) => (
               <li key={work.title} className="mb-14 break-inside-avoid">
-                <Web3Image
+                <LedgerworksImage
                   title={work.title}
                   artist={work.artist}
                   image={work.image}
