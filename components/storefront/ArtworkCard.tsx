@@ -53,6 +53,7 @@ export function ArtworkCard({ artwork }: { artwork: Artwork }) {
       <h3 className="mt-5 text-h6 leading-tight text-ink md:text-h5">{artwork.title}</h3>
       <p className="mt-1.5 text-sm uppercase tracking-[0.08em] text-sage">{artwork.artistName}</p>
       {artwork.medium && <p className="mt-1 text-sm text-muted">{artwork.medium}</p>}
+      {artwork.note && <p className="mt-2 text-sm italic text-muted">{artwork.note}</p>}
 
       <div className="mt-4 flex items-center justify-between gap-4">
         {/* Once a piece is gone, its price comes off the page entirely

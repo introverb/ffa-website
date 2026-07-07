@@ -35,30 +35,30 @@ const WEB3_WORKS: Array<{
 }> = [
   {
     artist: 'Mauricio Pommella',
-    title: 'The Pope (1/1)',
-    note: 'On-chain 1/1, shown on a dedicated display.',
+    title: 'The Pope',
+    note: 'Digital 1/1, on-chain — 20% of a sale is donated to FFA.',
   },
   {
     artist: 'Nahuel Aquiles',
     title: 'DNA-fractal print',
-    note: 'Prints $40 / $90 — a share of each sale supports FFA.',
+    note: 'Generative fractal from DNA data — create your own biodata print and collect the NFT, $40 / $90. A share of each sale supports FFA.',
     href: 'https://genpi.org',
     cta: 'Collect via genpi.org',
   },
   {
     artist: 'Yura Miron',
     title: 'Solara Plaza',
-    note: 'On-chain.',
+    note: 'Digital work, on-chain.',
   },
   {
     artist: 'AnjolaDave',
     title: 'An Ending, A Beginning',
-    note: 'On-chain, with a physical print in the exhibition.',
+    note: 'Digital work, on-chain, with a physical print in the exhibition.',
   },
   {
     artist: 'Recycle Group',
     title: 'Forest of Expired Links',
-    note: 'Video NFT, on display at OURS — represented by Gazelli Art House.',
+    note: 'ERC-721 video — 3D modeled generated graphics; installation photograph shown at OURS. Represented by Gazelli Art House.',
     href: 'https://gazell.io',
     cta: 'View at gazell.io',
   },

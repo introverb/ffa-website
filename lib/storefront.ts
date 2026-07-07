@@ -14,8 +14,13 @@ export interface Artwork {
   id: string;
   title: string;
   artistName: string;
-  /** Only set where it adds real clarity beyond the title (the sheet has no medium column). */
+  /** From the placard copy doc's medium line. */
   medium?: string;
+  /**
+   * One-line credit/provenance note from the placard copy (commission
+   * credits, donation terms) — the distilled version, not the blurb.
+   */
+  note?: string;
   /** 100% of this goes to the artist. Unset = not priced yet ("Price TBD"). */
   artistPrice?: number;
   /**
@@ -93,20 +98,26 @@ export async function getArtworksForDisplay(): Promise<Artwork[]> {
 export const ARTWORKS: Artwork[] = [
   {
     id: 'rero-a-new-city-will-be-built',
-    title: 'A New City Will Be Built',
+    // Title as the work itself renders it (all caps, trailing
+    // ellipsis) — see the placard copy doc.
+    title: 'A NEW CITY WILL BE BUILT…',
     artistName: 'RERO',
+    medium: 'Burnt wood, metal',
+    note: 'Commissioned for OURS',
     // Sheet: FOR SALE $26,000, "red dot when sold" — supersedes the
-    // earlier sold-in-kind note. Commissioned for OURS.
+    // earlier sold-in-kind note.
     listPrice: 26000,
     status: 'available',
   },
   {
     id: 'anyanwu-pyramid',
-    // Qty 1 in the sheet — this is one specific numbered piece (1 of a
-    // 5-piece edition elsewhere), not "any of 5 available" like
-    // Lupi's, so no editionSize here.
-    title: 'PYRAMID (ed. 1/5)',
+    // One specific numbered piece (1 of a 5-piece edition elsewhere),
+    // not "any of 5 available" like Lupi's, so no editionSize here —
+    // the edition number lives in the medium line instead.
+    title: 'PYRAMID',
     artistName: 'Anyanwu',
+    medium: 'Sculpture + interactive game · edition 1/5',
+    note: 'Commissioned for OURS',
     // Sheet: "$7,200 final", terms "Edition +20%" — the 7,200 already
     // includes the premium ($6,000 to the artist).
     artistPrice: 6000,
@@ -120,23 +131,29 @@ export const ARTWORKS: Artwork[] = [
     // post-event. Price still TBD in the sheet.
     title: '02 Blue (prints)',
     artistName: 'Giorgia Lupi',
-    medium: 'Archival print, edition of 5',
+    medium: 'Data art — archival print of the original, edition of 5',
+    note: 'Original (gouache, acrylic, ink, and threads on paper) on loan to OURS',
     editionSize: 5,
     unitsSold: 0,
     status: 'available',
   },
   {
     id: 'dylan-weiler-possibilia',
-    title: 'Possibilia (oil)',
+    title: 'Possibilia',
     artistName: 'Dylan Weiler',
+    medium: 'Oil on canvas',
+    note: 'Donated by the artist — 100% of proceeds go to FFA',
     // Sheet: "$3,200 (final)", donated — 100% to FFA, no +20%.
     listPrice: 3200,
     status: 'available',
   },
   {
     id: 'seungjun-na-printed-collage',
+    // Title still TBD with the artist — placard doc has [title].
     title: 'printed collage',
     artistName: 'Seungjun Na',
+    medium: 'Printed collage, self-standing',
+    note: 'Commissioned by Medici Magazine for OURS',
     // Sheet: "$3,200 final (20% incl.)".
     listPrice: 3200,
     status: 'available',
@@ -145,8 +162,10 @@ export const ARTWORKS: Artwork[] = [
     id: 'denis-pakowacz-magnetobiology',
     // Prints hang at OURS; the hand-made originals are what sold.
     // Sheet: "originals SOLD (mark on website)".
-    title: 'Magnetobiology (×5)',
+    title: 'Magnetobiology',
     artistName: 'Denis Pakowacz',
+    medium: 'Framed prints ×5 (originals sold)',
+    note: 'Commissioned by Leverage for OURS',
     status: 'sold',
   },
   {
@@ -159,15 +178,19 @@ export const ARTWORKS: Artwork[] = [
   },
   {
     id: 'ellynne-dec-glass-bead-piece',
+    // Title awaited from Ellynne — placard doc has [title TBD].
     title: 'glass-bead piece',
     artistName: 'Ellynne Dec',
+    medium: 'Glass-bead work',
     // Sheet: "For sale (TBD +20%)".
     status: 'available',
   },
   {
     id: 'olli-payne-nucleonics',
-    title: 'Nucleonics (framed metal)',
+    title: 'Nucleonics',
     artistName: 'Olli Payne',
+    medium: 'Framed metal pieces',
+    note: 'Materials donated by the Nucleonics Institute',
     // Sheet: "$1,800 (final)", no +20% — replaces the old ~$3,200
     // estimate.
     listPrice: 1800,
