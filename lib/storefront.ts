@@ -213,18 +213,6 @@ export const ARTWORKS: Artwork[] = [
     imageHeight: 721,
   },
   {
-    id: 'sev-gedra-o-quam-cito',
-    title: 'O Quam Cito',
-    artistName: 'Sev Gedra',
-    medium: 'Garment — wrapped textile and beadwork',
-    // No price/status confirmed yet — same "Price TBD" treatment as
-    // the other pieces still awaiting their sheet row.
-    status: 'available',
-    image: '/images/storefront/sev-gedra-o-quam-cito.jpg',
-    imageWidth: 2000,
-    imageHeight: 3000,
-  },
-  {
     id: 'olli-payne-nucleonics',
     title: 'Nucleonics',
     artistName: 'Olli Payne',
