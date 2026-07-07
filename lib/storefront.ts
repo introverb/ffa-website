@@ -1,12 +1,12 @@
 // OURS storefront — data model + roster for /ours/collect.
 //
-// Source of truth: the Sales Log tab Olli shares (title, artist, qty,
-// NFT?, status, artist price). Entries are transcribed close to
-// verbatim rather than polished, so it's easy to diff against the
-// sheet and correct — get the info in, refine later. Where the sheet
-// says "TBD" / "placeholder" / "see notes", the field is left unset
-// here rather than guessed; the card shows "Price TBD" and holds the
-// Buy button until a real number lands.
+// Source of truth: FFA_Master.xlsx (Exhibition tab for physical works;
+// the Web3 Wall tab drives the page's Web3 section). Entries are
+// transcribed close to verbatim rather than polished, so it's easy to
+// diff against the sheet and correct — get the info in, refine later.
+// Where the sheet says "TBD" / "placeholder" / "see notes", the field
+// is left unset here rather than guessed; the card shows "Price TBD"
+// and holds the Buy button until a real number lands.
 
 export type ArtworkStatus = 'available' | 'reserved' | 'sold';
 
@@ -18,6 +18,13 @@ export interface Artwork {
   medium?: string;
   /** 100% of this goes to the artist. Unset = not priced yet ("Price TBD"). */
   artistPrice?: number;
+  /**
+   * Buyer-facing final price, for works where the sheet fixes the sale
+   * number itself ("$3,200 final", "no +20%", "20% incl.") rather than
+   * an artist price to add the premium on top of. Overrides the
+   * artistPrice × 1.2 calculation.
+   */
+  listPrice?: number;
   /** True when the sheet flags a price as approximate/not final (e.g. "TBD ~$3,200"). */
   priceIsEstimate?: boolean;
   status: ArtworkStatus;
@@ -36,6 +43,7 @@ export interface Artwork {
 export const PREMIUM_RATE = 0.2;
 
 export function displayPrice(artwork: Artwork): number | null {
+  if (artwork.listPrice != null) return artwork.listPrice;
   if (artwork.artistPrice == null) return null;
   return Math.round(artwork.artistPrice * (1 + PREMIUM_RATE));
 }
@@ -87,38 +95,10 @@ export const ARTWORKS: Artwork[] = [
     id: 'rero-a-new-city-will-be-built',
     title: 'A New City Will Be Built',
     artistName: 'RERO',
-    status: 'sold', // sold in-kind
-  },
-  {
-    id: 'dylan-weiler-possibilia',
-    title: 'Possibilia (oil)',
-    artistName: 'Dylan Weiler',
+    // Sheet: FOR SALE $26,000, "red dot when sold" — supersedes the
+    // earlier sold-in-kind note. Commissioned for OURS.
+    listPrice: 26000,
     status: 'available',
-  },
-  {
-    id: 'giorgia-lupi-02-blue-prints',
-    // The wall piece is an original, one-of-a-kind — what's for sale
-    // here is a limited archival print of it, made explicit in the
-    // medium so nobody mistakes this for the original.
-    title: '02 Blue (prints)',
-    artistName: 'Giorgia Lupi',
-    medium: 'Archival print, edition of 5',
-    editionSize: 5,
-    unitsSold: 0,
-    status: 'available',
-  },
-  {
-    id: 'ellynne-dec-glass-bead-piece',
-    title: 'glass-bead piece',
-    artistName: 'Ellynne Dec',
-    status: 'available',
-  },
-  {
-    id: 'seungjun-na-printed-collage',
-    title: 'printed collage',
-    artistName: 'Seungjun Na',
-    status: 'available',
-    // Sheet says "see notes" for price — no note text to go on yet.
   },
   {
     id: 'anyanwu-pyramid',
@@ -127,28 +107,73 @@ export const ARTWORKS: Artwork[] = [
     // Lupi's, so no editionSize here.
     title: 'PYRAMID (ed. 1/5)',
     artistName: 'Anyanwu',
+    // Sheet: "$7,200 final", terms "Edition +20%" — the 7,200 already
+    // includes the premium ($6,000 to the artist).
+    artistPrice: 6000,
     status: 'available',
   },
   {
+    id: 'giorgia-lupi-02-blue-prints',
+    // The wall piece is an original (on loan) — what's for sale here
+    // is a limited archival print of it, made explicit in the medium
+    // so nobody mistakes this for the original. Prints fulfil
+    // post-event. Price still TBD in the sheet.
+    title: '02 Blue (prints)',
+    artistName: 'Giorgia Lupi',
+    medium: 'Archival print, edition of 5',
+    editionSize: 5,
+    unitsSold: 0,
+    status: 'available',
+  },
+  {
+    id: 'dylan-weiler-possibilia',
+    title: 'Possibilia (oil)',
+    artistName: 'Dylan Weiler',
+    // Sheet: "$3,200 (final)", donated — 100% to FFA, no +20%.
+    listPrice: 3200,
+    status: 'available',
+  },
+  {
+    id: 'seungjun-na-printed-collage',
+    title: 'printed collage',
+    artistName: 'Seungjun Na',
+    // Sheet: "$3,200 final (20% incl.)".
+    listPrice: 3200,
+    status: 'available',
+  },
+  {
+    id: 'denis-pakowacz-magnetobiology',
+    // Prints hang at OURS; the hand-made originals are what sold.
+    // Sheet: "originals SOLD (mark on website)".
+    title: 'Magnetobiology (×5)',
+    artistName: 'Denis Pakowacz',
+    status: 'sold',
+  },
+  {
     id: 'sue-ellen-zhang-oil-painting',
-    title: 'oil painting',
+    title: 'The Hummingbird',
     artistName: 'Sue Ellen Zhang',
+    medium: 'Oil on canvas, 30 × 40 in',
+    // Sheet: "For sale (+20%)" — no artist price yet.
+    status: 'available',
+  },
+  {
+    id: 'ellynne-dec-glass-bead-piece',
+    title: 'glass-bead piece',
+    artistName: 'Ellynne Dec',
+    // Sheet: "For sale (TBD +20%)".
     status: 'available',
   },
   {
     id: 'olli-payne-nucleonics',
     title: 'Nucleonics (framed metal)',
     artistName: 'Olli Payne',
-    artistPrice: 3200,
-    priceIsEstimate: true,
+    // Sheet: "$1,800 (final)", no +20% — replaces the old ~$3,200
+    // estimate.
+    listPrice: 1800,
     status: 'available',
   },
-  {
-    id: 'mauricio-pommella-the-pope',
-    title: 'The Pope',
-    artistName: 'Mauricio Pommella',
-    status: 'available',
-    isNFT: true,
-    // Sheet: "USD-fixed TBD" — priced in USD (not floating), number pending.
-  },
+  // Web3 Wall works (Pommella's "The Pope", etc.) are listed in the
+  // page's Web3 section, not here — they collect on-chain or via
+  // external routes, not through the Stripe checkout.
 ];
