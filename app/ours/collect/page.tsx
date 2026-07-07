@@ -81,9 +81,16 @@ export default async function OursCollectPage() {
       />
 
       <Panel variant="white" className="md:p-16">
-        <ul className="grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
+        {/* Masonry via CSS multi-column rather than a row-aligned grid —
+            cards are sized to each work's own image, so a tall portrait
+            and a wide landscape shouldn't be forced onto a shared row
+            height. break-inside-avoid keeps a card from splitting across
+            a column break; column-gap (gap-x) spaces the columns, and
+            each item's own bottom margin spaces them vertically since
+            column layout has no row-gap equivalent. */}
+        <ul className="columns-1 gap-x-8 sm:columns-2 lg:columns-3">
           {artworks.map((artwork) => (
-            <li key={artwork.id}>
+            <li key={artwork.id} className="mb-14 break-inside-avoid">
               <ArtworkCard artwork={artwork} />
             </li>
           ))}

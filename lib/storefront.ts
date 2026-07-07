@@ -40,6 +40,13 @@ export interface Artwork {
   unitsSold?: number;
   /** Path under /public once a real photo exists; undefined = gray block. */
   image?: string;
+  /** The photo's real pixel dimensions — lets the card size to the
+   *  image's own aspect ratio instead of a uniform cropped box. Required
+   *  alongside `image` (next/image needs intrinsic dimensions without
+   *  `fill`). Run scripts/optimize-images.mjs on new photos first, then
+   *  read the final width/height from its output. */
+  imageWidth?: number;
+  imageHeight?: number;
 }
 
 // The foundation keeps 20% of every sale as a charitable premium; the
@@ -108,6 +115,9 @@ export const ARTWORKS: Artwork[] = [
     // earlier sold-in-kind note.
     listPrice: 26000,
     status: 'available',
+    image: '/images/storefront/rero-a-new-city-will-be-built.jpg',
+    imageWidth: 2000,
+    imageHeight: 1500,
   },
   {
     id: 'anyanwu-pyramid',
@@ -122,6 +132,9 @@ export const ARTWORKS: Artwork[] = [
     // includes the premium ($6,000 to the artist).
     artistPrice: 6000,
     status: 'available',
+    image: '/images/storefront/anyanwu-pyramid.png',
+    imageWidth: 1535,
+    imageHeight: 1024,
   },
   {
     id: 'giorgia-lupi-02-blue-prints',
@@ -136,6 +149,9 @@ export const ARTWORKS: Artwork[] = [
     editionSize: 5,
     unitsSold: 0,
     status: 'available',
+    image: '/images/storefront/giorgia-lupi-02-blue-prints.jpeg',
+    imageWidth: 1046,
+    imageHeight: 1358,
   },
   {
     id: 'dylan-weiler-possibilia',
@@ -146,6 +162,9 @@ export const ARTWORKS: Artwork[] = [
     // Sheet: "$3,200 (final)", donated — 100% to FFA, no +20%.
     listPrice: 3200,
     status: 'available',
+    image: '/images/storefront/dylan-weiler-possibilia.png',
+    imageWidth: 808,
+    imageHeight: 1009,
   },
   {
     id: 'seungjun-na-printed-collage',
@@ -177,6 +196,9 @@ export const ARTWORKS: Artwork[] = [
     medium: 'Oil on canvas, 30 × 40 in',
     // Sheet: "For sale (+20%)" — no artist price yet.
     status: 'available',
+    image: '/images/storefront/sue-ellen-zhang-oil-painting.jpeg',
+    imageWidth: 2000,
+    imageHeight: 1500,
   },
   {
     id: 'ellynne-dec-glass-bead-piece',

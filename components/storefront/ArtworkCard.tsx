@@ -1,27 +1,32 @@
 import Image from 'next/image';
 import { type Artwork, displayPrice, isSoldOut, statusLabel } from '@/lib/storefront';
 
-// Neutral gray image slot for the storefront grid — deliberately plain
-// (not the site's warm editorial Placeholder gradient) so it reads as
-// "photo pending" rather than a styled illustration. Swaps to the real
-// photo automatically the moment `artwork.image` is set; nothing else
-// about the card has to change when real photography arrives.
+// Image slot for the storefront grid — sized to the photo's own aspect
+// ratio (intrinsic width/height, no crop) rather than a uniform box, so
+// a tall portrait and a wide landscape both show the full work. Swaps
+// in automatically once `artwork.image` + its real dimensions are set;
+// nothing else about the card has to change when real photography
+// arrives. Without a photo yet, falls back to a neutral gray placeholder
+// (deliberately plain, not the site's warm editorial Placeholder
+// gradient) at a default ratio, since there's no real image to size to.
 function ArtworkImage({ artwork }: { artwork: Artwork }) {
+  if (artwork.image && artwork.imageWidth && artwork.imageHeight) {
+    return (
+      <Image
+        src={artwork.image}
+        alt={`${artwork.title}, by ${artwork.artistName}`}
+        width={artwork.imageWidth}
+        height={artwork.imageHeight}
+        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        className="h-auto w-full rounded-xl"
+      />
+    );
+  }
   return (
     <div className="relative aspect-[4/5] overflow-hidden rounded-xl bg-ink/10">
-      {artwork.image ? (
-        <Image
-          src={artwork.image}
-          alt={`${artwork.title}, by ${artwork.artistName}`}
-          fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className="object-cover"
-        />
-      ) : (
-        <div className="absolute inset-0 grid place-items-center font-sans text-xs uppercase tracking-[0.14em] text-muted">
-          Image coming soon
-        </div>
-      )}
+      <div className="absolute inset-0 grid place-items-center font-sans text-xs uppercase tracking-[0.14em] text-muted">
+        Image coming soon
+      </div>
     </div>
   );
 }
