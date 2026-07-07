@@ -282,9 +282,9 @@ export const ARTWORKS: Artwork[] = [
     medium: 'ERC-721 video, on-chain',
     note: 'Represented by Gazelli Art House',
     isNFT: true,
-    // $13,200 to the artist; the 20% premium is added on top, same as
-    // every other Ledgerworks and exhibition piece.
-    artistPrice: 13200,
+    // $13,200 is the final buyer price — the 20% premium is already
+    // folded in, not added on top.
+    listPrice: 13200,
     status: 'available',
   },
 ];
