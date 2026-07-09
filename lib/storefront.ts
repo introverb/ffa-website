@@ -198,7 +198,8 @@ export const ARTWORKS: Artwork[] = [
     title: 'The Hummingbird',
     artistName: 'Sue Ellen Zhang',
     medium: 'Oil on canvas, 30 × 40 in',
-    // Sheet: "For sale (+20%)" — no artist price yet.
+    // $4,800 final buyer price (already includes the 20% premium).
+    listPrice: 4800,
     status: 'available',
     image: '/images/storefront/sue-ellen-zhang-oil-painting.jpeg',
     imageWidth: 2000,
