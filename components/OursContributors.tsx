@@ -229,14 +229,12 @@ export function OursContributors() {
                 still part of the one roster. */}
             <div className="mt-10 border-t border-ink/15 pt-10">
               <p className="text-sm uppercase tracking-[0.08em] text-muted">
-                Ledgerworks
+                Ledgerworks (on-chain)
               </p>
               <div className="mt-5">
                 <ArtistList artists={LEDGERWORKS_ARTISTS} />
               </div>
             </div>
-
-            <p className="mt-8 text-sm text-muted">More artists to be announced.</p>
           </>
         )}
 
@@ -268,17 +266,6 @@ export function OursContributors() {
                 </li>
               ))}
             </ul>
-
-            <p className="mt-10 border-t border-ink/15 pt-8 max-w-prose text-body leading-relaxed text-ink/80">
-              More speakers are being confirmed now.{' '}
-              <Link
-                href="/contact?topic=OURS event involvement"
-                data-goatcounter-click="ours:speakers-reach-out"
-                className="underline decoration-from-font underline-offset-4 text-ink hover:text-sage"
-              >
-                Think you belong at the lectern? Reach out.
-              </Link>
-            </p>
           </>
         )}
 
