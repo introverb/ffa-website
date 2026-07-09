@@ -15,8 +15,19 @@ export const runtime = 'nodejs';
 // technically payable.
 const RESERVATION_TTL_SECONDS = 30 * 60;
 
+// Railway's internal proxy means req.url / req.nextUrl.origin resolve
+// to the container's internal address (e.g. localhost:8080), not the
+// public domain — confirmed live when a test purchase's Stripe
+// redirect landed on localhost. Use the known production URL instead
+// (same constant as app/layout.tsx, robots.ts, sitemap.ts); fall back
+// to the request's own origin in local dev, where there's no proxy in
+// the way and this always resolves correctly anyway.
+const SITE_URL =
+  process.env.NODE_ENV === 'production' ? 'https://futureaesthetics.foundation' : null;
+
 export async function POST(req: NextRequest) {
-  const back = () => NextResponse.redirect(new URL('/ours/collect', req.url), 303);
+  const origin = SITE_URL ?? req.nextUrl.origin;
+  const back = () => NextResponse.redirect(new URL('/ours/collect', origin), 303);
 
   const formData = await req.formData();
   const artworkId = String(formData.get('artworkId') ?? '');
@@ -50,7 +61,6 @@ export async function POST(req: NextRequest) {
   }
 
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-  const origin = req.nextUrl.origin;
 
   const session = await stripe.checkout.sessions.create({
     mode: 'payment',
