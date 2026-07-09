@@ -31,17 +31,17 @@ const GALLERY_ARTISTS: { name: string; href?: string }[] = [
   { name: 'Dylan Weiler', href: 'https://www.dylanevansweiler.com/' },
   { name: 'Seungjun Na', href: 'https://www.instagram.com/na_tist' },
   { name: 'Denis Pakowacz', href: 'https://www.behance.net/pakowacz' },
-  { name: 'Sue Ellen Zhang' },
+  { name: 'Sue Ellen Zhang', href: 'https://bio.site/sueellen' },
   { name: 'Ellynne Dec', href: 'https://ellynne.studio/' },
-  { name: 'Sev Gedra' },
+  { name: 'Sev Gedra', href: 'https://sevgedramakes.com/' },
   { name: 'Olli Payne', href: 'https://olli.vision' },
 ];
 
 const LEDGERWORKS_ARTISTS: { name: string; href?: string }[] = [
   { name: 'Mauricio Pommella', href: 'https://mpommella.com/' },
   { name: 'Nahuel Aquiles', href: 'https://genpi.org' },
-  { name: 'Yura Miron' },
-  { name: 'AnjolaDave' },
+  { name: 'Yura Miron', href: 'https://yuramiron.art/' },
+  { name: 'AnjolaDave', href: 'https://anjieverselabs.com/' },
   { name: 'Recycle Group', href: 'https://gazell.io' },
 ];
 
@@ -59,26 +59,35 @@ const INSTALLATION_CONTRIBUTORS: {
 }[] = [
   { name: 'Ada Palmer', role: 'Host', href: 'https://www.adapalmer.com/' },
   { name: 'Audrey Tang', href: 'https://cyberambassador.tw/' },
-  { name: 'Eli Dourado' },
+  { name: 'Eli Dourado', href: 'https://www.elidourado.com/about' },
   { name: 'Neil Harbisson', href: 'https://www.cyborgarts.com/neil-harbisson' },
   { name: 'Shannon Wong', href: 'https://www.girlfliesworld.com/' },
   { name: 'Michael Balangue' },
   { name: 'Michael Edward Johnson', href: 'https://opentheory.net/' },
   { name: 'Stephen Wolfram', href: 'https://www.stephenwolfram.com/' },
-  { name: 'Bright Simons' },
-  { name: 'João Pedro de Magalhães' },
+  { name: 'Bright Simons', href: 'https://brightsimons.com/' },
+  { name: 'João Pedro de Magalhães', href: 'https://jp.senescence.info/' },
 ];
 
 // Confirmed speakers — unlike the name-only lists above, each carries
 // a title/affiliation line, so they get their own card layout (see the
 // render below) rather than reusing ArtistList's inline-wrapped names.
 const SPEAKERS: { name: string; title: string; href?: string }[] = [
-  { name: 'Tamara Winter', title: 'Commissioning editor, Stripe Press' },
+  {
+    name: 'Tamara Winter',
+    title: 'Commissioning editor, Stripe Press',
+    href: 'https://x.com/tamarawinter',
+  },
   {
     name: 'Erika Alden DeBenedictis',
     title: 'Synthetic biologist, CEO of Pioneer Labs',
+    href: 'https://www.erikadebenedictis.com/',
   },
-  { name: 'Geoff Anders', title: 'Philosopher, founder of Leverage' },
+  {
+    name: 'Geoff Anders',
+    title: 'Philosopher, founder of Leverage',
+    href: 'https://www.geoffanders.com/',
+  },
 ];
 
 type GroupKey = 'artists' | 'speakers' | 'installation';
