@@ -211,7 +211,8 @@ export const ARTWORKS: Artwork[] = [
     title: 'glass-bead piece',
     artistName: 'Ellynne Dec',
     medium: 'Glass-bead work',
-    // Sheet: "For sale (TBD +20%)".
+    // $8,000 list price (final buyer price).
+    listPrice: 8000,
     status: 'available',
     image: '/images/storefront/ellynne-dec-glass-bead-piece.png',
     imageWidth: 795,
