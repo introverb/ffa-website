@@ -141,14 +141,16 @@ export const ARTWORKS: Artwork[] = [
     // The wall piece is an original (on loan) — what's for sale here
     // is a limited archival print of it, made explicit in the medium
     // so nobody mistakes this for the original. Prints fulfil
-    // post-event. Price still TBD in the sheet.
+    // post-event.
     title: '02 Blue (prints)',
     artistName: 'Giorgia Lupi',
-    medium: 'Data art — archival print of the original, edition of 5',
-    note: 'Original (gouache, acrylic, ink, and threads on paper) on loan to OURS',
-    editionSize: 5,
+    medium: 'Data art — archival print of the original, edition of 25',
+    note: 'Original (gouache, acrylic, ink, and threads on paper) on loan to OURS. Signed certificate of authenticity included.',
+    editionSize: 25,
     unitsSold: 0,
     status: 'available',
+    // $400 each — TODO confirm whether that's the artist price (buyer
+    // pays $480 with the 20% premium) or already the final buyer price.
     image: '/images/storefront/giorgia-lupi-02-blue-prints.jpeg',
     imageWidth: 1046,
     imageHeight: 1358,
