@@ -12,7 +12,11 @@ export default function OursCollectSuccessPage() {
       <p className="text-sm uppercase tracking-[0.08em] text-sage">OURS</p>
       <h1 className="mt-6 text-h3 leading-tight md:text-h2">Thank you.</h1>
       <p className="mt-5 text-body leading-relaxed text-ink/80">
-        A receipt is on its way to your email. If this piece is an NFT, you&rsquo;ll also
+        We&rsquo;re glad this piece found you. A member of our team will follow up personally
+        within the week to arrange delivery.
+      </p>
+      <p className="mt-4 text-body leading-relaxed text-ink/80">
+        A receipt is on its way to your email now. If this piece is an NFT, you&rsquo;ll also
         receive written confirmation of your wallet address before transfer.
       </p>
     </Panel>
