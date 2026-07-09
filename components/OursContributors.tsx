@@ -26,7 +26,7 @@ import { slug } from '@/lib/analytics';
 // plain text until its link is added.
 const GALLERY_ARTISTS: { name: string; href?: string }[] = [
   { name: 'RERO', href: 'https://rero-studio.squarespace.com/' },
-  { name: 'Anyanwu / Somto', href: 'https://weareanyanwu.com/' },
+  { name: 'Anyanwu', href: 'https://weareanyanwu.com/' },
   { name: 'Giorgia Lupi', href: 'https://studio.giorgialupi.com/' },
   { name: 'Dylan Weiler', href: 'https://www.dylanevansweiler.com/' },
   { name: 'Seungjun Na', href: 'https://www.instagram.com/na_tist' },
