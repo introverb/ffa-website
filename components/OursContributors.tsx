@@ -13,27 +13,27 @@ import { slug } from '@/lib/analytics';
 // Panels are color-OUTLINED (3px border, matching the site's bordered
 // card pattern) rather than color-filled; content sits in ink on the
 // white panel ground, with the group color carried by the border, the
-// selected tab's fill, hover accents, and the installation CTA.
-// Speakers and installation contributors are both TBA for now; the
-// installation panel still carries the "share your vision" contribute
-// CTA. Color classes are written as complete literals (Tailwind JIT
-// can't see interpolated fragments).
+// selected tab's fill, hover accents, and the installation CTA. The
+// installation panel keeps its "share your vision" contribute CTA even
+// with a confirmed roster shown, since it's open to more visionaries.
+// Color classes are written as complete literals (Tailwind JIT can't
+// see interpolated fragments).
 
-// Confirmed exhibition artists, in two groups within the same Artists
-// tab: the main exhibition roster, and Ledgerworks. Each lineup is a
+// Confirmed roster, in two groups within the same Artists tab: Gallery
+// (physical works) and Ledgerworks (on-chain works). Each lineup is a
 // flex-wrap so additions are one-line edits. Names with an href link
 // out (per-artist GoatCounter event); a name without one renders as
 // plain text until its link is added.
-const EXHIBITION_ARTISTS: { name: string; href?: string }[] = [
+const GALLERY_ARTISTS: { name: string; href?: string }[] = [
   { name: 'RERO', href: 'https://rero-studio.squarespace.com/' },
-  { name: 'Anyanwu', href: 'https://weareanyanwu.com/' },
+  { name: 'Anyanwu / Somto', href: 'https://weareanyanwu.com/' },
   { name: 'Giorgia Lupi', href: 'https://studio.giorgialupi.com/' },
   { name: 'Dylan Weiler', href: 'https://www.dylanevansweiler.com/' },
   { name: 'Seungjun Na', href: 'https://www.instagram.com/na_tist' },
   { name: 'Denis Pakowacz', href: 'https://www.behance.net/pakowacz' },
   { name: 'Sue Ellen Zhang' },
-  { name: 'Sev Gedra' },
   { name: 'Ellynne Dec', href: 'https://ellynne.studio/' },
+  { name: 'Sev Gedra' },
   { name: 'Olli Payne', href: 'https://olli.vision' },
 ];
 
@@ -42,6 +42,7 @@ const LEDGERWORKS_ARTISTS: { name: string; href?: string }[] = [
   { name: 'Nahuel Aquiles', href: 'https://genpi.org' },
   { name: 'Yura Miron' },
   { name: 'AnjolaDave' },
+  { name: 'Recycle Group', href: 'https://gazell.io' },
 ];
 
 // Installation contributors — the confirmed roster, now revealed
@@ -56,12 +57,28 @@ const INSTALLATION_CONTRIBUTORS: {
   role?: string;
   href?: string;
 }[] = [
+  { name: 'Ada Palmer', role: 'Host', href: 'https://www.adapalmer.com/' },
   { name: 'Audrey Tang', href: 'https://cyberambassador.tw/' },
+  { name: 'Eli Dourado' },
   { name: 'Neil Harbisson', href: 'https://www.cyborgarts.com/neil-harbisson' },
-  { name: 'Stephen Wolfram', href: 'https://www.stephenwolfram.com/' },
   { name: 'Shannon Wong', href: 'https://www.girlfliesworld.com/' },
   { name: 'Michael Balangue' },
   { name: 'Michael Edward Johnson', href: 'https://opentheory.net/' },
+  { name: 'Stephen Wolfram', href: 'https://www.stephenwolfram.com/' },
+  { name: 'Bright Simons' },
+  { name: 'João Pedro de Magalhães' },
+];
+
+// Confirmed speakers — unlike the name-only lists above, each carries
+// a title/affiliation line, so they get their own card layout (see the
+// render below) rather than reusing ArtistList's inline-wrapped names.
+const SPEAKERS: { name: string; title: string; href?: string }[] = [
+  { name: 'Tamara Winter', title: 'Commissioning editor, Stripe Press' },
+  {
+    name: 'Erika Alden DeBenedictis',
+    title: 'Synthetic biologist, CEO of Pioneer Labs',
+  },
+  { name: 'Geoff Anders', title: 'Philosopher, founder of Leverage' },
 ];
 
 type GroupKey = 'artists' | 'speakers' | 'installation';
@@ -190,11 +207,17 @@ export function OursContributors() {
       >
         {active === 'artists' && (
           <>
-            <ArtistList artists={EXHIBITION_ARTISTS} />
+            {/* Gallery — labeled to match Ledgerworks below, so the
+                Artists tab reads as two clearly named groups rather
+                than "the main list" plus one labeled exception. */}
+            <p className="text-sm uppercase tracking-[0.08em] text-muted">Gallery</p>
+            <div className="mt-5">
+              <ArtistList artists={GALLERY_ARTISTS} />
+            </div>
 
             {/* Ledgerworks — its own labeled group within the same
                 Artists tab, rather than a separate tab, since it's
-                still part of the one exhibition roster. */}
+                still part of the one roster. */}
             <div className="mt-10 border-t border-ink/15 pt-10">
               <p className="text-sm uppercase tracking-[0.08em] text-muted">
                 Ledgerworks
@@ -210,11 +233,35 @@ export function OursContributors() {
 
         {active === 'speakers' && (
           <>
-            <p className="font-heading text-h4 leading-tight text-ink md:text-h3">
-              To be announced.
-            </p>
-            <p className="mt-4 max-w-prose text-body-lg leading-relaxed text-ink/80">
-              Speakers are being confirmed now.{' '}
+            {/* Each speaker carries a full title/affiliation line, not
+                just a name, so this is a card grid rather than
+                ArtistList's inline-wrapped names. */}
+            <ul className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
+              {SPEAKERS.map((s) => (
+                <li key={s.name}>
+                  {s.href ? (
+                    <a
+                      href={s.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      data-goatcounter-click={`ours:speaker-${slug(s.name)}`}
+                      className="group flex items-baseline gap-1.5 font-heading text-h5 leading-tight text-ink transition-colors hover:text-sage md:text-h4"
+                    >
+                      {s.name}
+                      <ExternalLinkArrow className="text-ink/35 transition-colors group-hover:text-sage" />
+                    </a>
+                  ) : (
+                    <p className="font-heading text-h5 leading-tight text-ink md:text-h4">
+                      {s.name}
+                    </p>
+                  )}
+                  <p className="mt-2 text-sm text-muted">{s.title}</p>
+                </li>
+              ))}
+            </ul>
+
+            <p className="mt-10 border-t border-ink/15 pt-8 max-w-prose text-body leading-relaxed text-ink/80">
+              More speakers are being confirmed now.{' '}
               <Link
                 href="/contact?topic=OURS event involvement"
                 data-goatcounter-click="ours:speakers-reach-out"
