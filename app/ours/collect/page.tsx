@@ -25,15 +25,17 @@ export const metadata: Metadata = {
 export const dynamic = 'force-dynamic';
 
 // Ledgerworks pieces that collect through an EXTERNAL route rather than
-// FFA's own Stripe checkout — currently just Nahuel Aquiles, whose
-// piece is a personalized, variably-priced mint fulfilled entirely on
-// his own platform (genpi.org), not a single fixed-price 1-of-1. Every
-// other Ledgerworks piece is a real Artwork in lib/storefront.ts
-// (isNFT: true) and sells the same way the physical works do — see the
-// comment above the Ledgerworks entries there. image/imageWidth/
-// imageHeight follow the same convention as lib/storefront.ts's Artwork
-// type — intrinsic sizing, no photo yet = gray placeholder (see
-// LedgerworksImage below).
+// FFA's own Stripe checkout: Nahuel Aquiles' piece is a personalized,
+// variably-priced mint fulfilled entirely on his own platform
+// (genpi.org), not a single fixed-price 1-of-1; Recycle Group's is
+// gallery-represented and terms (who nets what of the 20% premium) are
+// still being negotiated with Gazelli Art House, so it links out to
+// their listing instead. Every other Ledgerworks piece is a real
+// Artwork in lib/storefront.ts (isNFT: true) and sells the same way the
+// physical works do — see the comment above the Ledgerworks entries
+// there. image/imageWidth/imageHeight follow the same convention as
+// lib/storefront.ts's Artwork type — intrinsic sizing, no photo yet =
+// gray placeholder (see LedgerworksImage below).
 const LEDGERWORKS_WORKS: Array<{
   artist: string;
   title: string;
@@ -44,6 +46,13 @@ const LEDGERWORKS_WORKS: Array<{
   imageWidth?: number;
   imageHeight?: number;
 }> = [
+  {
+    artist: 'Recycle Group',
+    title: 'Forest of Expired Links',
+    note: 'ERC-721 video, on-chain. Includes the photographic print from the exhibition. Listed at $11,000 — terms with the gallery still in negotiation.',
+    href: 'https://gazell.io/collections/recycle-group/products/forest-of-expired-links-1',
+    cta: 'Purchase through Gazelli Art House',
+  },
   {
     artist: 'Nahuel Aquiles',
     title: 'DNA-fractal print',

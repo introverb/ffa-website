@@ -270,16 +270,9 @@ export const ARTWORKS: Artwork[] = [
     imageHeight: 1020,
     // No price confirmed yet.
   },
-  {
-    id: 'recycle-group-forest-of-expired-links',
-    title: 'Forest of Expired Links',
-    artistName: 'Recycle Group',
-    medium: 'ERC-721 video, on-chain',
-    note: 'Represented by Gazelli Art House. Includes the photographic print from the exhibition.',
-    isNFT: true,
-    // $13,200 is the final buyer price — the 20% premium is already
-    // folded in, not added on top.
-    listPrice: 13200,
-    status: 'available',
-  },
+  // Recycle Group's "Forest of Expired Links" moved OUT of this
+  // catalog and back to an external-link card (see LEDGERWORKS_WORKS
+  // in app/ours/collect/page.tsx) — terms with Gazelli Art House are
+  // still being negotiated (who nets what of the 20% premium), so it
+  // isn't sold through FFA's own checkout for now.
 ];
