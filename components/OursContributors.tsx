@@ -241,9 +241,9 @@ export function OursContributors() {
         {active === 'speakers' && (
           <>
             {/* Each speaker carries a full title/affiliation line, not
-                just a name, so this is a card grid rather than
-                ArtistList's inline-wrapped names. */}
-            <ul className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
+                just a name, so this stacks vertically rather than
+                wrapping into a grid or ArtistList's inline names. */}
+            <ul className="flex max-w-prose flex-col gap-8">
               {SPEAKERS.map((s) => (
                 <li key={s.name}>
                   {s.href ? (
