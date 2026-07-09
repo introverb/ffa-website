@@ -149,8 +149,10 @@ export const ARTWORKS: Artwork[] = [
     editionSize: 25,
     unitsSold: 0,
     status: 'available',
-    // $400 each — TODO confirm whether that's the artist price (buyer
-    // pays $480 with the 20% premium) or already the final buyer price.
+    // $400 final buyer price, per print. FFA and the artist split the
+    // proceeds 50/50 — an internal settlement detail, not reflected on
+    // the page.
+    listPrice: 400,
     image: '/images/storefront/giorgia-lupi-02-blue-prints.jpeg',
     imageWidth: 1046,
     imageHeight: 1358,
