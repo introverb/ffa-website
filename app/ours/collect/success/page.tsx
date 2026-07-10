@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
+import Link from 'next/link';
 import { Panel } from '@/components/PageFrame';
 
 export const metadata: Metadata = {
@@ -43,6 +44,9 @@ export default function OursCollectSuccessPage() {
           A receipt is on its way to your email now. If this piece is an NFT, you&rsquo;ll also
           receive written confirmation of your wallet address before transfer.
         </p>
+        <Link href="/ours/collect" className="btn-solid mt-8 inline-flex">
+          Back to Collect
+        </Link>
       </div>
     </Panel>
   );
