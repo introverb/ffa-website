@@ -4,6 +4,7 @@ import { Saira } from 'next/font/google';
 import './globals.css';
 import { PageFrame } from '@/components/PageFrame';
 import { Footer } from '@/components/Footer';
+import { ConditionalFooter } from '@/components/ConditionalFooter';
 import { JsonLd } from '@/components/JsonLd';
 
 // Display face - used for headings and bolded text. Saira is a temporary
@@ -135,7 +136,7 @@ export default function RootLayout({
         <JsonLd data={WEBSITE_SCHEMA} />
         <PageFrame>
           {children}
-          <Footer />
+          <ConditionalFooter footer={<Footer />} />
         </PageFrame>
         {/* GoatCounter analytics — privacy-first, free for nonprofits.
             Dashboard at https://ffa.goatcounter.com. The script auto-

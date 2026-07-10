@@ -274,7 +274,7 @@ export const ARTWORKS: Artwork[] = [
     title: 'An Ending, A Beginning',
     artistName: 'AnjolaDave',
     medium: 'Digital work, on-chain',
-    note: 'Includes a physical print in the exhibition',
+    note: 'Includes a 20 × 25 in physical print in the exhibition',
     isNFT: true,
     status: 'available',
     image: '/images/storefront/anjoladave-an-ending-a-beginning.png',
