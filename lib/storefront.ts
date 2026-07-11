@@ -177,8 +177,8 @@ export const ARTWORKS: Artwork[] = [
     artistName: 'Seungjun Na',
     medium: 'Printed collage, self-standing',
     note: 'Commissioned by Medici Magazine for OURS',
-    // Sheet: "$3,200 final (20% incl.)".
-    listPrice: 3200,
+    // Updated final price (incl. 20% premium), was $3,200.
+    listPrice: 4200,
     status: 'available',
   },
   {
