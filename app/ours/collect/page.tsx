@@ -1,9 +1,13 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
+import { Suspense } from 'react';
 import { PageHeader } from '@/components/PageHeader';
 import { Panel } from '@/components/PageFrame';
 import { ArtworkCard } from '@/components/storefront/ArtworkCard';
-import { getArtworksForDisplay } from '@/lib/storefront';
+import {
+  LedgerworksSection,
+  type LedgerworksPiece,
+} from '@/components/storefront/LedgerworksSection';
+import { getArtworksForDisplay, displayPrice, isSoldOut, statusLabel } from '@/lib/storefront';
 
 // OURS storefront — unlisted on purpose (see the build brief in
 // /storefront). Not linked from SiteNav, the /ours page, or the
@@ -37,9 +41,12 @@ export const dynamic = 'force-dynamic';
 // lib/storefront.ts's Artwork type — intrinsic sizing, no photo yet =
 // gray placeholder (see LedgerworksImage below).
 const LEDGERWORKS_WORKS: Array<{
+  id: string;
   artist: string;
   title: string;
   note: string;
+  description?: string;
+  details?: Array<{ label: string; value: string }>;
   href?: string;
   cta?: string;
   image?: string;
@@ -47,6 +54,7 @@ const LEDGERWORKS_WORKS: Array<{
   imageHeight?: number;
 }> = [
   {
+    id: 'recycle-group-forest-of-expired-links',
     artist: 'Recycle Group',
     title: 'Forest of Expired Links',
     note: 'ERC-721 video, on-chain. Includes the photographic print from the exhibition. Listed at $11,000 — terms with the gallery still in negotiation.',
@@ -54,6 +62,7 @@ const LEDGERWORKS_WORKS: Array<{
     cta: 'Purchase through Gazelli Art House',
   },
   {
+    id: 'nahuel-aquiles-dna-fractal-print',
     artist: 'Nahuel Aquiles',
     title: 'DNA-fractal print',
     note: 'Generative fractal from DNA data — create your own biodata print and collect the NFT, $40 / $90. A share of each sale supports FFA.',
@@ -65,43 +74,6 @@ const LEDGERWORKS_WORKS: Array<{
   },
 ];
 
-// Same image-slot treatment as ArtworkCard's — intrinsic sizing for a
-// real photo, neutral gray placeholder when one isn't in yet. Kept
-// local to this file since LEDGERWORKS_WORKS isn't an Artwork object.
-function LedgerworksImage({
-  title,
-  artist,
-  image,
-  imageWidth,
-  imageHeight,
-}: {
-  title: string;
-  artist: string;
-  image?: string;
-  imageWidth?: number;
-  imageHeight?: number;
-}) {
-  if (image && imageWidth && imageHeight) {
-    return (
-      <Image
-        src={image}
-        alt={`${title}, by ${artist}`}
-        width={imageWidth}
-        height={imageHeight}
-        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-        className="h-auto w-full rounded-xl"
-      />
-    );
-  }
-  return (
-    <div className="relative aspect-[4/5] overflow-hidden rounded-xl bg-ink/10">
-      <div className="absolute inset-0 grid place-items-center font-sans text-xs uppercase tracking-[0.14em] text-muted">
-        Image coming soon
-      </div>
-    </div>
-  );
-}
-
 export default async function OursCollectPage() {
   const artworks = await getArtworksForDisplay();
   // Ledgerworks pieces sold through FFA's own checkout are real
@@ -109,6 +81,54 @@ export default async function OursCollectPage() {
   // the Ledgerworks section below rather than the main exhibition grid.
   const physicalArtworks = artworks.filter((a) => !a.isNFT);
   const nftArtworks = artworks.filter((a) => a.isNFT);
+
+  // One normalized list for the Ledgerworks grid + detail modal —
+  // FFA/Stripe pieces and externally-fulfilled ones (Recycle Group,
+  // Nahuel Aquiles) render the same card, but branch on `kind` for
+  // price/status vs. an outbound link inside the modal.
+  const ledgerworksPieces: LedgerworksPiece[] = [
+    ...nftArtworks.map(
+      (a): LedgerworksPiece => ({
+        id: a.id,
+        title: a.title,
+        artistName: a.artistName,
+        medium: a.medium,
+        note: a.note,
+        description: a.description,
+        details: a.details,
+        image: a.image,
+        imageWidth: a.imageWidth,
+        imageHeight: a.imageHeight,
+        kind: 'checkout',
+        artworkId: a.id,
+        price: displayPrice(a),
+        priceIsEstimate: a.priceIsEstimate,
+        label: statusLabel(a),
+        showBuy:
+          !isSoldOut(a) &&
+          a.status !== 'reserved' &&
+          displayPrice(a) != null &&
+          !a.priceIsEstimate,
+      }),
+    ),
+    ...LEDGERWORKS_WORKS.map(
+      (w): LedgerworksPiece => ({
+        id: w.id,
+        title: w.title,
+        artistName: w.artist,
+        note: w.note,
+        description: w.description,
+        details: w.details,
+        image: w.image,
+        imageWidth: w.imageWidth,
+        imageHeight: w.imageHeight,
+        kind: 'external',
+        href: w.href ?? '#',
+        cta: w.cta ?? 'View listing',
+      }),
+    ),
+  ];
+
   return (
     <>
       <PageHeader
@@ -146,14 +166,20 @@ export default async function OursCollectPage() {
 
         {/* Ledgerworks (née "Web3 Wall") — the /q/web3 QR in the
             printed OURS program still points here (physical QR, source
-            path unchanged) but now lands on #ledgerworks. Most pieces
-            here now sell through the same FFA/Stripe checkout as the
-            exhibition above (real ArtworkCards, isNFT: true — see
-            lib/storefront.ts); FFA transfers the NFT after purchase.
-            Nahuel's is fulfilled externally (genpi.org) and keeps the
-            plain link-card treatment. scroll-mt keeps the heading clear
-            of the viewport top when the anchor jumps — important since
-            QR scans land here directly, skipping the grid above. */}
+            path unchanged) but now lands on #ledgerworks. Every piece
+            opens a detail modal (description, size, paper, frame,
+            etc.) rather than acting straight from the card — the
+            modal is also the QR-deep-link destination for individual
+            pieces on the exhibition wall (?piece=<id>, see
+            LedgerworksSection). Most pieces sell through the same
+            FFA/Stripe checkout as the exhibition above (real Artwork
+            entries, isNFT: true — see lib/storefront.ts); FFA
+            transfers the NFT after purchase. Recycle Group and
+            Nahuel Aquiles are fulfilled externally — their modal's
+            buy button links out instead. scroll-mt keeps the heading
+            clear of the viewport top when the anchor jumps —
+            important since QR scans land here directly, skipping the
+            grid above. */}
         <div id="ledgerworks" className="mt-20 scroll-mt-24 border-t-[3px] border-rule pt-16">
           <p className="text-sm uppercase tracking-[0.08em] text-sage">Ledgerworks</p>
           <h2 className="mt-6 text-h2 leading-[1.05] md:text-h2-lg">Collect on-chain.</h2>
@@ -161,41 +187,9 @@ export default async function OursCollectPage() {
             On-chain works from the exhibition&rsquo;s Ledgerworks artists. Buy through the
             page and FFA transfers the piece to your wallet after the sale.
           </p>
-          <ul className="mt-12 columns-1 gap-x-8 text-body leading-relaxed text-ink/80 sm:columns-2 lg:columns-3">
-            {nftArtworks.map((artwork) => (
-              <li key={artwork.id} className="mb-14 break-inside-avoid">
-                <ArtworkCard artwork={artwork} />
-              </li>
-            ))}
-            {LEDGERWORKS_WORKS.map((work) => (
-              <li key={work.title} className="mb-14 break-inside-avoid">
-                <LedgerworksImage
-                  title={work.title}
-                  artist={work.artist}
-                  image={work.image}
-                  imageWidth={work.imageWidth}
-                  imageHeight={work.imageHeight}
-                />
-                <p className="mt-5 text-sm uppercase tracking-[0.08em] text-sage">{work.artist}</p>
-                <h3 className="mt-3 text-h6 leading-tight text-ink md:text-h5">{work.title}</h3>
-                <p className="mt-2 text-sm text-muted">{work.note}</p>
-                {work.href ? (
-                  <a
-                    href={work.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-4 inline-flex items-center justify-center rounded-md border border-ink/20 px-6 py-2.5 text-sm uppercase tracking-[0.1em] text-ink transition hover:bg-ink/5"
-                  >
-                    {work.cta}
-                  </a>
-                ) : (
-                  <p className="mt-4 text-sm uppercase tracking-[0.1em] text-muted">
-                    Collect link coming soon
-                  </p>
-                )}
-              </li>
-            ))}
-          </ul>
+          <Suspense fallback={null}>
+            <LedgerworksSection pieces={ledgerworksPieces} />
+          </Suspense>
 
           {/* Same disclosure as the exhibition grid, repeated here —
               visitors from the /q/web3 QR code land on this anchor

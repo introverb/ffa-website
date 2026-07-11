@@ -21,6 +21,19 @@ export interface Artwork {
    * credits, donation terms) — the distilled version, not the blurb.
    */
   note?: string;
+  /**
+   * Longer-form text for the Ledgerworks detail modal — distinct from
+   * the one-line `note`. Only rendered there, never on the compact
+   * card. Unset = the modal just falls back to `note`.
+   */
+  description?: string;
+  /**
+   * Flexible spec rows for the Ledgerworks detail modal (size, paper,
+   * frame, edition, etc.) — varies enough piece to piece that a
+   * label/value list beats fixed fields. Unset or empty = no spec
+   * table shown.
+   */
+  details?: Array<{ label: string; value: string }>;
   /** 100% of this goes to the artist. Unset = not priced yet ("Price TBD"). */
   artistPrice?: number;
   /**
