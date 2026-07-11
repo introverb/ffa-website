@@ -163,8 +163,8 @@ export const ARTWORKS: Artwork[] = [
     artistName: 'Dylan Weiler',
     medium: 'Oil on canvas',
     note: 'Donated by the artist — 100% of proceeds go to FFA',
-    // Sheet: "$3,200 (final)", donated — 100% to FFA, no +20%.
-    listPrice: 3200,
+    // Updated final price, donated — 100% to FFA, no +20%. Was $3,200.
+    listPrice: 3800,
     status: 'available',
     image: '/images/storefront/dylan-weiler-possibilia.png',
     imageWidth: 808,
