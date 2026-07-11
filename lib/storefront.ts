@@ -111,10 +111,9 @@ export const ARTWORKS: Artwork[] = [
     artistName: 'RERO',
     medium: 'Burnt wood, metal',
     note: 'Commissioned for OURS',
-    // Sheet: FOR SALE $26,000, "red dot when sold" — supersedes the
-    // earlier sold-in-kind note.
-    listPrice: 26000,
-    status: 'available',
+    // Updated final price, sold — was $26,000, available.
+    listPrice: 30000,
+    status: 'sold',
     image: '/images/storefront/rero-a-new-city-will-be-built.jpg',
     imageWidth: 2000,
     imageHeight: 1449,
