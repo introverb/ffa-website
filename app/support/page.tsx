@@ -4,7 +4,6 @@ import { Panel } from '@/components/PageFrame';
 import { PageHeader } from '@/components/PageHeader';
 import { CommunityFund } from '@/components/CommunityFund';
 import { EthGiveButton } from '@/components/EthGiveButton';
-import { OursSponsorshipDialog } from '@/components/OursSponsorshipDialog';
 import { DafGrantDialog } from '@/components/DafGrantDialog';
 import { ScrollDepthMarker } from '@/components/ScrollDepthMarker';
 
@@ -312,10 +311,10 @@ export default function SupportPage() {
           relationship starts with a conversation, not a checkout, so
           the card CTAs route to the brief rather than every.org.
           Below the cards, the issue-underwriter callout (slow-
-          conversation $20k commitment) and the named-initiative
-          sponsorships (OURS, Industrial Garden) continue to live in
-          this panel — they are the other shapes of partner support
-          beyond patronage proper. id="partner" retained so any
+          conversation $20k commitment) and the Industrial Garden
+          named-initiative sponsorship continue to live in this panel
+          — they are the other shapes of partner support beyond
+          patronage proper. id="partner" retained so any
           inbound anchor links from elsewhere on the site still land
           here.
           Sits right under the Benefactors credit roll (the
@@ -346,8 +345,7 @@ export default function SupportPage() {
                     shareable document (its own typography, full
                     print styles, no SiteNav around it), so popping
                     a new tab keeps the visitor's place on /support
-                    when they close the brief. Same pattern as the
-                    OURS sponsorship-brief link further down. */}
+                    when they close the brief. */}
                 <Link
                   href={p.href}
                   target="_blank"
@@ -394,12 +392,13 @@ export default function SupportPage() {
           </div>
         </div>
 
-        {/* Named initiatives — OURS and Industrial Garden — folded in
-            from the old /partnerships page. Sponsorship offerings are
-            still in development for both, so each routes through its
-            own conversation flow (OursSponsorshipDialog for OURS,
-            contact form for Industrial Garden) rather than a one-click
-            donate button. */}
+        {/* Named initiatives — folded in from the old /partnerships
+            page. Industrial Garden's sponsorship offering is still in
+            development, so it routes through a conversation (contact
+            form) rather than a one-click donate button. OURS isn't
+            soliciting sponsors right now, so its card was pulled from
+            here — /support#partner shouldn't be pitching sponsorship
+            to the same people currently being invited as guests. */}
         <div className="mt-16">
           <p className="text-sm uppercase tracking-[0.08em] text-sage">
             Named initiatives
@@ -407,48 +406,7 @@ export default function SupportPage() {
           <h3 className="mt-6 text-h3 leading-tight md:text-h3-lg">
             Sponsor a specific program.
           </h3>
-          <div className="mt-10 grid gap-6 md:grid-cols-2">
-            <div className="flex flex-col rounded-2xl bg-cream p-10 md:p-12">
-              <p className="text-sm uppercase tracking-[0.08em] text-sage">
-                Sponsorship, in development
-              </p>
-              <h4 className="mt-6 text-h3 leading-tight md:text-h3-lg">
-                The OURS exhibition.
-              </h4>
-              <p className="mt-6 text-body leading-relaxed text-ink/80">
-                OURS pairs speculative artwork with the science and engineering
-                that could bring it into being — a curated, traveling show.
-                We&rsquo;re opening sponsorship for the inaugural run.
-              </p>
-              <div className="mt-auto pt-8">
-                <div className="flex flex-wrap gap-3">
-                  <Link
-                    href="/ours"
-                    data-goatcounter-click="partner:ours-details"
-                    className="btn"
-                  >
-                    Event details
-                  </Link>
-                  <OursSponsorshipDialog />
-                </div>
-                {/* Secondary link to the full sponsorship brief — a
-                    self-contained marketing document with tiers,
-                    artists, and contact info. Lives at /ours/sponsor-brief
-                    (static HTML in /public surfaced via next.config
-                    rewrite). Opens in a new tab so the visitor doesn't
-                    lose their place on /support. */}
-                <a
-                  href="/ours/sponsor-brief"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  data-goatcounter-click="partner:ours-brief"
-                  className="mt-4 inline-block text-sm underline decoration-from-font underline-offset-4 text-ink/70 hover:text-sage"
-                >
-                  View the sponsorship brief &rarr;
-                </a>
-              </div>
-            </div>
-
+          <div className="mt-10 grid gap-6 md:max-w-xl">
             <div className="flex flex-col rounded-2xl bg-cream p-10 md:p-12">
               <p className="text-sm uppercase tracking-[0.08em] text-sage">
                 Sponsorship, in development

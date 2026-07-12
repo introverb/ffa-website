@@ -120,20 +120,20 @@ export default function OursPage() {
           </div>
         </div>
 
-        {/* Engage doors — three compact CTA cards (attend, exhibit,
-            sponsor): the three ways to join the evening. No eyebrow or
-            heading of its own and no divider line above — the single
-            "The invitation" eyebrow on the Why-now block above covers
-            this whole area, so the doors read as its continuation.
-            id="engage" kept for inbound anchors. */}
+        {/* Engage doors — two compact CTA cards (attend, exhibit): the
+            two ways to join the evening. No eyebrow or heading of its
+            own and no divider line above — the single "The invitation"
+            eyebrow on the Why-now block above covers this whole area,
+            so the doors read as its continuation. id="engage" kept for
+            inbound anchors. */}
         <div id="engage" className="mt-16">
-          {/* Three compact "doors" — one-line cards, uniform height,
-              each a single CTA. Attendance and sponsorship link out
-              (Luma RSVP, sponsor brief); artwork opens a modal so the
-              form lives off-card and the row stays short. items-stretch
-              keeps the trio equal-height; each door's CTA is pinned to
-              the bottom (mt-auto) so the buttons line up across the row. */}
-          <div className="grid gap-6 md:grid-cols-3 md:items-stretch">
+          {/* Two compact "doors" — one-line cards, uniform height, each
+              a single CTA. Attendance links out (Luma RSVP); artwork
+              opens a modal so the form lives off-card and the row stays
+              short. items-stretch keeps the pair equal-height; each
+              door's CTA is pinned to the bottom (mt-auto) so the
+              buttons line up across the row. */}
+          <div className="grid gap-6 md:grid-cols-2 md:items-stretch">
             <EngageDoor
               title="Join the evening"
               blurb="The room is intimate and the list is limited, but we&rsquo;re still welcoming guests."
@@ -157,45 +157,6 @@ export default function OursPage() {
             >
               <OursArtworkDialog />
             </EngageDoor>
-
-            {/* Sponsor door keeps the sharp discovery artwork with a
-                frosted-glass CTA (rather than the frosted-blur text-
-                card treatment of the other two). The button matches
-                the other doors' shape (rounded-md) and position
-                (bottom-left, at the same p-6/p-7 inset their CTAs
-                sit), just kept frosted so it reads on the image.
-                Compact fixed height on mobile; md:h-full lets the grid
-                stretch it to match the two text doors on desktop. */}
-            <div className="relative h-52 overflow-hidden rounded-2xl md:h-full">
-              <Image
-                src="/images/discovery.jpg"
-                alt=""
-                fill
-                sizes="(max-width: 768px) 100vw, 33vw"
-                className="object-cover"
-              />
-              {/* Top scrim so the white title reads over the bright sky
-                  in the discovery image. */}
-              <div
-                aria-hidden
-                className="absolute inset-x-0 top-0 h-2/3 bg-gradient-to-b from-ink/65 to-transparent"
-              />
-              {/* Title overlaid top-left, matching the other doors'
-                  title position (same p-6/p-7 inset), white on the
-                  scrim. */}
-              <h3 className="absolute left-6 right-6 top-6 text-h5 leading-tight text-white md:left-7 md:right-7 md:top-7">
-                Become a Patron or Partner
-              </h3>
-              <a
-                href="/ours/sponsor-brief"
-                target="_blank"
-                rel="noopener noreferrer"
-                data-goatcounter-click="ours:sponsor-event"
-                className="absolute bottom-6 left-6 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-white/40 bg-white/15 px-7 py-3 text-sm uppercase tracking-[0.12em] text-white backdrop-blur-md transition hover:bg-white/30 md:bottom-7 md:left-7"
-              >
-                Sponsor the event
-              </a>
-            </div>
           </div>
         </div>
 

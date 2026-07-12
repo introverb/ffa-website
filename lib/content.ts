@@ -66,8 +66,6 @@ export const INITIATIVES = [
     // Luma). External hrefs (http…) render as new-tab anchors in
     // Initiatives.tsx; internal paths stay client-side Links.
     noteHref: 'https://luma.com/0hakp1pz',
-    secondaryNote: 'Sponsor the Event',
-    secondaryNoteHref: '/ours/sponsor-brief',
     tertiaryNote: 'Submit Artwork',
     tertiaryNoteHref: '/ours/artist-brief',
     blurb:

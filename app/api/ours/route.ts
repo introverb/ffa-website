@@ -8,7 +8,6 @@ import { isSpam } from '@/lib/spam';
 //   - artwork       (full-page form on /ours)
 //   - involvement   (modal pop-up on /ours discovery image — speaking,
 //                    funding, other contributions)
-//   - sponsorship   (modal pop-up on /support#partner OURS sponsor card)
 //   - speaker       (legacy form, no longer in the UI; route preserved
 //                    in case the form returns)
 //
@@ -27,12 +26,7 @@ import { isSpam } from '@/lib/spam';
 
 export const runtime = 'nodejs';
 
-type EngagementType =
-  | 'guestlist'
-  | 'artwork'
-  | 'speaker'
-  | 'involvement'
-  | 'sponsorship';
+type EngagementType = 'guestlist' | 'artwork' | 'speaker' | 'involvement';
 
 export async function POST(req: NextRequest) {
   try {
@@ -48,11 +42,7 @@ export async function POST(req: NextRequest) {
     const type = String(formData.get('type') ?? '') as EngagementType;
     const isModal = req.nextUrl.searchParams.get('modal') === '1';
 
-    if (
-      !['guestlist', 'artwork', 'speaker', 'involvement', 'sponsorship'].includes(
-        type,
-      )
-    ) {
+    if (!['guestlist', 'artwork', 'speaker', 'involvement'].includes(type)) {
       return NextResponse.json({ error: 'Invalid engagement type' }, { status: 400 });
     }
 
@@ -214,39 +204,6 @@ ${anythingElse || '(none)'}`,
 <h3 style="font-family:Helvetica,Arial,sans-serif;">How they&rsquo;d like to be involved</h3>
 <p style="font-family:Helvetica,Arial,sans-serif;white-space:pre-wrap;">${escapeHtml(how)}</p>
 ${anythingElse ? `<h3 style="font-family:Helvetica,Arial,sans-serif;">Anything else</h3><p style="font-family:Helvetica,Arial,sans-serif;white-space:pre-wrap;">${escapeHtml(anythingElse)}</p>` : ''}`,
-    };
-  }
-
-  if (type === 'sponsorship') {
-    const name = field(data, 'name');
-    const email = field(data, 'email');
-    const organization = field(data, 'organization');
-    const level = field(data, 'level');
-    const pitch = field(data, 'pitch');
-    if (!name || !email || !organization || !pitch) {
-      return { error: 'Name, email, organization, and pitch are required.' };
-    }
-    return {
-      subject: `OURS sponsorship interest - ${organization} (${name})`,
-      replyTo: email,
-      text: `OURS sponsorship inquiry
-
-Name: ${name}
-Email: ${email}
-Organization: ${organization}
-Level: ${level || '(not provided)'}
-
-Pitch:
-${pitch}`,
-      html: `<h2 style="margin:0 0 16px;font-family:Helvetica,Arial,sans-serif;">OURS sponsorship inquiry</h2>
-<table cellpadding="6" cellspacing="0" style="font-family:Helvetica,Arial,sans-serif;border-collapse:collapse;">
-  <tr><td><strong>Name:</strong></td><td>${escapeHtml(name)}</td></tr>
-  <tr><td><strong>Email:</strong></td><td><a href="mailto:${escapeHtml(email)}">${escapeHtml(email)}</a></td></tr>
-  <tr><td><strong>Organization:</strong></td><td>${escapeHtml(organization)}</td></tr>
-  <tr><td><strong>Level:</strong></td><td>${level ? escapeHtml(level) : '<em>(not provided)</em>'}</td></tr>
-</table>
-<h3 style="font-family:Helvetica,Arial,sans-serif;">Pitch</h3>
-<p style="font-family:Helvetica,Arial,sans-serif;white-space:pre-wrap;">${escapeHtml(pitch)}</p>`,
     };
   }
 

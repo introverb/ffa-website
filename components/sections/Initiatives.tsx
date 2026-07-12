@@ -56,11 +56,11 @@ export function Initiatives() {
                       first-line + Read more so piling CTAs on top of
                       the collapsed text would crowd the layout.
                       Primary CTA is btn-solid (sage). Optional
-                      secondary CTA renders next to it in a frosted-
+                      tertiary CTA renders next to it in a frosted-
                       pill aesthetic — translucent ink fill, soft
                       border, backdrop blur — at the same shape +
                       padding as btn-solid so the two read as a pair. */}
-                  {(i.note || i.secondaryNote || i.tertiaryNote) && (
+                  {(i.note || i.tertiaryNote) && (
                     <div className="hidden md:flex md:flex-wrap md:items-center md:gap-2">
                       {/* Compact button sizing (px-4 py-2.5, text-xs) so up
                           to three CTAs fit on a single row inside the
@@ -92,16 +92,6 @@ export function Initiatives() {
                         ) : (
                           <strong>{i.note}</strong>
                         ))}
-                      {i.secondaryNote && i.secondaryNoteHref && (
-                        <a
-                          href={i.secondaryNoteHref}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center justify-center rounded-md border border-ink/25 bg-ink/5 px-4 py-2.5 text-xs uppercase tracking-[0.1em] text-ink backdrop-blur-sm transition hover:bg-ink/10"
-                        >
-                          {i.secondaryNote}
-                        </a>
-                      )}
                       {i.tertiaryNote && i.tertiaryNoteHref && (
                         <a
                           href={i.tertiaryNoteHref}
@@ -119,7 +109,7 @@ export function Initiatives() {
                       through at md+. */}
                   <InitiativeBlurb
                     blurb={i.blurb}
-                    hasNote={Boolean(i.note || i.secondaryNote || i.tertiaryNote)}
+                    hasNote={Boolean(i.note || i.tertiaryNote)}
                   />
                 </div>
               </div>
