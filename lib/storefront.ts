@@ -154,17 +154,17 @@ export const ARTWORKS: Artwork[] = [
     // is a limited archival print of it, made explicit in the medium
     // so nobody mistakes this for the original. Prints fulfil
     // post-event.
-    title: '02 Blue (prints)',
+    title: 'Modelli Circolari · 02 Blue',
     artistName: 'Giorgia Lupi',
-    medium: 'Data art — archival print of the original, edition of 25',
+    medium: 'Archival print, 14 × 18 in, edition of 25 — print-on-demand, unframed',
     note: 'Original (gouache, acrylic, ink, and threads on paper) on loan to OURS. Signed certificate of authenticity included.',
     editionSize: 25,
     unitsSold: 0,
     status: 'available',
-    // $400 final buyer price, per print. FFA and the artist split the
+    // Updated final price, per print. FFA and the artist split the
     // proceeds 50/50 — an internal settlement detail, not reflected on
-    // the page.
-    listPrice: 400,
+    // the page. Was $400.
+    listPrice: 650,
     image: '/images/storefront/giorgia-lupi-02-blue-prints.jpeg',
     imageWidth: 1046,
     imageHeight: 1358,
@@ -195,15 +195,18 @@ export const ARTWORKS: Artwork[] = [
   },
   {
     id: 'denis-pakowacz-magnetobiology',
-    // Prints hang at OURS; the hand-made originals are what sold.
-    // Sheet: "originals SOLD (mark on website)".
     title: 'Magnetobiology',
     artistName: 'Denis Pakowacz',
-    medium: 'Framed prints ×5 (originals sold)',
+    medium: 'Prints, unframed · edition of 5 (Leverage keeps 1, 4 for sale)',
     note: 'Commissioned by Leverage for OURS',
-    // Placard: $5,600 for the 5-piece set — shown with the Sold mark.
-    listPrice: 5600,
-    status: 'sold',
+    // $550 per set. Edition of 5, but Leverage keeps 1 free — editionSize
+    // is set to the 4 actually for sale, not the full physical edition,
+    // so the card doesn't show sold out until those 4 are gone. Was a
+    // single $5,600 sold lot; restructured to sell individually.
+    listPrice: 550,
+    editionSize: 4,
+    unitsSold: 0,
+    status: 'available',
   },
   {
     id: 'sue-ellen-zhang-oil-painting',
@@ -234,11 +237,13 @@ export const ARTWORKS: Artwork[] = [
     id: 'olli-payne-nucleonics',
     title: 'Nucleonics',
     artistName: 'Olli Payne',
-    medium: 'Framed metal pieces',
+    medium: 'Metal pieces, unframed · edition of 10 (Olli keeps 1, 9 for sale)',
     note: 'Materials donated by the Nucleonics Institute',
-    // Sheet: "$1,800 (final)", no +20% — replaces the old ~$3,200
-    // estimate.
-    listPrice: 1800,
+    // $550 per piece. Edition of 10, but Olli keeps 1 free — editionSize
+    // is set to the 9 actually for sale. Was a single $1,800 piece.
+    listPrice: 550,
+    editionSize: 9,
+    unitsSold: 0,
     status: 'available',
   },
   // TEMPORARY — a $1 live test of the checkout flow (Stripe is still
