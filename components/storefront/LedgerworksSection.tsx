@@ -127,8 +127,8 @@ function LedgerworksModal({
   return (
     <FormDialog open onClose={onClose} title={piece.title}>
       <p className="text-sm uppercase tracking-[0.08em] text-sage">{piece.artistName}</p>
-      <div className="mt-5 max-w-sm">
-        <PieceImage piece={piece} sizes="(max-width: 640px) 90vw, 500px" />
+      <div className="mt-4 w-40">
+        <PieceImage piece={piece} sizes="160px" />
       </div>
       {piece.medium && <p className="mt-5 text-sm text-muted">{piece.medium}</p>}
       <p className="mt-3 text-body leading-relaxed text-ink/80">
