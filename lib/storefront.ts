@@ -156,7 +156,7 @@ export const ARTWORKS: Artwork[] = [
     // post-event.
     title: 'Modelli Circolari · 02 Blue',
     artistName: 'Giorgia Lupi',
-    medium: 'Archival print, 14 × 18 in, edition of 25 — print-on-demand, unframed',
+    medium: 'Archival print, 14 × 18 in, edition of 25, unframed',
     note: 'Original (gouache, acrylic, ink, and threads on paper) on loan to OURS. Signed certificate of authenticity included.',
     editionSize: 25,
     unitsSold: 0,
@@ -197,12 +197,12 @@ export const ARTWORKS: Artwork[] = [
     id: 'denis-pakowacz-magnetobiology',
     title: 'Magnetobiology',
     artistName: 'Denis Pakowacz',
-    medium: 'Prints, unframed · edition of 5 (Leverage keeps 1, 4 for sale)',
+    medium: 'Prints, unframed · edition of 5',
     note: 'Commissioned by Leverage for OURS',
-    // $550 per set. Edition of 5, but Leverage keeps 1 free — editionSize
-    // is set to the 4 actually for sale, not the full physical edition,
-    // so the card doesn't show sold out until those 4 are gone. Was a
-    // single $5,600 sold lot; restructured to sell individually.
+    // $550 per set. Leverage keeps 1 of the 5 free — editionSize is set
+    // to the 4 actually for sale (not shown on the card), so it grays
+    // out once those 4 are gone rather than at 5. Was a single $5,600
+    // sold lot; restructured to sell individually.
     listPrice: 550,
     editionSize: 4,
     unitsSold: 0,
@@ -237,10 +237,12 @@ export const ARTWORKS: Artwork[] = [
     id: 'olli-payne-nucleonics',
     title: 'Nucleonics',
     artistName: 'Olli Payne',
-    medium: 'Metal pieces, unframed · edition of 10 (Olli keeps 1, 9 for sale)',
+    medium: 'Metal pieces, unframed · edition of 10',
     note: 'Materials donated by the Nucleonics Institute',
-    // $550 per piece. Edition of 10, but Olli keeps 1 free — editionSize
-    // is set to the 9 actually for sale. Was a single $1,800 piece.
+    // $550 per piece. Olli keeps 1 of the 10 free — editionSize is set
+    // to the 9 actually for sale (not shown on the card), so it grays
+    // out once those 9 are gone rather than at 10. Was a single $1,800
+    // piece.
     listPrice: 550,
     editionSize: 9,
     unitsSold: 0,
