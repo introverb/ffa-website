@@ -218,7 +218,7 @@ export function LedgerworksSection({ pieces }: { pieces: LedgerworksPiece[] }) {
               <div className="mt-4 flex items-center justify-between gap-3">
                 <CardPriceOrStatus piece={piece} />
                 <span className="inline-flex items-center justify-center rounded-md border border-ink/20 px-5 py-2 text-xs uppercase tracking-[0.1em] text-ink">
-                  View piece
+                  {piece.kind === 'checkout' ? 'Buy piece' : 'View piece'}
                 </span>
               </div>
             </button>
