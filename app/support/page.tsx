@@ -198,8 +198,8 @@ export default function SupportPage() {
 
       {/* Benefactors — quiet credit roll for the foundations, grant
           programs, and founding patrons backing FFA. Leads the page,
-          above Patronage, as the credibility signal: a visitor meets
-          the real backers before the page asks them to become one.
+          above Give, as the credibility signal: a visitor meets the
+          real backers before the page asks them to become one.
           Treatment is restrained: lockups normalized to a shared
           optical band, captions in the sage eyebrow style. Each entry
           links out in a new tab so the visitor's place on /support
@@ -298,156 +298,14 @@ export default function SupportPage() {
         </div>
       </Panel>
 
-      {/* Community Fund — FFA's match fund on Artizen, surfaced live.
-          Sits right under the Benefactors credit roll: the visitor meets
-          the backers, then the community-powered way to join them, before
-          the larger Patronage asks. Artizen blocks iframing, so this is a
-          native panel that reads the live numbers from their public API
-          (see CommunityFund.tsx). */}
-      <CommunityFund />
-
-      {/* Patronage — the two patron paths (Private / Corporate). Each
-          card links to its standalone brief in /public; the patron
-          relationship starts with a conversation, not a checkout, so
-          the card CTAs route to the brief rather than every.org.
-          Below the cards, the issue-underwriter callout (slow-
-          conversation $20k commitment) and the Industrial Garden
-          named-initiative sponsorship continue to live in this panel
-          — they are the other shapes of partner support beyond
-          patronage proper. id="partner" retained so any
-          inbound anchor links from elsewhere on the site still land
-          here.
-          Sits right under the Benefactors credit roll (the
-          credibility signal) and above the Give / Refer / Other-ways
-          donor-action panel, because patronage is the foundation-
-          defining relationship offer — the rest of the page is funded
-          by it. */}
-      <Panel id="partner" variant="white" className="md:p-16">
-        <ScrollDepthMarker eventName="scroll:support:partner-visible" />
-        <p className="text-sm uppercase tracking-[0.08em] text-sage">Patronage</p>
-        <h2 className="mt-6 max-w-4xl text-h2 leading-[1.05] md:text-h2-lg">
-          Fund a more optimistic future.
-        </h2>
-
-        <div className="mt-12 grid gap-10 md:grid-cols-2">
-          {PATRONAGE.map((p) => (
-            <div
-              key={p.name}
-              className="flex flex-col justify-between rounded-2xl bg-cream p-6 md:p-10"
-            >
-              <div>
-                <p className="text-sm uppercase tracking-[0.08em] text-sage">{p.name}</p>
-                <p className="mt-5 text-h2 md:text-h2-lg">{p.amount}</p>
-                <p className="mt-5 text-body leading-relaxed text-ink/80">{p.blurb}</p>
-              </div>
-              <div className="mt-8">
-                {/* Opens in a new tab — the brief is a standalone
-                    shareable document (its own typography, full
-                    print styles, no SiteNav around it), so popping
-                    a new tab keeps the visitor's place on /support
-                    when they close the brief. */}
-                <Link
-                  href={p.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  data-goatcounter-click={`patron:${p.slug}-brief`}
-                  className="btn-solid"
-                >
-                  View the brief
-                </Link>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Issue-underwriter callout — bordered card with no fill
-            distinguishes it from the solid cream tier cards above:
-            "different kind of offer" (a relationship) rather than a
-            fourth tier (a click). Lead with the dollar figure so the
-            commitment is explicit. */}
-        <div className="mt-12 rounded-2xl border-[3px] border-ink/20 p-6 md:p-10">
-          <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between md:gap-10">
-            <div className="md:max-w-2xl">
-              <p className="text-sm uppercase tracking-[0.08em] text-sage">
-                Fund your vision
-              </p>
-              <p className="mt-5 text-h2 leading-[1.05] md:text-h2-lg">
-                Underwrite a complete issue of Possibilia Magazine.
-              </p>
-              <p className="mt-5 text-body leading-relaxed text-ink/80">
-                Pick the futures you want to see come to life. Choose the
-                concepts for ten short stories, the scientific fields and
-                technological innovations to explore, and the direction of the
-                artwork commissioned around them. If you&rsquo;d like to
-                underwrite a full issue, we&rsquo;d love to start a conversation.
-              </p>
-            </div>
-            <Link
-              href="/contact?topic=Underwrite a Possibilia issue"
-              data-goatcounter-click="partner:issue-underwriter"
-              className="btn-solid shrink-0"
-            >
-              Start the conversation
-            </Link>
-          </div>
-        </div>
-
-        {/* Named initiatives — folded in from the old /partnerships
-            page. Industrial Garden's sponsorship offering is still in
-            development, so it routes through a conversation (contact
-            form) rather than a one-click donate button. OURS isn't
-            soliciting sponsors right now, so its card was pulled from
-            here — /support#partner shouldn't be pitching sponsorship
-            to the same people currently being invited as guests. */}
-        <div className="mt-16">
-          <p className="text-sm uppercase tracking-[0.08em] text-sage">
-            Named initiatives
-          </p>
-          <h3 className="mt-6 text-h3 leading-tight md:text-h3-lg">
-            Sponsor a specific program.
-          </h3>
-          <div className="mt-10 grid gap-6 md:max-w-xl">
-            <div className="flex flex-col rounded-2xl bg-cream p-10 md:p-12">
-              <p className="text-sm uppercase tracking-[0.08em] text-sage">
-                Sponsorship, in development
-              </p>
-              <h4 className="mt-6 text-h3 leading-tight md:text-h3-lg">
-                The Industrial Garden.
-              </h4>
-              <p className="mt-6 text-body leading-relaxed text-ink/80">
-                Industrial Garden is the foundation&rsquo;s proposed maker space
-                in New York City — a community workspace and a self-sustaining
-                model for small creators and hard-tech founders. Sponsorship
-                opens as we move from proposal to exhibit.
-              </p>
-              <div className="mt-auto pt-8">
-                <Link
-                  href="/contact?topic=Industrial Garden sponsorship"
-                  data-goatcounter-click="partner:industrial-garden"
-                  className="btn"
-                >
-                  Request a brief
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </Panel>
-
-      {/* Donor-action panel — three sections in one card. Top row is
-          the Give | Other Ways vertical split (conversion path on the
-          left, tax-savvier vehicles on the right). Below the row, a
-          full-width Refer Us section for connectors who can introduce
-          us to a donor or fund. All three are the actions a sympathetic
-          visitor can take from this page; consolidating them keeps the
-          donor-paths in one panel. Sits between the Patronage lead
-          panel above and the "Not sure where you fit?" catch-all
-          below — donor-paths in the middle so the relationship-shaped
-          patron offer leads, the broad give/refer mechanics follow,
-          and the soft off-ramp closes.
-          3px dividers — vertical between Give / Other Ways on desktop,
-          horizontal under the row before Refer — match the stroke of
-          the rest of the site's decorative hairlines. */}
+      {/* Give | Other Ways — leads right after Benefactors now (swapped
+          with Community Fund, which moved to after Patronage): the
+          direct conversion path comes first, before the deeper patron
+          ask. 3px vertical divider between the two columns on desktop
+          matches the stroke of the rest of the site's decorative
+          hairlines. Refer Us used to live below this row in the same
+          panel; it's now its own standalone panel near the bottom of
+          the page (see id="refer" further down). */}
       <Panel id="give" variant="white" full className="overflow-hidden">
         <div className="grid md:grid-cols-2 md:divide-x-[3px] md:divide-ink/20">
           {/* Left half — Give. Primary CTA path. Flex column so the
@@ -539,47 +397,128 @@ export default function SupportPage() {
             </p>
           </div>
         </div>
+      </Panel>
 
-        {/* Horizontal divider matching the 3px vertical divider above;
-            on mobile (columns stacked), it sits between Other Ways and
-            Refer Us, keeping the rhythm continuous. */}
-        <div className="h-[3px] bg-ink/20" />
+      {/* Patronage — the two patron paths (Private / Corporate). Each
+          card links to its standalone brief in /public; the patron
+          relationship starts with a conversation, not a checkout, so
+          the card CTAs route to the brief rather than every.org.
+          Below the cards, the issue-underwriter callout (slow-
+          conversation $20k commitment) lives in this panel too — it's
+          another shape of partner support beyond patronage proper.
+          id="partner" retained so any inbound anchor links from
+          elsewhere on the site still land here. */}
+      <Panel id="partner" variant="white" className="md:p-16">
+        <ScrollDepthMarker eventName="scroll:support:partner-visible" />
+        <p className="text-sm uppercase tracking-[0.08em] text-sage">Patronage</p>
+        <h2 className="mt-6 max-w-4xl text-h2 leading-[1.05] md:text-h2-lg">
+          Fund a more optimistic future.
+        </h2>
 
-        {/* Refer Us — folded in from its own standalone panel. Lives
-            as a horizontal third section under the Give | Other Ways
-            split. Full-width because the body copy + CTA wants the
-            horizontal breathing room rather than fighting for a narrow
-            column. id="refer" preserved so any anchor links to #refer
-            from elsewhere on the site still land here. */}
-        <div id="refer" className="p-8 md:p-14">
-          <div className="grid gap-12 md:grid-cols-[1fr_1.6fr]">
-            <div>
-              <p className="text-sm uppercase tracking-[0.08em] text-sage">Refer us</p>
-              <h2 className="mt-6 text-h2 leading-[1.05] md:text-h2-lg">
-                Open a door for us.
-              </h2>
-            </div>
-            <div className="flex flex-col text-body-lg leading-relaxed text-ink/85">
-              <p>
-                If you sit on a foundation board, advise a grant program, or have ties to a
-                donor, fund, or competition that supports the arts, science writing, or
-                future-oriented media, we&rsquo;d love an introduction. We&rsquo;re a
-                501(c)(3) actively building the grant pipeline for Possibilia, the OURS
-                exhibition, and the Industrial Garden initiative.
-              </p>
-              <p className="mt-5">
-                We can prepare a tailored brief for your contact within a week. Send a name,
-                an email, and a sentence about why you think it&rsquo;s a fit.
-              </p>
-              <div className="mt-auto pt-10">
+        <div className="mt-12 grid gap-10 md:grid-cols-2">
+          {PATRONAGE.map((p) => (
+            <div
+              key={p.name}
+              className="flex flex-col justify-between rounded-2xl bg-cream p-6 md:p-10"
+            >
+              <div>
+                <p className="text-sm uppercase tracking-[0.08em] text-sage">{p.name}</p>
+                <p className="mt-5 text-h2 md:text-h2-lg">{p.amount}</p>
+                <p className="mt-5 text-body leading-relaxed text-ink/80">{p.blurb}</p>
+              </div>
+              <div className="mt-8">
+                {/* Opens in a new tab — the brief is a standalone
+                    shareable document (its own typography, full
+                    print styles, no SiteNav around it), so popping
+                    a new tab keeps the visitor's place on /support
+                    when they close the brief. */}
                 <Link
-                  href="/contact?topic=Refer a donor or foundation"
-                  data-goatcounter-click="refer:make-introduction"
+                  href={p.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-goatcounter-click={`patron:${p.slug}-brief`}
                   className="btn-solid"
                 >
-                  Make an introduction
+                  View the brief
                 </Link>
               </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Issue-underwriter callout — bordered card with no fill
+            distinguishes it from the solid cream tier cards above:
+            "different kind of offer" (a relationship) rather than a
+            fourth tier (a click). Lead with the dollar figure so the
+            commitment is explicit. */}
+        <div className="mt-12 rounded-2xl border-[3px] border-ink/20 p-6 md:p-10">
+          <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between md:gap-10">
+            <div className="md:max-w-2xl">
+              <p className="text-sm uppercase tracking-[0.08em] text-sage">
+                Fund your vision
+              </p>
+              <p className="mt-5 text-h2 leading-[1.05] md:text-h2-lg">
+                Underwrite a complete issue of Possibilia Magazine.
+              </p>
+              <p className="mt-5 text-body leading-relaxed text-ink/80">
+                Pick the futures you want to see come to life. Choose the
+                concepts for ten short stories, the scientific fields and
+                technological innovations to explore, and the direction of the
+                artwork commissioned around them. If you&rsquo;d like to
+                underwrite a full issue, we&rsquo;d love to start a conversation.
+              </p>
+            </div>
+            <Link
+              href="/contact?topic=Underwrite a Possibilia issue"
+              data-goatcounter-click="partner:issue-underwriter"
+              className="btn-solid shrink-0"
+            >
+              Start the conversation
+            </Link>
+          </div>
+        </div>
+      </Panel>
+
+      {/* Community Fund — FFA's match fund on Artizen, surfaced live.
+          Now sits after Patronage (swapped with the Give panel, which
+          leads right after Benefactors instead). Artizen blocks
+          iframing, so this is a native panel that reads the live
+          numbers from their public API (see CommunityFund.tsx). */}
+      <CommunityFund />
+
+      {/* Refer Us — pulled out into its own standalone panel (used to
+          be a third section folded into the Give panel below the
+          Give | Other Ways row). Sits last before the catch-all soft
+          off-ramp. id="refer" retained so any anchor links to #refer
+          from elsewhere on the site still land here. */}
+      <Panel id="refer" variant="white" className="md:p-16">
+        <div className="grid gap-12 md:grid-cols-[1fr_1.6fr]">
+          <div>
+            <p className="text-sm uppercase tracking-[0.08em] text-sage">Refer us</p>
+            <h2 className="mt-6 text-h2 leading-[1.05] md:text-h2-lg">
+              Open a door for us.
+            </h2>
+          </div>
+          <div className="flex flex-col text-body-lg leading-relaxed text-ink/85">
+            <p>
+              If you sit on a foundation board, advise a grant program, or have ties to a
+              donor, fund, or competition that supports the arts, science writing, or
+              future-oriented media, we&rsquo;d love an introduction. We&rsquo;re a
+              501(c)(3) actively building the grant pipeline for Possibilia, the OURS
+              exhibition, and the Industrial Garden initiative.
+            </p>
+            <p className="mt-5">
+              We can prepare a tailored brief for your contact within a week. Send a name,
+              an email, and a sentence about why you think it&rsquo;s a fit.
+            </p>
+            <div className="mt-auto pt-10">
+              <Link
+                href="/contact?topic=Refer a donor or foundation"
+                data-goatcounter-click="refer:make-introduction"
+                className="btn-solid"
+              >
+                Make an introduction
+              </Link>
             </div>
           </div>
         </div>
