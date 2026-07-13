@@ -184,14 +184,15 @@ export const ARTWORKS: Artwork[] = [
   },
   {
     id: 'seungjun-na-printed-collage',
-    // Title still TBD with the artist — placard doc has [title].
-    title: 'printed collage',
+    title: 'Paradise of Rumors',
     artistName: 'Seungjun Na',
-    medium: 'Printed collage, self-standing',
+    medium: 'Digital collage · archival print',
     note: 'Commissioned by Medici Magazine for OURS',
-    // Updated final price (incl. 20% premium), was $3,200.
     listPrice: 4200,
     status: 'available',
+    image: '/images/storefront/seungjun-na-paradise-of-rumors.jpg',
+    imageWidth: 2000,
+    imageHeight: 2667,
   },
   {
     id: 'denis-pakowacz-magnetobiology',
@@ -236,7 +237,7 @@ export const ARTWORKS: Artwork[] = [
     id: 'olli-payne-nucleonics',
     title: 'Nucleonics',
     artistName: 'Olli Payne',
-    medium: 'Metal pieces, unframed · edition of 10',
+    medium: 'Prints, unframed · edition of 10',
     note: 'Materials donated by the Nucleonics Institute',
     // $550 per piece. Olli keeps 1 of the 10 free — editionSize is set
     // to the 9 actually for sale (not shown on the card), so it grays
