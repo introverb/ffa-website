@@ -50,6 +50,17 @@ const nextConfig = {
         source: '/patrons/corporate',
         destination: '/patrons-corporate.html',
       },
+      // Possibilia Issue 0 pre-order interstitial — same standalone
+      // static-HTML pattern as the briefs above. Walks a buyer through
+      // Artizen's Rewards section (screenshot + 3 steps + the "the big
+      // support bar mints an artifact, not the magazine" warning)
+      // before handing off to the real Artizen checkout. /q/mag (the
+      // program's presale QR, p17 + p45) now points here instead of
+      // straight to Artizen — see the redirect below.
+      {
+        source: '/preorder',
+        destination: '/preorder.html',
+      },
     ];
   },
   async redirects() {
@@ -99,10 +110,13 @@ const nextConfig = {
         destination: 'https://www.every.org/foundation-for-future-aesthetics/donate',
         statusCode: 302,
       },
-      // Possibilia Issue 0 pre-order (program p17 + p45).
+      // Possibilia Issue 0 pre-order (program p17 + p45). Routes through
+      // the /preorder interstitial (screenshot + steps + the "artifact
+      // vs. magazine" warning) rather than straight to Artizen — buyers
+      // land there first and the page's own button makes the final hop.
       {
         source: '/q/mag',
-        destination: 'https://artizen.fund/index/p/possibilia-magazine',
+        destination: '/preorder',
         statusCode: 302,
       },
       // Sponsor credit, program p18. NOTE: as of Jul 2026 this host's
