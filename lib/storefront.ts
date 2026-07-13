@@ -222,12 +222,11 @@ export const ARTWORKS: Artwork[] = [
   },
   {
     id: 'ellynne-dec-glass-bead-piece',
-    // Title awaited from Ellynne — placard doc has [title TBD].
-    title: 'glass-bead piece',
+    title: 'the illusion of control',
     artistName: 'Ellynne Dec',
-    medium: 'Glass-bead work',
-    // Final price, aligned with the printed program. Was $8,000.
-    listPrice: 8800,
+    medium: 'Woven glass beads, 12 × 12 × 0.5 in',
+    // Confirmed final price from Ellynne's piece info sheet. Was $8,800.
+    listPrice: 8000,
     status: 'available',
     image: '/images/storefront/ellynne-dec-glass-bead-piece.png',
     imageWidth: 795,
