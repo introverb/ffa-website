@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { Panel } from '@/components/PageFrame';
 
 // Community Fund panel — a clone of FFA's Artizen fund card
-// ("Future Aesthetics Fund: Worlds Worth Building", Season 6), rendered
+// ("Future Aesthetics Fund: Worlds Worth Building", Season 7), rendered
 // in our own markup because Artizen sends `X-Frame-Options: DENY` +
 // CSP `frame-ancestors 'none'` (a real <iframe> is impossible).
 //
@@ -20,7 +20,7 @@ import { Panel } from '@/components/PageFrame';
 // than breaking the page. This rides an undocumented public API; if it
 // changes, the live bits quietly drop and the CTA still works.
 const FUND_URL =
-  'https://artizen.fund/index/mf/future-aesthetics-fund-for-worlds-worth-building?season=6';
+  'https://artizen.fund/index/mf/future-aesthetics-fund-for-worlds-worth-building?season=7';
 const FUND_ID = '1782511867665x729975603070500900';
 const API = 'https://artizen.fund/api/1.1/obj';
 // Refresh roughly hourly. ISR means this is one set of polite API calls
@@ -302,7 +302,7 @@ export async function CommunityFund() {
             Donate on Artizen
           </a>
           <p className="mt-3 text-sm text-muted">
-            {live ? 'Live from Artizen · Season 6' : 'On Artizen · Season 6'} · matched giving, by card or
+            {live ? 'Live from Artizen · Season 7' : 'On Artizen · Season 7'} · matched giving, by card or
             crypto
           </p>
         </div>
