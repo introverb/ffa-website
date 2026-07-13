@@ -296,10 +296,11 @@ export const ARTWORKS: Artwork[] = [
     note: 'Includes a 20 × 25 in physical print in the exhibition',
     isNFT: true,
     status: 'available',
-    image: '/images/storefront/anjoladave-an-ending-a-beginning.png',
-    imageWidth: 814,
-    imageHeight: 1020,
-    // No price confirmed yet.
+    image: '/images/storefront/anjoladave-an-ending-a-beginning.jpg',
+    imageWidth: 2000,
+    imageHeight: 2500,
+    // Final price, set by the artist.
+    listPrice: 960,
   },
   // Recycle Group's "Forest of Expired Links" moved OUT of this
   // catalog and back to an external-link card (see LEDGERWORKS_WORKS

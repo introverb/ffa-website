@@ -41,7 +41,7 @@ const LEDGERWORKS_ARTISTS: { name: string; href?: string }[] = [
   { name: 'Mauricio Pommella', href: 'https://mpommella.com/' },
   { name: 'Nahuel Aquiles', href: 'https://genpi.org' },
   { name: 'Yura Miron', href: 'https://yuramiron.art/' },
-  { name: 'AnjolaDave', href: 'https://anjieverselabs.com/' },
+  { name: 'AnjolaDave', href: 'https://linktr.ee/anjoladave' },
   { name: 'Recycle Group', href: 'https://gazell.io' },
 ];
 
