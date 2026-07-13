@@ -32,9 +32,9 @@ export const dynamic = 'force-dynamic';
 // FFA's own Stripe checkout: Nahuel Aquiles' piece is a personalized,
 // variably-priced mint fulfilled entirely on his own platform
 // (genpi.org), not a single fixed-price 1-of-1; Recycle Group's is
-// gallery-represented and terms (who nets what of the 20% premium) are
-// still being negotiated with Gazelli Art House, so it links out to
-// their listing instead. Every other Ledgerworks piece is a real
+// gallery-represented, so it sells through Gazelli Art House's own
+// listing rather than FFA's checkout — price is settled at $11,000
+// (no further negotiation). Every other Ledgerworks piece is a real
 // Artwork in lib/storefront.ts (isNFT: true) and sells the same way the
 // physical works do — see the comment above the Ledgerworks entries
 // there. image/imageWidth/imageHeight follow the same convention as
@@ -57,7 +57,7 @@ const LEDGERWORKS_WORKS: Array<{
     id: 'recycle-group-forest-of-expired-links',
     artist: 'Recycle Group',
     title: 'Forest of Expired Links',
-    note: 'ERC-721 video, on-chain. Includes the photographic print from the exhibition. Listed at $11,000 — terms with the gallery still in negotiation.',
+    note: 'ERC-721 video, on-chain. Includes the photographic print from the exhibition. Listed at $11,000.',
     href: 'https://gazell.io/collections/recycle-group/products/forest-of-expired-links-1',
     cta: 'Purchase through Gazelli Art House',
   },

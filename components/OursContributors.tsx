@@ -58,15 +58,43 @@ const INSTALLATION_CONTRIBUTORS: {
   href?: string;
 }[] = [
   { name: 'Ada Palmer', role: 'Host', href: 'https://www.adapalmer.com/' },
-  { name: 'Audrey Tang', href: 'https://cyberambassador.tw/' },
-  { name: 'Eli Dourado', href: 'https://www.elidourado.com/about' },
-  { name: 'Neil Harbisson', href: 'https://www.cyborgarts.com/neil-harbisson' },
-  { name: 'Shannon Wong', href: 'https://www.girlfliesworld.com/' },
-  { name: 'Michael Balangue' },
-  { name: 'Michael Edward Johnson', href: 'https://opentheory.net/' },
-  { name: 'Stephen Wolfram', href: 'https://www.stephenwolfram.com/' },
-  { name: 'Bright Simons', href: 'https://brightsimons.com/' },
-  { name: 'João Pedro de Magalhães', href: 'https://jp.senescence.info/' },
+  { name: 'Audrey Tang', role: 'Cyber Ambassador, Taiwan', href: 'https://cyberambassador.tw/' },
+  {
+    name: 'Eli Dourado',
+    role: 'Economist, progress & abundance',
+    href: 'https://www.elidourado.com/about',
+  },
+  {
+    name: 'Neil Harbisson',
+    role: 'Cyborg artist, Cyborg Foundation',
+    href: 'https://www.cyborgarts.com/neil-harbisson',
+  },
+  {
+    name: 'Shannon Wong',
+    role: 'Aviator, GIRLFLIESWORLD',
+    href: 'https://www.girlfliesworld.com/',
+  },
+  { name: 'Michael Balangue', role: 'Biodesigner & artist' },
+  {
+    name: 'Michael Edward Johnson',
+    role: 'Independent researcher',
+    href: 'https://opentheory.net/',
+  },
+  {
+    name: 'Stephen Wolfram',
+    role: 'Computer scientist, Wolfram Research',
+    href: 'https://www.stephenwolfram.com/',
+  },
+  {
+    name: 'Bright Simons',
+    role: 'Technologist, mPedigree, Ghana',
+    href: 'https://brightsimons.com/',
+  },
+  {
+    name: 'João Pedro de Magalhães',
+    role: 'Biologist of ageing, U. Birmingham',
+    href: 'https://jp.senescence.info/',
+  },
 ];
 
 // Confirmed speakers — unlike the name-only lists above, each carries
@@ -80,7 +108,7 @@ const SPEAKERS: { name: string; title: string; href?: string }[] = [
   },
   {
     name: 'Erika Alden DeBenedictis',
-    title: 'Synthetic biologist, CEO of Pioneer Labs',
+    title: 'Physicist & biological engineer, CEO of Pioneer Labs',
     href: 'https://www.erikadebenedictis.com/',
   },
   {

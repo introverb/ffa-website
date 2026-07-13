@@ -140,9 +140,9 @@ export const ARTWORKS: Artwork[] = [
     artistName: 'Anyanwu',
     medium: 'Sculpture + interactive game · edition 1/5',
     note: 'Commissioned for OURS',
-    // Sheet: "$7,200 final", terms "Edition +20%" — the 7,200 already
-    // includes the premium ($6,000 to the artist).
-    artistPrice: 6000,
+    // Confirmed against the printed program: $6,000 flat, no +20%
+    // premium on top (supersedes the earlier "$7,200 final" reading).
+    listPrice: 6000,
     status: 'available',
     image: '/images/storefront/anyanwu-pyramid.png',
     imageWidth: 1535,
@@ -213,8 +213,8 @@ export const ARTWORKS: Artwork[] = [
     title: 'The Hummingbird',
     artistName: 'Sue Ellen Zhang',
     medium: 'Oil on canvas, 30 × 40 in',
-    // $4,800 final buyer price (already includes the 20% premium).
-    listPrice: 4800,
+    // Confirmed against the printed program: $4,600 final. Was $4,800.
+    listPrice: 4600,
     status: 'available',
     image: '/images/storefront/sue-ellen-zhang-oil-painting.jpeg',
     imageWidth: 2000,
@@ -226,8 +226,8 @@ export const ARTWORKS: Artwork[] = [
     title: 'glass-bead piece',
     artistName: 'Ellynne Dec',
     medium: 'Glass-bead work',
-    // $8,000 list price (final buyer price).
-    listPrice: 8000,
+    // Final price, aligned with the printed program. Was $8,000.
+    listPrice: 8800,
     status: 'available',
     image: '/images/storefront/ellynne-dec-glass-bead-piece.png',
     imageWidth: 795,
