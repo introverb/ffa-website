@@ -61,13 +61,9 @@ export const INITIATIVES = [
     n: '01',
     title: 'OURS: Exhibition & Salon',
     status: 'August 2026 · Space LES, NYC',
-    note: 'Attend OURS',
-    // External Luma RSVP / application page (attendance runs through
-    // Luma). External hrefs (http…) render as new-tab anchors in
-    // Initiatives.tsx; internal paths stay client-side Links.
-    noteHref: 'https://luma.com/0hakp1pz',
-    tertiaryNote: 'Submit Artwork',
-    tertiaryNoteHref: '/ours/artist-brief',
+    // Invites are out and the guest list + artist roster are both
+    // closed for this run — no more "Attend"/"Submit Artwork" CTAs
+    // here or on /ours until a future edition reopens them.
     blurb:
       'A one-night exhibition and salon in New York that puts speculative artwork on the walls and the people building it into reality at the lectern. Scientists, philosophers, artists, and builders give short provocations. Original work hangs around them, available to take home. Guests from a broad spectrum of fields fill the spaces between, because the future is shaped by everyone. Space LES, Lower East Side, NYC. August 2026.',
     image: '/images/initiative-exhibitions.jpg',

@@ -50,17 +50,12 @@ export function Initiatives() {
                 <h3 className="mt-6 text-h3 leading-[1.1] md:text-h3-lg">{i.title}</h3>
                 <p className="mt-3 text-h6 text-muted">{i.status}</p>
                 <div className="mt-10 max-w-prose text-body leading-relaxed text-ink/90">
-                  {/* Initiative CTAs: shown on desktop, hidden on mobile.
+                  {/* Initiative CTA: shown on desktop, hidden on mobile.
                       Mobile readers reach these via the SiteNav or the
                       homepage outro; the card on mobile collapses to
-                      first-line + Read more so piling CTAs on top of
-                      the collapsed text would crowd the layout.
-                      Primary CTA is btn-solid (sage). Optional
-                      tertiary CTA renders next to it in a frosted-
-                      pill aesthetic — translucent ink fill, soft
-                      border, backdrop blur — at the same shape +
-                      padding as btn-solid so the two read as a pair. */}
-                  {(i.note || i.tertiaryNote) && (
+                      first-line + Read more so piling a CTA on top of
+                      the collapsed text would crowd the layout. */}
+                  {i.note && (
                     <div className="hidden md:flex md:flex-wrap md:items-center md:gap-2">
                       {/* Compact button sizing (px-4 py-2.5, text-xs) so up
                           to three CTAs fit on a single row inside the
@@ -92,25 +87,12 @@ export function Initiatives() {
                         ) : (
                           <strong>{i.note}</strong>
                         ))}
-                      {i.tertiaryNote && i.tertiaryNoteHref && (
-                        <a
-                          href={i.tertiaryNoteHref}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center justify-center rounded-md border border-ink/25 bg-ink/5 px-4 py-2.5 text-xs uppercase tracking-[0.1em] text-ink backdrop-blur-sm transition hover:bg-ink/10"
-                        >
-                          {i.tertiaryNote}
-                        </a>
-                      )}
                     </div>
                   )}
                   {/* InitiativeBlurb collapses the body to a single line
                       on mobile with a Read more toggle; renders straight
                       through at md+. */}
-                  <InitiativeBlurb
-                    blurb={i.blurb}
-                    hasNote={Boolean(i.note || i.tertiaryNote)}
-                  />
+                  <InitiativeBlurb blurb={i.blurb} hasNote={Boolean(i.note)} />
                 </div>
               </div>
               <div>

@@ -1,15 +1,8 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
 import { Panel } from '@/components/PageFrame';
 import { PageHeader } from '@/components/PageHeader';
 import { JsonLd } from '@/components/JsonLd';
 import { OursContributors } from '@/components/OursContributors';
-import { OursArtworkDialog } from '@/components/OursArtworkDialog';
-
-// Public RSVP / application page for OURS, hosted on Luma. The
-// attendance CTAs (homepage "Attend OURS" button, the /ours "Apply
-// to attend" card) all point here.
-const LUMA_RSVP_URL = 'https://luma.com/0hakp1pz';
 
 export const metadata: Metadata = {
   title: 'OURS',
@@ -89,10 +82,10 @@ export default function OursPage() {
       />
 
       <Panel variant="white" className="md:p-16">
-        {/* The invitation — the hook ("the future isn't fixed") plus
-            the three ways to join below it. One eyebrow spans this
-            whole area through the doors; the Why-now content and the
-            engage doors share it. */}
+        {/* The invitation — the hook ("the future isn't fixed"). Used
+            to be followed by "Engage doors" (Apply to attend / Submit
+            artwork); removed once invites went out and both the guest
+            list and artist roster closed. */}
         <div className="grid gap-12 md:grid-cols-[1fr_1.6fr] md:items-start">
           <div>
             <p className="text-sm uppercase tracking-[0.08em] text-sage">The invitation</p>
@@ -120,46 +113,6 @@ export default function OursPage() {
           </div>
         </div>
 
-        {/* Engage doors — two compact CTA cards (attend, exhibit): the
-            two ways to join the evening. No eyebrow or heading of its
-            own and no divider line above — the single "The invitation"
-            eyebrow on the Why-now block above covers this whole area,
-            so the doors read as its continuation. id="engage" kept for
-            inbound anchors. */}
-        <div id="engage" className="mt-16">
-          {/* Two compact "doors" — one-line cards, uniform height, each
-              a single CTA. Attendance links out (Luma RSVP); artwork
-              opens a modal so the form lives off-card and the row stays
-              short. items-stretch keeps the pair equal-height; each
-              door's CTA is pinned to the bottom (mt-auto) so the
-              buttons line up across the row. */}
-          <div className="grid gap-6 md:grid-cols-2 md:items-stretch">
-            <EngageDoor
-              title="Join the evening"
-              blurb="The room is intimate and the list is limited, but we&rsquo;re still welcoming guests."
-              bgImage="/images/initiative-exhibitions.jpg"
-            >
-              <a
-                href={LUMA_RSVP_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                data-goatcounter-click="ours:attend-luma"
-                className="btn-solid"
-              >
-                Apply to attend
-              </a>
-            </EngageDoor>
-
-            <EngageDoor
-              title="Submit artwork"
-              blurb="Still accepting works for the exhibition. Mediums open. Send a portfolio and a short pitch."
-              bgImage="/images/initiative-possibilia.jpg"
-            >
-              <OursArtworkDialog />
-            </EngageDoor>
-          </div>
-        </div>
-
         {/* Format */}
         <div className="mt-20 border-t-[3px] border-rule pt-16">
           <p className="text-sm uppercase tracking-[0.08em] text-sage">The format</p>
@@ -179,56 +132,10 @@ export default function OursPage() {
         {/* Contributors — interactive group selector (client
             component): Artists / Speakers / Installation Contributors
             tabs, each revealing a color-coded panel. Now closes the
-            page (after the Engage doors and Format), so the confirmed
-            lineup is the last thing a visitor sees. */}
+            page (after Format), so the confirmed lineup is the last
+            thing a visitor sees. */}
         <OursContributors />
       </Panel>
     </>
-  );
-}
-
-// Compact engagement "door" — a short, uniform CTA card for the Engage
-// row. Background is one of the initiative images, heavily frosted
-// (blur-2xl) under a paper veil so dark text stays readable; each door
-// uses a different image for variety. flex-col + h-full + the CTA's
-// mt-auto keep all three doors equal-height with their buttons aligned.
-// The CTA itself (external link or modal trigger) is passed as
-// children, so a door doesn't care whether it links out or opens a
-// dialog.
-function EngageDoor({
-  title,
-  blurb,
-  bgImage,
-  children,
-}: {
-  title: string;
-  blurb: string;
-  bgImage: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="relative flex h-full flex-col overflow-hidden rounded-2xl border-[3px] border-ink/20 p-6 text-ink md:p-7">
-      {/* Frosted background — image scaled past edges so the heavy
-          blur doesn't leave soft borders, then a paper veil for
-          contrast. */}
-      <div aria-hidden className="absolute inset-0 -z-10">
-        <Image
-          src={bgImage}
-          alt=""
-          fill
-          sizes="(max-width: 768px) 100vw, 33vw"
-          className="scale-125 object-cover blur-2xl"
-        />
-        <div className="absolute inset-0 bg-paper/65" />
-      </div>
-
-      <h3 className="text-h5 leading-tight">{title}</h3>
-      <p
-        className="mt-2 text-sm leading-relaxed text-ink/75"
-        dangerouslySetInnerHTML={{ __html: blurb }}
-      />
-      {/* CTA pinned to the bottom so buttons line up across the row. */}
-      <div className="mt-auto pt-6">{children}</div>
-    </div>
   );
 }
