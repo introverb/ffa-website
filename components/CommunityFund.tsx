@@ -228,7 +228,7 @@ export async function CommunityFund() {
                 <span className="font-medium text-ink">{usd(d.raised)}</span>
               </p>
               <p className="mt-1 text-xs text-muted">
-                Our goal is to raise $250,000 to fund arts and science initiatives in 2026.
+                Our goal is to raise $75,000 to fund arts and science initiatives in 2026.
               </p>
             </div>
           )}
