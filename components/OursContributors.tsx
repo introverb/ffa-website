@@ -302,33 +302,35 @@ export function OursContributors() {
             {/* Lineup when SHOW_INSTALLATION is on; "to be announced"
                 placeholder while it's held. Names with an href render
                 as links (matching the artists), names without as
-                plain heading text; optional role is a quiet
-                parenthetical. Flipping SHOW_INSTALLATION reveals the
-                roster with no JSX change. */}
+                plain heading text; role sits on its own line below,
+                same stacked pattern as the Speakers tab — with roles
+                now on every entry, a flex-wrap of inline parentheticals
+                wrapped unevenly (some rows two names, some one) since
+                each item's width varied wildly. A fixed-column grid
+                keeps every row aligned regardless of name/role length.
+                Flipping SHOW_INSTALLATION reveals the roster with no
+                JSX change. */}
             {SHOW_INSTALLATION && INSTALLATION_CONTRIBUTORS.length > 0 ? (
-              <ul className="flex max-w-5xl flex-wrap items-baseline gap-x-10 gap-y-4">
+              <ul className="grid max-w-5xl gap-x-10 gap-y-8 sm:grid-cols-2">
                 {INSTALLATION_CONTRIBUTORS.map((c) => (
-                  <li
-                    key={c.name}
-                    className="flex items-baseline gap-2 font-heading text-h5 leading-tight text-ink md:text-h4"
-                  >
+                  <li key={c.name}>
                     {c.href ? (
                       <a
                         href={c.href}
                         target="_blank"
                         rel="noopener noreferrer"
                         data-goatcounter-click={`ours:installation-${slug(c.name)}`}
-                        className="group flex items-baseline gap-1.5 transition-colors hover:text-horizon"
+                        className="group flex items-baseline gap-1.5 font-heading text-h5 leading-tight text-ink transition-colors hover:text-horizon md:text-h4"
                       >
                         {c.name}
                         <ExternalLinkArrow className="text-ink/35 transition-colors group-hover:text-horizon" />
                       </a>
                     ) : (
-                      c.name
+                      <p className="font-heading text-h5 leading-tight text-ink md:text-h4">
+                        {c.name}
+                      </p>
                     )}
-                    {c.role && (
-                      <span className="text-[0.55em] text-ink/50">({c.role})</span>
-                    )}
+                    {c.role && <p className="mt-2 text-sm text-muted">{c.role}</p>}
                   </li>
                 ))}
               </ul>
