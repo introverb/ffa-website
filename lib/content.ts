@@ -9,53 +9,6 @@ export const SITE = {
   twitter: 'https://twitter.com/possibiliamag',
 };
 
-// Titles match the live site exactly. Blurbs are paraphrased - replace with
-// your final copy when ready.
-export const RESEARCH_AREAS = [
-  {
-    n: '01',
-    title: 'History of Science Fiction',
-    blurb:
-      'Tracing the lineage of speculative storytelling and the futures each generation imagined for itself.',
-  },
-  {
-    n: '02',
-    title: 'Unconventional Storytelling',
-    blurb:
-      'Form, structure, and medium experiments that expand how a future can be rendered on the page or screen.',
-  },
-  {
-    n: '03',
-    title: 'TBD: Researchers Wanted',
-    blurb: 'Have an idea for us to peruse/pursue? Want to do a case study with us?',
-    cta: { label: 'Drop us a line!' },
-  },
-];
-
-// Projects exist on the Possibilia page only - not on the live homepage.
-export const PROJECTS = [
-  {
-    title: 'Silverstone Community Center',
-    image: '/images/project-silverstone.jpg',
-    href: '/possibilia',
-  },
-  {
-    title: '234 Kingsway Road',
-    image: '/images/project-kingsway.jpg',
-    href: '/possibilia',
-  },
-  {
-    title: 'Smith Park Botanical Gardens',
-    image: '/images/project-smithpark.jpg',
-    href: '/possibilia',
-  },
-  {
-    title: 'NYLN Inc. HQ',
-    image: '/images/project-nyln.jpg',
-    href: '/possibilia',
-  },
-];
-
 export const INITIATIVES = [
   {
     n: '01',

@@ -6,6 +6,7 @@ import { CommunityFund } from '@/components/CommunityFund';
 import { EthGiveButton } from '@/components/EthGiveButton';
 import { DafGrantDialog } from '@/components/DafGrantDialog';
 import { ScrollDepthMarker } from '@/components/ScrollDepthMarker';
+import { FFA_ETH_ADDRESS } from '@/lib/eth';
 
 export const metadata: Metadata = {
   title: 'Support',
@@ -112,12 +113,6 @@ const INDIVIDUAL_BENEFACTORS = [
     href: 'https://x.com/Jonathan_Blow',
   },
 ];
-
-// FFA's on-chain donation wallet, duplicated here (also defined in
-// EthGiveButton.tsx) for the streaming-protocol links below. A small
-// duplication trade-off vs. introducing a shared constants file for
-// one short hex string.
-const FFA_ETH_ADDRESS = '0x54ce4Cf841ef47ed0773B0c197aceFCFc076cec7';
 
 type OtherWay = {
   label: string;
