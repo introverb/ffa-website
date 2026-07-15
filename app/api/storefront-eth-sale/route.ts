@@ -1,6 +1,7 @@
 import { Resend } from 'resend';
 import { NextRequest, NextResponse } from 'next/server';
 import { isHoneypotFilled } from '@/lib/spam';
+import { isStoreConfigured, reserveArtwork } from '@/lib/storefront-store';
 
 // ETH-only Ledgerworks sale inquiry (currently just The Pope). There's
 // no Stripe/webhook here — a buyer sends ETH directly to FFA's wallet
@@ -8,6 +9,14 @@ import { isHoneypotFilled } from '@/lib/spam';
 // the NFT sent, by email, so Olli can verify the payment on-chain and
 // transfer it manually. Nothing here marks a piece sold; that's a
 // manual edit to lib/storefront.ts once the sale is confirmed.
+//
+// A submission puts the same Redis reservation lock on the piece that
+// Stripe 1-of-1 checkouts use (see storefront-checkout/route.ts) —
+// this is the real fix for double-selling: the moment someone submits
+// this form, nobody else can submit it too (the piece's card/modal
+// flips to "Reserved" + a waitlist option). The 24h TTL is long on
+// purpose — Olli resolves this manually (verify on-chain, then
+// transfer), possibly the next day, not in real time during the show.
 //
 // Deliberately skips lib/spam.ts's hasScamContent() check — that
 // filter flags "ETH" + "transfer"/"wallet" language, which is exactly
@@ -19,6 +28,8 @@ import { isHoneypotFilled } from '@/lib/spam';
 //   POSSIBILIA_TO_EMAIL
 
 export const runtime = 'nodejs';
+
+const RESERVATION_TTL_SECONDS = 24 * 60 * 60;
 
 export async function POST(req: NextRequest) {
   try {
@@ -43,6 +54,21 @@ export async function POST(req: NextRequest) {
         { error: 'Wallet address and email are required.' },
         { status: 400 },
       );
+    }
+
+    // Only enforce the lock when Redis is actually configured — a
+    // misconfigured store returns false from reserveArtwork() same as
+    // "already reserved," which would wrongly block every submission.
+    if (isStoreConfigured()) {
+      const reserved = await reserveArtwork(artworkId, RESERVATION_TTL_SECONDS);
+      if (!reserved) {
+        return NextResponse.json(
+          { error: 'reserved', message: 'This piece was just reserved by someone else.' },
+          { status: 409 },
+        );
+      }
+    } else {
+      console.error('Storefront ETH sale: live-state store not configured (Upstash env vars missing) — skipping reservation lock');
     }
 
     const resend = new Resend(process.env.RESEND_API_KEY);

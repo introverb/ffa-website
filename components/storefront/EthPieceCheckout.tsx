@@ -5,6 +5,7 @@ import { QRCodeSVG } from 'qrcode.react';
 import { HoneypotField } from '@/components/HoneypotField';
 import { trackEvent } from '@/lib/analytics';
 import { FFA_ETH_ADDRESS, eip681Uri } from '@/lib/eth';
+import { WaitlistDialog } from './WaitlistDialog';
 
 // Standard "two overlapping squares" copy icon (Lucide-style), same
 // mark as EthGiveButton's — inherits stroke from currentColor.
@@ -68,6 +69,10 @@ export function EthPieceCheckout({
   const [submitting, setSubmitting] = useState(false);
   const [sent, setSent] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  // Set when someone else's submission reserved the piece between
+  // this page loading and this buyer hitting submit — swaps the form
+  // for a waitlist prompt instead of a plain error.
+  const [justReserved, setJustReserved] = useState(false);
 
   async function copyAddress() {
     try {
@@ -91,6 +96,11 @@ export function EthPieceCheckout({
       const res = await fetch('/api/storefront-eth-sale', { method: 'POST', body: data });
       if (!res.ok) {
         const json = await res.json().catch(() => ({}));
+        if (json.error === 'reserved') {
+          setJustReserved(true);
+          setSubmitting(false);
+          return;
+        }
         setError(json.error || 'Something went wrong. Email olli@futureaesthetics.foundation directly.');
         setSubmitting(false);
         return;
@@ -140,6 +150,16 @@ export function EthPieceCheckout({
             Thanks — once we&rsquo;ve confirmed the payment on-chain, we&rsquo;ll transfer the piece to the
             wallet you gave us.
           </p>
+        </div>
+      ) : justReserved ? (
+        <div className="mt-4 rounded-xl border border-ink/20 bg-cream p-6">
+          <p className="text-body leading-snug text-ink">
+            Someone else just reserved this piece a moment before you. Join the waitlist and we&rsquo;ll
+            reach out if it opens back up.
+          </p>
+          <div className="mt-4">
+            <WaitlistDialog artworkId={artworkId} pieceTitle={pieceTitle} collectWallet />
+          </div>
         </div>
       ) : (
         <form onSubmit={handleSubmit} className="mt-4 flex flex-col gap-4">

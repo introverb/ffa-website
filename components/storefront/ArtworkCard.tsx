@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { type Artwork, displayPrice, isSoldOut, statusLabel } from '@/lib/storefront';
+import { WaitlistDialog } from './WaitlistDialog';
 
 // Image slot for the storefront grid — sized to the photo's own aspect
 // ratio (intrinsic width/height, no crop) rather than a uniform box, so
@@ -79,7 +80,9 @@ export function ArtworkCard({ artwork }: { artwork: Artwork }) {
           <p className="text-h6 text-muted">Price TBD</p>
         )}
 
-        {label ? (
+        {label === 'Reserved' ? (
+          <WaitlistDialog artworkId={artwork.id} pieceTitle={artwork.title} />
+        ) : label ? (
           <span className="inline-flex items-center justify-center rounded-md border border-ink/20 px-6 py-2.5 text-sm uppercase tracking-[0.1em] text-muted">
             {label}
           </span>

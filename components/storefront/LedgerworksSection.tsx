@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { Fragment } from 'react';
 import { FormDialog } from '@/components/FormDialog';
 import { EthPieceCheckout } from './EthPieceCheckout';
+import { WaitlistDialog } from './WaitlistDialog';
 
 // Normalized shape for anything shown in the Ledgerworks section —
 // covers FFA/Stripe-checkout pieces, ETH-only pieces (real Artwork
@@ -112,6 +113,9 @@ function ModalCta({ piece }: { piece: LedgerworksPiece }) {
       </a>
     );
   }
+  if (piece.label === 'Reserved') {
+    return <WaitlistDialog artworkId={piece.artworkId} pieceTitle={piece.title} collectWallet />;
+  }
   if (piece.label) {
     return (
       <span className="inline-flex items-center justify-center rounded-md border border-ink/20 px-6 py-2.5 text-sm uppercase tracking-[0.1em] text-muted">
@@ -168,7 +172,10 @@ function LedgerworksModal({
         {piece.kind === 'eth' && (
           <p className="text-h6 text-ink">{piece.ethAmount} ETH</p>
         )}
-        {piece.kind === 'eth' && piece.label && (
+        {piece.kind === 'eth' && piece.label === 'Reserved' && (
+          <WaitlistDialog artworkId={piece.artworkId} pieceTitle={piece.title} collectWallet />
+        )}
+        {piece.kind === 'eth' && piece.label && piece.label !== 'Reserved' && (
           <span className="inline-flex items-center justify-center rounded-md border border-ink/20 px-6 py-2.5 text-sm uppercase tracking-[0.1em] text-muted">
             {piece.label}
           </span>
