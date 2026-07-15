@@ -167,6 +167,38 @@ const nextConfig = {
         destination: '/patrons/private',
         statusCode: 302,
       },
+      // Individual Ledgerworks pieces — QR placards next to each piece
+      // on the exhibition wall. The three FFA/Stripe (or ETH) pieces
+      // deep-link straight to their modal on the storefront page
+      // (?piece=<id>, opened automatically — see LedgerworksSection).
+      // Recycle Group and Nahuel Aquiles are fulfilled externally, so
+      // their placards skip the modal and go straight to the outside
+      // listing (their gallery / genpi.org) instead.
+      {
+        source: '/q/pope',
+        destination: '/ours/collect?piece=mauricio-pommella-the-pope',
+        statusCode: 302,
+      },
+      {
+        source: '/q/solara',
+        destination: '/ours/collect?piece=yura-miron-solara-plaza',
+        statusCode: 302,
+      },
+      {
+        source: '/q/anjola',
+        destination: '/ours/collect?piece=anjoladave-an-ending-a-beginning',
+        statusCode: 302,
+      },
+      {
+        source: '/q/recycle',
+        destination: 'https://gazell.io/products/forest-of-expired-links',
+        statusCode: 302,
+      },
+      {
+        source: '/q/nahuel',
+        destination: 'https://genpi.org',
+        statusCode: 302,
+      },
       // OURS sponsorship brief (linked from the sponsor section on
       // /support).
       {
