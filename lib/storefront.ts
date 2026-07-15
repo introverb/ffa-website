@@ -274,6 +274,9 @@ export const ARTWORKS: Artwork[] = [
     medium: 'Digital 1/1, on-chain',
     isNFT: true,
     status: 'available',
+    image: '/images/storefront/mauricio-pommella-the-pope.jpg',
+    imageWidth: 2000,
+    imageHeight: 3556,
     // ETH only, no USD/Stripe — FFA bought the piece up front and is
     // reselling it, so payment goes straight to FFA's wallet. Olli may
     // make a special in-person USD exception at the show; if so he'll
