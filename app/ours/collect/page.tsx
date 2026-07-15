@@ -82,34 +82,53 @@ export default async function OursCollectPage() {
   const physicalArtworks = artworks.filter((a) => !a.isNFT);
   const nftArtworks = artworks.filter((a) => a.isNFT);
 
-  // One normalized list for the Ledgerworks grid + detail modal —
-  // FFA/Stripe pieces and externally-fulfilled ones (Recycle Group,
-  // Nahuel Aquiles) render the same card, but branch on `kind` for
-  // price/status vs. an outbound link inside the modal.
+  // One normalized list for the Ledgerworks grid + detail modal — FFA/
+  // Stripe pieces, the ETH-only piece (currently just The Pope), and
+  // externally-fulfilled ones (Recycle Group, Nahuel Aquiles) all
+  // render the same card, but branch on `kind` for price/status vs.
+  // an outbound link vs. the ETH address/QR/form inside the modal.
   const ledgerworksPieces: LedgerworksPiece[] = [
     ...nftArtworks.map(
-      (a): LedgerworksPiece => ({
-        id: a.id,
-        title: a.title,
-        artistName: a.artistName,
-        medium: a.medium,
-        note: a.note,
-        description: a.description,
-        details: a.details,
-        image: a.image,
-        imageWidth: a.imageWidth,
-        imageHeight: a.imageHeight,
-        kind: 'checkout',
-        artworkId: a.id,
-        price: displayPrice(a),
-        priceIsEstimate: a.priceIsEstimate,
-        label: statusLabel(a),
-        showBuy:
-          !isSoldOut(a) &&
-          a.status !== 'reserved' &&
-          displayPrice(a) != null &&
-          !a.priceIsEstimate,
-      }),
+      (a): LedgerworksPiece =>
+        a.ethPrice != null
+          ? {
+              id: a.id,
+              title: a.title,
+              artistName: a.artistName,
+              medium: a.medium,
+              note: a.note,
+              description: a.description,
+              details: a.details,
+              image: a.image,
+              imageWidth: a.imageWidth,
+              imageHeight: a.imageHeight,
+              kind: 'eth',
+              artworkId: a.id,
+              ethAmount: a.ethPrice,
+              label: statusLabel(a),
+            }
+          : {
+              id: a.id,
+              title: a.title,
+              artistName: a.artistName,
+              medium: a.medium,
+              note: a.note,
+              description: a.description,
+              details: a.details,
+              image: a.image,
+              imageWidth: a.imageWidth,
+              imageHeight: a.imageHeight,
+              kind: 'checkout',
+              artworkId: a.id,
+              price: displayPrice(a),
+              priceIsEstimate: a.priceIsEstimate,
+              label: statusLabel(a),
+              showBuy:
+                !isSoldOut(a) &&
+                a.status !== 'reserved' &&
+                displayPrice(a) != null &&
+                !a.priceIsEstimate,
+            },
     ),
     ...LEDGERWORKS_WORKS.map(
       (w): LedgerworksPiece => ({

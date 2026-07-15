@@ -45,6 +45,16 @@ export interface Artwork {
   listPrice?: number;
   /** True when the sheet flags a price as approximate/not final (e.g. "TBD ~$3,200"). */
   priceIsEstimate?: boolean;
+  /**
+   * ETH-only sale (decimal string, e.g. "0.3") — set when a piece
+   * sells directly for ETH to FFA's wallet instead of through Stripe
+   * (no USD option, no card checkout). Mutually exclusive with
+   * artistPrice/listPrice in practice: displayPrice() only looks at
+   * the USD fields, so an ethPrice piece shows no USD price anywhere.
+   * FFA buys the piece up front and resells it, so payment goes
+   * straight to FFA's wallet rather than through an artist payout.
+   */
+  ethPrice?: string;
   status: ArtworkStatus;
   isNFT?: boolean;
   /** Set for limited editions sold as "any of N" (e.g. Lupi's 5 prints); omit for 1-of-1s — including a single numbered piece from an edition elsewhere, like Anyanwu's 1/5. */
@@ -276,7 +286,11 @@ export const ARTWORKS: Artwork[] = [
     medium: 'Digital 1/1, on-chain',
     isNFT: true,
     status: 'available',
-    // No price confirmed yet.
+    // ETH only, no USD/Stripe — FFA bought the piece up front and is
+    // reselling it, so payment goes straight to FFA's wallet. Olli may
+    // make a special in-person USD exception at the show; if so he'll
+    // flag it live rather than this being a site-configurable option.
+    ethPrice: '0.3',
   },
   {
     id: 'yura-miron-solara-plaza',

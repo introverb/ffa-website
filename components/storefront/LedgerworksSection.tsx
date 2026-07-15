@@ -4,13 +4,14 @@ import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import Image from 'next/image';
 import { Fragment } from 'react';
 import { FormDialog } from '@/components/FormDialog';
+import { EthPieceCheckout } from './EthPieceCheckout';
 
 // Normalized shape for anything shown in the Ledgerworks section —
-// covers both FFA/Stripe-checkout pieces (real Artwork entries,
-// isNFT: true) and externally-fulfilled ones (Recycle Group, Nahuel
-// Aquiles) so the grid + modal only have to handle one type. Built by
-// the server component in app/ours/collect/page.tsx from lib/storefront.ts
-// Artworks and the page's own LEDGERWORKS_WORKS list.
+// covers FFA/Stripe-checkout pieces, ETH-only pieces (real Artwork
+// entries either way), and externally-fulfilled ones (Recycle Group,
+// Nahuel Aquiles) so the grid + modal only have to handle one type.
+// Built by the server component in app/ours/collect/page.tsx from
+// lib/storefront.ts Artworks and the page's own LEDGERWORKS_WORKS list.
 export type LedgerworksPiece = {
   id: string;
   title: string;
@@ -30,6 +31,12 @@ export type LedgerworksPiece = {
       priceIsEstimate?: boolean;
       label: 'Sold out' | 'Sold' | 'Reserved' | null;
       showBuy: boolean;
+    }
+  | {
+      kind: 'eth';
+      artworkId: string;
+      ethAmount: string;
+      label: 'Sold out' | 'Sold' | 'Reserved' | null;
     }
   | {
       kind: 'external';
@@ -69,9 +76,12 @@ function PieceImage({
 }
 
 function CardPriceOrStatus({ piece }: { piece: LedgerworksPiece }) {
-  if (piece.kind !== 'checkout') return null;
+  if (piece.kind === 'external') return null;
   if (piece.label) {
     return <p className="text-h6 text-muted">{piece.label}</p>;
+  }
+  if (piece.kind === 'eth') {
+    return <p className="text-h6 text-ink">{piece.ethAmount} ETH</p>;
   }
   if (piece.price != null) {
     return (
@@ -83,7 +93,12 @@ function CardPriceOrStatus({ piece }: { piece: LedgerworksPiece }) {
   return <p className="text-h6 text-muted">Price TBD</p>;
 }
 
+// Handles the two simple single-element CTAs (external link, Stripe
+// checkout form) plus their shared sold/reserved pill. ETH pieces are
+// structurally different — price line + address/QR/form, or price +
+// sold pill — so LedgerworksModal renders those inline instead.
 function ModalCta({ piece }: { piece: LedgerworksPiece }) {
+  if (piece.kind === 'eth') return null;
   if (piece.kind === 'external') {
     return (
       <a
@@ -150,6 +165,17 @@ function LedgerworksModal({
             {piece.priceIsEstimate && '~'}${piece.price.toLocaleString('en-US')}
           </p>
         )}
+        {piece.kind === 'eth' && (
+          <p className="text-h6 text-ink">{piece.ethAmount} ETH</p>
+        )}
+        {piece.kind === 'eth' && piece.label && (
+          <span className="inline-flex items-center justify-center rounded-md border border-ink/20 px-6 py-2.5 text-sm uppercase tracking-[0.1em] text-muted">
+            {piece.label}
+          </span>
+        )}
+        {piece.kind === 'eth' && !piece.label && (
+          <EthPieceCheckout artworkId={piece.artworkId} pieceTitle={piece.title} ethAmount={piece.ethAmount} />
+        )}
         <ModalCta piece={piece} />
       </div>
     </FormDialog>
@@ -198,12 +224,12 @@ export function LedgerworksSection({ pieces }: { pieces: LedgerworksPiece[] }) {
                   piece={piece}
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 />
-                {piece.kind === 'checkout' && piece.label && (
+                {piece.kind !== 'external' && piece.label && (
                   <span className="absolute left-3 top-3 rounded-full bg-dark px-3 py-1 text-xs uppercase tracking-[0.1em] text-white">
                     {piece.label}
                   </span>
                 )}
-                {piece.kind === 'checkout' && (
+                {piece.kind !== 'external' && (
                   <span className="absolute right-3 top-3 rounded-full border border-ink/20 bg-paper/90 px-4 py-1.5 text-sm font-medium uppercase tracking-[0.1em] text-ink">
                     NFT
                   </span>
@@ -218,7 +244,7 @@ export function LedgerworksSection({ pieces }: { pieces: LedgerworksPiece[] }) {
               <div className="mt-4 flex items-center justify-between gap-3">
                 <CardPriceOrStatus piece={piece} />
                 <span className="inline-flex items-center justify-center rounded-md border border-ink/20 px-5 py-2 text-xs uppercase tracking-[0.1em] text-ink">
-                  {piece.kind === 'checkout' ? 'Buy piece' : 'View piece'}
+                  {piece.kind === 'external' ? 'View piece' : 'Buy piece'}
                 </span>
               </div>
             </button>
