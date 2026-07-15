@@ -74,7 +74,11 @@ const INSTALLATION_CONTRIBUTORS: {
     role: 'Aviator, GIRLFLIESWORLD',
     href: 'https://www.girlfliesworld.com/',
   },
-  { name: 'Michael Balangue', role: 'Biodesigner & artist' },
+  {
+    name: 'Michael Balangue',
+    role: 'Biodesigner & artist',
+    href: 'https://anitosoul.earth/',
+  },
   {
     name: 'Michael Edward Johnson',
     role: 'Independent researcher',
