@@ -40,7 +40,8 @@ export const INITIATIVES = [
     blurb:
       'A free tool for anyone who’s lost the plot on the future. Doomerism is easy and everywhere; hope is harder, because it has to be earned. Eucatastrophe generates grounded visions of a better tomorrow, building each scenario on a chain of real evidence and putting it through expert scrutiny before it sees the light of your screen. Every hopeful claim arrives cited, checked, and defensible. It’s a place to come when the headlines have you convinced it’s all downhill: proof, not platitudes, that better futures are still on the table.',
     image: '/images/contact.jpg',
-    href: '/contact',
+    // Not linked anywhere — the tool isn't public yet and this card
+    // shouldn't be clickable at all.
   },
   {
     n: '04',

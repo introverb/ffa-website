@@ -258,18 +258,6 @@ export const ARTWORKS: Artwork[] = [
     unitsSold: 0,
     status: 'available',
   },
-  // TEMPORARY — a $1 live test of the checkout flow (Stripe is still
-  // in test mode, so this costs nothing real). Remove this entry once
-  // the test purchase is confirmed end-to-end.
-  {
-    id: 'ffa-payment-system-test',
-    title: 'TEST ITEM — please do not purchase',
-    artistName: 'FFA (internal test)',
-    medium: 'Checkout system test — removed shortly',
-    note: 'Placeholder used to verify the payment flow. Not a real listing.',
-    listPrice: 1,
-    status: 'available',
-  },
   // Ledgerworks (on-chain) pieces that FFA sells directly, same as the
   // physical works above: buyer pays through Stripe (20% premium
   // included), FFA transfers the NFT afterward — the wallet-address
