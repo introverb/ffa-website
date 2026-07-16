@@ -217,11 +217,11 @@ export const ARTWORKS: Artwork[] = [
     artistName: 'Denis Pakowacz',
     medium: 'Prints, unframed · edition of 5',
     note: 'Commissioned by Leverage for OURS',
-    // $550 per set. Leverage keeps 1 of the 5 free — editionSize is set
+    // $340 per set. Leverage keeps 1 of the 5 free — editionSize is set
     // to the 4 actually for sale (not shown on the card), so it grays
     // out once those 4 are gone rather than at 5. Was a single $5,600
     // sold lot; restructured to sell individually.
-    listPrice: 550,
+    listPrice: 340,
     editionSize: 4,
     unitsSold: 0,
     status: 'available',
@@ -256,11 +256,11 @@ export const ARTWORKS: Artwork[] = [
     artistName: 'Olli Payne',
     medium: 'Prints, unframed · edition of 10',
     note: 'Materials donated by the Nucleonics Institute',
-    // $550 per piece. Olli keeps 1 of the 10 free — editionSize is set
+    // $180 per piece. Olli keeps 1 of the 10 free — editionSize is set
     // to the 9 actually for sale (not shown on the card), so it grays
     // out once those 9 are gone rather than at 10. Was a single $1,800
     // piece.
-    listPrice: 550,
+    listPrice: 180,
     editionSize: 9,
     unitsSold: 0,
     status: 'available',
