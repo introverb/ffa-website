@@ -191,7 +191,7 @@ const nextConfig = {
       },
       {
         source: '/q/recycle',
-        destination: 'https://gazell.io/products/forest-of-expired-links',
+        destination: 'https://bit.ly/forest-of-expired-links',
         statusCode: 302,
       },
       {

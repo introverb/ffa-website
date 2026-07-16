@@ -58,7 +58,7 @@ const LEDGERWORKS_WORKS: Array<{
     artist: 'Recycle Group',
     title: 'Forest of Expired Links',
     note: 'ERC-721 video, on-chain. Includes the photographic print from the exhibition. Listed at $11,000.',
-    href: 'https://gazell.io/products/forest-of-expired-links',
+    href: 'https://bit.ly/forest-of-expired-links',
     cta: 'Purchase through Gazelli Art House',
   },
   {
