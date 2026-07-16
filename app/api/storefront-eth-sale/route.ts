@@ -18,6 +18,11 @@ import { isStoreConfigured, reserveArtwork } from '@/lib/storefront-store';
 // purpose — Olli resolves this manually (verify on-chain, then
 // transfer), possibly the next day, not in real time during the show.
 //
+// The notification email below includes a one-click "mark sold" link
+// (storefront-mark-sold/route.ts) — that's the only thing that ever
+// flips this to "Sold" on the site, since there's no webhook watching
+// the chain for the transfer landing.
+//
 // Deliberately skips lib/spam.ts's hasScamContent() check — that
 // filter flags "ETH" + "transfer"/"wallet" language, which is exactly
 // what a legitimate submission here looks like. Honeypot only.
@@ -26,10 +31,17 @@ import { isStoreConfigured, reserveArtwork } from '@/lib/storefront-store';
 //   RESEND_API_KEY
 //   POSSIBILIA_FROM_EMAIL
 //   POSSIBILIA_TO_EMAIL
+//   STOREFRONT_ADMIN_TOKEN (omit the mark-sold link if unset)
 
 export const runtime = 'nodejs';
 
 const RESERVATION_TTL_SECONDS = 24 * 60 * 60;
+
+// Same reasoning as storefront-checkout/route.ts: Railway's internal
+// proxy means req.url resolves to the container's internal address, not
+// the public domain, so the mark-sold link needs a known-good origin.
+const SITE_URL =
+  process.env.NODE_ENV === 'production' ? 'https://futureaesthetics.foundation' : null;
 
 export async function POST(req: NextRequest) {
   try {
@@ -71,6 +83,10 @@ export async function POST(req: NextRequest) {
       console.error('Storefront ETH sale: live-state store not configured (Upstash env vars missing) — skipping reservation lock');
     }
 
+    const markSoldUrl = process.env.STOREFRONT_ADMIN_TOKEN
+      ? `${SITE_URL ?? req.nextUrl.origin}/api/storefront-mark-sold?id=${encodeURIComponent(artworkId)}&token=${encodeURIComponent(process.env.STOREFRONT_ADMIN_TOKEN)}`
+      : null;
+
     const resend = new Resend(process.env.RESEND_API_KEY);
     const { error } = await resend.emails.send({
       from: process.env.POSSIBILIA_FROM_EMAIL || 'FFA OURS <onboarding@resend.dev>',
@@ -84,7 +100,8 @@ Amount: ${ethAmount} ETH
 
 Buyer email: ${buyerEmail}
 Buyer wallet (send the NFT here, after verifying payment on-chain):
-${buyerWallet}`,
+${buyerWallet}
+${markSoldUrl ? `\nOnce you've confirmed the payment on-chain, mark it sold:\n${markSoldUrl}` : ''}`,
       html: `<h2 style="margin:0 0 16px;font-family:Helvetica,Arial,sans-serif;">ETH sale inquiry</h2>
 <table cellpadding="6" cellspacing="0" style="font-family:Helvetica,Arial,sans-serif;border-collapse:collapse;">
   <tr><td><strong>Piece:</strong></td><td>${escapeHtml(pieceTitle || artworkId)} (${escapeHtml(artworkId)})</td></tr>
@@ -92,7 +109,8 @@ ${buyerWallet}`,
   <tr><td><strong>Buyer email:</strong></td><td><a href="mailto:${escapeHtml(buyerEmail)}">${escapeHtml(buyerEmail)}</a></td></tr>
   <tr><td><strong>Buyer wallet:</strong></td><td style="font-family:monospace;">${escapeHtml(buyerWallet)}</td></tr>
 </table>
-<p style="font-family:Helvetica,Arial,sans-serif;">Verify the payment landed on-chain before transferring the NFT.</p>`,
+<p style="font-family:Helvetica,Arial,sans-serif;">Verify the payment landed on-chain before transferring the NFT.</p>
+${markSoldUrl ? `<p style="font-family:Helvetica,Arial,sans-serif;"><a href="${markSoldUrl}" style="display:inline-block;background:#111;color:#fff;padding:10px 20px;border-radius:6px;text-decoration:none;">Mark sold</a></p>` : ''}`,
     });
 
     if (error) {
