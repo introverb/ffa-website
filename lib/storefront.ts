@@ -264,6 +264,9 @@ export const ARTWORKS: Artwork[] = [
     editionSize: 9,
     unitsSold: 0,
     status: 'available',
+    image: '/images/storefront/olli-payne-nucleonics.jpg',
+    imageWidth: 2000,
+    imageHeight: 669,
   },
   // Ledgerworks (on-chain) pieces that FFA sells directly, same as the
   // physical works above: buyer pays through Stripe (20% premium
