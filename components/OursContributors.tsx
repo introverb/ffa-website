@@ -85,11 +85,6 @@ const INSTALLATION_CONTRIBUTORS: {
     href: 'https://opentheory.net/',
   },
   {
-    name: 'Stephen Wolfram',
-    role: 'Computer scientist, Wolfram Research',
-    href: 'https://www.stephenwolfram.com/',
-  },
-  {
     name: 'Bright Simons',
     role: 'Technologist, mPedigree, Ghana',
     href: 'https://brightsimons.com/',
