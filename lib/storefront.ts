@@ -70,6 +70,13 @@ export interface Artwork {
    *  read the final width/height from its output. */
   imageWidth?: number;
   imageHeight?: number;
+  /**
+   * Path under /public to a looping video of the piece — Ledgerworks
+   * only. Renders in place of the still image on both the grid card
+   * and the detail modal (muted/autoplay/loop); `image` still doubles
+   * as the video's poster frame while it loads.
+   */
+  video?: string;
 }
 
 // The foundation keeps 20% of every sale as a charitable premium; the
@@ -277,6 +284,7 @@ export const ARTWORKS: Artwork[] = [
     image: '/images/storefront/mauricio-pommella-the-pope.jpg',
     imageWidth: 2000,
     imageHeight: 3556,
+    video: '/images/storefront/mauricio-pommella-the-pope.mp4',
     // ETH only, no USD/Stripe — FFA bought the piece up front and is
     // reselling it, so payment goes straight to FFA's wallet. Olli may
     // make a special in-person USD exception at the show; if so he'll

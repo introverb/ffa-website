@@ -24,6 +24,7 @@ export type LedgerworksPiece = {
   image?: string;
   imageWidth?: number;
   imageHeight?: number;
+  video?: string;
 } & (
   | {
       kind: 'checkout';
@@ -55,6 +56,20 @@ function PieceImage({
   piece: LedgerworksPiece;
   sizes: string;
 }) {
+  if (piece.video) {
+    return (
+      <video
+        src={piece.video}
+        poster={piece.image}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        className="h-auto w-full rounded-xl"
+      />
+    );
+  }
   if (piece.image && piece.imageWidth && piece.imageHeight) {
     return (
       <Image
