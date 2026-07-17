@@ -305,7 +305,7 @@ export const ARTWORKS: Artwork[] = [
     image: '/images/storefront/yura-miron-solara-plaza.jpg',
     imageWidth: 1711,
     imageHeight: 2500,
-    // No price confirmed yet.
+    listPrice: 350,
   },
   {
     id: 'anjoladave-an-ending-a-beginning',
