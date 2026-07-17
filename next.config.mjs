@@ -119,11 +119,7 @@ const nextConfig = {
         destination: '/preorder',
         statusCode: 302,
       },
-      // Sponsor credit, program p18. NOTE: as of Jul 2026 this host's
-      // HTTPS is still being set up (TLS unrecognized_name alert) —
-      // Medici's site is expected up before the Aug 9 show. If a
-      // pre-show scan test still hits a browser security error, park
-      // this at '/' until their cert lands.
+      // Sponsor credit, program p18.
       {
         source: '/q/medici',
         destination: 'https://medicimag.com',
