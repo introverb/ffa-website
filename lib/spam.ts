@@ -4,9 +4,18 @@
 // Two layers, both run server-side before any Resend email is sent:
 //
 //   1. Honeypot — `<HoneypotField />` renders an invisible input named
-//      `company_website` on every form. Humans never see or focus it;
+//      HONEYPOT_FIELD on every form. Humans never see or focus it;
 //      autofill-pattern bots fill it eagerly. If this field has any
 //      value on submission, drop silently.
+//
+//      The field name/id/label are deliberately generic, not
+//      "company"/"website"/"name"/etc. — a prior version named it
+//      `company_website` with a "Company website" label, and that
+//      matched browser/password-manager autofill heuristics closely
+//      enough that a real buyer's saved profile data silently filled
+//      it, dropping a genuine submission with no error shown (caught
+//      via a live storefront ETH-sale test that "succeeded" with no
+//      reservation and no email).
 //
 //   2. Content filter — pattern-match the combined form body against a
 //      known crypto-scam template that's been hammering the inbox
@@ -22,7 +31,7 @@
 // This is intentionally a thin layer of defense — for stronger
 // protection (Cloudflare Turnstile) see the queue.
 
-export const HONEYPOT_FIELD = 'company_website';
+export const HONEYPOT_FIELD = 'hp_field';
 
 // Returns true if the honeypot field has any non-empty value.
 export function isHoneypotFilled(formData: FormData): boolean {
