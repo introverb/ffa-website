@@ -1,7 +1,7 @@
 import { Resend } from 'resend';
 import { NextRequest, NextResponse } from 'next/server';
 import { isHoneypotFilled } from '@/lib/spam';
-import { isStoreConfigured, reserveArtwork } from '@/lib/storefront-store';
+import { isStoreConfigured, reserveArtwork, releaseReservation } from '@/lib/storefront-store';
 
 // ETH-only Ledgerworks sale inquiry (currently just The Pope). There's
 // no Stripe/webhook here — a buyer sends ETH directly to FFA's wallet
@@ -44,6 +44,11 @@ const SITE_URL =
   process.env.NODE_ENV === 'production' ? 'https://futureaesthetics.foundation' : null;
 
 export async function POST(req: NextRequest) {
+  // Declared outside the try block so the catch handler can see them
+  // too — needed to release a reservation if something throws after
+  // it's been set (see reservedByThisRequest below).
+  let artworkId = '';
+  let reservedByThisRequest = false;
   try {
     if (!process.env.RESEND_API_KEY) {
       return NextResponse.json({ error: 'RESEND_API_KEY not configured' }, { status: 500 });
@@ -55,7 +60,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ ok: true });
     }
 
-    const artworkId = field(formData, 'artworkId');
+    artworkId = field(formData, 'artworkId');
     const pieceTitle = field(formData, 'pieceTitle');
     const ethAmount = field(formData, 'ethAmount');
     const buyerWallet = field(formData, 'buyerWallet');
@@ -71,6 +76,12 @@ export async function POST(req: NextRequest) {
     // Only enforce the lock when Redis is actually configured — a
     // misconfigured store returns false from reserveArtwork() same as
     // "already reserved," which would wrongly block every submission.
+    // reservedByThisRequest tracks whether *this* request is the one
+    // holding the lock, so a failure further down (e.g. the email send
+    // below) can release it instead of leaving the piece silently
+    // stuck "Reserved" with no record of who reserved it — confirmed
+    // live: a Resend outage left The Pope locked for the full 24h TTL
+    // after a failed submission.
     if (isStoreConfigured()) {
       const reserved = await reserveArtwork(artworkId, RESERVATION_TTL_SECONDS);
       if (!reserved) {
@@ -79,6 +90,7 @@ export async function POST(req: NextRequest) {
           { status: 409 },
         );
       }
+      reservedByThisRequest = true;
     } else {
       console.error('Storefront ETH sale: live-state store not configured (Upstash env vars missing) — skipping reservation lock');
     }
@@ -115,12 +127,14 @@ ${markSoldUrl ? `<p style="font-family:Helvetica,Arial,sans-serif;"><a href="${m
 
     if (error) {
       console.error('Storefront ETH sale: Resend error:', error);
+      if (reservedByThisRequest) await releaseReservation(artworkId);
       return NextResponse.json({ error: 'Failed to send email' }, { status: 500 });
     }
 
     return NextResponse.json({ ok: true });
   } catch (err) {
     console.error('Storefront ETH sale error:', err);
+    if (reservedByThisRequest) await releaseReservation(artworkId);
     return NextResponse.json({ error: (err as Error).message }, { status: 500 });
   }
 }
