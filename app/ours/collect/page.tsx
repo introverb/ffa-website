@@ -211,7 +211,7 @@ export default async function OursCollectPage() {
         }
       />
 
-      <Panel variant="white" className="md:p-16">
+      <Panel variant="charcoal" className="md:p-16">
         {/* CSS grid rather than a CSS-multi-column masonry — most of
             these photos are landscape (wide paintings, canvases), and a
             row-aligned grid lets a landscape piece span 2 columns for a
@@ -239,7 +239,7 @@ export default async function OursCollectPage() {
           ))}
         </ul>
 
-        <p className="mt-16 border-t border-rule pt-8 text-sm text-muted">
+        <p className="mt-16 border-t border-white/20 pt-8 text-sm text-white/60">
           Prices include a 20% charitable, tax-deductible premium supporting FFA, a 501(c)(3)
           nonprofit. Sales tax is calculated at checkout.
         </p>
@@ -260,10 +260,10 @@ export default async function OursCollectPage() {
             clear of the viewport top when the anchor jumps —
             important since QR scans land here directly, skipping the
             grid above. */}
-        <div id="ledgerworks" className="mt-20 scroll-mt-24 border-t-[3px] border-rule pt-16">
+        <div id="ledgerworks" className="mt-20 scroll-mt-24 border-t-[3px] border-white/20 pt-16">
           <p className="text-sm uppercase tracking-[0.08em] text-sage">Ledgerworks</p>
           <h2 className="mt-6 text-h2 leading-[1.05] md:text-h2-lg">Collect on-chain.</h2>
-          <p className="mt-6 max-w-2xl text-body leading-relaxed text-ink/80">
+          <p className="mt-6 max-w-2xl text-body leading-relaxed text-white/80">
             On-chain works from the exhibition&rsquo;s Ledgerworks artists. Buy through the
             page and FFA transfers the piece to your wallet after the sale.
           </p>
@@ -274,7 +274,7 @@ export default async function OursCollectPage() {
           {/* Same disclosure as the exhibition grid, repeated here —
               visitors from the /q/web3 QR code land on this anchor
               directly and may never scroll past the grid above. */}
-          <p className="mt-4 border-t border-rule pt-8 text-sm text-muted">
+          <p className="mt-4 border-t border-white/20 pt-8 text-sm text-white/60">
             Prices include a 20% charitable, tax-deductible premium supporting FFA, a 501(c)(3)
             nonprofit. Sales tax is calculated at checkout.
           </p>

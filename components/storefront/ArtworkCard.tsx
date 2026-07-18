@@ -24,8 +24,8 @@ function ArtworkImage({ artwork }: { artwork: Artwork }) {
     );
   }
   return (
-    <div className="relative aspect-[4/5] overflow-hidden rounded-xl bg-ink/10">
-      <div className="absolute inset-0 grid place-items-center font-sans text-xs uppercase tracking-[0.14em] text-muted">
+    <div className="relative aspect-[4/5] overflow-hidden rounded-xl bg-white/10">
+      <div className="absolute inset-0 grid place-items-center font-sans text-xs uppercase tracking-[0.14em] text-white/50">
         Image coming soon
       </div>
     </div>
@@ -56,10 +56,10 @@ export function ArtworkCard({ artwork }: { artwork: Artwork }) {
         )}
       </div>
 
-      <h3 className="mt-5 text-h6 leading-tight text-ink md:text-h5">{artwork.title}</h3>
+      <h3 className="mt-5 text-h6 leading-tight text-white md:text-h5">{artwork.title}</h3>
       <p className="mt-1.5 text-sm uppercase tracking-[0.08em] text-sage">{artwork.artistName}</p>
-      {artwork.medium && <p className="mt-1 text-sm text-muted">{artwork.medium}</p>}
-      {artwork.note && <p className="mt-2 text-sm italic text-muted">{artwork.note}</p>}
+      {artwork.medium && <p className="mt-1 text-sm text-white/60">{artwork.medium}</p>}
+      {artwork.note && <p className="mt-2 text-sm italic text-white/60">{artwork.note}</p>}
 
       <div className="mt-4 flex flex-col items-start gap-3">
         {/* Sold pieces keep their price on the page — red-dot gallery
@@ -67,23 +67,23 @@ export function ArtworkCard({ artwork }: { artwork: Artwork }) {
             with no price yet AND nothing sold shows "Price TBD". */}
         {price != null ? (
           <div>
-            <p className="text-h6 text-ink">
+            <p className="text-h6 text-white">
               {artwork.priceIsEstimate && '~'}${price.toLocaleString('en-US')}
             </p>
             {artwork.priceIsEstimate && (
-              <p className="mt-0.5 text-xs text-muted">Estimate, not final</p>
+              <p className="mt-0.5 text-xs text-white/60">Estimate, not final</p>
             )}
           </div>
         ) : soldOut ? (
           <span />
         ) : (
-          <p className="text-h6 text-muted">Price TBD</p>
+          <p className="text-h6 text-white/60">Price TBD</p>
         )}
 
         {label === 'Reserved' ? (
           <WaitlistDialog artworkId={artwork.id} pieceTitle={artwork.title} />
         ) : label ? (
-          <span className="inline-flex items-center justify-center rounded-md border border-ink/20 px-6 py-2.5 text-sm uppercase tracking-[0.1em] text-muted">
+          <span className="inline-flex items-center justify-center rounded-md border border-white/20 px-6 py-2.5 text-sm uppercase tracking-[0.1em] text-white/60">
             {label}
           </span>
         ) : showBuy ? (

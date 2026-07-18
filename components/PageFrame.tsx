@@ -20,6 +20,10 @@ export function PageFrame({ children }: { children: React.ReactNode }) {
 
 // Each section becomes a "panel" - white rounded card with generous padding.
 // Use `dark` for the black-background variants (Possibilia callout, footer).
+// Use `charcoal` for a softer dark surface (the palette's `ink` token,
+// #3B3A3A) rather than `dark`'s near-black (#151414) — first use: the
+// OURS storefront, a moodier "gallery" surface distinct from the
+// site's standard dark panels.
 export function Panel({
   children,
   variant = 'white',
@@ -28,7 +32,7 @@ export function Panel({
   id,
 }: {
   children: React.ReactNode;
-  variant?: 'white' | 'dark' | 'image';
+  variant?: 'white' | 'dark' | 'image' | 'charcoal';
   className?: string;
   full?: boolean;
   id?: string;
@@ -36,6 +40,8 @@ export function Panel({
   const bg =
     variant === 'dark'
       ? 'bg-dark text-white'
+      : variant === 'charcoal'
+      ? 'bg-ink text-white'
       : variant === 'image'
       ? 'bg-cream'
       : 'bg-paper text-ink';

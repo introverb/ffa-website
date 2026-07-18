@@ -65,13 +65,19 @@ function isLandscape(piece: LedgerworksPiece): boolean {
 }
 
 // Same image-slot treatment as ArtworkCard's — intrinsic sizing for a
-// real photo, neutral gray placeholder when one isn't in yet.
+// real photo, neutral gray placeholder when one isn't in yet. Shared
+// between the (charcoal) grid card and the (white) detail modal, so
+// the "Image coming soon" placeholder text needs to know which
+// background it's sitting on — `dark` flips it light-on-dark for the
+// card; the modal (dark omitted) keeps the original dark-on-light.
 function PieceImage({
   piece,
   sizes,
+  dark = false,
 }: {
   piece: LedgerworksPiece;
   sizes: string;
+  dark?: boolean;
 }) {
   if (piece.videoEmbed) {
     return (
@@ -113,34 +119,38 @@ function PieceImage({
     );
   }
   return (
-    <div className="relative aspect-[4/5] overflow-hidden rounded-xl bg-ink/10">
-      <div className="absolute inset-0 grid place-items-center font-sans text-xs uppercase tracking-[0.14em] text-muted">
+    <div className={`relative aspect-[4/5] overflow-hidden rounded-xl ${dark ? 'bg-white/10' : 'bg-ink/10'}`}>
+      <div
+        className={`absolute inset-0 grid place-items-center font-sans text-xs uppercase tracking-[0.14em] ${dark ? 'text-white/50' : 'text-muted'}`}
+      >
         Image coming soon
       </div>
     </div>
   );
 }
 
+// Card-only (the grid button) — the modal renders its own price/status
+// lines inline instead, on its own white background.
 function CardPriceOrStatus({ piece }: { piece: LedgerworksPiece }) {
   if (piece.kind === 'external') {
     return piece.price != null ? (
-      <p className="text-h6 text-ink">${piece.price.toLocaleString('en-US')}</p>
+      <p className="text-h6 text-white">${piece.price.toLocaleString('en-US')}</p>
     ) : null;
   }
   if (piece.label) {
-    return <p className="text-h6 text-muted">{piece.label}</p>;
+    return <p className="text-h6 text-white/60">{piece.label}</p>;
   }
   if (piece.kind === 'eth') {
-    return <p className="text-h6 text-ink">{piece.ethAmount} ETH</p>;
+    return <p className="text-h6 text-white">{piece.ethAmount} ETH</p>;
   }
   if (piece.price != null) {
     return (
-      <p className="text-h6 text-ink">
+      <p className="text-h6 text-white">
         {piece.priceIsEstimate && '~'}${piece.price.toLocaleString('en-US')}
       </p>
     );
   }
-  return <p className="text-h6 text-muted">Price TBD</p>;
+  return <p className="text-h6 text-white/60">Price TBD</p>;
 }
 
 // Handles the two simple single-element CTAs (external link, Stripe
@@ -269,7 +279,7 @@ export function LedgerworksSection({ pieces }: { pieces: LedgerworksPiece[] }) {
 
   return (
     <>
-      <ul className="mt-12 grid grid-cols-1 gap-x-8 gap-y-14 text-body leading-relaxed text-ink/80 sm:grid-cols-2 lg:grid-cols-3 [grid-auto-flow:dense]">
+      <ul className="mt-12 grid grid-cols-1 gap-x-8 gap-y-14 text-body leading-relaxed text-white/80 sm:grid-cols-2 lg:grid-cols-3 [grid-auto-flow:dense]">
         {pieces.map((piece) => (
           <li key={piece.id} className={isLandscape(piece) ? 'sm:col-span-2' : undefined}>
             <button
@@ -282,6 +292,7 @@ export function LedgerworksSection({ pieces }: { pieces: LedgerworksPiece[] }) {
                 <PieceImage
                   piece={piece}
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  dark
                 />
                 {piece.kind !== 'external' && piece.label && (
                   <span className="absolute left-3 top-3 rounded-full bg-dark px-3 py-1 text-xs uppercase tracking-[0.1em] text-white">
@@ -294,15 +305,15 @@ export function LedgerworksSection({ pieces }: { pieces: LedgerworksPiece[] }) {
                   </span>
                 )}
               </div>
-              <h3 className="mt-5 text-h6 leading-tight text-ink md:text-h5">{piece.title}</h3>
+              <h3 className="mt-5 text-h6 leading-tight text-white md:text-h5">{piece.title}</h3>
               <p className="mt-1.5 text-sm uppercase tracking-[0.08em] text-sage">
                 {piece.artistName}
               </p>
-              {piece.medium && <p className="mt-1 text-sm text-muted">{piece.medium}</p>}
-              {piece.note && <p className="mt-2 text-sm italic text-muted">{piece.note}</p>}
+              {piece.medium && <p className="mt-1 text-sm text-white/60">{piece.medium}</p>}
+              {piece.note && <p className="mt-2 text-sm italic text-white/60">{piece.note}</p>}
               <div className="mt-4 flex items-center justify-between gap-3">
                 <CardPriceOrStatus piece={piece} />
-                <span className="inline-flex items-center justify-center rounded-md border border-ink/20 px-5 py-2 text-xs uppercase tracking-[0.1em] text-ink">
+                <span className="inline-flex items-center justify-center rounded-md border border-white/20 px-5 py-2 text-xs uppercase tracking-[0.1em] text-white">
                   {piece.kind === 'external' ? 'View piece' : 'Buy piece'}
                 </span>
               </div>
