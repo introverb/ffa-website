@@ -92,6 +92,25 @@ export default async function OursCollectPage() {
   // the Ledgerworks section below rather than the main exhibition grid.
   const physicalArtworks = artworks.filter((a) => !a.isNFT);
   const nftArtworks = artworks.filter((a) => a.isNFT);
+  // Curated display order (not source order) — pairs with the
+  // landscape-span grid so rows land evenly: RERO+Giorgia, Possibilia+
+  // Pyramid, Hummingbird+Illusion, and Nucleonics+Paradise each fill a
+  // 3-column row (2-wide landscape piece + 1-wide piece); Magnetobiology
+  // goes last at full width (see GALLERY_FULL_WIDTH below) since it's a
+  // multi-piece set with detail worth the extra room.
+  const GALLERY_ORDER = [
+    'rero-a-new-city-will-be-built',
+    'giorgia-lupi-02-blue-prints',
+    'dylan-weiler-possibilia',
+    'anyanwu-pyramid',
+    'sue-ellen-zhang-oil-painting',
+    'ellynne-dec-glass-bead-piece',
+    'olli-payne-nucleonics',
+    'seungjun-na-printed-collage',
+    'denis-pakowacz-magnetobiology',
+  ];
+  physicalArtworks.sort((a, b) => GALLERY_ORDER.indexOf(a.id) - GALLERY_ORDER.indexOf(b.id));
+  const GALLERY_FULL_WIDTH = new Set(['denis-pakowacz-magnetobiology']);
 
   // One normalized list for the Ledgerworks grid + detail modal — FFA/
   // Stripe pieces, the ETH-only piece (currently just The Pope), and
@@ -205,7 +224,16 @@ export default async function OursCollectPage() {
             acceptable here since most images are a similar scale. */}
         <ul className="grid grid-cols-1 gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3 [grid-auto-flow:dense]">
           {physicalArtworks.map((artwork) => (
-            <li key={artwork.id} className={isLandscape(artwork) ? 'sm:col-span-2' : undefined}>
+            <li
+              key={artwork.id}
+              className={
+                GALLERY_FULL_WIDTH.has(artwork.id)
+                  ? 'sm:col-span-2 lg:col-span-3'
+                  : isLandscape(artwork)
+                    ? 'sm:col-span-2'
+                    : undefined
+              }
+            >
               <ArtworkCard artwork={artwork} />
             </li>
           ))}
