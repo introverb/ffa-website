@@ -25,6 +25,10 @@ export type LedgerworksPiece = {
   imageWidth?: number;
   imageHeight?: number;
   video?: string;
+  /** Embeddable player URL (e.g. a Vimeo player src) — for pieces whose
+   *  video lives on an external host rather than /public. Takes
+   *  priority over `video`/`image` in the image slot. */
+  videoEmbed?: string;
 } & (
   | {
       kind: 'checkout';
@@ -44,6 +48,10 @@ export type LedgerworksPiece = {
       kind: 'external';
       href: string;
       cta: string;
+      /** Display price for pieces sold entirely off FFA's own checkout
+       *  (e.g. gallery-represented) — shown the same as a checkout
+       *  piece's price, but the CTA still just links out. */
+      price?: number;
     }
 );
 
@@ -56,6 +64,19 @@ function PieceImage({
   piece: LedgerworksPiece;
   sizes: string;
 }) {
+  if (piece.videoEmbed) {
+    return (
+      <div className="relative aspect-video overflow-hidden rounded-xl bg-ink/10">
+        <iframe
+          src={piece.videoEmbed}
+          className="absolute inset-0 h-full w-full"
+          allow="autoplay; fullscreen; picture-in-picture"
+          allowFullScreen
+          title={piece.title}
+        />
+      </div>
+    );
+  }
   if (piece.video) {
     return (
       <video
@@ -92,7 +113,11 @@ function PieceImage({
 }
 
 function CardPriceOrStatus({ piece }: { piece: LedgerworksPiece }) {
-  if (piece.kind === 'external') return null;
+  if (piece.kind === 'external') {
+    return piece.price != null ? (
+      <p className="text-h6 text-ink">${piece.price.toLocaleString('en-US')}</p>
+    ) : null;
+  }
   if (piece.label) {
     return <p className="text-h6 text-muted">{piece.label}</p>;
   }
@@ -183,6 +208,9 @@ function LedgerworksModal({
           <p className="text-h6 text-ink">
             {piece.priceIsEstimate && '~'}${piece.price.toLocaleString('en-US')}
           </p>
+        )}
+        {piece.kind === 'external' && piece.price != null && (
+          <p className="text-h6 text-ink">${piece.price.toLocaleString('en-US')}</p>
         )}
         {piece.kind === 'eth' && (
           <p className="text-h6 text-ink">{piece.ethAmount} ETH</p>

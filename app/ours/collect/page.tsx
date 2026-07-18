@@ -52,19 +52,23 @@ const LEDGERWORKS_WORKS: Array<{
   image?: string;
   imageWidth?: number;
   imageHeight?: number;
+  videoEmbed?: string;
+  price?: number;
 }> = [
   {
     id: 'recycle-group-forest-of-expired-links',
     artist: 'Recycle Group',
     title: 'Forest of Expired Links',
-    note: 'ERC-721 video, on-chain. Includes the photographic print from the exhibition. Listed at $11,000.',
+    note: 'ERC-721 video, on-chain. Includes the photographic print from the exhibition.',
     href: 'https://bit.ly/forest-of-expired-links',
     cta: 'Purchase through Gazelli Art House',
+    videoEmbed: 'https://player.vimeo.com/video/1192225993',
+    price: 11000,
   },
   {
     id: 'nahuel-aquiles-dna-fractal-print',
     artist: 'Nahuel Aquiles',
-    title: 'DNA-fractal print',
+    title: 'Self-Similar',
     note: 'Generative fractal from DNA data — create your own biodata print and collect the NFT, $40 / $90. A share of each sale supports FFA.',
     href: 'https://genpi.org',
     cta: 'Collect via genpi.org',
@@ -143,9 +147,11 @@ export default async function OursCollectPage() {
         image: w.image,
         imageWidth: w.imageWidth,
         imageHeight: w.imageHeight,
+        videoEmbed: w.videoEmbed,
         kind: 'external',
         href: w.href ?? '#',
         cta: w.cta ?? 'View listing',
+        price: w.price,
       }),
     ),
   ];
