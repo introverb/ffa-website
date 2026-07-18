@@ -295,7 +295,7 @@ export function LedgerworksSection({ pieces }: { pieces: LedgerworksPiece[] }) {
                   dark
                 />
                 {piece.kind !== 'external' && piece.label && (
-                  <span className="absolute left-3 top-3 rounded-full bg-dark px-3 py-1 text-xs uppercase tracking-[0.1em] text-white">
+                  <span className="absolute left-3 top-3 rounded-full bg-flare px-3 py-1 text-xs uppercase tracking-[0.1em] text-white">
                     {piece.label}
                   </span>
                 )}

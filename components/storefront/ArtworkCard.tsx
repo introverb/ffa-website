@@ -45,7 +45,7 @@ export function ArtworkCard({ artwork }: { artwork: Artwork }) {
       <div className="relative">
         <ArtworkImage artwork={artwork} />
         {label && (
-          <span className="absolute left-3 top-3 rounded-full bg-dark px-3 py-1 text-xs uppercase tracking-[0.1em] text-white">
+          <span className="absolute left-3 top-3 rounded-full bg-flare px-3 py-1 text-xs uppercase tracking-[0.1em] text-white">
             {label}
           </span>
         )}
