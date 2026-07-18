@@ -9,6 +9,13 @@ import {
 } from '@/components/storefront/LedgerworksSection';
 import { getArtworksForDisplay, displayPrice, isSoldOut, statusLabel } from '@/lib/storefront';
 
+// A piece with a clearly wide/landscape image gets 2 grid columns
+// instead of 1 (see the grid comment below) — 1.15 gives a little
+// buffer so a near-square image doesn't span unnecessarily.
+function isLandscape(item: { imageWidth?: number; imageHeight?: number }): boolean {
+  return !!(item.imageWidth && item.imageHeight && item.imageWidth / item.imageHeight > 1.15);
+}
+
 // OURS storefront — unlisted on purpose (see the build brief in
 // /storefront). Not linked from SiteNav, the /ours page, or the
 // sitemap; reachable only by direct URL. `robots: noindex` keeps it
@@ -171,16 +178,19 @@ export default async function OursCollectPage() {
       />
 
       <Panel variant="white" className="md:p-16">
-        {/* Masonry via CSS multi-column rather than a row-aligned grid —
-            cards are sized to each work's own image, so a tall portrait
-            and a wide landscape shouldn't be forced onto a shared row
-            height. break-inside-avoid keeps a card from splitting across
-            a column break; column-gap (gap-x) spaces the columns, and
-            each item's own bottom margin spaces them vertically since
-            column layout has no row-gap equivalent. */}
-        <ul className="columns-1 gap-x-8 sm:columns-2 lg:columns-3">
+        {/* CSS grid rather than a CSS-multi-column masonry — most of
+            these photos are landscape (wide paintings, canvases), and a
+            row-aligned grid lets a landscape piece span 2 columns for a
+            bigger, more prominent showing instead of being squeezed
+            into one narrow column. grid-flow-dense backfills gaps left
+            by spanning items with whatever comes next, so the layout
+            still packs reasonably tightly. Trade-off vs. the old
+            masonry: cards in the same row share that row's height, so
+            a short card can leave blank space beside a tall neighbor —
+            acceptable here since most images are a similar scale. */}
+        <ul className="grid grid-cols-1 gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3 [grid-auto-flow:dense]">
           {physicalArtworks.map((artwork) => (
-            <li key={artwork.id} className="mb-14 break-inside-avoid">
+            <li key={artwork.id} className={isLandscape(artwork) ? 'sm:col-span-2' : undefined}>
               <ArtworkCard artwork={artwork} />
             </li>
           ))}

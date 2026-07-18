@@ -55,6 +55,15 @@ export type LedgerworksPiece = {
     }
 );
 
+// A piece with a clearly wide/landscape image (or a video embed, always
+// 16:9) gets 2 grid columns instead of 1 — see the grid comment in
+// LedgerworksSection below. 1.15 gives a little buffer so a near-square
+// image doesn't span unnecessarily.
+function isLandscape(piece: LedgerworksPiece): boolean {
+  if (piece.videoEmbed) return true;
+  return !!(piece.imageWidth && piece.imageHeight && piece.imageWidth / piece.imageHeight > 1.15);
+}
+
 // Same image-slot treatment as ArtworkCard's — intrinsic sizing for a
 // real photo, neutral gray placeholder when one isn't in yet.
 function PieceImage({
@@ -260,9 +269,9 @@ export function LedgerworksSection({ pieces }: { pieces: LedgerworksPiece[] }) {
 
   return (
     <>
-      <ul className="mt-12 columns-1 gap-x-8 text-body leading-relaxed text-ink/80 sm:columns-2 lg:columns-3">
+      <ul className="mt-12 grid grid-cols-1 gap-x-8 gap-y-14 text-body leading-relaxed text-ink/80 sm:grid-cols-2 lg:grid-cols-3 [grid-auto-flow:dense]">
         {pieces.map((piece) => (
-          <li key={piece.id} className="mb-14 break-inside-avoid">
+          <li key={piece.id} className={isLandscape(piece) ? 'sm:col-span-2' : undefined}>
             <button
               type="button"
               onClick={() => open(piece.id)}
