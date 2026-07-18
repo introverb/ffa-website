@@ -69,7 +69,7 @@ const LEDGERWORKS_WORKS: Array<{
     note: 'ERC-721 video, on-chain. Includes the photographic print from the exhibition.',
     href: 'https://bit.ly/forest-of-expired-links',
     cta: 'Purchase through Gazelli Art House',
-    videoEmbed: 'https://player.vimeo.com/video/1192225993',
+    videoEmbed: 'https://player.vimeo.com/video/1192225993?autoplay=1&muted=1&loop=1',
     price: 11000,
   },
   {
@@ -162,6 +162,21 @@ export default async function OursCollectPage() {
       }),
     ),
   ];
+  // Display order is curated, not source order (FFA/Stripe pieces and
+  // externally-fulfilled ones come from two different arrays above) —
+  // pairs with the landscape-span grid so rows land evenly: The Pope +
+  // Forest of Expired Links (2-wide) fill row 1, then Solara Plaza / An
+  // Ending, A Beginning / Self-Similar fill row 2 exactly.
+  const LEDGERWORKS_ORDER = [
+    'mauricio-pommella-the-pope',
+    'recycle-group-forest-of-expired-links',
+    'yura-miron-solara-plaza',
+    'anjoladave-an-ending-a-beginning',
+    'nahuel-aquiles-dna-fractal-print',
+  ];
+  ledgerworksPieces.sort(
+    (a, b) => LEDGERWORKS_ORDER.indexOf(a.id) - LEDGERWORKS_ORDER.indexOf(b.id),
+  );
 
   return (
     <>
