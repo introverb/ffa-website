@@ -252,7 +252,7 @@ export const ARTWORKS: Artwork[] = [
   },
   {
     id: 'olli-payne-nucleonics',
-    title: 'Nucleonics',
+    title: 'Materia Alhemical',
     artistName: 'Olli Payne',
     medium: 'Prints, unframed · edition of 10',
     note: 'Materials donated by the Nucleonics Institute — 100% of proceeds go to FFA',
