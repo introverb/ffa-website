@@ -85,13 +85,24 @@ export default function OursPage() {
         {/* The invitation — the hook ("the future isn't fixed"). Used
             to be followed by "Engage doors" (Apply to attend / Submit
             artwork); removed once invites went out and both the guest
-            list and artist roster closed. */}
+            list and artist roster closed. The "Attend OURS" button
+            below is a distinct, later addition — a direct RSVP link
+            (via /ours/attend -> Luma), not the old jury/apply flow. */}
         <div className="grid gap-12 md:grid-cols-[1fr_1.6fr] md:items-start">
           <div>
             <p className="text-sm uppercase tracking-[0.08em] text-sage">The invitation</p>
             <h2 className="mt-6 text-h2 leading-[1.05] md:text-h2-lg">
               The future isn&rsquo;t fixed.
             </h2>
+            <a
+              href="/ours/attend"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-goatcounter-click="ours:attend"
+              className="btn-solid mt-8 inline-flex"
+            >
+              Attend OURS
+            </a>
           </div>
           <div className="text-body-lg leading-relaxed text-ink/85">
             <p>

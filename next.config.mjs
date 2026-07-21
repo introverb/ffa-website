@@ -95,6 +95,16 @@ const nextConfig = {
         destination: '/support#partner',
         permanent: true,
       },
+      // OURS RSVP — the "Attend OURS" button on /ours, and also meant
+      // to be posted publicly on its own (social, etc.) as a clean,
+      // memorable URL. statusCode 302 (not permanent) so the Luma link
+      // can be repointed later without a stale redirect lingering in
+      // browser caches.
+      {
+        source: '/ours/attend',
+        destination: 'https://luma.com/0hakp1pz',
+        statusCode: 302,
+      },
       // OURS program QRs — printed Aug 2026, do not delete slugs.
       // Each /q/* short path is baked into a QR code in the printed
       // OURS program (22mm codes; short paths keep scan density low).
