@@ -99,7 +99,7 @@ export default function OursPage() {
               target="_blank"
               rel="noopener noreferrer"
               data-goatcounter-click="ours:attend"
-              className="btn-solid mt-8 inline-flex"
+              className="btn-solid mt-8 inline-flex bg-flare px-10 py-4 text-base"
             >
               Attend OURS
             </a>
