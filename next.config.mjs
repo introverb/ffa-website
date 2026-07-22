@@ -219,6 +219,15 @@ const nextConfig = {
         destination: '/ours/after',
         statusCode: 302,
       },
+      // "Visions of the Future" guest video submissions — poster QR at
+      // the show. Points at a Dropbox File Request (not a plain shared-
+      // folder link): lets anonymous guests add a file each without
+      // seeing or being able to touch anyone else's submission.
+      {
+        source: '/q/vision',
+        destination: 'https://www.dropbox.com/request/z6vqpanldch5n33wsqnh',
+        statusCode: 302,
+      },
     ];
   },
 };
