@@ -28,7 +28,7 @@ const EVENT_SCHEMA = {
   eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
   location: {
     '@type': 'Place',
-    name: 'Space LES',
+    // Venue name withheld pre-RSVP — address-level detail only.
     address: {
       '@type': 'PostalAddress',
       addressLocality: 'New York',
@@ -59,7 +59,7 @@ const FORMAT = [
   },
   {
     label: 'Setting',
-    body: 'Venue: Space LES\nLES, NY\nAugust 9, 2026',
+    body: 'RSVP For Venue\nLower East Side, NYC\nAugust 9, 2026\nDoors at 6pm',
   },
 ];
 
