@@ -139,7 +139,7 @@ export const ARTWORKS: Artwork[] = [
     // ellipsis) — see the placard copy doc.
     title: 'A NEW CITY WILL BE BUILT…',
     artistName: 'RERO',
-    medium: 'Burnt wood, metal',
+    medium: 'Burnt wood, metal, 67 × 49 in',
     note: 'Commissioned for OURS',
     // Updated final price, sold — was $26,000, available.
     listPrice: 30000,
@@ -155,7 +155,7 @@ export const ARTWORKS: Artwork[] = [
     // the edition number lives in the medium line instead.
     title: 'PYRAMID',
     artistName: 'Anyanwu',
-    medium: 'Sculpture + interactive game · edition 1/5',
+    medium: 'Hand-painted 3D print sculpture, 12 × 12 × 12 in · edition 1/5',
     note: 'Commissioned for OURS',
     // Confirmed against the printed program: $6,000 flat, no +20%
     // premium on top (supersedes the earlier "$7,200 final" reading).
@@ -171,7 +171,7 @@ export const ARTWORKS: Artwork[] = [
     // is a limited archival print of it, made explicit in the medium
     // so nobody mistakes this for the original. Prints fulfil
     // post-event.
-    title: 'Modelli Circolari · 02 Blue',
+    title: '02 Blue',
     artistName: 'Giorgia Lupi',
     medium: 'Archival print, 14 × 18 in, edition of 25, unframed',
     note: 'Original (gouache, acrylic, ink, and threads on paper) on loan to OURS. Signed certificate of authenticity included.',
@@ -190,7 +190,7 @@ export const ARTWORKS: Artwork[] = [
     id: 'dylan-weiler-possibilia',
     title: 'Possibilia',
     artistName: 'Dylan Weiler',
-    medium: 'Oil on canvas',
+    medium: 'Oil on canvas, 24 × 36 in',
     note: 'Donated by the artist — 100% of proceeds go to FFA',
     // Updated final price, donated — 100% to FFA, no +20%. Was $3,200.
     listPrice: 3800,
@@ -203,7 +203,7 @@ export const ARTWORKS: Artwork[] = [
     id: 'seungjun-na-printed-collage',
     title: 'Paradise of Rumors',
     artistName: 'Seungjun Na',
-    medium: 'Digital collage · archival print',
+    medium: 'Digital collage, 36 × 48 in',
     note: 'Commissioned by Medici Magazine for OURS',
     listPrice: 4200,
     status: 'available',
@@ -215,7 +215,7 @@ export const ARTWORKS: Artwork[] = [
     id: 'denis-pakowacz-magnetobiology',
     title: 'Magnetobiology',
     artistName: 'Denis Pakowacz',
-    medium: 'Prints, unframed · edition of 5',
+    medium: 'Prints, unframed · edition of 5 · 6 × 8 in',
     note: 'Commissioned by Leverage for OURS',
     // $340 per set. Leverage keeps 1 of the 5 free — editionSize is set
     // to the 4 actually for sale (not shown on the card), so it grays
@@ -263,9 +263,9 @@ export const ARTWORKS: Artwork[] = [
   },
   {
     id: 'olli-payne-nucleonics',
-    title: 'Materia Alhemical',
+    title: 'Materia Alchemical',
     artistName: 'Olli Payne',
-    medium: 'Prints, unframed · edition of 10',
+    medium: 'Prints, unframed · edition of 10 · 28 × 9 in',
     note: 'Materials donated by the Nucleonics Institute — 100% of proceeds go to FFA',
     // $180 per piece. Olli keeps 1 of the 10 free — editionSize is set
     // to the 9 actually for sale (not shown on the card), so it grays
