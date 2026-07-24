@@ -100,6 +100,16 @@ export function isSoldOut(artwork: Artwork): boolean {
   return artwork.status === 'sold';
 }
 
+// "N left" for edition pieces — null for 1-of-1s (editionSize unset),
+// where "left" doesn't mean anything. editionSize is already the count
+// actually for sale (pre-claimed copies, like an artist's or sponsor's
+// free unit, are excluded when the catalog entry is set up), so this
+// is a plain countdown, not a display-only adjustment.
+export function unitsRemaining(artwork: Artwork): number | null {
+  if (artwork.editionSize == null) return null;
+  return Math.max(0, artwork.editionSize - (artwork.unitsSold ?? 0));
+}
+
 export function statusLabel(artwork: Artwork): 'Sold out' | 'Sold' | 'Reserved' | null {
   if (isSoldOut(artwork)) return artwork.editionSize != null ? 'Sold out' : 'Sold';
   if (artwork.status === 'reserved') return 'Reserved';

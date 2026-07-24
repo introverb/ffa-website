@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { type Artwork, displayPrice, isSoldOut, statusLabel } from '@/lib/storefront';
+import { type Artwork, displayPrice, isSoldOut, statusLabel, unitsRemaining } from '@/lib/storefront';
 import { WaitlistDialog } from './WaitlistDialog';
 
 // Image slot for the storefront grid — sized to the photo's own aspect
@@ -36,6 +36,7 @@ export function ArtworkCard({ artwork }: { artwork: Artwork }) {
   const label = statusLabel(artwork);
   const soldOut = isSoldOut(artwork);
   const price = displayPrice(artwork);
+  const remaining = unitsRemaining(artwork);
   // A price flagged as an estimate isn't final yet, so it isn't
   // purchasable — same reasoning as "Price TBD" holding the button.
   const showBuy = !soldOut && artwork.status !== 'reserved' && price != null && !artwork.priceIsEstimate;
@@ -72,6 +73,11 @@ export function ArtworkCard({ artwork }: { artwork: Artwork }) {
             </p>
             {artwork.priceIsEstimate && (
               <p className="mt-0.5 text-xs text-muted">Estimate, not final</p>
+            )}
+            {remaining != null && !soldOut && (
+              <p className="mt-0.5 text-xs text-muted">
+                {remaining} of {artwork.editionSize} left
+              </p>
             )}
           </div>
         ) : soldOut ? (
