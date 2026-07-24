@@ -251,6 +251,17 @@ export const ARTWORKS: Artwork[] = [
     imageHeight: 721,
   },
   {
+    id: 'vanessa-rosa-little-martian-dreamer',
+    title: 'Little Martian, the Dreamer',
+    artistName: 'Vanessa Rosa',
+    medium: 'Ceramic and glass, 2 × 2 × 3 in',
+    listPrice: 825,
+    status: 'available',
+    image: '/images/storefront/vanessa-rosa-little-martian-dreamer.jpg',
+    imageWidth: 1024,
+    imageHeight: 1017,
+  },
+  {
     id: 'olli-payne-nucleonics',
     title: 'Materia Alhemical',
     artistName: 'Olli Payne',

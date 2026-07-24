@@ -96,9 +96,10 @@ export default async function OursCollectPage() {
   // Curated display order (not source order) — pairs with the
   // landscape-span grid so rows land evenly: RERO+Giorgia, Possibilia+
   // Pyramid, Hummingbird+Illusion, and Materia Alhemical+Paradise each fill a
-  // 3-column row (2-wide landscape piece + 1-wide piece); Magnetobiology
-  // goes last at full width (see GALLERY_FULL_WIDTH below) since it's a
-  // multi-piece set with detail worth the extra room.
+  // 3-column row (2-wide landscape piece + 1-wide piece); Vanessa's
+  // piece is single-span with no landscape partner, so it leaves a
+  // small gap before Magnetobiology's full-width closer (see
+  // GALLERY_FULL_WIDTH below) — acceptable trade-off for now.
   const GALLERY_ORDER = [
     'rero-a-new-city-will-be-built',
     'giorgia-lupi-02-blue-prints',
@@ -108,6 +109,7 @@ export default async function OursCollectPage() {
     'ellynne-dec-glass-bead-piece',
     'olli-payne-nucleonics',
     'seungjun-na-printed-collage',
+    'vanessa-rosa-little-martian-dreamer',
     'denis-pakowacz-magnetobiology',
   ];
   physicalArtworks.sort((a, b) => GALLERY_ORDER.indexOf(a.id) - GALLERY_ORDER.indexOf(b.id));
