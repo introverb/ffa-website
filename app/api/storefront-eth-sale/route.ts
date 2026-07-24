@@ -18,10 +18,13 @@ import { isStoreConfigured, reserveArtwork, releaseReservation } from '@/lib/sto
 // purpose — Olli resolves this manually (verify on-chain, then
 // transfer), possibly the next day, not in real time during the show.
 //
-// The notification email below includes a one-click "mark sold" link
-// (storefront-mark-sold/route.ts) — that's the only thing that ever
+// The notification email below includes two one-click links: "mark
+// sold" (storefront-mark-sold/route.ts) — the only thing that ever
 // flips this to "Sold" on the site, since there's no webhook watching
-// the chain for the transfer landing.
+// the chain for the transfer landing — and "relist" (storefront-
+// relist/route.ts) for the opposite case, when the buyer can't be
+// confirmed (payment never lands, wallet mismatch, etc.); releases the
+// hold instead of leaving it locked for the rest of the 24h TTL.
 //
 // Deliberately skips lib/spam.ts's hasScamContent() check — that
 // filter flags "ETH" + "transfer"/"wallet" language, which is exactly
@@ -31,7 +34,7 @@ import { isStoreConfigured, reserveArtwork, releaseReservation } from '@/lib/sto
 //   RESEND_API_KEY
 //   POSSIBILIA_FROM_EMAIL
 //   POSSIBILIA_TO_EMAIL
-//   STOREFRONT_ADMIN_TOKEN (omit the mark-sold link if unset)
+//   STOREFRONT_ADMIN_TOKEN (omit the mark-sold/relist links if unset)
 
 export const runtime = 'nodejs';
 
@@ -39,7 +42,7 @@ const RESERVATION_TTL_SECONDS = 24 * 60 * 60;
 
 // Same reasoning as storefront-checkout/route.ts: Railway's internal
 // proxy means req.url resolves to the container's internal address, not
-// the public domain, so the mark-sold link needs a known-good origin.
+// the public domain, so the mark-sold/relist links need a known-good origin.
 const SITE_URL =
   process.env.NODE_ENV === 'production' ? 'https://futureaesthetics.foundation' : null;
 
@@ -95,8 +98,12 @@ export async function POST(req: NextRequest) {
       console.error('Storefront ETH sale: live-state store not configured (Upstash env vars missing) — skipping reservation lock');
     }
 
+    const adminOrigin = SITE_URL ?? req.nextUrl.origin;
     const markSoldUrl = process.env.STOREFRONT_ADMIN_TOKEN
-      ? `${SITE_URL ?? req.nextUrl.origin}/api/storefront-mark-sold?id=${encodeURIComponent(artworkId)}&token=${encodeURIComponent(process.env.STOREFRONT_ADMIN_TOKEN)}`
+      ? `${adminOrigin}/api/storefront-mark-sold?id=${encodeURIComponent(artworkId)}&token=${encodeURIComponent(process.env.STOREFRONT_ADMIN_TOKEN)}`
+      : null;
+    const relistUrl = process.env.STOREFRONT_ADMIN_TOKEN
+      ? `${adminOrigin}/api/storefront-relist?id=${encodeURIComponent(artworkId)}&token=${encodeURIComponent(process.env.STOREFRONT_ADMIN_TOKEN)}`
       : null;
 
     const resend = new Resend(process.env.RESEND_API_KEY);
@@ -113,7 +120,8 @@ Amount: ${ethAmount} ETH
 Buyer email: ${buyerEmail}
 Buyer wallet (send the NFT here, after verifying payment on-chain):
 ${buyerWallet}
-${markSoldUrl ? `\nOnce you've confirmed the payment on-chain, mark it sold:\n${markSoldUrl}` : ''}`,
+${markSoldUrl ? `\nOnce you've confirmed the payment on-chain, mark it sold:\n${markSoldUrl}` : ''}
+${relistUrl ? `\nCan't confirm the buyer? Release the hold and relist it:\n${relistUrl}` : ''}`,
       html: `<h2 style="margin:0 0 16px;font-family:Helvetica,Arial,sans-serif;">ETH sale inquiry</h2>
 <table cellpadding="6" cellspacing="0" style="font-family:Helvetica,Arial,sans-serif;border-collapse:collapse;">
   <tr><td><strong>Piece:</strong></td><td>${escapeHtml(pieceTitle || artworkId)} (${escapeHtml(artworkId)})</td></tr>
@@ -122,7 +130,10 @@ ${markSoldUrl ? `\nOnce you've confirmed the payment on-chain, mark it sold:\n${
   <tr><td><strong>Buyer wallet:</strong></td><td style="font-family:monospace;">${escapeHtml(buyerWallet)}</td></tr>
 </table>
 <p style="font-family:Helvetica,Arial,sans-serif;">Verify the payment landed on-chain before transferring the NFT.</p>
-${markSoldUrl ? `<p style="font-family:Helvetica,Arial,sans-serif;"><a href="${markSoldUrl}" style="display:inline-block;background:#111;color:#fff;padding:10px 20px;border-radius:6px;text-decoration:none;">Mark sold</a></p>` : ''}`,
+<p style="font-family:Helvetica,Arial,sans-serif;">
+${markSoldUrl ? `<a href="${markSoldUrl}" style="display:inline-block;background:#111;color:#fff;padding:10px 20px;border-radius:6px;text-decoration:none;margin-right:10px;">Mark sold</a>` : ''}
+${relistUrl ? `<a href="${relistUrl}" style="display:inline-block;background:#fff;color:#111;border:1px solid #111;padding:10px 20px;border-radius:6px;text-decoration:none;">Can&rsquo;t confirm buyer — relist</a>` : ''}
+</p>`,
     });
 
     if (error) {
