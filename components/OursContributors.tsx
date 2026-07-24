@@ -33,6 +33,7 @@ const GALLERY_ARTISTS: { name: string; href?: string }[] = [
   { name: 'Denis Pakowacz', href: 'https://www.behance.net/pakowacz' },
   { name: 'Sue Ellen Zhang', href: 'https://bio.site/sueellen' },
   { name: 'Ellynne Dec', href: 'https://ellynne.studio/' },
+  { name: 'Vanessa Rosa', href: 'https://www.littlemartians.world/' },
   { name: 'Sev Gedra', href: 'https://sevgedramakes.com/' },
   { name: 'Olli Payne', href: 'https://olli.vision' },
 ];
