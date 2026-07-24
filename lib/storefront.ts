@@ -266,7 +266,7 @@ export const ARTWORKS: Artwork[] = [
     title: 'Materia Alchemical',
     artistName: 'Olli Payne',
     medium: 'Prints, unframed · edition of 10 · 28 × 9 in',
-    note: 'Materials donated by the Nucleonics Institute — 100% of proceeds go to FFA',
+    note: 'Materials donated by the Nucleonics Institute',
     // $180 per piece. Olli keeps 1 of the 10 free — editionSize is set
     // to the 9 actually for sale (not shown on the card), so it grays
     // out once those 9 are gone rather than at 10. Was a single $1,800
