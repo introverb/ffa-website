@@ -57,10 +57,18 @@ export interface Artwork {
   ethPrice?: string;
   status: ArtworkStatus;
   isNFT?: boolean;
-  /** Set for limited editions sold as "any of N" (e.g. Lupi's 5 prints); omit for 1-of-1s — including a single numbered piece from an edition elsewhere, like Anyanwu's 1/5. */
+  /** Set for limited editions sold as "any of N" (e.g. Lupi's 5 prints); omit for 1-of-1s — including a single numbered piece from an edition elsewhere, like Anyanwu's 1/5. This is the count actually FOR SALE — when a copy is pre-claimed (artist/sponsor keeps one free), it's already excluded here; see fullEditionSize for the original total. */
   editionSize?: number;
   /** How many of an edition have sold. Only meaningful with editionSize. */
   unitsSold?: number;
+  /**
+   * The original edition size before any pre-claimed copies were
+   * excluded — display only, for the "N of full left" count on the
+   * card (shows a copy's already gone, as social proof). Unset =
+   * falls back to editionSize (no copies were pre-claimed). Actual
+   * sold-out/inventory logic always uses editionSize, never this.
+   */
+  fullEditionSize?: number;
   /** Path under /public once a real photo exists; undefined = gray block. */
   image?: string;
   /** The photo's real pixel dimensions — lets the card size to the
@@ -228,11 +236,13 @@ export const ARTWORKS: Artwork[] = [
     medium: 'Prints, unframed · edition of 5 · 6 × 8 in',
     note: 'Commissioned by Leverage for OURS',
     // $340 per set. Leverage keeps 1 of the 5 free — editionSize is set
-    // to the 4 actually for sale (not shown on the card), so it grays
-    // out once those 4 are gone rather than at 5. Was a single $5,600
+    // to the 4 actually for sale, so it grays out once those 4 are gone
+    // rather than at 5. fullEditionSize keeps 5 in the "N of 5 left"
+    // display, showing a copy's already claimed. Was a single $5,600
     // sold lot; restructured to sell individually.
     listPrice: 340,
     editionSize: 4,
+    fullEditionSize: 5,
     unitsSold: 0,
     status: 'available',
   },
@@ -278,11 +288,13 @@ export const ARTWORKS: Artwork[] = [
     medium: 'Prints, unframed · edition of 10 · 28 × 9 in',
     note: 'Materials donated by the Nucleonics Institute',
     // $180 per piece. Olli keeps 1 of the 10 free — editionSize is set
-    // to the 9 actually for sale (not shown on the card), so it grays
-    // out once those 9 are gone rather than at 10. Was a single $1,800
+    // to the 9 actually for sale, so it grays out once those 9 are gone
+    // rather than at 10. fullEditionSize keeps 10 in the "N of 10 left"
+    // display, showing a copy's already claimed. Was a single $1,800
     // piece.
     listPrice: 180,
     editionSize: 9,
+    fullEditionSize: 10,
     unitsSold: 0,
     status: 'available',
     image: '/images/storefront/olli-payne-nucleonics.jpg',

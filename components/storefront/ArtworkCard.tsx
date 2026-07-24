@@ -76,7 +76,7 @@ export function ArtworkCard({ artwork }: { artwork: Artwork }) {
             )}
             {remaining != null && !soldOut && (
               <p className="mt-0.5 text-xs text-muted">
-                {remaining} of {artwork.editionSize} left
+                {remaining} of {artwork.fullEditionSize ?? artwork.editionSize} left
               </p>
             )}
           </div>
