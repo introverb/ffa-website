@@ -40,10 +40,10 @@ const GALLERY_ARTISTS: { name: string; href?: string }[] = [
 
 const LEDGERWORKS_ARTISTS: { name: string; href?: string }[] = [
   { name: 'Mauricio Pommella', href: 'https://mpommella.com/' },
-  { name: 'Nahuel Aquiles', href: 'https://genpi.org' },
+  { name: 'Recycle Group', href: 'https://recyclegroup.fr/' },
   { name: 'Yura Miron', href: 'https://yuramiron.art/' },
   { name: 'AnjolaDave', href: 'https://linktr.ee/anjoladave' },
-  { name: 'Recycle Group', href: 'https://recyclegroup.fr/' },
+  { name: 'Nahuel Aquiles', href: 'https://genpi.org' },
 ];
 
 // Installation contributors — the confirmed roster, now revealed
@@ -81,14 +81,8 @@ const INSTALLATION_CONTRIBUTORS: {
     href: 'https://anitosoul.earth/',
   },
   {
-    name: 'Michael Edward Johnson',
-    role: 'Independent researcher',
-    href: 'https://opentheory.net/',
-  },
-  {
-    name: 'Bright Simons',
-    role: 'Technologist, mPedigree, Ghana',
-    href: 'https://brightsimons.com/',
+    name: 'Alexis Shotwell',
+    href: 'https://www.alexisshotwell.com/',
   },
   {
     name: 'João Pedro de Magalhães',
