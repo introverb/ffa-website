@@ -245,7 +245,7 @@ export default async function OursCollectPage() {
         </ul>
 
         <p className="mt-16 border-t border-rule pt-8 text-sm text-muted">
-          Prices include a 20% charitable, tax-deductible premium supporting FFA, a 501(c)(3)
+          Some prices include a charitable, tax-deductible premium supporting FFA, a 501(c)(3)
           nonprofit. Sales tax is calculated at checkout.
         </p>
 
@@ -280,7 +280,7 @@ export default async function OursCollectPage() {
               visitors from the /q/web3 QR code land on this anchor
               directly and may never scroll past the grid above. */}
           <p className="mt-4 border-t border-rule pt-8 text-sm text-muted">
-            Prices include a 20% charitable, tax-deductible premium supporting FFA, a 501(c)(3)
+            Some prices include a charitable, tax-deductible premium supporting FFA, a 501(c)(3)
             nonprofit. Sales tax is calculated at checkout.
           </p>
         </div>
