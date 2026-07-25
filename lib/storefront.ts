@@ -151,6 +151,16 @@ export async function getArtworksForDisplay(): Promise<Artwork[]> {
 }
 
 export const ARTWORKS: Artwork[] = [
+  // TEMPORARY — live-mode Stripe/webhook smoke test. Remove this
+  // entry right after confirming a real $1 purchase records
+  // correctly (Redis + confirmation email). Not a real artwork.
+  {
+    id: 'ffa-live-payment-test',
+    title: 'Live Payment System Test',
+    artistName: 'FFA (internal)',
+    listPrice: 1,
+    status: 'available',
+  },
   {
     id: 'rero-a-new-city-will-be-built',
     // Title as the work itself renders it (all caps, trailing
