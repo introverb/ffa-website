@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Panel } from './PageFrame';
+import { SubscribeForm } from './SubscribeForm';
 
 // Top-level nav, kept in sync with components/SiteNav.tsx — flat list
 // of five entries that show on both desktop and mobile. The /resources
@@ -44,6 +45,9 @@ export function Footer() {
               is a 501(c)(3) nonprofit, founded 2023.
             </span>
           </p>
+          <div className="mt-6 max-w-xs">
+            <SubscribeForm />
+          </div>
           <p className="mt-4 text-xs leading-relaxed text-white/50">
             Imagery by{' '}
             <a
