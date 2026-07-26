@@ -67,6 +67,14 @@ async function notifySale(session: Stripe.Checkout.Session, artwork: (typeof ART
   const resend = new Resend(process.env.RESEND_API_KEY);
 
   const wallet = session.custom_fields?.find((f) => f.key === 'wallet_address')?.text?.value;
+  const deliveryValue = session.custom_fields?.find((f) => f.key === 'delivery_method')?.dropdown?.value;
+  const delivery =
+    deliveryValue === 'pickup'
+      ? 'Pick up in Park Slope, Brooklyn'
+      : deliveryValue === 'mail'
+        ? 'Mail'
+        : null;
+  const mailingAddress = session.custom_fields?.find((f) => f.key === 'mailing_address')?.text?.value;
   const amount = session.amount_total != null ? (session.amount_total / 100).toFixed(2) : '?';
   const tax =
     session.total_details?.amount_tax != null
@@ -80,7 +88,8 @@ async function notifySale(session: Stripe.Checkout.Session, artwork: (typeof ART
     text: `Sold: ${artwork.title} by ${artwork.artistName}
 Amount: $${amount} (tax: $${tax})
 Buyer email: ${session.customer_details?.email ?? '(unknown)'}
-${wallet ? `Wallet address: ${wallet}` : ''}
+${wallet ? `Wallet address: ${wallet}\n` : ''}${delivery ? `Delivery: ${delivery}` : ''}
+${mailingAddress ? `Mailing address: ${mailingAddress}` : ''}
 Stripe session: ${session.id}`,
   });
 }

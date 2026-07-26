@@ -62,6 +62,35 @@ export async function POST(req: NextRequest) {
 
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
+  // Every piece sold through this route currently has some physical
+  // component (the physical works outright, or an NFT that bundles a
+  // physical print — see the Ledgerworks notes in lib/storefront.ts),
+  // so every session asks how to get it to the buyer. Pickup is local
+  // (Park Slope, Brooklyn); the address field is free text rather than
+  // Stripe's structured shipping_address_collection so it can stay
+  // optional (skipped entirely for pickup) without a second, separate
+  // API surface to wire up.
+  const deliveryFields: Stripe.Checkout.SessionCreateParams.CustomField[] = [
+    {
+      key: 'delivery_method',
+      label: { type: 'custom', custom: 'Pickup or mail?' },
+      type: 'dropdown',
+      dropdown: {
+        options: [
+          { label: 'Pick up in Park Slope, Brooklyn', value: 'pickup' },
+          { label: 'Mail it to me', value: 'mail' },
+        ],
+      },
+      optional: false,
+    },
+    {
+      key: 'mailing_address',
+      label: { type: 'custom', custom: 'Mailing address (only if mailing)' },
+      type: 'text',
+      optional: true,
+    },
+  ];
+
   const session = await stripe.checkout.sessions.create({
     mode: 'payment',
     line_items: [
@@ -90,16 +119,19 @@ export async function POST(req: NextRequest) {
       artistName: artwork.artistName,
       isNFT: String(!!artwork.isNFT),
     },
+    custom_fields: artwork.isNFT
+      ? [
+          {
+            key: 'wallet_address',
+            label: { type: 'custom' as const, custom: 'Wallet address (for NFT transfer)' },
+            type: 'text' as const,
+            optional: false,
+          },
+          ...deliveryFields,
+        ]
+      : deliveryFields,
     ...(artwork.isNFT
       ? {
-          custom_fields: [
-            {
-              key: 'wallet_address',
-              label: { type: 'custom' as const, custom: 'Wallet address (for NFT transfer)' },
-              type: 'text' as const,
-              optional: false,
-            },
-          ],
           custom_text: {
             submit: {
               message: "You'll receive written confirmation of this address before transfer.",
