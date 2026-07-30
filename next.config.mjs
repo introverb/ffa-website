@@ -205,11 +205,14 @@ const nextConfig = {
         destination: 'https://genpi.org',
         statusCode: 302,
       },
-      // OURS sponsorship brief (linked from the sponsor section on
-      // /support).
+      // Sponsor credit — now points at the corporate patron brief
+      // instead of the standalone OURS sponsor brief. Same slug, so
+      // every QR already printed with this short URL (program,
+      // signage) picks up the new destination automatically — nothing
+      // needs to be reprinted.
       {
         source: '/q/sponsor',
-        destination: '/ours/sponsor-brief',
+        destination: '/patrons/corporate',
         statusCode: 302,
       },
       // Afterparty — shell page for now; fill in details (or repoint)
