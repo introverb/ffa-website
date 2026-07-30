@@ -245,6 +245,9 @@ export const ARTWORKS: Artwork[] = [
     fullEditionSize: 5,
     unitsSold: 0,
     status: 'available',
+    image: '/images/storefront/denis-pakowacz-magnetobiology.jpg',
+    imageWidth: 2000,
+    imageHeight: 572,
   },
   {
     id: 'sue-ellen-zhang-oil-painting',
