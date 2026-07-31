@@ -10,13 +10,6 @@ import {
 } from '@/components/storefront/LedgerworksSection';
 import { getArtworksForDisplay, displayPrice, isSoldOut, statusLabel } from '@/lib/storefront';
 
-// A piece with a clearly wide/landscape image gets 2 grid columns
-// instead of 1 (see the grid comment below) — 1.15 gives a little
-// buffer so a near-square image doesn't span unnecessarily.
-function isLandscape(item: { imageWidth?: number; imageHeight?: number }): boolean {
-  return !!(item.imageWidth && item.imageHeight && item.imageWidth / item.imageHeight > 1.15);
-}
-
 // OURS storefront — unlisted on purpose (see the build brief in
 // /storefront). Not linked from SiteNav, the /ours page, or the
 // sitemap; reachable only by direct URL. `robots: noindex` keeps it
@@ -93,13 +86,9 @@ export default async function OursCollectPage() {
   // the Ledgerworks section below rather than the main exhibition grid.
   const physicalArtworks = artworks.filter((a) => !a.isNFT);
   const nftArtworks = artworks.filter((a) => a.isNFT);
-  // Curated display order (not source order) — pairs with the
-  // landscape-span grid so rows land evenly: RERO+Giorgia, Possibilia+
-  // Pyramid, Hummingbird+Illusion, and Materia Alhemical+Paradise each fill a
-  // 3-column row (2-wide landscape piece + 1-wide piece); Vanessa's
-  // piece is single-span with no landscape partner, so it leaves a
-  // small gap before Magnetobiology's full-width closer (see
-  // GALLERY_FULL_WIDTH below) — acceptable trade-off for now.
+  // Curated display order (not source order) — the sequence a visitor
+  // should encounter the works in, independent of the masonry columns'
+  // own fill order below.
   const GALLERY_ORDER = [
     'rero-a-new-city-will-be-built',
     'giorgia-lupi-02-blue-prints',
@@ -185,10 +174,7 @@ export default async function OursCollectPage() {
     ),
   ];
   // Display order is curated, not source order (FFA/Stripe pieces and
-  // externally-fulfilled ones come from two different arrays above) —
-  // pairs with the landscape-span grid so rows land evenly: The Pope +
-  // Forest of Expired Links (2-wide) fill row 1, then Solara Plaza / An
-  // Ending, A Beginning / Self-Similar fill row 2 exactly.
+  // externally-fulfilled ones come from two different arrays above).
   const LEDGERWORKS_ORDER = [
     'mauricio-pommella-the-pope',
     'recycle-group-forest-of-expired-links',
@@ -217,26 +203,27 @@ export default async function OursCollectPage() {
       <Panel variant="cream" className="md:p-16">
         <InquireBox />
 
-        {/* CSS grid rather than a CSS-multi-column masonry — most of
-            these photos are landscape (wide paintings, canvases), and a
-            row-aligned grid lets a landscape piece span 2 columns for a
-            bigger, more prominent showing instead of being squeezed
-            into one narrow column. grid-flow-dense backfills gaps left
-            by spanning items with whatever comes next, so the layout
-            still packs reasonably tightly. Trade-off vs. the old
-            masonry: cards in the same row share that row's height, so
-            a short card can leave blank space beside a tall neighbor —
-            acceptable here since most images are a similar scale. */}
-        <ul className="grid grid-cols-1 gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3 [grid-auto-flow:dense]">
+        {/* CSS multi-column masonry, not a row-aligned grid — these
+            photos range from tall portraits to wide canvases with no
+            common aspect ratio, so a grid's shared row-height would
+            force short pieces to drag tall empty space beside their
+            neighbors (and leave orphaned gaps wherever a spanning item
+            doesn't have a same-row partner to pack next to). Columns
+            fill independently top-to-bottom instead, so every card
+            sits at its own natural height and the whole thing reads as
+            tight and intentional rather than gridded. Magnetobiology's
+            filmstrip is the one deliberate exception — a hero moment
+            that breaks the columns via `column-span: all`, the same
+            native mechanism used below in Ledgerworks for the video
+            piece. */}
+        <ul className="columns-1 gap-x-8 sm:columns-2 lg:columns-3">
           {physicalArtworks.map((artwork) => (
             <li
               key={artwork.id}
               className={
                 GALLERY_FULL_WIDTH.has(artwork.id)
-                  ? 'sm:col-span-2 lg:col-span-3'
-                  : isLandscape(artwork)
-                    ? 'sm:col-span-2'
-                    : undefined
+                  ? 'mb-14 break-inside-avoid-column [column-span:all]'
+                  : 'mb-14 break-inside-avoid-column'
               }
             >
               <ArtworkCard artwork={artwork} />
