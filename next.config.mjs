@@ -61,6 +61,15 @@ const nextConfig = {
         source: '/preorder',
         destination: '/preorder.html',
       },
+      // OURS afterparty (Club Reign) — same standalone static-HTML
+      // pattern as the briefs above. Reached via the /q/after QR in
+      // the printed program (see the redirect below); noindexed like
+      // the other QR-only destinations since the venue is a private
+      // club for the night, not something to surface in search.
+      {
+        source: '/ours/after',
+        destination: '/ours-afterparty.html',
+      },
     ];
   },
   async redirects() {
@@ -215,8 +224,7 @@ const nextConfig = {
         destination: '/patrons/corporate',
         statusCode: 302,
       },
-      // Afterparty — shell page for now; fill in details (or repoint)
-      // once the afterparty plan is set.
+      // Afterparty (Club Reign) — printed program QR.
       {
         source: '/q/after',
         destination: '/ours/after',
