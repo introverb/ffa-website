@@ -13,9 +13,24 @@ import { SiteNav } from './SiteNav';
 // backdrop for that one section, not just its panels. Client Component
 // (usePathname) so this one route can override without a prop having
 // to thread down from the root layout that renders PageFrame.
+//
+// The door check-in kiosk (/ours/checkin) skips the frame entirely —
+// no SiteNav, no mat padding — since it runs full-screen on a
+// physically-controlled iPad and shouldn't offer the guest anything to
+// tap into but the check-in form itself. It supplies its own full-bleed
+// background. ConditionalFooter has the matching hide-list for the
+// footer half of this.
+const CHROMELESS_ROUTES = ['/ours/checkin'];
+
 export function PageFrame({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isCollect = pathname?.startsWith('/ours/collect');
+  const isChromeless = CHROMELESS_ROUTES.some(
+    (route) => pathname === route || pathname?.startsWith(route + '/'),
+  );
+  if (isChromeless) {
+    return <>{children}</>;
+  }
   return (
     <div className={`min-h-screen ${isCollect ? 'bg-ink' : 'bg-taupe'}`}>
       <div className="mx-auto max-w-[1500px] px-6 pt-6 pb-6 md:px-10 md:pt-8 md:pb-8">
