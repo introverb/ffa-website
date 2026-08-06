@@ -27,6 +27,7 @@ const STATIC_ROUTES: Array<{ path: string; priority: number }> = [
   { path: '/possibilia', priority: 0.9 },
   { path: '/ours', priority: 0.9 },
   { path: '/support', priority: 0.8 },
+  { path: '/q/join', priority: 0.8 },
   { path: '/contact', priority: 0.7 },
   { path: '/resources', priority: 0.6 },
   { path: '/resources/manifesto', priority: 0.6 },

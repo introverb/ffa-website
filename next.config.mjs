@@ -70,6 +70,21 @@ const nextConfig = {
         source: '/ours/after',
         destination: '/ours-afterparty.html',
       },
+      // Gallery Membership — unlike the other /q/* short paths (which
+      // are redirects to a page living at a "real" URL elsewhere),
+      // /q/join IS the canonical URL here: it's what's printed on the
+      // physical membership card's QR code, so the page is served
+      // directly at this path rather than redirected away from it.
+      // Indexable on purpose (not noindexed like the QR-only briefs) —
+      // this is a genuine public join page, not a private outreach doc.
+      {
+        source: '/q/join',
+        destination: '/membership.html',
+      },
+      {
+        source: '/q/join/success',
+        destination: '/membership-success.html',
+      },
     ];
   },
   async redirects() {

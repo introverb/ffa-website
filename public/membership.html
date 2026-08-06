@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gallery Membership — Foundation for Future Aesthetics</title>
+<meta name="description" content="Become a member of the Foundation for Future Aesthetics. Three monthly tiers supporting a future worth wanting.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira:wght@400;500;600&family=Saira+Condensed:wght@500;600;700&family=DM+Mono:wght@400;500&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<!-- Stripe.js — used for redirectToCheckout. Safe to keep even before keys are set. -->
+<script src="https://js.stripe.com/v3/"></script>
+<style>
+:root{
+  --ink:#1e1e1e; --cream:#f0eeeb; --paper:#f7f6f4; --gray:#6a6a6a; --dkgray:#4a4a4a;
+  --orange:#e8651a; --hair:#cbc6bd;
+  --cond:'Saira Condensed',sans-serif; --disp:'Saira',sans-serif; --mono:'DM Mono',monospace; --body:'Barlow',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--cream);color:var(--ink);font-family:var(--body);font-weight:400;-webkit-font-smoothing:antialiased;}
+a{color:var(--orange);text-decoration:none;}
+.wrap{max-width:1040px;margin:0 auto;padding:0 24px;}
+
+/* ---------- HERO ---------- */
+.hero{position:relative;min-height:56vh;display:flex;align-items:center;justify-content:center;text-align:center;
+  background:#111 url('/images/membership-hero.jpg') center 42%/cover no-repeat;color:#fff;overflow:hidden;}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.45),rgba(0,0,0,.25) 40%,rgba(0,0,0,.55));}
+.hero .frame{position:absolute;inset:24px;border:1.5px solid rgba(255,255,255,.85);pointer-events:none;z-index:2;}
+.hero .inner{position:relative;z-index:3;padding:64px 24px;}
+.hero .eyebrow{font-family:var(--mono);font-weight:500;font-size:12px;letter-spacing:.28em;text-indent:.28em;text-transform:uppercase;color:#fff;opacity:.92;}
+.hero h1{font-family:var(--cond);font-weight:700;text-transform:uppercase;letter-spacing:.01em;line-height:.98;
+  font-size:clamp(38px,7vw,72px);margin:14px 0 16px;text-shadow:0 2px 18px rgba(0,0,0,.4);}
+.hero p{font-family:var(--body);font-weight:400;font-size:clamp(14px,1.7vw,17px);max-width:30em;margin:0 auto;color:#f2efe9;}
+.hero .rule{width:46px;height:2px;background:var(--orange);margin:18px auto 0;}
+
+/* ---------- TIERS ---------- */
+.tiers-sec{padding:64px 0 24px;}
+.sec-head{text-align:center;margin-bottom:38px;}
+.sec-head .k{font-family:var(--mono);font-weight:500;font-size:12px;letter-spacing:.22em;text-indent:.22em;text-transform:uppercase;color:var(--orange);}
+.sec-head h2{font-family:var(--cond);font-weight:700;text-transform:uppercase;font-size:clamp(24px,3.4vw,34px);margin-top:8px;letter-spacing:.01em;}
+.sec-head .note{font-family:var(--mono);font-weight:400;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gray);margin-top:10px;}
+
+.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.tier{background:var(--paper);border:1px solid var(--hair);border-radius:2px;padding:28px 24px 26px;display:flex;flex-direction:column;transition:transform .15s ease, box-shadow .15s ease;}
+.tier:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(30,30,30,.10);}
+.tier.feat{border-color:var(--orange);box-shadow:0 10px 30px rgba(232,101,26,.10);}
+.tier .badge{align-self:flex-start;font-family:var(--mono);font-weight:500;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--orange);border:1px solid var(--orange);border-radius:999px;padding:3px 9px;margin-bottom:14px;visibility:hidden;}
+.tier.feat .badge{visibility:visible;}
+.tier .tn{font-family:var(--cond);font-weight:700;font-size:24px;letter-spacing:.03em;text-transform:uppercase;}
+.tier .price{font-family:var(--mono);font-weight:500;font-size:15px;color:var(--dkgray);margin:6px 0 16px;}
+.tier .price b{color:var(--ink);font-size:26px;font-weight:500;}
+.tier .desc{font-family:var(--body);font-weight:500;font-size:14px;line-height:1.5;color:var(--dkgray);flex:1;}
+.tier .soon{color:var(--gray);}
+.tier button{margin-top:22px;font-family:var(--mono);font-weight:500;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;
+  background:var(--ink);color:var(--cream);border:none;border-radius:2px;padding:14px 16px;cursor:pointer;transition:background .15s ease;}
+.tier button:hover{background:#000;}
+.tier.feat button{background:var(--orange);}
+.tier.feat button:hover{background:#d1571313;background:#cf560f;}
+
+/* ---------- PATRONS / FOOTER ---------- */
+.patrons{max-width:1040px;margin:34px auto 0;padding:26px 24px 0;border-top:1px solid var(--hair);text-align:center;}
+.patrons .k{font-family:var(--mono);font-weight:500;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);}
+.patrons p{font-family:var(--body);font-weight:400;font-size:14px;color:var(--dkgray);margin-top:8px;max-width:38em;margin-left:auto;margin-right:auto;}
+footer{text-align:center;padding:40px 24px 48px;}
+footer .fmark{font-family:var(--cond);font-weight:700;letter-spacing:.04em;text-transform:uppercase;font-size:14px;color:var(--ink);}
+footer .fsub{font-family:var(--mono);font-weight:400;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gray);margin-top:6px;}
+
+/* ---------- status toast ---------- */
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(140%);
+  background:var(--ink);color:var(--cream);font-family:var(--mono);font-size:12.5px;letter-spacing:.03em;
+  padding:13px 18px;border-radius:3px;max-width:88vw;text-align:center;transition:transform .3s ease;z-index:50;box-shadow:0 10px 30px rgba(0,0,0,.25);}
+#toast.show{transform:translateX(-50%) translateY(0);}
+#toast a{color:#ffb488;}
+
+@media(max-width:760px){
+  .tiers{grid-template-columns:1fr;}
+  .hero .frame{inset:16px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ===================== HERO ===================== -->
+<header class="hero">
+  <div class="frame"></div>
+  <div class="inner">
+    <div class="eyebrow">Foundation for Future Aesthetics</div>
+    <h1>Gallery Membership</h1>
+    <p>Help build a future worth wanting. Membership is monthly, and each tier includes everything in the ones before it.</p>
+    <div class="rule"></div>
+  </div>
+</header>
+
+<!-- ===================== TIERS ===================== -->
+<main>
+<section class="tiers-sec">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="k">Choose your tier</div>
+      <h2>Become a Member</h2>
+      <div class="note">Each tier includes those before it</div>
+    </div>
+
+    <div class="tiers">
+      <!-- MYCELIUM -->
+      <div class="tier">
+        <span class="badge">&nbsp;</span>
+        <div class="tn">Mycelium</div>
+        <div class="price"><b>$50</b> / mo</div>
+        <div class="desc">Complimentary invitation to future events.</div>
+        <button type="button" data-tier="mycelium">Choose Mycelium</button>
+      </div>
+      <!-- DEUTERIUM (featured) -->
+      <div class="tier feat">
+        <span class="badge">Most popular</span>
+        <div class="tn">Deuterium</div>
+        <div class="price"><b>$100</b> / mo</div>
+        <div class="desc">Plus private gallery appointments and curated dinners at the FFA Gallery <span class="soon">(coming soon)</span>.</div>
+        <button type="button" data-tier="deuterium">Choose Deuterium</button>
+      </div>
+      <!-- REGOLITH -->
+      <div class="tier">
+        <span class="badge">&nbsp;</span>
+        <div class="tn">Regolith</div>
+        <div class="price"><b>$250</b> / mo</div>
+        <div class="desc">Plus first look at &mdash; and the chance to collect &mdash; artwork curated by the FFA Gallery.</div>
+        <button type="button" data-tier="regolith">Choose Regolith</button>
+      </div>
+    </div>
+
+    <div class="patrons">
+      <div class="k">Patrons &amp; Benefactors</div>
+      <p>To support the Foundation directly, beyond the tiers above, reach out to <a href="mailto:olli@futureaesthetics.foundation">olli@futureaesthetics.foundation</a>.</p>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="fmark">Foundation for Future Aesthetics</div>
+  <div class="fsub">futureaesthetics.foundation</div>
+</footer>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* =========================================================================
+   CONFIG — payment wiring. See Membership Join Page/HANDOFF.md for the
+   original handoff spec this was filled in from.
+   ========================================================================= */
+const CONFIG = {
+  // Stripe publishable key (pk_live_... or pk_test_...). Not required —
+  // the backend below always returns { url } and this page redirects
+  // straight to it, so Stripe.js's redirectToCheckout path (the only
+  // thing that needs this key) never runs. Left blank on purpose; fill
+  // it in only if you add a flow that needs Stripe.js client-side.
+  stripePublishableKey: "",
+  // Backend endpoint that creates a Checkout Session and returns { url } (or { sessionId }).
+  checkoutEndpoint: "/api/create-checkout-session",
+  // Map each tier to its Stripe recurring Price ID (price_...).
+  // TEST-MODE IDs — swap to live-mode price IDs before taking real
+  // payment (see the products/prices created alongside STRIPE_SECRET_KEY).
+  prices: {
+    mycelium:  { priceId: "price_1U1UKcK0o2qVlGqKqhwae0Rj", amount: 50,  label: "Mycelium"  },
+    deuterium: { priceId: "price_1U1UKdK0o2qVlGqKIycD4aqV", amount: 100, label: "Deuterium" },
+    regolith:  { priceId: "price_1U1UKdK0o2qVlGqKAoBTSUIJ", amount: 250, label: "Regolith"  }
+  }
+};
+
+const toast = (msg, ms = 4200) => {
+  const t = document.getElementById('toast');
+  t.innerHTML = msg; t.classList.add('show');
+  clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove('show'), ms);
+};
+
+// Checkout was started but not completed — surface a light
+// acknowledgement rather than leaving the visitor wondering if
+// anything happened. No charge was made either way.
+if (new URLSearchParams(location.search).get('canceled') === '1') {
+  toast('Checkout canceled — no charge was made. Pick a tier whenever you&rsquo;re ready.', 6000);
+}
+
+async function startCheckout(tier){
+  const cfg = CONFIG.prices[tier];
+  if(!cfg){ toast("Unknown tier."); return; }
+
+  // Not wired up yet → graceful fallback so the page is usable pre-launch.
+  const notConfigured = !cfg.priceId || cfg.priceId.includes("TODO");
+  if(notConfigured){
+    toast(`Checkout isn’t live yet. To join <b>${cfg.label}</b> ($${cfg.amount}/mo), email <a href="mailto:olli@futureaesthetics.foundation?subject=${encodeURIComponent(cfg.label+' membership')}">olli@futureaesthetics.foundation</a>.`, 7000);
+    return;
+  }
+
+  try{
+    // Ask the backend to create a Checkout Session for this price.
+    const res = await fetch(CONFIG.checkoutEndpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ tier, priceId: cfg.priceId })
+    });
+    if(!res.ok) throw new Error("bad response");
+    const data = await res.json();
+
+    // Preferred: backend returns the full Checkout URL.
+    if(data.url){ window.location.href = data.url; return; }
+
+    // Alternative: backend returns a sessionId → redirect via Stripe.js.
+    if(data.sessionId){
+      const stripe = Stripe(CONFIG.stripePublishableKey);
+      const { error } = await stripe.redirectToCheckout({ sessionId: data.sessionId });
+      if(error) throw error;
+      return;
+    }
+    throw new Error("no url or sessionId");
+  }catch(err){
+    console.error(err);
+    toast("Something went wrong starting checkout. Please try again, or email olli@futureaesthetics.foundation.");
+  }
+}
+
+document.querySelectorAll('.tier button[data-tier]').forEach(btn => {
+  btn.addEventListener('click', () => startCheckout(btn.dataset.tier));
+});
+</script>
+</body>
+</html>
