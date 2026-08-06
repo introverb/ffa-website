@@ -1,14 +1,18 @@
 import { Resend } from 'resend';
 import { NextRequest, NextResponse } from 'next/server';
+import { isHoneypotFilled } from '@/lib/spam';
 
-// Door check-in kiosk (/ours/checkin). Adds the guest as a Resend
-// contact tagged into the OURS Attendees segment — a real, exportable
-// list rather than a stream of one-off notification emails, since this
-// runs live at the door and could see a steady run of submissions.
-// Same segment-based approach as /api/subscribe; see that route's
-// comment for why `segments` (not `audienceId`) is the correct field.
+// Door check-in (/ours/checkin), reached via a QR scan on the guest's
+// own phone. Adds the guest as a Resend contact tagged into the OURS
+// Attendees segment — a real, exportable list rather than a stream of
+// one-off notification emails, since this runs live at the door and
+// could see a steady run of submissions. Same segment-based approach
+// as /api/subscribe; see that route's comment for why `segments` (not
+// `audienceId`) is the correct field.
 //
-// No spam/honeypot check — see the comment on OursCheckInKiosk for why.
+// Honeypot only, same as /api/subscribe — skips hasScamContent()
+// since a plain name+email submission has nothing for that filter to
+// match against.
 //
 // Required env vars:
 //   RESEND_API_KEY (already configured for the site's other email)
@@ -29,6 +33,11 @@ export async function POST(req: NextRequest) {
     }
 
     const formData = await req.formData();
+
+    if (isHoneypotFilled(formData)) {
+      return NextResponse.json({ ok: true });
+    }
+
     const name = String(formData.get('name') ?? '').trim();
     const email = String(formData.get('email') ?? '').trim();
     if (!name || !email) {

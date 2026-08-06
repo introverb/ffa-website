@@ -230,6 +230,13 @@ const nextConfig = {
         destination: '/ours/after',
         statusCode: 302,
       },
+      // Door check-in — QR at the check-in table for guests who didn't
+      // register on Luma; scanned on the guest's own phone.
+      {
+        source: '/q/checkin',
+        destination: '/ours/checkin',
+        statusCode: 302,
+      },
       // "Visions of the Future" guest video submissions — poster QR at
       // the show. Points at a Dropbox File Request (not a plain shared-
       // folder link): lets anonymous guests add a file each without

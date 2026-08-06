@@ -1,21 +1,16 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
+import { HoneypotField } from './HoneypotField';
 
-// Door check-in kiosk for guests who didn't register on Luma — meant to
-// stay open in one browser tab on a physically-controlled iPad all
-// night, handed off between guests by the doors volunteer. No nav, no
-// footer (see the chromeless-route lists in PageFrame/ConditionalFooter),
-// so there's nothing on screen for a guest to tap into but this form.
-//
-// Deliberately skips HoneypotField: this form is never linked publicly
-// (noindex, no nav entry), and lib/spam.ts's own history is a case
-// where a honeypot's autofill-shaped input silently ate a real
-// submission — a risk this repeatedly-reused shared device would only
-// amplify. The honeypot's bot-deterrence isn't worth that trade here.
-export function OursCheckInKiosk() {
-  const formRef = useRef<HTMLFormElement>(null);
+// Door check-in for guests who didn't register on Luma — reached by
+// scanning a QR code (/q/checkin) at the door, filled in on the
+// guest's own phone. Chromeless (no nav, no footer — see the
+// CHROMELESS_ROUTES / HIDE_FOOTER_ROUTES lists in PageFrame /
+// ConditionalFooter) so the one thing on screen is the check-in form
+// itself, not a jumping-off point into the rest of the site.
+export function OursCheckInForm() {
   const [submitting, setSubmitting] = useState(false);
   const [sent, setSent] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -41,21 +36,6 @@ export function OursCheckInKiosk() {
     }
   }
 
-  function next() {
-    formRef.current?.reset();
-    setSent(false);
-    setError(null);
-  }
-
-  // Auto-advance a few seconds after a successful check-in so the
-  // volunteer doesn't have to tap "Next guest" between every single
-  // entry — the button's still there for when the line's moving fast.
-  useEffect(() => {
-    if (!sent) return;
-    const t = setTimeout(next, 4000);
-    return () => clearTimeout(t);
-  }, [sent]);
-
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-ink px-6 py-12">
       <Image
@@ -74,13 +54,13 @@ export function OursCheckInKiosk() {
               ✓
             </div>
             <h1 className="mt-6 text-h3 leading-tight">You&rsquo;re in.</h1>
-            <p className="mt-3 text-body text-muted">Welcome to OURS &mdash; enjoy the show.</p>
-            <button type="button" onClick={next} className="btn-solid mt-8 w-full py-5 text-base">
-              Next guest &rarr;
-            </button>
+            <p className="mt-3 text-body text-muted">
+              Welcome to OURS &mdash; enjoy the show. You can close this page now.
+            </p>
           </div>
         ) : (
-          <form ref={formRef} onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit}>
+            <HoneypotField />
             <h1 className="text-h3 leading-tight">Welcome to OURS.</h1>
             <p className="mt-2 text-body text-muted">Didn&rsquo;t register on Luma? Check in here.</p>
 
@@ -95,7 +75,6 @@ export function OursCheckInKiosk() {
                   type="text"
                   required
                   autoFocus
-                  autoComplete="off"
                   placeholder="Your name"
                   className="mt-2 w-full rounded-lg border border-rule bg-white px-4 py-4 text-lg text-ink placeholder:text-muted/50 focus:border-sage focus:outline-none"
                 />
@@ -109,7 +88,6 @@ export function OursCheckInKiosk() {
                   name="email"
                   type="email"
                   required
-                  autoComplete="off"
                   placeholder="you@example.com"
                   className="mt-2 w-full rounded-lg border border-rule bg-white px-4 py-4 text-lg text-ink placeholder:text-muted/50 focus:border-sage focus:outline-none"
                 />

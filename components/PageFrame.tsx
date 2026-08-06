@@ -14,12 +14,12 @@ import { SiteNav } from './SiteNav';
 // (usePathname) so this one route can override without a prop having
 // to thread down from the root layout that renders PageFrame.
 //
-// The door check-in kiosk (/ours/checkin) skips the frame entirely —
-// no SiteNav, no mat padding — since it runs full-screen on a
-// physically-controlled iPad and shouldn't offer the guest anything to
-// tap into but the check-in form itself. It supplies its own full-bleed
-// background. ConditionalFooter has the matching hide-list for the
-// footer half of this.
+// The door check-in page (/ours/checkin) skips the frame entirely —
+// no SiteNav, no mat padding — since a guest lands there fresh off a
+// QR scan and shouldn't have anything to tap into but the check-in
+// form itself. It supplies its own full-bleed background.
+// ConditionalFooter has the matching hide-list for the footer half of
+// this.
 const CHROMELESS_ROUTES = ['/ours/checkin'];
 
 export function PageFrame({ children }: { children: React.ReactNode }) {
