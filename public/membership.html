@@ -39,24 +39,17 @@ a{color:var(--orange);text-decoration:none;}
 .sec-head{text-align:center;margin-bottom:38px;}
 .sec-head .k{font-family:var(--mono);font-weight:500;font-size:12px;letter-spacing:.22em;text-indent:.22em;text-transform:uppercase;color:var(--orange);}
 .sec-head h2{font-family:var(--cond);font-weight:700;text-transform:uppercase;font-size:clamp(24px,3.4vw,34px);margin-top:8px;letter-spacing:.01em;}
-.sec-head .note{font-family:var(--mono);font-weight:400;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gray);margin-top:10px;}
 
 .tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
 .tier{background:var(--paper);border:1px solid var(--hair);border-radius:2px;padding:28px 24px 26px;display:flex;flex-direction:column;transition:transform .15s ease, box-shadow .15s ease;}
 .tier:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(30,30,30,.10);}
-.tier.feat{border-color:var(--orange);box-shadow:0 10px 30px rgba(232,101,26,.10);}
-.tier .badge{align-self:flex-start;font-family:var(--mono);font-weight:500;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--orange);border:1px solid var(--orange);border-radius:999px;padding:3px 9px;margin-bottom:14px;visibility:hidden;}
-.tier.feat .badge{visibility:visible;}
 .tier .tn{font-family:var(--cond);font-weight:700;font-size:24px;letter-spacing:.03em;text-transform:uppercase;}
 .tier .price{font-family:var(--mono);font-weight:500;font-size:15px;color:var(--dkgray);margin:6px 0 16px;}
-.tier .price b{color:var(--ink);font-size:26px;font-weight:500;}
+.tier .price b{color:var(--orange);font-size:26px;font-weight:500;}
 .tier .desc{font-family:var(--body);font-weight:500;font-size:14px;line-height:1.5;color:var(--dkgray);flex:1;}
-.tier .soon{color:var(--gray);}
 .tier button{margin-top:22px;font-family:var(--mono);font-weight:500;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;
   background:var(--ink);color:var(--cream);border:none;border-radius:2px;padding:14px 16px;cursor:pointer;transition:background .15s ease;}
 .tier button:hover{background:#000;}
-.tier.feat button{background:var(--orange);}
-.tier.feat button:hover{background:#d1571313;background:#cf560f;}
 
 /* ---------- PATRONS / FOOTER ---------- */
 .patrons{max-width:1040px;margin:34px auto 0;padding:26px 24px 0;border-top:1px solid var(--hair);text-align:center;}
@@ -87,7 +80,7 @@ footer .fsub{font-family:var(--mono);font-weight:400;font-size:11px;letter-spaci
   <div class="inner">
     <div class="eyebrow">Foundation for Future Aesthetics</div>
     <h1>Gallery Membership</h1>
-    <p>Help build a future worth wanting. Membership is monthly, and each tier includes everything in the ones before it.</p>
+    <p>Help build a future worth wanting. Membership is monthly.</p>
     <div class="rule"></div>
   </div>
 </header>
@@ -99,32 +92,28 @@ footer .fsub{font-family:var(--mono);font-weight:400;font-size:11px;letter-spaci
     <div class="sec-head">
       <div class="k">Choose your tier</div>
       <h2>Become a Member</h2>
-      <div class="note">Each tier includes those before it</div>
     </div>
 
     <div class="tiers">
       <!-- MYCELIUM -->
       <div class="tier">
-        <span class="badge">&nbsp;</span>
         <div class="tn">Mycelium</div>
         <div class="price"><b>$50</b> / mo</div>
-        <div class="desc">Complimentary invitation to future events.</div>
+        <div class="desc">Complimentary access to future events &amp; openings.</div>
         <button type="button" data-tier="mycelium">Choose Mycelium</button>
       </div>
-      <!-- DEUTERIUM (featured) -->
-      <div class="tier feat">
-        <span class="badge">Most popular</span>
+      <!-- DEUTERIUM -->
+      <div class="tier">
         <div class="tn">Deuterium</div>
         <div class="price"><b>$100</b> / mo</div>
-        <div class="desc">Plus private gallery appointments and curated dinners at the FFA Gallery <span class="soon">(coming soon)</span>.</div>
+        <div class="desc">+ Private appointments and curated dinners at the FFA Gallery (space opening soon).</div>
         <button type="button" data-tier="deuterium">Choose Deuterium</button>
       </div>
       <!-- REGOLITH -->
       <div class="tier">
-        <span class="badge">&nbsp;</span>
         <div class="tn">Regolith</div>
         <div class="price"><b>$250</b> / mo</div>
-        <div class="desc">Plus first look at &mdash; and the chance to collect &mdash; artwork curated by the FFA Gallery.</div>
+        <div class="desc">+ Exclusive early access and acquisition privileges for curated works.</div>
         <button type="button" data-tier="regolith">Choose Regolith</button>
       </div>
     </div>
