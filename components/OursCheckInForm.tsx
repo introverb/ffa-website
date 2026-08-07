@@ -62,7 +62,7 @@ export function OursCheckInForm() {
           <form onSubmit={handleSubmit}>
             <HoneypotField />
             <h1 className="text-h3 leading-tight">Welcome to OURS.</h1>
-            <p className="mt-2 text-body text-muted">Didn&rsquo;t register on Luma? Check in here.</p>
+            <p className="mt-2 text-body text-muted">Check in here.</p>
 
             <div className="mt-8 flex flex-col gap-4">
               <div>
@@ -104,8 +104,8 @@ export function OursCheckInForm() {
             {error && <p className="mt-3 text-sm text-red-600">{error}</p>}
 
             <p className="mt-6 text-xs text-muted">
-              By checking in, you&rsquo;ll join FFA&rsquo;s mailing list for updates on future
-              events.
+              We won&rsquo;t spam you &mdash; you can opt-in to receive our newsletter later if you
+              want.
             </p>
           </form>
         )}
