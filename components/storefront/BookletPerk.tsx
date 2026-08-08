@@ -14,7 +14,7 @@ import Image from 'next/image';
 // independently built for that page's own (non-Tailwind) stylesheet.
 export function BookletPerk() {
   return (
-    <div className="mt-8 flex flex-col items-center gap-6 rounded-2xl bg-cream p-6 text-center text-ink sm:flex-row sm:gap-6 sm:p-7 sm:text-left">
+    <div className="mt-8 flex flex-col items-center gap-6 rounded-3xl bg-paper p-6 text-center text-ink shadow-sm sm:flex-row sm:gap-6 sm:p-7 sm:text-left">
       <div className="relative h-[229px] w-[162px] shrink-0 [filter:drop-shadow(0_10px_18px_rgba(0,0,0,.30))]">
         <div className="absolute inset-0 rounded-[1px] bg-[#d4cdba] [transform:rotate(-4deg)_translate(7px,9px)]" />
         <div className="absolute inset-0 rounded-[1px] bg-[#ded8c9] [transform:rotate(-4deg)_translate(4px,5px)]" />

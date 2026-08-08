@@ -202,8 +202,6 @@ export default async function OursCollectPage() {
       />
 
       <Panel variant="cream" className="md:p-16">
-        <InquireBox />
-
         <BookletPerk />
 
         {/* CSS multi-column masonry, not a row-aligned grid — these
@@ -273,6 +271,10 @@ export default async function OursCollectPage() {
             Some prices include a charitable, tax-deductible premium supporting FFA, a 501(c)(3)
             nonprofit. Sales tax is calculated at checkout.
           </p>
+        </div>
+
+        <div className="mt-20 border-t-[3px] border-rule pt-16">
+          <InquireBox />
         </div>
       </Panel>
     </>
