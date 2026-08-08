@@ -33,6 +33,42 @@ a{color:var(--orange);text-decoration:none;}
   font-size:clamp(38px,7vw,72px);margin:14px 0 0;text-shadow:0 2px 18px rgba(0,0,0,.4);}
 .hero .rule{width:46px;height:2px;background:var(--orange);margin:18px auto 0;}
 
+/* ---------- BOOKLET PERK ---------- */
+.perk{max-width:1040px;margin:34px auto 0;padding:0 24px;}
+.perk .inner{padding:22px;background:var(--paper);border:1px solid var(--hair);border-left:3px solid var(--orange);
+  border-radius:2px;display:flex;gap:20px;align-items:center;}
+.perk .txt{flex:1;}
+.perk .k{font-family:var(--mono);font-weight:500;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--orange);}
+.perk h2{font-family:var(--cond);font-weight:700;text-transform:uppercase;font-size:19px;margin:5px 0 0;letter-spacing:.005em;line-height:1.1;}
+.perk p{font-family:var(--body);font-weight:400;font-size:13px;line-height:1.5;color:var(--dkgray);margin:7px 0 0;max-width:36em;}
+
+/* Realistic miniature booklet — rebuilt from the actual printed
+   program's cover (same image, layout, and type as the real piece)
+   rather than a generic icon, so it reads as the specific object a
+   guest will receive. Stacked "leaf" layers behind the cover + a
+   striped spine edge suggest the ~1/4in page block; -4deg rotation
+   and a soft drop-shadow keep it from reading as a flat card. */
+.booklet{position:relative;width:162px;height:229px;flex:0 0 162px;filter:drop-shadow(0 10px 18px rgba(0,0,0,.30));}
+.booklet .leaf{position:absolute;inset:0;background:#e4dfd2;border-radius:1px;}
+.booklet .leaf1{transform:rotate(-4deg) translate(4px,5px);background:#ded8c9;}
+.booklet .leaf2{transform:rotate(-4deg) translate(7px,9px);background:#d4cdba;}
+.booklet .cover{position:absolute;inset:0;transform:rotate(-4deg);background:var(--cream);
+  border:1px solid rgba(0,0,0,.08);border-radius:1px;display:flex;flex-direction:column;
+  padding:9px 10px 8px;overflow:hidden;}
+.booklet .cov-top{font-family:var(--mono);font-size:4.6px;letter-spacing:.09em;text-transform:uppercase;color:#8a867c;line-height:1.3;}
+.booklet .cov-rule-o{height:1px;background:var(--orange);margin-top:3px;}
+.booklet .cov-img{margin-top:7px;height:46px;background:#cfd6c6;overflow:hidden;border-radius:1px;}
+.booklet .cov-img img{width:100%;height:100%;object-fit:cover;object-position:center 38%;display:block;}
+.booklet .cov-ours{font-family:var(--cond);font-weight:800;font-size:29px;line-height:.86;letter-spacing:-.01em;color:var(--ink);margin-top:7px;}
+.booklet .cov-rule-thick{width:22px;height:2px;background:var(--orange);margin-top:2px;}
+.booklet .cov-tag{font-size:4.7px;line-height:1.35;color:#3a372f;margin-top:5px;max-width:92px;}
+.booklet .cov-spacer{flex:1;}
+.booklet .cov-rule-k{height:1px;background:var(--ink);margin:0 0 3px;}
+.booklet .cov-venue{font-family:var(--mono);font-size:4.4px;color:#3a372f;letter-spacing:.01em;}
+.booklet .spine-edge{position:absolute;left:1px;top:3px;bottom:3px;width:3px;
+  background:repeating-linear-gradient(180deg,#efece6 0px,#efece6 1px,#d8d3c5 1px,#d8d3c5 2px);
+  transform:rotate(-4deg) translate(-1px,0);border-radius:1px 0 0 1px;}
+
 /* ---------- TIERS ---------- */
 .tiers-sec{padding:64px 0 24px;}
 .sec-head{text-align:center;margin-bottom:38px;}
@@ -68,6 +104,7 @@ footer .fsub{font-family:var(--mono);font-weight:400;font-size:11px;letter-spaci
 @media(max-width:760px){
   .tiers{grid-template-columns:1fr;}
   .hero .frame{inset:16px;}
+  .perk .inner{flex-direction:column;text-align:center;}
 }
 </style>
 </head>
@@ -82,6 +119,33 @@ footer .fsub{font-family:var(--mono);font-weight:400;font-size:11px;letter-spaci
     <div class="rule"></div>
   </div>
 </header>
+
+<!-- ===================== BOOKLET PERK ===================== -->
+<div class="perk">
+  <div class="inner">
+    <div class="booklet">
+      <div class="leaf leaf2"></div>
+      <div class="leaf leaf1"></div>
+      <div class="spine-edge"></div>
+      <div class="cover">
+        <div class="cov-top">Foundation for Future Aesthetics Presents</div>
+        <div class="cov-rule-o"></div>
+        <div class="cov-img"><img src="/images/ours-booklet-cover.jpg" alt="OURS printed program cover"></div>
+        <div class="cov-ours">OURS</div>
+        <div class="cov-rule-thick"></div>
+        <div class="cov-tag">A one-night exhibition &amp; salon on acting to bring about our positive visions of the future.</div>
+        <div class="cov-spacer"></div>
+        <div class="cov-rule-k"></div>
+        <div class="cov-venue">Sun, Aug 9 &middot; Space LES &middot; NYC</div>
+      </div>
+    </div>
+    <div class="txt">
+      <div class="k">Tonight only</div>
+      <h2>Join any tier, take home a commemorative booklet.</h2>
+      <p>Become a member tonight &mdash; any tier &mdash; and you&rsquo;ll leave with a complimentary printed OURS booklet, yours to keep.</p>
+    </div>
+  </div>
+</div>
 
 <!-- ===================== TIERS ===================== -->
 <main>

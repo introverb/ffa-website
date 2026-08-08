@@ -3,6 +3,7 @@ import { Suspense } from 'react';
 import { PageHeader } from '@/components/PageHeader';
 import { Panel } from '@/components/PageFrame';
 import { ArtworkCard } from '@/components/storefront/ArtworkCard';
+import { BookletPerk } from '@/components/storefront/BookletPerk';
 import { InquireBox } from '@/components/storefront/InquireBox';
 import {
   LedgerworksSection,
@@ -202,6 +203,8 @@ export default async function OursCollectPage() {
 
       <Panel variant="cream" className="md:p-16">
         <InquireBox />
+
+        <BookletPerk />
 
         {/* CSS multi-column masonry, not a row-aligned grid — these
             photos range from tall portraits to wide canvases with no

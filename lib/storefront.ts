@@ -289,7 +289,9 @@ export const ARTWORKS: Artwork[] = [
     title: 'Materia Alchemical',
     artistName: 'Olli Payne',
     medium: 'Prints, unframed · edition of 10 · 28 × 9 in',
-    note: 'Materials donated by the Nucleonics Institute',
+    // Matches the printed program's sponsor credit line verbatim — was
+    // previously "Materials donated by the Nucleonics Institute".
+    note: 'Commissioned by Nucleonics Institute for OURS',
     // $180 per piece. Olli keeps 1 of the 10 free — editionSize is set
     // to the 9 actually for sale, so it grays out once those 9 are gone
     // rather than at 10. fullEditionSize keeps 10 in the "N of 10 left"
