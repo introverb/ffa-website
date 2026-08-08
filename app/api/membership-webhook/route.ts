@@ -170,36 +170,69 @@ function currentPeriodEndOf(
   return item?.current_period_end ?? legacyField ?? null;
 }
 
-// Adds/updates the member as a Resend contact in the Membership
-// segment, with tier + status as contact properties — separate from
-// the Redis record above (that's the operational source of truth;
-// this is the layer for actually emailing members later). Resend's
-// create-contact isn't documented as an upsert, so this tries create
-// first and falls back to update + an explicit segment add for a
-// contact that already exists (e.g. someone who also signed up for
-// the general mailing list).
+// Cumulative by tier, matching the tiers' real benefit structure (each
+// includes what's below it, even though that framing was dropped from
+// the page copy itself) — a Deuterium member lands in both Mycelium+
+// and Deuterium+, a Regolith member in all three. Resend Segments are
+// static named containers with no property-based filtering (verified
+// against the SDK's types — CreateSegmentOptions is just `{ name }`,
+// nothing dynamic), and Broadcasts can only target a Segment, not a
+// contact property. So this is what actually makes "email Regolith
+// members about a new acquisition" or "email everyone" possible later
+// as one-segment sends, rather than a manual export-and-filter.
+//
+// Deliberately additive-only: there's no self-serve upgrade/downgrade
+// or cancellation flow in this build (no customer portal link
+// anywhere), so a member's tier only ever moves via a manual change in
+// the Stripe Dashboard. If that ever happens, the segments here won't
+// automatically shed the higher tier's membership — worth a manual
+// check in Resend if a downgrade is ever done by hand.
+function segmentIdsForTier(tier: string): string[] {
+  const mycelium = process.env.RESEND_MEMBERSHIP_MYCELIUM_SEGMENT_ID;
+  const deuterium = process.env.RESEND_MEMBERSHIP_DEUTERIUM_SEGMENT_ID;
+  const regolith = process.env.RESEND_MEMBERSHIP_REGOLITH_SEGMENT_ID;
+
+  const ids: string[] = [];
+  if (mycelium) ids.push(mycelium);
+  if ((tier === 'deuterium' || tier === 'regolith') && deuterium) ids.push(deuterium);
+  if (tier === 'regolith' && regolith) ids.push(regolith);
+  return ids;
+}
+
+// Adds/updates the member as a Resend contact in their cumulative tier
+// segments (see segmentIdsForTier), with tier + status as contact
+// properties for reference — separate from the Redis record above
+// (that's the operational source of truth; this is the layer for
+// actually emailing members later). Resend's create-contact isn't
+// documented as an upsert, so this tries create first and falls back
+// to update + explicit segment adds for a contact that already exists
+// (e.g. someone who also signed up for the general mailing list).
 async function upsertMemberContact(
   email: string,
   name: string | null,
   tier: string,
   status: string,
 ): Promise<void> {
-  if (!process.env.RESEND_API_KEY || !process.env.RESEND_MEMBERSHIP_SEGMENT_ID) return;
+  if (!process.env.RESEND_API_KEY) return;
+  const segmentIds = segmentIdsForTier(tier);
+  if (segmentIds.length === 0) return;
+
   const resend = new Resend(process.env.RESEND_API_KEY);
-  const segmentId = process.env.RESEND_MEMBERSHIP_SEGMENT_ID;
   const properties = { tier, status };
 
   const { error } = await resend.contacts.create({
     email,
     firstName: name || undefined,
     unsubscribed: false,
-    segments: [{ id: segmentId }],
+    segments: segmentIds.map((id) => ({ id })),
     properties,
   });
 
   if (error) {
     await resend.contacts.update({ email, firstName: name || undefined, properties });
-    await resend.contacts.segments.add({ email, segmentId });
+    await Promise.all(
+      segmentIds.map((segmentId) => resend.contacts.segments.add({ email, segmentId })),
+    );
   }
 }
 
