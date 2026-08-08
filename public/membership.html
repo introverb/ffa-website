@@ -146,12 +146,14 @@ const CONFIG = {
   // Backend endpoint that creates a Checkout Session and returns { url } (or { sessionId }).
   checkoutEndpoint: "/api/create-checkout-session",
   // Map each tier to its Stripe recurring Price ID (price_...).
-  // TEST-MODE IDs — swap to live-mode price IDs before taking real
-  // payment (see the products/prices created alongside STRIPE_SECRET_KEY).
+  // Live-mode IDs — matches the live STRIPE_SECRET_KEY already set on
+  // Railway. The same three IDs must also be set as PRICE_MYCELIUM /
+  // PRICE_DEUTERIUM / PRICE_REGOLITH on Railway, since the backend
+  // revalidates tier -> price server-side rather than trusting these.
   prices: {
-    mycelium:  { priceId: "price_1U1UKcK0o2qVlGqKqhwae0Rj", amount: 50,  label: "Mycelium"  },
-    deuterium: { priceId: "price_1U1UKdK0o2qVlGqKIycD4aqV", amount: 100, label: "Deuterium" },
-    regolith:  { priceId: "price_1U1UKdK0o2qVlGqKAoBTSUIJ", amount: 250, label: "Regolith"  }
+    mycelium:  { priceId: "price_1U1yhrK0o2qVlGqKjd1dWjeX", amount: 50,  label: "Mycelium"  },
+    deuterium: { priceId: "price_1U1yiPK0o2qVlGqK3pleoZX9", amount: 100, label: "Deuterium" },
+    regolith:  { priceId: "price_1U1yjBK0o2qVlGqKg2V8HeKo", amount: 250, label: "Regolith"  }
   }
 };
 

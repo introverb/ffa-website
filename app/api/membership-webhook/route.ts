@@ -140,10 +140,7 @@ async function syncFromSubscription(stripe: Stripe, subscription: Stripe.Subscri
     tier,
     status: subscription.status,
     priceId,
-    // Lives on the subscription item, not the subscription itself, as
-    // of this SDK's API version — see SubscriptionItem in the stripe
-    // package's types.
-    currentPeriodEnd: item?.current_period_end ?? null,
+    currentPeriodEnd: currentPeriodEndOf(subscription, item),
     updatedAt: Date.now(),
   });
   await upsertMemberContact(email, name, tier, subscription.status).catch((err) =>
@@ -151,6 +148,26 @@ async function syncFromSubscription(stripe: Stripe, subscription: Stripe.Subscri
   );
 
   return { email, name, tier };
+}
+
+// Stripe's 2025-03-31 ("Basil") release moved current_period_end off
+// the Subscription object and onto each subscription item — a
+// documented breaking change (docs.stripe.com/changelog/basil/
+// 2025-03-31/deprecate-subscription-current-period-start-and-end).
+// This webhook endpoint is registered at an EXPLICIT, older API
+// version (Stripe always serializes events to an endpoint's pinned
+// version, regardless of the account's default or this SDK's
+// version), so the field can arrive at either location depending on
+// which version is actually configured on the endpoint. The installed
+// `stripe` package's types only know about the current (post-Basil)
+// shape, so the pre-Basil field is read via an untyped fallback.
+function currentPeriodEndOf(
+  subscription: Stripe.Subscription,
+  item: Stripe.SubscriptionItem | undefined,
+): number | null {
+  const legacyField = (subscription as unknown as { current_period_end?: number })
+    .current_period_end;
+  return item?.current_period_end ?? legacyField ?? null;
 }
 
 // Adds/updates the member as a Resend contact in the Membership
