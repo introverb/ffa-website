@@ -58,8 +58,8 @@ const nextConfig = {
       // program's presale QR, p17 + p45) now points here instead of
       // straight to Artizen — see the redirect below.
       {
-        source: '/preorder',
-        destination: '/preorder.html',
+        source: '/possibilia-preorder',
+        destination: '/possibilia-preorder.html',
       },
       // OURS afterparty (Club Reign) — same standalone static-HTML
       // pattern as the briefs above. Reached via the /q/after QR in
@@ -145,12 +145,20 @@ const nextConfig = {
         statusCode: 302,
       },
       // Possibilia Issue 0 pre-order (program p17 + p45). Routes through
-      // the /preorder interstitial (screenshot + steps + the "artifact
-      // vs. magazine" warning) rather than straight to Artizen — buyers
-      // land there first and the page's own button makes the final hop.
+      // the /possibilia-preorder interstitial (screenshot + steps + the
+      // "artifact vs. magazine" warning) rather than straight to
+      // Artizen — buyers land there first and the page's own button
+      // makes the final hop.
       {
         source: '/q/mag',
-        destination: '/preorder',
+        destination: '/possibilia-preorder',
+        statusCode: 302,
+      },
+      // Legacy slug — catches anyone who saved/shared the old direct
+      // URL before it was renamed to /possibilia-preorder.
+      {
+        source: '/preorder',
+        destination: '/possibilia-preorder',
         statusCode: 302,
       },
       // Sponsor credit, program p18.
