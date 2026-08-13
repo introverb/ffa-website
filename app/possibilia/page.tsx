@@ -43,7 +43,10 @@ export default async function PossibiliaPage() {
             >
               Preorder Issue 0 in print
             </Link>
-            <p className="text-sm text-muted">$20 &middot; ships January 2027</p>
+            <p className="text-right text-sm text-muted">$20 &middot; ships January 2027</p>
+            <p className="text-right text-sm text-muted">
+              Powered by Artizen &mdash; when you order, they donate to Possibilia Magazine.
+            </p>
           </>
         }
       />
