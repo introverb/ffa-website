@@ -4,6 +4,7 @@ import { Mission } from '@/components/sections/Mission';
 import { MagazineCallout } from '@/components/sections/MagazineCallout';
 import { Initiatives } from '@/components/sections/Initiatives';
 import { HomepageOutro } from '@/components/sections/HomepageOutro';
+import { PreorderPromoModal } from '@/components/PreorderPromoModal';
 
 // Homepage inherits title + description + OG image from the layout's
 // site-level metadata defaults (which describe FFA-as-a-whole, exactly
@@ -17,6 +18,7 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <>
+      <PreorderPromoModal />
       <Hero />
       <Mission />
       <MagazineCallout />
