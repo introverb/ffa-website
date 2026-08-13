@@ -34,6 +34,18 @@ export default async function PossibiliaPage() {
         eyebrow="Possibilia Magazine"
         title="A magazine for the future we actually want to live in."
         image="/images/initiative-possibilia.jpg"
+        cta={
+          <>
+            <Link
+              href="/possibilia-preorder"
+              data-goatcounter-click="possibilia:preorder-hero"
+              className="btn-solid inline-flex justify-center bg-flare px-8 py-4 text-center text-base"
+            >
+              Preorder Issue 0 in print
+            </Link>
+            <p className="text-sm text-muted">$20 &middot; ships January 2027</p>
+          </>
+        }
       />
 
       {/* Recently published - driven by content/possibilia/<slug>/meta.ts.
