@@ -226,7 +226,10 @@ export function LedgerworksSection() {
           <img
             src={`/images/ours/ledgerworks-wall.png${V}`}
             alt="The Ledgerworks wall as hung at OURS: five framed works and a backlit screen, wired together with black circuit-trace vinyl beneath the Ledgerworks sign."
-            className="block h-auto w-full"
+            // rounded on the image itself, matching the orange ring's
+            // radius exactly — the container clip alone let the image
+            // corners square past the stroke
+            className="block h-auto w-full rounded-3xl"
           />
         </picture>
 
