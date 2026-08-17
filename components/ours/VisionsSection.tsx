@@ -15,7 +15,8 @@ import { OURS } from './tokens';
 const VIDEO_ID = '4LgqHTmZg1M';
 
 const TICKET_W = 210;
-const TICKET_H = Math.round(TICKET_W * (1351 / 668)); // 425 — the print's real aspect
+const TICKET_H = Math.round(TICKET_W * (1368 / 648)); // 443 — the die-cut's real aspect
+const TICKET_D = 6; // thickness — reads as heavy card stock
 
 const LINEUP: { name: string; detail: string }[] = [
   { name: 'Ada Palmer', detail: 'Historian & Novelist · Too Like the Lightning; Perhaps the Stars' },
@@ -53,13 +54,10 @@ export function VisionsSection() {
           </p>
         </div>
 
-        {/* The admission ticket. Turn order, outermost in:
-            bob (weight — a slow vertical drift) → spin (rotateY about
-            the true screen-vertical axis, easing through each half-turn
-            so it lingers on the faces and sweeps through edge-on like a
-            sheet with mass) → tilt (the card leans 15° left inside the
-            spin, so the lean rides the rotation like a real held
-            ticket). Hovering anywhere over it pauses the motion. */}
+        {/* The admission ticket, die-cut at its printed border (tear
+            notches included), turning upright on the vertical axis over
+            a slow bob. Edge faces give it the thickness of real card
+            stock. Hovering anywhere over it pauses the motion. */}
         <div
           className="ours-ticket hidden items-center justify-center self-stretch md:flex"
           style={{ perspective: 1800 }}
@@ -69,34 +67,53 @@ export function VisionsSection() {
               className="ours-ticket-spin relative"
               style={{ width: TICKET_W, height: TICKET_H, transformStyle: 'preserve-3d' }}
             >
-              <div
-                className="absolute inset-0"
-                style={{ transform: 'rotateZ(-15deg)', transformStyle: 'preserve-3d' }}
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/images/ours/visions-ticket-front.webp"
-                  alt="Admission ticket N° 001 for Visions of the Future — the video installation, hosted by Ada Palmer."
-                  className="absolute inset-0 h-full w-full rounded-lg"
-                  style={{
-                    backfaceVisibility: 'hidden',
-                    transform: 'translateZ(1px)',
-                    boxShadow: '0 26px 50px -18px rgba(0,0,0,0.45)',
-                  }}
-                />
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/images/ours/visions-ticket-back.webp"
-                  alt=""
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/images/ours/visions-ticket-front.webp"
+                alt="Admission ticket N° 001 for Visions of the Future — the video installation, hosted by Ada Palmer."
+                className="absolute inset-0 h-full w-full"
+                style={{
+                  backfaceVisibility: 'hidden',
+                  transform: `translateZ(${TICKET_D / 2}px)`,
+                  boxShadow: '0 26px 50px -18px rgba(0,0,0,0.45)',
+                }}
+              />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/images/ours/visions-ticket-back.webp"
+                alt=""
+                aria-hidden
+                className="absolute inset-0 h-full w-full"
+                style={{
+                  backfaceVisibility: 'hidden',
+                  transform: `rotateY(180deg) translateZ(${TICKET_D / 2}px)`,
+                  boxShadow: '0 26px 50px -18px rgba(0,0,0,0.45)',
+                }}
+              />
+              {/* card-stock edges */}
+              {(
+                [
+                  { w: TICKET_D, h: '100%', t: `rotateY(-90deg) translateZ(${TICKET_W / 2}px)`, bg: '#e6e3dc' },
+                  { w: TICKET_D, h: '100%', t: `rotateY(90deg) translateZ(${TICKET_W / 2}px)`, bg: '#e6e3dc' },
+                  { w: '100%', h: TICKET_D, t: `rotateX(90deg) translateZ(${TICKET_H / 2}px)`, bg: '#efede7' },
+                  { w: '100%', h: TICKET_D, t: `rotateX(-90deg) translateZ(${TICKET_H / 2}px)`, bg: '#efede7' },
+                ] as const
+              ).map((e, i) => (
+                <span
+                  key={i}
                   aria-hidden
-                  className="absolute inset-0 h-full w-full rounded-lg"
                   style={{
+                    position: 'absolute',
+                    left: '50%',
+                    top: '50%',
+                    width: e.w,
+                    height: e.h,
+                    transform: `translate(-50%, -50%) ${e.t}`,
+                    background: e.bg,
                     backfaceVisibility: 'hidden',
-                    transform: 'rotateY(180deg) translateZ(1px)',
-                    boxShadow: '0 26px 50px -18px rgba(0,0,0,0.45)',
                   }}
                 />
-              </div>
+              ))}
             </div>
           </div>
         </div>
@@ -189,11 +206,8 @@ export function VisionsSection() {
             transform: rotateY(360deg);
           }
         }
-        /* The ease-in-out runs per half-turn: the card settles on each
-           face and carries momentum through the edge-on moments —
-           paper with weight, not a rotisserie. */
         .ours-ticket-spin {
-          animation: ours-ticket-spin 12s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+          animation: ours-ticket-spin 12s linear infinite;
         }
         @keyframes ours-ticket-bob {
           from {
