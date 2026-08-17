@@ -27,6 +27,8 @@ const EVENING_PHOTOS: { file: string; alt: string }[] = [
   { file: 'ap8_4125', alt: 'Guest pointing out a detail mid-conversation at the gallery wall.' },
   { file: 'event3', alt: 'A speaker beside the wall of triangular beadwork hangings.' },
   { file: 'event4', alt: 'A guest holding the Little Martian ceramic beside its glass vitrine.' },
+  { file: 'event5', alt: 'Guests gathered around the Visions of the Future screening.' },
+  { file: 'event6', alt: 'Two guests before the Ledgerworks wall, its works linked by the circuit diagram.' },
 ];
 
 // "About the Event" contents, as three numbered blocks in the left
