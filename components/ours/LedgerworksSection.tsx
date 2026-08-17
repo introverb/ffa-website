@@ -74,23 +74,16 @@ const MOBILE: {
   { title: 'Nahuel Aquiles', sub: 'Self-Similar', media: { kind: 'image', src: '/images/ours/loupe-nahuel.webp' }, placards: ['lw-nahuel-main', 'lw-nahuel-genpi'] },
 ];
 
-// Photo & film gallery under the wall — every shot from Ledgerworks Shots,
-// plus the room footage as a boomerang (25s in to the end, then reversed).
-const GALLERY: { kind: 'video' | 'image'; src: string }[] = [
-  { kind: 'video', src: '/images/ours/lwgallery/ledgerworks-loop.mp4' },
-  { kind: 'image', src: '/images/ours/lwgallery/ap8_1413.webp' },
-  { kind: 'image', src: '/images/ours/lwgallery/dsc_3201.webp' },
-  { kind: 'image', src: '/images/ours/lwgallery/ap8_2627.webp' },
-  { kind: 'image', src: '/images/ours/lwgallery/dsc_3522.webp' },
-  { kind: 'image', src: '/images/ours/lwgallery/ap8_3129.webp' },
-  { kind: 'image', src: '/images/ours/lwgallery/dsc_3276.webp' },
-  { kind: 'image', src: '/images/ours/lwgallery/ap8_3185.webp' },
-  { kind: 'image', src: '/images/ours/lwgallery/dsc_3285.webp' },
-  { kind: 'image', src: '/images/ours/lwgallery/ap8_4001.webp' },
-  { kind: 'image', src: '/images/ours/lwgallery/dsc_2164.webp' },
-  { kind: 'image', src: '/images/ours/lwgallery/ap8_4050.webp' },
-  { kind: 'image', src: '/images/ours/lwgallery/dsc_3812.webp' },
-];
+// Photo & film gallery under the wall. The room film (graded to match
+// the photography, first/last 3s trimmed — both ends so the boomerang
+// loop stays seamless) runs full width; beneath it, the curated
+// stills: three landscape shots either side of the large portrait
+// frame. Culled from the full shoot 2026-08-17 per Olli's picks.
+const GALLERY_VIDEO = '/images/ours/lwgallery/ledgerworks-loop.mp4';
+const GALLERY_LEFT = ['ap8_2627', 'ap8_4001', 'dsc_3812'];
+const GALLERY_CENTER = 'dsc_3522';
+const GALLERY_RIGHT = ['dsc_2164', 'dsc_3276', 'dsc_3201'];
+const lw = (name: string) => `/images/ours/lwgallery/${name}.webp`;
 
 const pct = (v: number, total: number) => `${(v / total) * 100}%`;
 
@@ -330,17 +323,55 @@ export function LedgerworksSection() {
           The wall, in the room
         </p>
         <hr className="mt-1.5 h-[2px] w-12 border-0" style={{ background: OURS.orange }} />
-        <div className="mt-5 columns-1 gap-3 sm:columns-2 lg:columns-3">
-          {GALLERY.map((g) => (
-            <div key={g.src} className="mb-3 w-full overflow-hidden rounded-xl break-inside-avoid">
-              {g.kind === 'video' ? (
-                <video src={g.src} muted loop playsInline autoPlay preload="metadata" className="block w-full" />
-              ) : (
+        <div className="mt-5 space-y-3">
+          {/* the room film, full width of the section */}
+          <video
+            src={GALLERY_VIDEO}
+            muted
+            loop
+            playsInline
+            autoPlay
+            preload="metadata"
+            className="block w-full overflow-hidden rounded-xl"
+          />
+          {/* the stills: portrait frame centred, three landscape shots a
+              side. The side stacks set the row height; the portrait
+              cover-fills it. On mobile everything stacks, portrait first. */}
+          <div className="grid gap-3 sm:grid-cols-[1fr_1.15fr_1fr]">
+            <div className="flex flex-col justify-between gap-3">
+              {GALLERY_LEFT.map((name) => (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={g.src} alt="Ledgerworks at OURS" className="block w-full" loading="lazy" />
-              )}
+                <img
+                  key={name}
+                  src={lw(name)}
+                  alt="Ledgerworks at OURS"
+                  className="block w-full rounded-xl"
+                  loading="lazy"
+                />
+              ))}
             </div>
-          ))}
+            <div className="order-first overflow-hidden rounded-xl sm:relative sm:order-none">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={lw(GALLERY_CENTER)}
+                alt="Ledgerworks at OURS — the backlit screen up close"
+                className="block h-auto w-full sm:absolute sm:inset-0 sm:h-full sm:object-cover"
+                loading="lazy"
+              />
+            </div>
+            <div className="flex flex-col justify-between gap-3">
+              {GALLERY_RIGHT.map((name) => (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  key={name}
+                  src={lw(name)}
+                  alt="Ledgerworks at OURS"
+                  className="block w-full rounded-xl"
+                  loading="lazy"
+                />
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </div>
