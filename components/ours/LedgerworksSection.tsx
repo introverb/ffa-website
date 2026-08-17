@@ -80,9 +80,9 @@ const MOBILE: {
 // stills: three landscape shots either side of the large portrait
 // frame. Culled from the full shoot 2026-08-17 per Olli's picks.
 const GALLERY_VIDEO = '/images/ours/lwgallery/ledgerworks-loop.mp4';
-const GALLERY_LEFT = ['ap8_2627', 'ap8_4001', 'dsc_3812'];
+const GALLERY_LEFT = ['ap8_2627', 'ap8_4001', 'dsc_3201'];
 const GALLERY_CENTER = 'dsc_3522';
-const GALLERY_RIGHT = ['dsc_2164', 'dsc_3276', 'dsc_3201'];
+const GALLERY_RIGHT = ['dsc_2164', 'dsc_3276', 'dsc_3812'];
 const lw = (name: string) => `/images/ours/lwgallery/${name}.webp`;
 
 const pct = (v: number, total: number) => `${(v / total) * 100}%`;
