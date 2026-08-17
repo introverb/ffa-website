@@ -1,0 +1,164 @@
+import { Resend } from 'resend';
+import { NextRequest, NextResponse } from 'next/server';
+import { isHoneypotFilled } from '@/lib/spam';
+import { isStoreConfigured, reserveArtwork, releaseReservation } from '@/lib/storefront-store';
+
+// ETH-only Ledgerworks sale inquiry (currently just The Pope). There's
+// no Stripe/webhook here — a buyer sends ETH directly to FFA's wallet
+// (shown in the modal) and this route just records where they want
+// the NFT sent, by email, so Olli can verify the payment on-chain and
+// transfer it manually. Nothing here marks a piece sold; that's a
+// manual edit to lib/storefront.ts once the sale is confirmed.
+//
+// A submission puts the same Redis reservation lock on the piece that
+// Stripe 1-of-1 checkouts use (see storefront-checkout/route.ts) —
+// this is the real fix for double-selling: the moment someone submits
+// this form, nobody else can submit it too (the piece's card/modal
+// flips to "Reserved" + a waitlist option). The 24h TTL is long on
+// purpose — Olli resolves this manually (verify on-chain, then
+// transfer), possibly the next day, not in real time during the show.
+//
+// The notification email below includes two one-click links: "mark
+// sold" (storefront-mark-sold/route.ts) — the only thing that ever
+// flips this to "Sold" on the site, since there's no webhook watching
+// the chain for the transfer landing — and "relist" (storefront-
+// relist/route.ts) for the opposite case, when the buyer can't be
+// confirmed (payment never lands, wallet mismatch, etc.); releases the
+// hold instead of leaving it locked for the rest of the 24h TTL.
+//
+// Deliberately skips lib/spam.ts's hasScamContent() check — that
+// filter flags "ETH" + "transfer"/"wallet" language, which is exactly
+// what a legitimate submission here looks like. Honeypot only.
+//
+// Required env vars (same as the other form endpoints):
+//   RESEND_API_KEY
+//   POSSIBILIA_FROM_EMAIL
+//   POSSIBILIA_TO_EMAIL
+//   STOREFRONT_ADMIN_TOKEN (omit the mark-sold/relist links if unset)
+
+export const runtime = 'nodejs';
+
+const RESERVATION_TTL_SECONDS = 24 * 60 * 60;
+
+// Same reasoning as storefront-checkout/route.ts: Railway's internal
+// proxy means req.url resolves to the container's internal address, not
+// the public domain, so the mark-sold/relist links need a known-good origin.
+const SITE_URL =
+  process.env.NODE_ENV === 'production' ? 'https://futureaesthetics.foundation' : null;
+
+export async function POST(req: NextRequest) {
+  // Declared outside the try block so the catch handler can see them
+  // too — needed to release a reservation if something throws after
+  // it's been set (see reservedByThisRequest below).
+  let artworkId = '';
+  let reservedByThisRequest = false;
+  try {
+    if (!process.env.RESEND_API_KEY) {
+      return NextResponse.json({ error: 'RESEND_API_KEY not configured' }, { status: 500 });
+    }
+
+    const formData = await req.formData();
+
+    if (isHoneypotFilled(formData)) {
+      return NextResponse.json({ ok: true });
+    }
+
+    artworkId = field(formData, 'artworkId');
+    const pieceTitle = field(formData, 'pieceTitle');
+    const ethAmount = field(formData, 'ethAmount');
+    const buyerWallet = field(formData, 'buyerWallet');
+    const buyerEmail = field(formData, 'buyerEmail');
+
+    if (!artworkId || !buyerWallet || !buyerEmail) {
+      return NextResponse.json(
+        { error: 'Wallet address and email are required.' },
+        { status: 400 },
+      );
+    }
+
+    // Only enforce the lock when Redis is actually configured — a
+    // misconfigured store returns false from reserveArtwork() same as
+    // "already reserved," which would wrongly block every submission.
+    // reservedByThisRequest tracks whether *this* request is the one
+    // holding the lock, so a failure further down (e.g. the email send
+    // below) can release it instead of leaving the piece silently
+    // stuck "Reserved" with no record of who reserved it — confirmed
+    // live: a Resend outage left The Pope locked for the full 24h TTL
+    // after a failed submission.
+    if (isStoreConfigured()) {
+      const reserved = await reserveArtwork(artworkId, RESERVATION_TTL_SECONDS);
+      if (!reserved) {
+        return NextResponse.json(
+          { error: 'reserved', message: 'This piece was just reserved by someone else.' },
+          { status: 409 },
+        );
+      }
+      reservedByThisRequest = true;
+    } else {
+      console.error('Storefront ETH sale: live-state store not configured (Upstash env vars missing) — skipping reservation lock');
+    }
+
+    const adminOrigin = SITE_URL ?? req.nextUrl.origin;
+    const markSoldUrl = process.env.STOREFRONT_ADMIN_TOKEN
+      ? `${adminOrigin}/api/storefront-mark-sold?id=${encodeURIComponent(artworkId)}&token=${encodeURIComponent(process.env.STOREFRONT_ADMIN_TOKEN)}`
+      : null;
+    const relistUrl = process.env.STOREFRONT_ADMIN_TOKEN
+      ? `${adminOrigin}/api/storefront-relist?id=${encodeURIComponent(artworkId)}&token=${encodeURIComponent(process.env.STOREFRONT_ADMIN_TOKEN)}`
+      : null;
+
+    const resend = new Resend(process.env.RESEND_API_KEY);
+    const { error } = await resend.emails.send({
+      from: process.env.POSSIBILIA_FROM_EMAIL || 'FFA OURS <onboarding@resend.dev>',
+      to: process.env.POSSIBILIA_TO_EMAIL || 'olli@futureaesthetics.foundation',
+      replyTo: buyerEmail,
+      subject: `ETH sale — ${pieceTitle || artworkId} (${ethAmount} ETH)`,
+      text: `ETH sale inquiry
+
+Piece: ${pieceTitle || artworkId} (${artworkId})
+Amount: ${ethAmount} ETH
+
+Buyer email: ${buyerEmail}
+Buyer wallet (send the NFT here, after verifying payment on-chain):
+${buyerWallet}
+${markSoldUrl ? `\nOnce you've confirmed the payment on-chain, mark it sold:\n${markSoldUrl}` : ''}
+${relistUrl ? `\nCan't confirm the buyer? Release the hold and relist it:\n${relistUrl}` : ''}`,
+      html: `<h2 style="margin:0 0 16px;font-family:Helvetica,Arial,sans-serif;">ETH sale inquiry</h2>
+<table cellpadding="6" cellspacing="0" style="font-family:Helvetica,Arial,sans-serif;border-collapse:collapse;">
+  <tr><td><strong>Piece:</strong></td><td>${escapeHtml(pieceTitle || artworkId)} (${escapeHtml(artworkId)})</td></tr>
+  <tr><td><strong>Amount:</strong></td><td>${escapeHtml(ethAmount)} ETH</td></tr>
+  <tr><td><strong>Buyer email:</strong></td><td><a href="mailto:${escapeHtml(buyerEmail)}">${escapeHtml(buyerEmail)}</a></td></tr>
+  <tr><td><strong>Buyer wallet:</strong></td><td style="font-family:monospace;">${escapeHtml(buyerWallet)}</td></tr>
+</table>
+<p style="font-family:Helvetica,Arial,sans-serif;">Verify the payment landed on-chain before transferring the NFT.</p>
+<p style="font-family:Helvetica,Arial,sans-serif;">
+${markSoldUrl ? `<a href="${markSoldUrl}" style="display:inline-block;background:#111;color:#fff;padding:10px 20px;border-radius:6px;text-decoration:none;margin-right:10px;">Mark sold</a>` : ''}
+${relistUrl ? `<a href="${relistUrl}" style="display:inline-block;background:#fff;color:#111;border:1px solid #111;padding:10px 20px;border-radius:6px;text-decoration:none;">Can&rsquo;t confirm buyer — relist</a>` : ''}
+</p>`,
+    });
+
+    if (error) {
+      console.error('Storefront ETH sale: Resend error:', error);
+      if (reservedByThisRequest) await releaseReservation(artworkId);
+      return NextResponse.json({ error: 'Failed to send email' }, { status: 500 });
+    }
+
+    return NextResponse.json({ ok: true });
+  } catch (err) {
+    console.error('Storefront ETH sale error:', err);
+    if (reservedByThisRequest) await releaseReservation(artworkId);
+    return NextResponse.json({ error: (err as Error).message }, { status: 500 });
+  }
+}
+
+function field(data: FormData, key: string): string {
+  return String(data.get(key) ?? '').trim();
+}
+
+function escapeHtml(s: string): string {
+  return s
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}

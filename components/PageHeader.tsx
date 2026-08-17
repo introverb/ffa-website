@@ -10,7 +10,7 @@ import { Panel } from './PageFrame';
 //   - A consistent min-height so all four pages feel like the same kind
 //     of header regardless of body length
 //
-// Two image treatments - pick via `imageMode`:
+// Three image treatments - pick via `imageMode`:
 //
 // `frosted` (default): hero.jpg is blurred heavily (blur-3xl) and scaled
 // past the panel edges so the blur doesn't leave soft borders. A
@@ -25,19 +25,27 @@ import { Panel } from './PageFrame';
 // readability is never compromised - and you get a real glimpse of the
 // artwork. Used on Possibilia story pages and Artifact pages, where the
 // hero is editorial cover art that earns its own visual presence.
+//
+// `overlay`: hero image fills the entire panel unblurred, and a
+// floating frosted-paper card anchored bottom-left holds all the text
+// content (masthead, eyebrow, title, body, optional CTA). Image
+// dominates the visual; text card sits over it like a label tag.
+// Used on pages where the hero image is editorial-grade and should be
+// the page's primary visual statement.
 type PageHeaderProps = {
   eyebrow: string;
   title: React.ReactNode;
   body?: React.ReactNode;
   /** Background image. Defaults to hero.jpg. */
   image?: string;
-  /** CSS object-position for the peek-revealed image (e.g. `'center 25%'`).
-   *  Only applies in 'peek' mode; the frosted layer stays centered.
-   *  Defaults to centered. */
+  /** CSS object-position for the revealed image (e.g. `'center 25%'`).
+   *  Applies in `peek` and `overlay` modes; the frosted layer stays
+   *  centered in `frosted` mode. Defaults to centered. */
   imagePosition?: string;
   cta?: React.ReactNode;
-  /** Image treatment, frosted atmospheric (default) or peek reveal. */
-  imageMode?: 'frosted' | 'peek';
+  /** Image treatment, frosted atmospheric (default), peek reveal,
+   *  or overlay (image-dominant with floating text card). */
+  imageMode?: 'frosted' | 'peek' | 'overlay';
   /** Horizontally mirror the hero image (frosted blur layer, triangle
    *  reveal, parallel-band reveal, and peek reveal all flip together). */
   flipImage?: boolean;
@@ -62,7 +70,21 @@ export function PageHeader({
   const revealScale = flipImage ? 'scale-y-105 scale-x-[-1.05]' : 'scale-105';
   return (
     <Panel variant="white" full className="relative md:h-[410px]">
-      {imageMode === 'peek' ? (
+      {imageMode === 'overlay' ? (
+        // Image dominates the panel — full-bleed, unblurred. The floating
+        // text card (rendered below) sits over it without competing.
+        <div aria-hidden className="absolute inset-0 overflow-hidden rounded-3xl">
+          <Image
+            src={image}
+            alt=""
+            fill
+            sizes="100vw"
+            className={`object-cover ${flipImage ? '-scale-x-100' : ''}`}
+            style={imagePosition ? { objectPosition: imagePosition } : undefined}
+            priority
+          />
+        </div>
+      ) : imageMode === 'peek' ? (
         <div aria-hidden className="absolute inset-0 overflow-hidden rounded-3xl">
           {/* Base layer: heavily-frosted hero (matches the default
               `frosted` treatment so the left side under the text reads
@@ -189,14 +211,66 @@ export function PageHeader({
         </div>
       )}
 
-      {/* Content. Peek-mode headers are used on Possibilia story and
-          Artifact pages, where the right ~40% of the panel reveals
-          editorial cover art. On narrow mobile screens that reveal
-          encroaches on the text column, so we flip text colors light
-          (text-paper) on mobile and add drop-shadows for legibility
-          over the image. At md+ the text column is comfortably to
-          the left of the reveal mask, so the original dark palette
-          comes back unchanged via md: overrides. */}
+      {/* Content. Overlay mode renders a floating frosted-paper card
+          anchored to the bottom-left of the panel; image dominates the
+          rest. Peek-mode headers (Possibilia story + Artifact pages)
+          reveal editorial cover art on the right ~40% of the panel —
+          on narrow mobile screens that reveal encroaches on the text
+          column, so we flip text colors light (text-paper) on mobile
+          and add drop-shadows for legibility over the image; at md+
+          the text column is comfortably to the left of the reveal
+          mask, so the original dark palette comes back via md:
+          overrides. Frosted mode just renders the text directly over
+          the heavily-blurred image. */}
+      {imageMode === 'overlay' ? (
+        // Two stacked frosted-paper cards forming a "shell" over the
+        // image, with a horizontal gap between them — the gap is a
+        // window through which the hero image is visible. Top card
+        // carries masthead + eyebrow + title; bottom card carries
+        // body + CTA. Cards are heavily rounded, mostly-opaque paper
+        // with backdrop-blur softening the image directly behind
+        // the text, plus a drop shadow for floating feel. Padding on
+        // the outer flex container is tight (p-3 / md:p-4) so the
+        // cards read as edge-aligned with the panel.
+        <div className="relative flex h-full flex-col gap-3 p-3 md:gap-4 md:p-4">
+          {/* Top card — masthead + eyebrow + title */}
+          <div className="rounded-2xl bg-paper/90 p-6 shadow-[0_18px_36px_-12px_rgba(0,0,0,0.25)] backdrop-blur-md md:p-8">
+            <p className="text-xs uppercase tracking-[0.18em] text-ink/55">
+              Foundation for Future Aesthetics
+            </p>
+            <hr className="mt-3 border-rule" />
+            <p className="mt-5 text-sm underline decoration-from-font underline-offset-4 text-muted">
+              {eyebrow}
+            </p>
+            <h1 className="mt-4 text-h2 leading-[1.05] md:text-h2-lg">
+              {title}
+            </h1>
+          </div>
+
+          {/* Bottom card — body + CTA. mt-auto pushes it to the bottom
+              edge so the gap between cards (showing the image) is the
+              entire remaining vertical space. Only rendered if there's
+              body or CTA content. */}
+          {(body || cta) && (
+            <div className="mt-auto rounded-2xl bg-paper/90 p-6 shadow-[0_18px_36px_-12px_rgba(0,0,0,0.25)] backdrop-blur-md md:p-8">
+              <div
+                className={
+                  cta
+                    ? 'flex flex-col gap-6 md:flex-row md:items-center md:justify-between md:gap-10'
+                    : ''
+                }
+              >
+                {body && (
+                  <div className="text-body-lg leading-relaxed text-ink/80">
+                    {body}
+                  </div>
+                )}
+                {cta && <div className="flex flex-col gap-4">{cta}</div>}
+              </div>
+            </div>
+          )}
+        </div>
+      ) : (
       <div className="relative p-8 md:p-12">
         {/* Masthead row */}
         <p
@@ -257,6 +331,7 @@ export function PageHeader({
           {cta && <div className="flex flex-col gap-4">{cta}</div>}
         </div>
       </div>
+      )}
     </Panel>
   );
 }

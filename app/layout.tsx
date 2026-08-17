@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Script from 'next/script';
 import { Saira } from 'next/font/google';
 import './globals.css';
-import { PageFrame } from '@/components/PageFrame';
+import { SiteChrome } from '@/components/SiteChrome';
 import { Footer } from '@/components/Footer';
 import { JsonLd } from '@/components/JsonLd';
 
@@ -133,10 +133,11 @@ export default function RootLayout({
             above. */}
         <JsonLd data={ORGANIZATION_SCHEMA} />
         <JsonLd data={WEBSITE_SCHEMA} />
-        <PageFrame>
-          {children}
-          <Footer />
-        </PageFrame>
+        {/* SiteChrome renders the standard mat + nav + footer for most
+            routes, and a bare nav-only shell for routes like
+            /eucatastrophe. Footer is passed as a prop so it stays a
+            server component. */}
+        <SiteChrome footer={<Footer />}>{children}</SiteChrome>
         {/* GoatCounter analytics — privacy-first, free for nonprofits.
             Dashboard at https://ffa.goatcounter.com. The script auto-
             tracks pageviews, and listens for clicks on any element

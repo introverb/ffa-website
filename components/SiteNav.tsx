@@ -17,7 +17,7 @@ type InitiativeLink = { href?: string; label: string };
 const INITIATIVES: InitiativeLink[] = [
   { href: '/ours', label: 'OURS - Salon & Exhibition' },
   { href: '/possibilia', label: 'Possibilia' },
-  { label: 'Eucatastrophe' },
+  { href: '/eucatastrophe', label: 'Eucatastrophe' },
   { label: 'Industrial Garden' },
 ];
 

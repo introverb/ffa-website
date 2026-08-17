@@ -1,29 +1,279 @@
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
 import { PageHeader } from '@/components/PageHeader';
+import { Panel } from '@/components/PageFrame';
+import { ArtworkCard } from '@/components/storefront/ArtworkCard';
+import { InquireBox } from '@/components/storefront/InquireBox';
+import {
+  LedgerworksSection,
+  type LedgerworksPiece,
+} from '@/components/storefront/LedgerworksSection';
+import { getArtworksForDisplay, displayPrice, isSoldOut, statusLabel } from '@/lib/storefront';
 
-// Placeholder — /q/collect (a QR printed in the OURS program) lands
-// here, so this route must exist and never 404. Real collect-index
-// content replaces this shell before/at the event; the /q/collect
-// redirect in next.config.mjs can also be repointed at a live sales
-// page without touching print.
+// OURS storefront — unlisted on purpose (see the build brief in
+// /storefront). Not linked from SiteNav, the /ours page, or the
+// sitemap; reachable only by direct URL. `robots: noindex` keeps it
+// out of search results too.
+//
+// getArtworksForDisplay() merges the static catalog (lib/storefront.ts)
+// with live sold/reserved state from Redis (lib/storefront-store.ts),
+// which the Stripe webhook updates on each sale — so this render
+// always reflects the current inventory without a page rebuild.
 export const metadata: Metadata = {
-  title: 'Collect · OURS',
-  description:
-    'Collect original works from OURS, the Foundation for Future Aesthetics exhibition and salon evening in New York City, August 2026.',
-  alternates: { canonical: '/ours/collect' },
-  openGraph: {
-    images: [{ url: '/images/initiative-exhibitions.jpg', alt: 'OURS' }],
-  },
-  twitter: { images: ['/images/initiative-exhibitions.jpg'] },
+  title: 'Collect',
+  robots: { index: false, follow: false },
 };
 
-export default function OursCollectPage() {
+// Reads live Redis state on every request — without this, Next would
+// statically render the page once at build time and never check
+// Redis again, so sold-out pieces would keep showing as available.
+export const dynamic = 'force-dynamic';
+
+// Ledgerworks pieces that collect through an EXTERNAL route rather than
+// FFA's own Stripe checkout: Nahuel Aquiles' piece is a personalized,
+// variably-priced mint fulfilled entirely on his own platform
+// (genpi.org), not a single fixed-price 1-of-1; Recycle Group's is
+// gallery-represented, so it sells through Gazelli Art House's own
+// listing rather than FFA's checkout — price is settled at $11,000
+// (no further negotiation). Every other Ledgerworks piece is a real
+// Artwork in lib/storefront.ts (isNFT: true) and sells the same way the
+// physical works do — see the comment above the Ledgerworks entries
+// there. image/imageWidth/imageHeight follow the same convention as
+// lib/storefront.ts's Artwork type — intrinsic sizing, no photo yet =
+// gray placeholder (see LedgerworksImage below).
+const LEDGERWORKS_WORKS: Array<{
+  id: string;
+  artist: string;
+  title: string;
+  note: string;
+  description?: string;
+  details?: Array<{ label: string; value: string }>;
+  href?: string;
+  cta?: string;
+  image?: string;
+  imageWidth?: number;
+  imageHeight?: number;
+  videoEmbed?: string;
+  price?: number;
+}> = [
+  {
+    id: 'recycle-group-forest-of-expired-links',
+    artist: 'Recycle Group',
+    title: 'Forest of Expired Links',
+    note: 'ERC-721 video, on-chain. Includes the photographic print from the exhibition.',
+    href: 'https://bit.ly/forest-of-expired-links',
+    cta: 'Purchase through Gazelli Art House',
+    videoEmbed: 'https://player.vimeo.com/video/1192225993?autoplay=1&muted=1&loop=1',
+    price: 11000,
+  },
+  {
+    id: 'nahuel-aquiles-dna-fractal-print',
+    artist: 'Nahuel Aquiles',
+    title: 'Self-Similar',
+    note: 'Generative fractal from DNA data — create your own biodata print and collect the NFT, $40 / $90. A share of each sale supports FFA.',
+    href: 'https://genpi.org',
+    cta: 'Collect via genpi.org',
+    image: '/images/storefront/nahuel-aquiles-dna-fractal-print.png',
+    imageWidth: 1333,
+    imageHeight: 2000,
+  },
+];
+
+export default async function OursCollectPage() {
+  const artworks = await getArtworksForDisplay();
+  // Ledgerworks pieces sold through FFA's own checkout are real
+  // Artwork entries (isNFT: true) — split them out so they render in
+  // the Ledgerworks section below rather than the main exhibition grid.
+  const physicalArtworks = artworks.filter((a) => !a.isNFT);
+  const nftArtworks = artworks.filter((a) => a.isNFT);
+  // Curated display order (not source order) — the sequence a visitor
+  // should encounter the works in, independent of the masonry columns'
+  // own fill order below.
+  const GALLERY_ORDER = [
+    'rero-a-new-city-will-be-built',
+    'giorgia-lupi-02-blue-prints',
+    'dylan-weiler-possibilia',
+    'anyanwu-pyramid',
+    'sue-ellen-zhang-oil-painting',
+    'ellynne-dec-glass-bead-piece',
+    'olli-payne-nucleonics',
+    'seungjun-na-printed-collage',
+    'vanessa-rosa-little-martian-dreamer',
+    'denis-pakowacz-magnetobiology',
+  ];
+  physicalArtworks.sort((a, b) => GALLERY_ORDER.indexOf(a.id) - GALLERY_ORDER.indexOf(b.id));
+  const GALLERY_FULL_WIDTH = new Set(['denis-pakowacz-magnetobiology']);
+
+  // One normalized list for the Ledgerworks grid + detail modal — FFA/
+  // Stripe pieces, the ETH-only piece (currently just The Pope), and
+  // externally-fulfilled ones (Recycle Group, Nahuel Aquiles) all
+  // render the same card, but branch on `kind` for price/status vs.
+  // an outbound link vs. the ETH address/QR/form inside the modal.
+  const ledgerworksPieces: LedgerworksPiece[] = [
+    ...nftArtworks.map(
+      (a): LedgerworksPiece =>
+        a.ethPrice != null
+          ? {
+              id: a.id,
+              title: a.title,
+              artistName: a.artistName,
+              medium: a.medium,
+              note: a.note,
+              description: a.description,
+              details: a.details,
+              image: a.image,
+              imageWidth: a.imageWidth,
+              imageHeight: a.imageHeight,
+              video: a.video,
+              kind: 'eth',
+              artworkId: a.id,
+              ethAmount: a.ethPrice,
+              label: statusLabel(a),
+            }
+          : {
+              id: a.id,
+              title: a.title,
+              artistName: a.artistName,
+              medium: a.medium,
+              note: a.note,
+              description: a.description,
+              details: a.details,
+              image: a.image,
+              imageWidth: a.imageWidth,
+              imageHeight: a.imageHeight,
+              video: a.video,
+              kind: 'checkout',
+              artworkId: a.id,
+              price: displayPrice(a),
+              priceIsEstimate: a.priceIsEstimate,
+              label: statusLabel(a),
+              showBuy:
+                !isSoldOut(a) &&
+                a.status !== 'reserved' &&
+                displayPrice(a) != null &&
+                !a.priceIsEstimate,
+            },
+    ),
+    ...LEDGERWORKS_WORKS.map(
+      (w): LedgerworksPiece => ({
+        id: w.id,
+        title: w.title,
+        artistName: w.artist,
+        note: w.note,
+        description: w.description,
+        details: w.details,
+        image: w.image,
+        imageWidth: w.imageWidth,
+        imageHeight: w.imageHeight,
+        videoEmbed: w.videoEmbed,
+        kind: 'external',
+        href: w.href ?? '#',
+        cta: w.cta ?? 'View listing',
+        price: w.price,
+      }),
+    ),
+  ];
+  // Display order is curated, not source order (FFA/Stripe pieces and
+  // externally-fulfilled ones come from two different arrays above).
+  const LEDGERWORKS_ORDER = [
+    'mauricio-pommella-the-pope',
+    'recycle-group-forest-of-expired-links',
+    'yura-miron-solara-plaza',
+    'anjoladave-an-ending-a-beginning',
+    'nahuel-aquiles-dna-fractal-print',
+  ];
+  ledgerworksPieces.sort(
+    (a, b) => LEDGERWORKS_ORDER.indexOf(a.id) - LEDGERWORKS_ORDER.indexOf(b.id),
+  );
+
   return (
-    <PageHeader
-      eyebrow="OURS · Collect"
-      title={<>Collect the works of OURS.</>}
-      image="/images/initiative-exhibitions.jpg"
-      body={<p>Details coming soon &mdash; check back shortly.</p>}
-    />
+    <>
+      <PageHeader
+        eyebrow="OURS · Aug 9, 2026"
+        title={<>Collect the work.</>}
+        image="/images/initiative-exhibitions.jpg"
+        body={
+          <p>
+            A curated set of works from the OURS exhibition, available to collect online.
+            Every sale supports the artist and the foundation directly.
+          </p>
+        }
+      />
+
+      <Panel variant="cream" className="md:p-16">
+        {/* CSS multi-column masonry, not a row-aligned grid — these
+            photos range from tall portraits to wide canvases with no
+            common aspect ratio, so a grid's shared row-height would
+            force short pieces to drag tall empty space beside their
+            neighbors (and leave orphaned gaps wherever a spanning item
+            doesn't have a same-row partner to pack next to). Columns
+            fill independently top-to-bottom instead, so every card
+            sits at its own natural height and the whole thing reads as
+            tight and intentional rather than gridded. Magnetobiology's
+            filmstrip is the one deliberate exception — a hero moment
+            that breaks the columns via `column-span: all`, the same
+            native mechanism used below in Ledgerworks for the video
+            piece. */}
+        <ul className="columns-1 gap-x-8 sm:columns-2 lg:columns-3">
+          {physicalArtworks.map((artwork) => (
+            <li
+              key={artwork.id}
+              className={
+                GALLERY_FULL_WIDTH.has(artwork.id)
+                  ? 'mb-14 break-inside-avoid-column [column-span:all]'
+                  : 'mb-14 break-inside-avoid-column'
+              }
+            >
+              <ArtworkCard artwork={artwork} />
+            </li>
+          ))}
+        </ul>
+
+        <p className="mt-16 border-t border-rule pt-8 text-sm text-muted">
+          Some prices include a charitable, tax-deductible premium supporting FFA, a 501(c)(3)
+          nonprofit. Sales tax is calculated at checkout.
+        </p>
+
+        {/* Ledgerworks (née "Web3 Wall") — the /q/web3 QR in the
+            printed OURS program still points here (physical QR, source
+            path unchanged) but now lands on #ledgerworks. Every piece
+            opens a detail modal (description, size, paper, frame,
+            etc.) rather than acting straight from the card — the
+            modal is also the QR-deep-link destination for individual
+            pieces on the exhibition wall (?piece=<id>, see
+            LedgerworksSection). Most pieces sell through the same
+            FFA/Stripe checkout as the exhibition above (real Artwork
+            entries, isNFT: true — see lib/storefront.ts); FFA
+            transfers the NFT after purchase. Recycle Group and
+            Nahuel Aquiles are fulfilled externally — their modal's
+            buy button links out instead. scroll-mt keeps the heading
+            clear of the viewport top when the anchor jumps —
+            important since QR scans land here directly, skipping the
+            grid above. */}
+        <div id="ledgerworks" className="mt-20 scroll-mt-24 border-t-[3px] border-rule pt-16">
+          <p className="text-sm uppercase tracking-[0.08em] text-sage">Ledgerworks</p>
+          <h2 className="mt-6 text-h2 leading-[1.05] md:text-h2-lg">Collect on-chain.</h2>
+          <p className="mt-6 max-w-2xl text-body leading-relaxed text-ink/80">
+            On-chain works from the exhibition&rsquo;s Ledgerworks artists. Buy through the
+            page and FFA transfers the piece to your wallet after the sale.
+          </p>
+          <Suspense fallback={null}>
+            <LedgerworksSection pieces={ledgerworksPieces} />
+          </Suspense>
+
+          {/* Same disclosure as the exhibition grid, repeated here —
+              visitors from the /q/web3 QR code land on this anchor
+              directly and may never scroll past the grid above. */}
+          <p className="mt-4 border-t border-rule pt-8 text-sm text-muted">
+            Some prices include a charitable, tax-deductible premium supporting FFA, a 501(c)(3)
+            nonprofit. Sales tax is calculated at checkout.
+          </p>
+        </div>
+
+        <div className="mt-20 border-t-[3px] border-rule pt-16">
+          <InquireBox />
+        </div>
+      </Panel>
+    </>
   );
 }

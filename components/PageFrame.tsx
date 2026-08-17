@@ -20,6 +20,8 @@ export function PageFrame({ children }: { children: React.ReactNode }) {
 
 // Each section becomes a "panel" - white rounded card with generous padding.
 // Use `dark` for the black-background variants (Possibilia callout, footer).
+// Use `cream` for the palette's `cream` token with bg-cream (no text-color
+// opinion) — matches main's Panel API, used by /ours/collect.
 export function Panel({
   children,
   variant = 'white',
@@ -28,7 +30,7 @@ export function Panel({
   id,
 }: {
   children: React.ReactNode;
-  variant?: 'white' | 'dark' | 'image';
+  variant?: 'white' | 'dark' | 'image' | 'cream';
   className?: string;
   full?: boolean;
   id?: string;
@@ -36,6 +38,8 @@ export function Panel({
   const bg =
     variant === 'dark'
       ? 'bg-dark text-white'
+      : variant === 'cream'
+      ? 'bg-cream text-ink'
       : variant === 'image'
       ? 'bg-cream'
       : 'bg-paper text-ink';
