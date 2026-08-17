@@ -41,7 +41,9 @@ const SPOTS: PlacardSpot[] = [
   { slug: 'anjola-main', rect: { x: 1681, y: 1089, w: 96, h: 114 }, img: 'lw-anjola-main' },
   { slug: 'manifesto', rect: { x: 1265, y: 1036, w: 100, h: 177 }, img: 'lw-manifesto' },
   { slug: 'anjola-quote', rect: { x: 1835, y: 1077, w: 94, h: 95 }, img: 'lw-anjola-quote' },
-  { slug: 'nahuel-main', rect: { x: 2143, y: 976, w: 94, h: 108 }, img: 'lw-nahuel-main', href: 'https://tinyurl.com/nahueldna' },
+  // The main placard's printed QR pointed at Nahuel's Self-Similar
+  // writeup — the raised card now says so and clicks through.
+  { slug: 'nahuel-main', rect: { x: 2143, y: 976, w: 94, h: 108 }, img: 'lw-nahuel-main', href: 'https://tinyurl.com/nahueldna', cta: 'Click to read →' },
   // The "two ways" placard — its raised card carries the generate CTA
   // and clicks through to Nahuel's mint platform.
   { slug: 'nahuel-genpi', rect: { x: 2143, y: 1096, w: 94, h: 113 }, img: 'lw-nahuel-genpi', href: 'https://genpi.org', cta: 'Click here to generate yours →' },
@@ -147,14 +149,17 @@ const MOBILE: {
   placards: string[];
   /** COLLECT_SPOTS slug — renders the section's collect button. */
   collect?: string;
-  /** Outbound collect route (Nahuel's generate-on-genpi flow). */
-  external?: { href: string; label: string };
+  /** Outbound routes (Nahuel's read + generate-on-genpi links). */
+  external?: { href: string; label: string }[];
 }[] = [
   { title: 'Recycle Group', sub: 'Forest of Expired Links', media: { kind: 'vimeo' }, placards: ['lw-recycle-main', 'lw-recycle-quote'], collect: 'recycle-collect' },
   { title: 'Yura Miron', sub: 'Solara Plaza', media: { kind: 'image', src: '/images/ours/loupe-yura.webp' }, placards: ['lw-yura-main', 'lw-yura-quote'], collect: 'yura-collect' },
   { title: 'Mauricio Pommella', sub: 'The Pope', media: { kind: 'video', src: '/images/ours/pope-hd.mp4' }, placards: ['lw-mauricio-main', 'lw-manifesto'], collect: 'mauricio-collect' },
   { title: 'AnjolaDave', sub: 'An Ending, A Beginning', media: { kind: 'image', src: '/images/ours/loupe-anjola.webp' }, placards: ['lw-anjola-main', 'lw-anjola-quote'], collect: 'anjola-collect' },
-  { title: 'Nahuel Aquiles', sub: 'Self-Similar', media: { kind: 'image', src: '/images/ours/loupe-nahuel.webp' }, placards: ['lw-nahuel-main', 'lw-nahuel-genpi'], external: { href: 'https://genpi.org', label: 'Click here to generate yours →' } },
+  { title: 'Nahuel Aquiles', sub: 'Self-Similar', media: { kind: 'image', src: '/images/ours/loupe-nahuel.webp' }, placards: ['lw-nahuel-main', 'lw-nahuel-genpi'], external: [
+    { href: 'https://tinyurl.com/nahueldna', label: 'Click to read →' },
+    { href: 'https://genpi.org', label: 'Click here to generate yours →' },
+  ] },
 ];
 
 // Photo & film gallery under the wall. The room film (graded to match
@@ -236,25 +241,6 @@ export function LedgerworksSection() {
             filter: 'brightness(1.16) saturate(1.05)',
           }}
         />
-
-        {/* Covers over the photographed QR placards: the printed QR
-            content is replaced on screen by the on-chain link mark. */}
-        {COLLECT_SPOTS.map((c) => (
-          <div
-            key={`${c.slug}-cover`}
-            aria-hidden
-            className="absolute flex items-center justify-center"
-            style={{
-              left: pct(c.rect.x, IMG_W), top: pct(c.rect.y, IMG_H),
-              width: pct(c.rect.w, IMG_W), height: pct(c.rect.h, IMG_H),
-              background: '#f5f3f0',
-              borderRadius: '7%',
-              boxShadow: 'inset 0 0 0 1px rgba(40,40,40,0.08), inset 0 -4px 8px rgba(40,40,40,0.05)',
-            }}
-          >
-            <ChainIcon color={OURS.ink} style={{ width: '54%', height: '54%', opacity: 0.85 }} />
-          </div>
-        ))}
 
         {/* ------- desktop interactions ------- */}
         {COLLECT_SPOTS.map((c) => (
@@ -497,18 +483,19 @@ export function LedgerworksSection() {
                           </button>
                         ) : null;
                       })()}
-                    {sec.external && (
+                    {sec.external?.map((ext) => (
                       <a
-                        href={sec.external.href}
+                        key={ext.href}
+                        href={ext.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="ours-buy inline-flex items-center gap-2 border px-4 py-2 font-mono text-[10px] uppercase tracking-[0.14em] transition-colors"
+                        className="ours-buy mr-2 inline-flex items-center gap-2 border px-4 py-2 font-mono text-[10px] uppercase tracking-[0.14em] transition-colors"
                         style={{ borderColor: OURS.orange, color: OURS.orange }}
                       >
                         <ChainIcon style={{ width: 14, height: 14 }} />
-                        {sec.external.label}
+                        {ext.label}
                       </a>
-                    )}
+                    ))}
                   </div>
                 </div>
               </div>
