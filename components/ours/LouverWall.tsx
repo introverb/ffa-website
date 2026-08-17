@@ -6,6 +6,7 @@ import { OURS, SECTIONS, type Section, type SectionId } from './tokens';
 import { LedgerworksSection } from './LedgerworksSection';
 import { GallerySection } from './GallerySection';
 import { AboutSection } from './AboutSection';
+import { VisionsSection } from './VisionsSection';
 import { ARTWORKS, type Artwork } from '@/lib/storefront';
 
 // ---------------------------------------------------------------------------
@@ -31,7 +32,7 @@ const BUILT_OUT = new Set<SectionId>(['about', 'gallery', 'ledgerworks']);
 
 // Sections not yet built out ship grayed out and inert — desaturated
 // slat, muted label, no expand — until their contents land.
-const UNFINISHED = new Set<SectionId>(['visions', 'systems', 'thanks']);
+const UNFINISHED = new Set<SectionId>(['systems', 'thanks']);
 
 // The expanded panel can title itself differently from its slat: the
 // About panel opens on the manifesto, so its header names that.
@@ -405,6 +406,11 @@ function SectionContents({ section }: { section: Section }) {
   }
   if (section.id === 'ledgerworks') {
     return <LedgerworksSection />;
+  }
+  // Visions keeps the section header + blurb (not in BUILT_OUT) — the
+  // blurb is the right intro for the broadcast below it.
+  if (section.id === 'visions') {
+    return <VisionsSection />;
   }
   return (
     <div
