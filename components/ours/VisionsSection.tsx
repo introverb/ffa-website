@@ -34,13 +34,24 @@ export function VisionsSection() {
     <div className="mt-8">
       {/* ---------------- framing copy + the spinning ticket ---------------- */}
       <div className="grid gap-10 md:grid-cols-[1.5fr_1fr] md:items-center">
-        <p className="max-w-[68ch] text-body-lg leading-relaxed text-ink/85">
-          The future is imagined, argued for, competed over, collaborated on, and
-          ultimately built. Everyone who contributes begins from their own vantage
-          point. The more of reality we come to understand, and the more of one
-          another&rsquo;s perspectives we take in, the more of the future we can
-          see. That is part of what this installation is for.
-        </p>
+        <div className="max-w-[68ch] space-y-5 text-body-lg leading-relaxed text-ink/85">
+          <p>
+            The future is imagined, argued for, competed over, collaborated on, and
+            ultimately built. Everyone who contributes begins from their own vantage
+            point. The more of reality we come to understand, and the more of one
+            another&rsquo;s perspectives we take in, the more of the future we can
+            see. That is part of what this installation is for.
+          </p>
+          <p>
+            Across these screens, various visionaries are thinking and speaking on
+            their contributions to tomorrow. People from many disciplines and fields
+            answer the same question: what tomorrow are you working to make real?
+            Maybe it&rsquo;s a world with geothermal cities, or without death, or
+            where we&rsquo;ve figured out mental preservation during long space
+            voyages. These are not predictions, and they are not wishes. They are
+            commitments, spoken aloud by people already acting on them.
+          </p>
+        </div>
 
         {/* The admission ticket. Turn order, outermost in:
             bob (weight — a slow vertical drift) → spin (rotateY about
@@ -117,17 +128,8 @@ export function VisionsSection() {
         The full broadcast — 33 minutes, as it ran in the room · unmute in the player
       </p>
 
-      {/* ---------------- what you're watching ---------------- */}
+      {/* ---------------- the charge ---------------- */}
       <div className="mt-10 max-w-[75ch] space-y-5 text-body-lg leading-relaxed text-ink/85">
-        <p>
-          Across these screens, various visionaries are thinking and speaking on
-          their contributions to tomorrow. People from many disciplines and fields
-          answer the same question: what tomorrow are you working to make real?
-          Maybe it&rsquo;s a world with geothermal cities, or without death, or
-          where we&rsquo;ve figured out mental preservation during long space
-          voyages. These are not predictions, and they are not wishes. They are
-          commitments, spoken aloud by people already acting on them.
-        </p>
         <p>
           This is what shaping the future actually looks like: many people, working
           on many hard problems, each from where they stand, together. Now add your
