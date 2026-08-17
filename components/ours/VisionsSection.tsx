@@ -42,35 +42,51 @@ export function VisionsSection() {
           see. That is part of what this installation is for.
         </p>
 
-        {/* the admission ticket, turning like the catalog book */}
-        <div className="hidden justify-center md:flex" style={{ perspective: 1800 }}>
-          <div
-            className="ours-ticket-spin relative"
-            style={{ width: TICKET_W, height: TICKET_H, transformStyle: 'preserve-3d' }}
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/images/ours/visions-ticket-front.webp"
-              alt="Admission ticket N° 001 for Visions of the Future — the video installation, hosted by Ada Palmer."
-              className="absolute inset-0 h-full w-full rounded-lg"
-              style={{
-                backfaceVisibility: 'hidden',
-                transform: 'translateZ(1px)',
-                boxShadow: '0 26px 50px -18px rgba(0,0,0,0.45)',
-              }}
-            />
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/images/ours/visions-ticket-back.webp"
-              alt=""
-              aria-hidden
-              className="absolute inset-0 h-full w-full rounded-lg"
-              style={{
-                backfaceVisibility: 'hidden',
-                transform: 'rotateY(180deg) translateZ(1px)',
-                boxShadow: '0 26px 50px -18px rgba(0,0,0,0.45)',
-              }}
-            />
+        {/* The admission ticket. Turn order, outermost in:
+            bob (weight — a slow vertical drift) → spin (rotateY about
+            the true screen-vertical axis, easing through each half-turn
+            so it lingers on the faces and sweeps through edge-on like a
+            sheet with mass) → tilt (the card leans 15° left inside the
+            spin, so the lean rides the rotation like a real held
+            ticket). Hovering anywhere over it pauses the motion. */}
+        <div
+          className="ours-ticket hidden items-center justify-center self-stretch md:flex"
+          style={{ perspective: 1800 }}
+        >
+          <div className="ours-ticket-bob">
+            <div
+              className="ours-ticket-spin relative"
+              style={{ width: TICKET_W, height: TICKET_H, transformStyle: 'preserve-3d' }}
+            >
+              <div
+                className="absolute inset-0"
+                style={{ transform: 'rotateZ(-15deg)', transformStyle: 'preserve-3d' }}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/images/ours/visions-ticket-front.webp"
+                  alt="Admission ticket N° 001 for Visions of the Future — the video installation, hosted by Ada Palmer."
+                  className="absolute inset-0 h-full w-full rounded-lg"
+                  style={{
+                    backfaceVisibility: 'hidden',
+                    transform: 'translateZ(1px)',
+                    boxShadow: '0 26px 50px -18px rgba(0,0,0,0.45)',
+                  }}
+                />
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/images/ours/visions-ticket-back.webp"
+                  alt=""
+                  aria-hidden
+                  className="absolute inset-0 h-full w-full rounded-lg"
+                  style={{
+                    backfaceVisibility: 'hidden',
+                    transform: 'rotateY(180deg) translateZ(1px)',
+                    boxShadow: '0 26px 50px -18px rgba(0,0,0,0.45)',
+                  }}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -161,20 +177,44 @@ export function VisionsSection() {
 
       <style jsx global>{`
         @keyframes ours-ticket-spin {
-          from {
-            transform: rotateX(4deg) rotateY(0deg);
+          0% {
+            transform: rotateY(0deg);
           }
-          to {
-            transform: rotateX(4deg) rotateY(360deg);
+          50% {
+            transform: rotateY(180deg);
+          }
+          100% {
+            transform: rotateY(360deg);
           }
         }
+        /* The ease-in-out runs per half-turn: the card settles on each
+           face and carries momentum through the edge-on moments —
+           paper with weight, not a rotisserie. */
         .ours-ticket-spin {
-          animation: ours-ticket-spin 12s linear infinite;
+          animation: ours-ticket-spin 12s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+        }
+        @keyframes ours-ticket-bob {
+          from {
+            transform: translateY(-4px);
+          }
+          to {
+            transform: translateY(4px);
+          }
+        }
+        .ours-ticket-bob {
+          animation: ours-ticket-bob 5.2s ease-in-out infinite alternate;
+        }
+        .ours-ticket:hover .ours-ticket-spin,
+        .ours-ticket:hover .ours-ticket-bob {
+          animation-play-state: paused;
         }
         @media (prefers-reduced-motion: reduce) {
           .ours-ticket-spin {
             animation: none;
-            transform: rotateX(4deg) rotateY(-24deg);
+            transform: rotateY(-24deg);
+          }
+          .ours-ticket-bob {
+            animation: none;
           }
         }
       `}</style>
