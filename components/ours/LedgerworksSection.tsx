@@ -28,6 +28,8 @@ type PlacardSpot = {
   rect: { x: number; y: number; w: number; h: number };
   img: string;
   href?: string;
+  /** CTA line rendered under the placard image in the raised card. */
+  cta?: string;
 };
 
 const SPOTS: PlacardSpot[] = [
@@ -40,7 +42,9 @@ const SPOTS: PlacardSpot[] = [
   { slug: 'manifesto', rect: { x: 1265, y: 1036, w: 100, h: 177 }, img: 'lw-manifesto' },
   { slug: 'anjola-quote', rect: { x: 1835, y: 1077, w: 94, h: 95 }, img: 'lw-anjola-quote' },
   { slug: 'nahuel-main', rect: { x: 2143, y: 976, w: 94, h: 108 }, img: 'lw-nahuel-main', href: 'https://tinyurl.com/nahueldna' },
-  { slug: 'nahuel-genpi', rect: { x: 2143, y: 1096, w: 94, h: 113 }, img: 'lw-nahuel-genpi', href: 'https://genpi.org' },
+  // The "two ways" placard — its raised card carries the generate CTA
+  // and clicks through to Nahuel's mint platform.
+  { slug: 'nahuel-genpi', rect: { x: 2143, y: 1096, w: 94, h: 113 }, img: 'lw-nahuel-genpi', href: 'https://genpi.org', cta: 'Click here to generate yours →' },
 ];
 
 // The four collect placards (the printed QR cards in the photograph).
@@ -143,12 +147,14 @@ const MOBILE: {
   placards: string[];
   /** COLLECT_SPOTS slug — renders the section's collect button. */
   collect?: string;
+  /** Outbound collect route (Nahuel's generate-on-genpi flow). */
+  external?: { href: string; label: string };
 }[] = [
   { title: 'Recycle Group', sub: 'Forest of Expired Links', media: { kind: 'vimeo' }, placards: ['lw-recycle-main', 'lw-recycle-quote'], collect: 'recycle-collect' },
   { title: 'Yura Miron', sub: 'Solara Plaza', media: { kind: 'image', src: '/images/ours/loupe-yura.webp' }, placards: ['lw-yura-main', 'lw-yura-quote'], collect: 'yura-collect' },
   { title: 'Mauricio Pommella', sub: 'The Pope', media: { kind: 'video', src: '/images/ours/pope-hd.mp4' }, placards: ['lw-mauricio-main', 'lw-manifesto'], collect: 'mauricio-collect' },
   { title: 'AnjolaDave', sub: 'An Ending, A Beginning', media: { kind: 'image', src: '/images/ours/loupe-anjola.webp' }, placards: ['lw-anjola-main', 'lw-anjola-quote'], collect: 'anjola-collect' },
-  { title: 'Nahuel Aquiles', sub: 'Self-Similar', media: { kind: 'image', src: '/images/ours/loupe-nahuel.webp' }, placards: ['lw-nahuel-main', 'lw-nahuel-genpi'] },
+  { title: 'Nahuel Aquiles', sub: 'Self-Similar', media: { kind: 'image', src: '/images/ours/loupe-nahuel.webp' }, placards: ['lw-nahuel-main', 'lw-nahuel-genpi'], external: { href: 'https://genpi.org', label: 'Click here to generate yours →' } },
 ];
 
 // Photo & film gallery under the wall. The room film (graded to match
@@ -323,8 +329,18 @@ export function LedgerworksSection() {
           }}
         >
           {spot && (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={`/images/ours/placards/${spot.img}.webp${V}`} alt="" className="block h-auto w-full" />
+            <>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={`/images/ours/placards/${spot.img}.webp${V}`} alt="" className="block h-auto w-full" />
+              {spot.cta && (
+                <span
+                  className="block px-4 pb-3.5 pt-1 text-center font-mono text-[11px] uppercase tracking-[0.14em]"
+                  style={{ color: OURS.orange }}
+                >
+                  {spot.cta}
+                </span>
+              )}
+            </>
           )}
         </a>
 
@@ -481,6 +497,18 @@ export function LedgerworksSection() {
                           </button>
                         ) : null;
                       })()}
+                    {sec.external && (
+                      <a
+                        href={sec.external.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="ours-buy inline-flex items-center gap-2 border px-4 py-2 font-mono text-[10px] uppercase tracking-[0.14em] transition-colors"
+                        style={{ borderColor: OURS.orange, color: OURS.orange }}
+                      >
+                        <ChainIcon style={{ width: 14, height: 14 }} />
+                        {sec.external.label}
+                      </a>
+                    )}
                   </div>
                 </div>
               </div>
