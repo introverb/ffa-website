@@ -1,22 +1,83 @@
+'use client';
+
 import { OURS } from './tokens';
 
 // Visions of the Future — the broadcast that ran on loop all evening:
 // technologists, artists and researchers answering one question about
 // the future, cut as a retro desktop transmission.
 //
-// The full 33-minute cut streams from YouTube (self-hosting it was
-// ~155MB — see git history for the short-lived excerpt approach). It
-// plays the way it did in the room: already running, muted, on loop —
-// the viewer can unmute or full-screen through the player controls.
-// `playlist=<id>` is how a single YouTube video is made to loop, and
-// youtube-nocookie keeps tracking cookies out until playback.
+// Layout: the framing copy with the printed admission ticket spinning
+// beside it (same slow turn as the catalog book in About), the full
+// 33-minute broadcast streaming from YouTube (muted, looping, the way
+// it ran in the room), the closing copy, the lineup, and the closing
+// feature. Ticket faces are cropped from the actual print run
+// (VISIONS_Tickets_001-200_DUPLEX.pdf, ticket N° 001).
 const VIDEO_ID = '4LgqHTmZg1M';
+
+const TICKET_W = 210;
+const TICKET_H = Math.round(TICKET_W * (1351 / 668)); // 425 — the print's real aspect
+
+const LINEUP: { name: string; detail: string }[] = [
+  { name: 'Ada Palmer', detail: 'Historian & Novelist · Too Like the Lightning; Perhaps the Stars' },
+  { name: 'Lisa Kaltenegger', detail: 'Astronomer · Carl Sagan Institute' },
+  { name: 'Audrey Tang', detail: 'Cyber Ambassador at Large · Taiwan' },
+  { name: 'Bruce Schneier', detail: 'Cryptographer · Public-Interest Technologist' },
+  { name: 'Eli Dourado', detail: 'Philanthrocapitalist · Progress & Abundance' },
+  { name: 'Michael Balangue', detail: 'Artist · Biodesign Challenge' },
+  { name: 'Charles Rosenbauer', detail: 'Philosopher & Engineer · American Compute Company' },
+  { name: 'Alexis Shotwell', detail: 'Philosopher · Anthropology & Sociology' },
+  { name: 'João Pedro de Magalhães', detail: 'Biologist of Ageing · Univ. of Birmingham' },
+];
 
 export function VisionsSection() {
   return (
     <div className="mt-8">
+      {/* ---------------- framing copy + the spinning ticket ---------------- */}
+      <div className="grid gap-10 md:grid-cols-[1.5fr_1fr] md:items-center">
+        <p className="max-w-[68ch] text-body-lg leading-relaxed text-ink/85">
+          The future is imagined, argued for, competed over, collaborated on, and
+          ultimately built. Everyone who contributes begins from their own vantage
+          point. The more of reality we come to understand, and the more of one
+          another&rsquo;s perspectives we take in, the more of the future we can
+          see. That is part of what this installation is for.
+        </p>
+
+        {/* the admission ticket, turning like the catalog book */}
+        <div className="hidden justify-center md:flex" style={{ perspective: 1800 }}>
+          <div
+            className="ours-ticket-spin relative"
+            style={{ width: TICKET_W, height: TICKET_H, transformStyle: 'preserve-3d' }}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/ours/visions-ticket-front.webp"
+              alt="Admission ticket N° 001 for Visions of the Future — the video installation, hosted by Ada Palmer."
+              className="absolute inset-0 h-full w-full rounded-lg"
+              style={{
+                backfaceVisibility: 'hidden',
+                transform: 'translateZ(1px)',
+                boxShadow: '0 26px 50px -18px rgba(0,0,0,0.45)',
+              }}
+            />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/ours/visions-ticket-back.webp"
+              alt=""
+              aria-hidden
+              className="absolute inset-0 h-full w-full rounded-lg"
+              style={{
+                backfaceVisibility: 'hidden',
+                transform: 'rotateY(180deg) translateZ(1px)',
+                boxShadow: '0 26px 50px -18px rgba(0,0,0,0.45)',
+              }}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* ---------------- the broadcast ---------------- */}
       <div
-        className="relative aspect-video w-full overflow-hidden rounded-3xl"
+        className="relative mt-10 aspect-video w-full overflow-hidden rounded-3xl"
         style={{ background: OURS.ink }}
       >
         <iframe
@@ -27,8 +88,6 @@ export function VisionsSection() {
           className="absolute inset-0 h-full w-full"
           style={{ border: 0 }}
         />
-        {/* thin OURS-orange stroke, matching the Ledgerworks wall and
-            the header panel */}
         <span
           aria-hidden
           className="pointer-events-none absolute inset-0 rounded-3xl"
@@ -41,6 +100,84 @@ export function VisionsSection() {
       >
         The full broadcast — 33 minutes, as it ran in the room · unmute in the player
       </p>
+
+      {/* ---------------- what you're watching ---------------- */}
+      <div className="mt-10 max-w-[75ch] space-y-5 text-body-lg leading-relaxed text-ink/85">
+        <p>
+          Across these screens, various visionaries are thinking and speaking on
+          their contributions to tomorrow. People from many disciplines and fields
+          answer the same question: what tomorrow are you working to make real?
+          Maybe it&rsquo;s a world with geothermal cities, or without death, or
+          where we&rsquo;ve figured out mental preservation during long space
+          voyages. These are not predictions, and they are not wishes. They are
+          commitments, spoken aloud by people already acting on them.
+        </p>
+        <p>
+          This is what shaping the future actually looks like: many people, working
+          on many hard problems, each from where they stand, together. Now add your
+          voice. Find the tomorrow you are willing to work for, and go make it
+          real. The future belongs to the people who show up to build it, and there
+          is room, and need, for you.
+        </p>
+      </div>
+
+      {/* ---------------- the lineup ---------------- */}
+      <div className="mt-12">
+        <p className="font-mono text-[11px] uppercase tracking-[0.14em]" style={{ color: OURS.orange }}>
+          The Lineup
+        </p>
+        <hr className="mt-1.5 h-[2px] w-12 border-0" style={{ background: OURS.orange }} />
+        <div className="mt-6 grid gap-x-10 gap-y-5 sm:grid-cols-2 lg:grid-cols-3">
+          {LINEUP.map((p) => (
+            <div key={p.name}>
+              <p className="font-heading text-[15px] uppercase leading-tight" style={{ color: OURS.ink }}>
+                {p.name}
+              </p>
+              <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.08em]" style={{ color: OURS.gray }}>
+                {p.detail}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* ---------------- closing feature ---------------- */}
+      <div className="mt-12">
+        <p className="font-mono text-[11px] uppercase tracking-[0.14em]" style={{ color: OURS.orange }}>
+          Closing Feature
+        </p>
+        <hr className="mt-1.5 h-[2px] w-12 border-0" style={{ background: OURS.orange }} />
+        <p className="mt-4 font-heading text-h5 uppercase leading-tight" style={{ color: OURS.ink }}>
+          Dear Human, My Muse (2024)
+        </p>
+        <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.08em]" style={{ color: OURS.gray }}>
+          A short film by Vanessa Rosa
+        </p>
+        <p className="mt-3 max-w-[68ch] text-body italic leading-relaxed text-ink/80">
+          Future beings who claim to have created our reality reach out to
+          humanity. This is a letter of compassion from one of them to us.
+        </p>
+      </div>
+
+      <style jsx global>{`
+        @keyframes ours-ticket-spin {
+          from {
+            transform: rotateX(4deg) rotateY(0deg);
+          }
+          to {
+            transform: rotateX(4deg) rotateY(360deg);
+          }
+        }
+        .ours-ticket-spin {
+          animation: ours-ticket-spin 12s linear infinite;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .ours-ticket-spin {
+            animation: none;
+            transform: rotateX(4deg) rotateY(-24deg);
+          }
+        }
+      `}</style>
     </div>
   );
 }

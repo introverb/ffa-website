@@ -41,8 +41,12 @@ const PANEL_TITLE: Partial<Record<SectionId, string>> = { about: 'Manifesto' };
 const WALL_HEIGHT = 560;
 const RIB_WIDTH = 76;
 
-export function LouverWall() {
-  const [open, setOpen] = useState<SectionId | null>(null);
+export function LouverWall({ initialOpen }: { initialOpen?: SectionId }) {
+  // /ours/<section> routes pass initialOpen so the page arrives with
+  // that slat already expanded (unfinished sections stay shut).
+  const [open, setOpen] = useState<SectionId | null>(
+    initialOpen && !UNFINISHED.has(initialOpen) ? initialOpen : null
+  );
   // Post-checkout thank-you: Stripe's success_url sends buyers back to
   // /ours?thanks=<artworkId>&sec=<section> (see the storefront-checkout
   // route). On mount, open the section they left, show the thank-you
