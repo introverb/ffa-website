@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 
 // Portal-mounted modal for inline submission forms (OURS involvement,
-// OURS sponsorship, etc.). Backdrop blurs the page; clicking outside
+// artwork submission, etc.). Backdrop blurs the page; clicking outside
 // the panel or hitting Escape closes; body scroll is locked while the
 // dialog is open. Each calling component owns its own open state and
 // form contents — this just provides the shell, focus trap escape,

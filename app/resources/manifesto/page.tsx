@@ -15,10 +15,10 @@ const MANIFESTO_SCHEMA = {
     name: 'Foundation for Future Aesthetics',
     logo: {
       '@type': 'ImageObject',
-      url: 'https://www.futureaesthetics.foundation/images/logo.png',
+      url: 'https://futureaesthetics.foundation/images/logo.png',
     },
   },
-  image: 'https://www.futureaesthetics.foundation/images/manifesto.jpg',
+  image: 'https://futureaesthetics.foundation/images/manifesto.jpg',
   inLanguage: 'en-US',
 };
 

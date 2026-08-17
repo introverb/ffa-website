@@ -1,13 +1,38 @@
+'use client';
+
+import { usePathname } from 'next/navigation';
 import { SiteNav } from './SiteNav';
 
 // Outer frame - taupe wrapper with consistent inset that creates the
 // "panels float on a colored mat" feeling of the live Wix site. The
 // SiteNav lives inside this container so its pill width matches the
 // panels below it.
+//
+// The OURS storefront (/ours/collect) swaps the mat itself to charcoal
+// (bg-ink) instead of the site's usual taupe — a "bottom layer" dark
+// backdrop for that one section, not just its panels. Client Component
+// (usePathname) so this one route can override without a prop having
+// to thread down from the root layout that renders PageFrame.
+//
+// The door check-in page (/ours/checkin) skips the frame entirely —
+// no SiteNav, no mat padding — since a guest lands there fresh off a
+// QR scan and shouldn't have anything to tap into but the check-in
+// form itself. It supplies its own full-bleed background.
+// ConditionalFooter has the matching hide-list for the footer half of
+// this.
+const CHROMELESS_ROUTES = ['/ours/checkin'];
 
 export function PageFrame({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+  const isCollect = pathname?.startsWith('/ours/collect');
+  const isChromeless = CHROMELESS_ROUTES.some(
+    (route) => pathname === route || pathname?.startsWith(route + '/'),
+  );
+  if (isChromeless) {
+    return <>{children}</>;
+  }
   return (
-    <div className="bg-taupe min-h-screen">
+    <div className={`min-h-screen ${isCollect ? 'bg-ink' : 'bg-taupe'}`}>
       <div className="mx-auto max-w-[1500px] px-6 pt-6 pb-6 md:px-10 md:pt-8 md:pb-8">
         <div className="space-y-6 md:space-y-8">
           <SiteNav />
@@ -20,8 +45,9 @@ export function PageFrame({ children }: { children: React.ReactNode }) {
 
 // Each section becomes a "panel" - white rounded card with generous padding.
 // Use `dark` for the black-background variants (Possibilia callout, footer).
-// Use `cream` for the palette's `cream` token with bg-cream (no text-color
-// opinion) — matches main's Panel API, used by /ours/collect.
+// Use `cream` for the palette's `cream` token (#F5EEE4, "Vellum") with
+// dark text — a warm off-white card, distinct from `image`'s plain
+// bg-cream (no text-color opinion, used for full-bleed image panels).
 export function Panel({
   children,
   variant = 'white',

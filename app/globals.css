@@ -91,3 +91,17 @@
     @apply bg-taupe;
   }
 }
+
+/* Entrance for the OURS contributors panel — the colored card slides
+   up a few px and fades as the selected group changes. Referenced via
+   Tailwind arbitrary animation: animate-[contributors-panel-in_.35s_ease] */
+@keyframes contributors-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

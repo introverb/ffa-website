@@ -9,7 +9,7 @@ import { MetadataRoute } from 'next';
 // (e.g. a thank-you page that shouldn't get indexed in its own
 // right), add a `disallow` entry here.
 
-const SITE_URL = 'https://www.futureaesthetics.foundation';
+const SITE_URL = 'https://futureaesthetics.foundation';
 
 export default function robots(): MetadataRoute.Robots {
   return {

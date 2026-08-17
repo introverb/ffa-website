@@ -9,66 +9,16 @@ export const SITE = {
   twitter: 'https://twitter.com/possibiliamag',
 };
 
-// Titles match the live site exactly. Blurbs are paraphrased - replace with
-// your final copy when ready.
-export const RESEARCH_AREAS = [
-  {
-    n: '01',
-    title: 'History of Science Fiction',
-    blurb:
-      'Tracing the lineage of speculative storytelling and the futures each generation imagined for itself.',
-  },
-  {
-    n: '02',
-    title: 'Unconventional Storytelling',
-    blurb:
-      'Form, structure, and medium experiments that expand how a future can be rendered on the page or screen.',
-  },
-  {
-    n: '03',
-    title: 'TBD: Researchers Wanted',
-    blurb: 'Have an idea for us to peruse/pursue? Want to do a case study with us?',
-    cta: { label: 'Drop us a line!' },
-  },
-];
-
-// Projects exist on the Possibilia page only - not on the live homepage.
-export const PROJECTS = [
-  {
-    title: 'Silverstone Community Center',
-    image: '/images/project-silverstone.jpg',
-    href: '/possibilia',
-  },
-  {
-    title: '234 Kingsway Road',
-    image: '/images/project-kingsway.jpg',
-    href: '/possibilia',
-  },
-  {
-    title: 'Smith Park Botanical Gardens',
-    image: '/images/project-smithpark.jpg',
-    href: '/possibilia',
-  },
-  {
-    title: 'NYLN Inc. HQ',
-    image: '/images/project-nyln.jpg',
-    href: '/possibilia',
-  },
-];
-
 export const INITIATIVES = [
   {
     n: '01',
     title: 'OURS: Exhibition & Salon',
-    status: 'August 2026 · Space LES, NYC',
-    note: 'Attend OURS',
-    noteHref: '/ours',
-    secondaryNote: 'Sponsor the Event',
-    secondaryNoteHref: '/ours/sponsor-brief',
-    tertiaryNote: 'Submit Artwork',
-    tertiaryNoteHref: '/ours/artist-brief',
+    status: 'August 2026 · Lower East Side, NYC',
+    // Invites are out and the guest list + artist roster are both
+    // closed for this run — no more "Attend"/"Submit Artwork" CTAs
+    // here or on /ours until a future edition reopens them.
     blurb:
-      'A one-night exhibition and salon in New York that puts speculative artwork on the walls and the people building it into reality at the lectern. Scientists, philosophers, artists, and builders give short provocations. Original work hangs around them, available to take home. Guests from a broad spectrum of fields fill the spaces between, because the future is shaped by everyone. Space LES, Lower East Side, NYC. August 2026.',
+      'A one-night exhibition and salon in New York that puts speculative artwork on the walls and the people building it into reality at the lectern. Scientists, philosophers, artists, and builders give short provocations. Original work hangs around them, available to take home. Guests from a broad spectrum of fields fill the spaces between, because the future is shaped by everyone. Lower East Side, NYC. August 2026.',
     image: '/images/initiative-exhibitions.jpg',
     href: '/ours',
   },
@@ -85,6 +35,16 @@ export const INITIATIVES = [
   },
   {
     n: '03',
+    title: 'Eucatastrophe',
+    status: 'In Development · Research Tool',
+    blurb:
+      'A free tool for anyone who’s lost the plot on the future. Doomerism is easy and everywhere; hope is harder, because it has to be earned. Eucatastrophe generates grounded visions of a better tomorrow, building each scenario on a chain of real evidence and putting it through expert scrutiny before it sees the light of your screen. Every hopeful claim arrives cited, checked, and defensible. It’s a place to come when the headlines have you convinced it’s all downhill: proof, not platitudes, that better futures are still on the table.',
+    image: '/images/contact.jpg',
+    // Not linked anywhere — the tool isn't public yet and this card
+    // shouldn't be clickable at all.
+  },
+  {
+    n: '04',
     title: 'Industrial Garden',
     status: 'Summer 2027 · Proposal Exhibit',
     blurb:

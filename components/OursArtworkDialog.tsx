@@ -5,12 +5,14 @@ import { FormDialog } from './FormDialog';
 import { HoneypotField } from './HoneypotField';
 import { trackEvent } from '@/lib/analytics';
 
-// "Sponsor the exhibition" CTA + modal — inline pop-up form for
-// prospective OURS sponsors. Sits in the "Named initiatives" subsection
-// of /support#partner, next to the "Event details" button on the OURS
-// sponsor card. Submits to /api/ours?modal=1 with type=sponsorship;
-// route returns JSON so the modal can flip in-place to a thanks state.
-export function OursSponsorshipDialog() {
+// "Submit artwork" CTA + modal for the OURS engagement section. The
+// trigger is a plain btn-solid the parent card places; clicking it
+// opens the FormDialog with the artwork submission form (name, email,
+// portfolio, pitch). Submits to /api/ours?modal=1 with type=artwork —
+// the route returns JSON instead of redirecting so the modal flips to
+// a thanks state in place. Mirrors OursInvolvementDialog. Replaces the
+// old in-page artwork form so the engagement cards can stay compact.
+export function OursArtworkDialog() {
   const [open, setOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [sent, setSent] = useState(false);
@@ -27,7 +29,7 @@ export function OursSponsorshipDialog() {
     setSubmitting(true);
     setError(null);
     const data = new FormData(e.currentTarget);
-    data.set('type', 'sponsorship');
+    data.set('type', 'artwork');
     try {
       const res = await fetch('/api/ours?modal=1', {
         method: 'POST',
@@ -41,7 +43,7 @@ export function OursSponsorshipDialog() {
       }
       setSent(true);
       setSubmitting(false);
-      trackEvent('submit:ours-sponsor');
+      trackEvent('submit:ours-artwork');
     } catch {
       setError('Network error. Try again or email us directly.');
       setSubmitting(false);
@@ -52,70 +54,58 @@ export function OursSponsorshipDialog() {
     <>
       <button
         type="button"
+        data-goatcounter-click="ours:open-artwork-modal"
         onClick={() => {
           reset();
           setOpen(true);
         }}
-        data-goatcounter-click="partner:ours-sponsor-open"
         className="btn-solid"
       >
-        Sponsor the exhibition
+        Submit artwork
       </button>
 
       <FormDialog
         open={open}
         onClose={() => setOpen(false)}
-        title="Sponsor the OURS exhibition."
+        title="Submit artwork for the exhibition."
       >
         {sent ? (
           <div className="rounded-xl border border-sage/40 bg-sage-light/30 p-6">
             <p className="eyebrow text-sage">Received</p>
             <p className="mt-3 text-body leading-snug text-ink">
-              Thanks &mdash; we&rsquo;ve got your note and will follow up with a
-              sponsorship brief.
+              Thanks, we&rsquo;ve got your submission and will reach back as we
+              curate.
             </p>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <HoneypotField />
             <p className="text-body leading-relaxed text-ink/75">
-              We&rsquo;re opening sponsorship for the inaugural run of OURS.
-              Tell us a little about your organization and what you&rsquo;re
-              considering, and we&rsquo;ll be in touch.
-            </p>
-            {/* Brief is now publicly available — link to it so anyone
-                who clicked "Sponsor the exhibition" can read the full
-                pitch before filling out the form, if they want. Opens
-                in a new tab. */}
-            <p className="text-sm leading-relaxed text-ink/65">
-              Want the full pitch first?{' '}
+              We&rsquo;re still accepting works. Mediums open. Send a portfolio
+              and a short pitch and we&rsquo;ll review.{' '}
               <a
-                href="/ours/sponsor-brief"
+                href="/ours/artist-brief"
                 target="_blank"
                 rel="noopener noreferrer"
-                data-goatcounter-click="ours-sponsor-modal:brief"
+                data-goatcounter-click="ours:read-artist-brief"
                 className="underline decoration-from-font underline-offset-4 text-ink hover:text-sage"
               >
-                Read the sponsorship brief &rarr;
+                Read the brief.
               </a>
             </p>
-            <Field id="spo-name" name="name" label="Your name" required />
-            <Field id="spo-email" name="email" type="email" label="Email" required />
+            <Field id="a-name" name="name" label="Your name" required />
+            <Field id="a-email" name="email" type="email" label="Email" required />
             <Field
-              id="spo-org"
-              name="organization"
-              label="Organization"
+              id="a-portfolio"
+              name="portfolio"
+              type="url"
+              label="Portfolio link"
               required
             />
-            <Field
-              id="spo-level"
-              name="level"
-              label="Level you’re considering (optional)"
-            />
             <TextareaField
-              id="spo-pitch"
+              id="a-pitch"
               name="pitch"
-              label="What are you hoping to sponsor, and why?"
+              label="Pitch: what would you bring?"
               required
             />
             {error && (
@@ -128,7 +118,7 @@ export function OursSponsorshipDialog() {
               disabled={submitting}
               className="btn-solid mt-4 self-start disabled:cursor-not-allowed disabled:opacity-60"
             >
-              {submitting ? 'Sending…' : 'Request brief'}
+              {submitting ? 'Sending…' : 'Submit'}
             </button>
           </form>
         )}

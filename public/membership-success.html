@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Welcome — Foundation for Future Aesthetics</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira:wght@400;500;600&family=Saira+Condensed:wght@500;600;700&family=DM+Mono:wght@400;500&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1e1e1e; --cream:#f0eeeb; --paper:#f7f6f4; --gray:#6a6a6a; --dkgray:#4a4a4a;
+  --orange:#e8651a; --hair:#cbc6bd;
+  --cond:'Saira Condensed',sans-serif; --disp:'Saira',sans-serif; --mono:'DM Mono',monospace; --body:'Barlow',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--cream);color:var(--ink);font-family:var(--body);font-weight:400;-webkit-font-smoothing:antialiased;
+  min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;}
+a{color:var(--orange);text-decoration:none;}
+.card{max-width:560px;width:100%;background:var(--paper);border:1px solid var(--hair);border-radius:2px;
+  padding:48px 36px;text-align:center;}
+.mark{width:56px;height:56px;border-radius:999px;background:var(--orange);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 24px;}
+.k{font-family:var(--mono);font-weight:500;font-size:12px;letter-spacing:.22em;text-indent:.22em;
+  text-transform:uppercase;color:var(--orange);}
+h1{font-family:var(--cond);font-weight:700;text-transform:uppercase;letter-spacing:.01em;line-height:1;
+  font-size:clamp(30px,5vw,44px);margin-top:10px;}
+p{font-family:var(--body);font-weight:400;font-size:15px;line-height:1.55;color:var(--dkgray);
+  max-width:34em;margin:16px auto 0;}
+.ref{font-family:var(--mono);font-size:11px;letter-spacing:.05em;color:var(--gray);margin-top:22px;
+  word-break:break-all;}
+.back{display:inline-block;margin-top:28px;font-family:var(--mono);font-weight:500;font-size:12.5px;
+  letter-spacing:.08em;text-transform:uppercase;background:var(--ink);color:var(--cream);
+  border-radius:2px;padding:14px 22px;transition:background .15s ease;}
+.back:hover{background:#000;}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="mark">&check;</div>
+  <div class="k">Foundation for Future Aesthetics</div>
+  <h1>You&rsquo;re a member.</h1>
+  <p>Thank you for joining the Gallery Membership. A receipt is on its way to your email, and
+     you&rsquo;ll hear from us directly about what&rsquo;s next.</p>
+  <p>Your membership renews monthly — manage or cancel it any time from the receipt email,
+     or reach out to <a href="mailto:olli@futureaesthetics.foundation">olli@futureaesthetics.foundation</a>.</p>
+  <div class="ref" id="ref"></div>
+  <a class="back" href="/">Back to futureaesthetics.foundation</a>
+</div>
+
+<script>
+// Purely a display courtesy for support reference — no session lookup,
+// same "the webhook + email receipt are the real confirmation" pattern
+// as the OURS storefront's success page.
+const sessionId = new URLSearchParams(location.search).get('session_id');
+if (sessionId) {
+  document.getElementById('ref').textContent = 'Reference: ' + sessionId;
+}
+</script>
+</body>
+</html>

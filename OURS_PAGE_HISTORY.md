@@ -3,8 +3,8 @@
 ## Where the PREVIOUS (pre-event) OURS page lives
 
 The page that ran at `/ours` up to and through the event — "The future
-isn't fixed" copy, the format grid, and the guestlist / artwork-submission
-/ sponsor cards — is preserved in full and still viewable:
+isn't fixed" invitation, the Attend OURS RSVP button, the format grid,
+and the contributors lineup — is preserved in full and still viewable:
 
 - **Live (unlinked, noindexed):** https://futureaesthetics.foundation/ours/pre-event
 - **Source file:** `app/ours/pre-event/page.tsx` (a verbatim copy of the

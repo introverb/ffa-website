@@ -17,7 +17,7 @@ import { getAllPackages, getAllArtifacts } from '@/lib/possibilia';
 // Dynamic Possibilia + artifact routes appear automatically as
 // folders land in content/.
 
-const SITE_URL = 'https://www.futureaesthetics.foundation';
+const SITE_URL = 'https://futureaesthetics.foundation';
 
 // `priority` is a relative ranking hint (0.0–1.0). Search engines treat
 // it loosely — homepage at 1.0, main destinations at 0.8–0.9, deep
@@ -27,6 +27,7 @@ const STATIC_ROUTES: Array<{ path: string; priority: number }> = [
   { path: '/possibilia', priority: 0.9 },
   { path: '/ours', priority: 0.9 },
   { path: '/support', priority: 0.8 },
+  { path: '/q/join', priority: 0.8 },
   { path: '/contact', priority: 0.7 },
   { path: '/resources', priority: 0.6 },
   { path: '/resources/manifesto', priority: 0.6 },

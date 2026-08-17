@@ -50,10 +50,57 @@ const nextConfig = {
         source: '/patrons/corporate',
         destination: '/patrons-corporate.html',
       },
+      // Possibilia Issue 0 pre-order interstitial — same standalone
+      // static-HTML pattern as the briefs above. Walks a buyer through
+      // Artizen's Rewards section (screenshot + 3 steps + the "the big
+      // support bar mints an artifact, not the magazine" warning)
+      // before handing off to the real Artizen checkout. /q/mag (the
+      // program's presale QR, p17 + p45) now points here instead of
+      // straight to Artizen — see the redirect below.
+      {
+        source: '/possibilia-preorder',
+        destination: '/possibilia-preorder.html',
+      },
+      // OURS afterparty (Club Reign) — same standalone static-HTML
+      // pattern as the briefs above. Reached via the /q/after QR in
+      // the printed program (see the redirect below); noindexed like
+      // the other QR-only destinations since the venue is a private
+      // club for the night, not something to surface in search.
+      {
+        source: '/ours/after',
+        destination: '/ours-afterparty.html',
+      },
+      // Gallery Membership — unlike the other /q/* short paths (which
+      // are redirects to a page living at a "real" URL elsewhere),
+      // /q/join IS the canonical URL here: it's what's printed on the
+      // physical membership card's QR code, so the page is served
+      // directly at this path rather than redirected away from it.
+      // Indexable on purpose (not noindexed like the QR-only briefs) —
+      // this is a genuine public join page, not a private outreach doc.
+      {
+        source: '/q/join',
+        destination: '/membership.html',
+      },
+      {
+        source: '/q/join/success',
+        destination: '/membership-success.html',
+      },
     ];
   },
   async redirects() {
     return [
+      // Canonical-domain redirect: send all www traffic to the bare
+      // apex domain with a permanent (308) redirect, so search engines
+      // and visitors consolidate on one host. Pairs with SITE_URL
+      // (bare) used across metadata, sitemap, robots, and schema. Both
+      // hosts already route to this app on Railway, so this rewrite is
+      // what actually performs the consolidation.
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'www.futureaesthetics.foundation' }],
+        destination: 'https://futureaesthetics.foundation/:path*',
+        permanent: true,
+      },
       // The /resources/[slug] dynamic route was a placeholder shell that
       // shipped dev-facing copy if anyone hit it. Removed in this commit;
       // permanent redirect catches the only valid slug ("submit-to-possibilia")
@@ -72,7 +119,16 @@ const nextConfig = {
         destination: '/support#partner',
         permanent: true,
       },
-      // ─────────────────────────────────────────────────────────────
+      // OURS RSVP — the "Attend OURS" button on /ours, and also meant
+      // to be posted publicly on its own (social, etc.) as a clean,
+      // memorable URL. statusCode 302 (not permanent) so the Luma link
+      // can be repointed later without a stale redirect lingering in
+      // browser caches.
+      {
+        source: '/ours/attend',
+        destination: 'https://luma.com/0hakp1pz',
+        statusCode: 302,
+      },
       // OURS program QRs — printed Aug 2026, do not delete slugs.
       // Each /q/* short path is baked into a QR code in the printed
       // OURS program (22mm codes; short paths keep scan density low).
@@ -88,22 +144,27 @@ const nextConfig = {
         destination: 'https://www.every.org/foundation-for-future-aesthetics/donate',
         statusCode: 302,
       },
-      // Possibilia Issue 0 pre-order (program p17 + p45).
+      // Possibilia Issue 0 pre-order (program p17 + p45). Routes through
+      // the /possibilia-preorder interstitial (screenshot + steps + the
+      // "artifact vs. magazine" warning) rather than straight to
+      // Artizen — buyers land there first and the page's own button
+      // makes the final hop.
       {
         source: '/q/mag',
-        destination: 'https://artizen.fund/index/p/possibilia-magazine',
+        destination: '/possibilia-preorder',
         statusCode: 302,
       },
-      // Sponsor credit, program p18. Intended destination is
-      // https://medicimag.com, but as of Jul 2026 that host serves a
-      // TLS unrecognized_name alert (no HTTPS vhost for the domain) —
-      // a scanned QR would hit a browser security error. Parked at
-      // the homepage per the QR brief's fallback rule; repoint to
-      // https://medicimag.com once their cert is fixed (plain HTTP
-      // works today, but the program QRs are HTTPS-only).
+      // Legacy slug — catches anyone who saved/shared the old direct
+      // URL before it was renamed to /possibilia-preorder.
+      {
+        source: '/preorder',
+        destination: '/possibilia-preorder',
+        statusCode: 302,
+      },
+      // Sponsor credit, program p18.
       {
         source: '/q/medici',
-        destination: '/',
+        destination: 'https://medicimag.com',
         statusCode: 302,
       },
       // Sponsor credit, program p19.
@@ -112,17 +173,29 @@ const nextConfig = {
         destination: 'https://leverage.institute',
         statusCode: 302,
       },
-      // Artwork collect index — placeholder page until the live sales
-      // page exists; repoint here when it does.
+      // OURS artwork storefront (live sales page).
       {
         source: '/q/collect',
         destination: '/ours/collect',
         statusCode: 302,
       },
-      // Web3 Wall on-chain collect index — placeholder page for now.
+      // Ledgerworks (née "Web3 Wall") — lands on the Ledgerworks
+      // section at the bottom of the storefront page. Source path is
+      // unchanged: it's printed on physical QR codes in the OURS
+      // program, so it can't be renamed even though the on-page
+      // section it points to now goes by a different name.
       {
         source: '/q/web3',
-        destination: '/ours/web3',
+        destination: '/ours/collect#ledgerworks',
+        statusCode: 302,
+      },
+      // The short-lived standalone /ours/web3 placeholder route was
+      // folded into the storefront page (Jul 2026); catch anyone who
+      // saved the old URL. Source kept as the old name for the same
+      // reason as /q/web3 above — it's what old links actually point to.
+      {
+        source: '/ours/web3',
+        destination: '/ours/collect#ledgerworks',
         statusCode: 302,
       },
       // Private-patron brief (the individual-donor path from the
@@ -132,18 +205,68 @@ const nextConfig = {
         destination: '/patrons/private',
         statusCode: 302,
       },
-      // OURS sponsorship brief (linked from the sponsor section on
-      // /support).
+      // Individual Ledgerworks pieces — QR placards next to each piece
+      // on the exhibition wall. The three FFA/Stripe (or ETH) pieces
+      // deep-link straight to their modal on the storefront page
+      // (?piece=<id>, opened automatically — see LedgerworksSection).
+      // Recycle Group and Nahuel Aquiles are fulfilled externally, so
+      // their placards skip the modal and go straight to the outside
+      // listing (their gallery / genpi.org) instead.
       {
-        source: '/q/sponsor',
-        destination: '/ours/sponsor-brief',
+        source: '/q/pope',
+        destination: '/ours/collect?piece=mauricio-pommella-the-pope',
         statusCode: 302,
       },
-      // Afterparty (?) — destination on hold as of Jul 2026; parked at
-      // the homepage so the printed QR never 404s. Repoint when known.
+      {
+        source: '/q/solara',
+        destination: '/ours/collect?piece=yura-miron-solara-plaza',
+        statusCode: 302,
+      },
+      {
+        source: '/q/anjola',
+        destination: '/ours/collect?piece=anjoladave-an-ending-a-beginning',
+        statusCode: 302,
+      },
+      {
+        source: '/q/recycle',
+        destination: 'https://bit.ly/forest-of-expired-links',
+        statusCode: 302,
+      },
+      {
+        source: '/q/nahuel',
+        destination: 'https://genpi.org',
+        statusCode: 302,
+      },
+      // Sponsor credit — now points at the corporate patron brief
+      // instead of the standalone OURS sponsor brief. Same slug, so
+      // every QR already printed with this short URL (program,
+      // signage) picks up the new destination automatically — nothing
+      // needs to be reprinted.
+      {
+        source: '/q/sponsor',
+        destination: '/patrons/corporate',
+        statusCode: 302,
+      },
+      // Afterparty (Club Reign) — printed program QR.
       {
         source: '/q/after',
-        destination: '/',
+        destination: '/ours/after',
+        statusCode: 302,
+      },
+      // Door check-in — QR at the check-in table for guests who didn't
+      // register on Luma; scanned on the guest's own phone.
+      {
+        source: '/q/checkin',
+        destination: '/ours/checkin',
+        statusCode: 302,
+      },
+      // "Visions of the Future" guest video submissions — poster QR at
+      // the show. Points at a Dropbox File Request (not a plain shared-
+      // folder link): lets anonymous guests add a file each without
+      // seeing or being able to touch anyone else's submission.
+      {
+        source: '/q/vision',
+        destination: 'https://www.dropbox.com/request/z6vqpanldch5n33wsqnh',
         statusCode: 302,
       },
     ];

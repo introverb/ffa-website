@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reserve Possibilia · Issue 0</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600&family=Lato:wght@700&family=Saira+Condensed:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --cream:#f0eeeb; --ink:#282828; --body:#34332f; --orange:#e8651a; }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--cream);color:var(--body);font-family:'Barlow',sans-serif;font-weight:300;line-height:1.55;
+       display:flex;justify-content:center;padding:40px 20px;}
+  .wrap{max-width:560px;width:100%;}
+  .kicker{font-family:'Barlow';font-weight:600;letter-spacing:.16em;text-transform:uppercase;font-size:12px;color:var(--orange);margin:0 0 6px;}
+  h1{font-family:'Saira Condensed',sans-serif;font-weight:700;text-transform:uppercase;color:var(--ink);
+     font-size:38px;line-height:1.02;margin:0 0 4px;}
+  .price{font-family:'Barlow';font-weight:500;font-size:16px;color:var(--ink);margin:0 0 20px;}
+  .lede{font-size:16px;margin:0 0 28px;}
+  .rule{height:2px;background:var(--orange);width:64px;margin:22px 0;border:0;}
+  .steps{list-style:none;margin:0 0 30px;padding:0;counter-reset:s;}
+  .steps li{position:relative;padding:0 0 16px 46px;counter-increment:s;}
+  .steps li::before{content:counter(s);position:absolute;left:0;top:-2px;width:30px;height:30px;border-radius:50%;
+     background:var(--orange);color:#fff;font-family:'Barlow';font-weight:600;font-size:15px;
+     display:flex;align-items:center;justify-content:center;}
+  .steps strong{font-weight:600;color:var(--ink);}
+  .note{background:#fff;border-left:3px solid var(--orange);padding:12px 16px;font-size:14px;margin:0 0 30px;border-radius:2px;}
+  .btn{display:block;text-align:center;background:var(--ink);color:#fff !important;text-decoration:none;
+     font-family:'Barlow';font-weight:600;letter-spacing:.02em;font-size:17px;padding:16px 24px;border-radius:6px;}
+  .btn:hover{background:var(--orange);}
+  .foot{font-family:'Barlow';font-weight:400;font-size:12px;color:#8a887f;margin:26px 0 0;text-align:center;}
+  .foot a{color:#8a887f;}
+</style>
+</head>
+<body>
+  <main class="wrap">
+    <p class="kicker">Foundation for Future Aesthetics</p>
+    <h1>Reserve Possibilia, Issue&nbsp;0</h1>
+    <p class="price">$20 &middot; our debut print issue</p>
+    <p class="lede">Optimistic, realistic sci-fi — short stories paired with scientist essays and original artwork. Reserve your copy of the first edition below.</p>
+    <hr class="rule">
+    <p class="kicker" style="color:var(--ink);">How to reserve on Artizen</p>
+    <figure style="margin:0 0 24px;">
+      <img src="/images/preorder/artizen-rewards-annotated.png" alt="On the Artizen page, scroll to the Rewards section and choose the $20 copy of Issue 0" style="width:100%;display:block;border:1px solid #e0ddd8;border-radius:6px;">
+      <figcaption style="font-family:'Barlow';font-weight:400;font-size:12px;color:#8a887f;margin-top:6px;text-align:center;">Scroll to <strong style="color:var(--orange);">Rewards</strong> — that&rsquo;s where your $20 copy lives.</figcaption>
+    </figure>
+    <ol class="steps">
+      <li>Tap the button below to open the <strong>Possibilia</strong> page on Artizen.</li>
+      <li>Scroll down to the <strong>&ldquo;Rewards&rdquo;</strong> section.</li>
+      <li>Choose the <strong>$20 &ldquo;Issue&nbsp;0&rdquo;</strong> reward and check out. That&rsquo;s your copy.</li>
+    </ol>
+    <div class="note"><strong>One heads-up:</strong> the large support bar near the top mints an Artizen <em>artifact</em>, not the magazine. To get your copy, use the <strong>Rewards</strong> section in step&nbsp;2.</div>
+    <a class="btn" href="https://artizen.fund/index/p/possibilia-magazine?season=7" target="_blank" rel="noopener">Reserve on Artizen &rarr;</a>
+    <p class="foot">Questions? <a href="mailto:olli@futureaesthetics.foundation">olli@futureaesthetics.foundation</a></p>
+  </main>
+</body>
+</html>

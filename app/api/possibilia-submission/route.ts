@@ -106,7 +106,7 @@ ${linksHtml}
       from:
         process.env.POSSIBILIA_FROM_EMAIL ||
         'Possibilia Submissions <onboarding@resend.dev>',
-      to: process.env.POSSIBILIA_TO_EMAIL || 'ollipayne182@gmail.com',
+      to: process.env.POSSIBILIA_TO_EMAIL || 'olli@futureaesthetics.foundation',
       replyTo: email,
       subject: `Possibilia submission - ${type} from ${name}`,
       text,
