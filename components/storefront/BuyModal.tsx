@@ -28,6 +28,8 @@ export function BuyModal({
   triggerClassName = 'btn-solid',
   triggerStyle,
   returnSection,
+  open: controlledOpen,
+  onOpenChange,
 }: {
   artwork: Artwork;
   triggerLabel?: string;
@@ -36,16 +38,24 @@ export function BuyModal({
   /** Set for purchases started from the OURS page: after payment the
    *  buyer returns to /ours with this section open and a thank-you
    *  modal, instead of the collect success page. */
-  returnSection?: 'about' | 'gallery';
+  returnSection?: 'about' | 'gallery' | 'ledgerworks';
+  /** Controlled mode: pass `open` + `onOpenChange` and no trigger is
+   *  rendered — the caller owns opening (e.g. the Ledgerworks wall's
+   *  collect placards). Omit both for the normal self-triggering mode. */
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }) {
-  const [open, setOpen] = useState(false);
+  const [internalOpen, setInternalOpen] = useState(false);
+  const isControlled = controlledOpen !== undefined;
+  const open = isControlled ? controlledOpen : internalOpen;
   const dialogRef = useRef<HTMLDivElement>(null);
   const restoreFocus = useRef<HTMLElement | null>(null);
 
   const close = useCallback(() => {
-    setOpen(false);
+    if (isControlled) onOpenChange?.(false);
+    else setInternalOpen(false);
     restoreFocus.current?.focus();
-  }, []);
+  }, [isControlled, onOpenChange]);
 
   useEffect(() => {
     if (!open) return;
@@ -77,18 +87,20 @@ export function BuyModal({
 
   return (
     <>
-      <button
-        type="button"
-        onClick={(e) => {
-          restoreFocus.current = e.currentTarget;
-          setOpen(true);
-          trackEvent(`storefront:buy-modal-open:${artwork.id}`);
-        }}
-        className={triggerClassName}
-        style={triggerStyle}
-      >
-        {triggerLabel}
-      </button>
+      {!isControlled && (
+        <button
+          type="button"
+          onClick={(e) => {
+            restoreFocus.current = e.currentTarget;
+            setInternalOpen(true);
+            trackEvent(`storefront:buy-modal-open:${artwork.id}`);
+          }}
+          className={triggerClassName}
+          style={triggerStyle}
+        >
+          {triggerLabel}
+        </button>
+      )}
 
       {/* Portal to <body>: the gallery placards sit inside a
           backdrop-filtered card, which turns position:fixed into

@@ -39,7 +39,7 @@ export async function POST(req: NextRequest) {
   // modal over the section the buyer left — instead of the collect
   // success page. Whitelisted section ids only, never a raw client
   // URL, so this can't be turned into an open redirect.
-  const RETURN_SECTIONS = new Set(['about', 'gallery']);
+  const RETURN_SECTIONS = new Set(['about', 'gallery', 'ledgerworks']);
   const returnSection = String(formData.get('returnSection') ?? '');
   const fromOurs = RETURN_SECTIONS.has(returnSection);
 

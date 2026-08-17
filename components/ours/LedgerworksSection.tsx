@@ -1,7 +1,11 @@
 'use client';
 
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { OURS } from './tokens';
+import { ARTWORKS } from '@/lib/storefront';
+import { BuyModal } from '@/components/storefront/BuyModal';
+import { EthPieceCheckout } from '@/components/storefront/EthPieceCheckout';
 
 // Ledgerworks — the wall as hung. Desktop: the screen plays The Pope,
 // hovering a placard raises it legibly (all placards standardised to the
@@ -28,20 +32,91 @@ type PlacardSpot = {
 
 const SPOTS: PlacardSpot[] = [
   { slug: 'recycle-main', rect: { x: 38, y: 993, w: 93, h: 127 }, img: 'lw-recycle-main', href: 'https://bit.ly/forest-of-expired-links' },
-  { slug: 'recycle-qr', rect: { x: 244, y: 903, w: 61, h: 60 }, img: 'lw-recycle-qr', href: '/ours/collect' },
   { slug: 'recycle-quote', rect: { x: 339, y: 986, w: 94, h: 93 }, img: 'lw-recycle-quote' },
   { slug: 'yura-main', rect: { x: 498, y: 1002, w: 92, h: 119 }, img: 'lw-yura-main', href: 'https://yuramiron.art' },
-  { slug: 'yura-qr', rect: { x: 686, y: 1092, w: 61, h: 61 }, img: 'lw-yura-qr', href: '/ours/collect' },
   { slug: 'yura-quote', rect: { x: 904, y: 1066, w: 93, h: 94 }, img: 'lw-yura-quote' },
   { slug: 'mauricio-main', rect: { x: 1203, y: 871, w: 92, h: 144 }, img: 'lw-mauricio-main', href: 'https://superrare.com/mpommella' },
   { slug: 'anjola-main', rect: { x: 1681, y: 1089, w: 96, h: 114 }, img: 'lw-anjola-main' },
   { slug: 'manifesto', rect: { x: 1265, y: 1036, w: 100, h: 177 }, img: 'lw-manifesto' },
-  { slug: 'mauricio-qr', rect: { x: 1355, y: 869, w: 60, h: 60 }, img: 'lw-mauricio-qr', href: '/ours/collect' },
-  { slug: 'anjola-qr', rect: { x: 1496, y: 1081, w: 61, h: 61 }, img: 'lw-anjola-qr', href: '/ours/collect' },
   { slug: 'anjola-quote', rect: { x: 1835, y: 1077, w: 94, h: 95 }, img: 'lw-anjola-quote' },
   { slug: 'nahuel-main', rect: { x: 2143, y: 976, w: 94, h: 108 }, img: 'lw-nahuel-main', href: 'https://tinyurl.com/nahueldna' },
   { slug: 'nahuel-genpi', rect: { x: 2143, y: 1096, w: 94, h: 113 }, img: 'lw-nahuel-genpi', href: 'https://genpi.org' },
 ];
+
+// The four collect placards (the printed QR cards in the photograph).
+// On screen the QR content is covered with a small on-chain link mark;
+// hovering raises a compact collect card (name · chain icon · price ·
+// click to collect) and clicking opens the piece's purchase modal —
+// Stripe checkout for the USD pieces, the ETH flow for The Pope, and
+// an outbound Gazelli card for Recycle Group (gallery-represented).
+type CollectSpot = {
+  slug: string;
+  rect: { x: number; y: number; w: number; h: number };
+  piece: { title: string; artist: string; price: string };
+  action:
+    | { kind: 'stripe'; id: string }
+    | { kind: 'eth'; id: string; title: string; ethAmount: string; image: string }
+    | { kind: 'external'; href: string; cta: string; note: string };
+};
+
+const COLLECT_SPOTS: CollectSpot[] = [
+  {
+    slug: 'recycle-collect',
+    rect: { x: 244, y: 903, w: 61, h: 60 },
+    piece: { title: 'Forest of Expired Links', artist: 'Recycle Group', price: '$11,000' },
+    action: {
+      kind: 'external',
+      href: 'https://bit.ly/forest-of-expired-links',
+      cta: 'Purchase through Gazelli Art House',
+      note: 'ERC-721 video, on-chain. Includes the photographic print from the exhibition. Gallery-represented — the sale completes on Gazelli Art House’s own listing.',
+    },
+  },
+  {
+    slug: 'yura-collect',
+    rect: { x: 686, y: 1092, w: 61, h: 61 },
+    piece: { title: 'Solara Plaza', artist: 'Yura Miron', price: '$350' },
+    action: { kind: 'stripe', id: 'yura-miron-solara-plaza' },
+  },
+  {
+    slug: 'mauricio-collect',
+    rect: { x: 1355, y: 869, w: 60, h: 60 },
+    piece: { title: 'The Pope', artist: 'Mauricio Pommella', price: '0.3 ETH' },
+    action: {
+      kind: 'eth',
+      id: 'mauricio-pommella-the-pope',
+      title: 'The Pope',
+      ethAmount: '0.3',
+      image: '/images/storefront/mauricio-pommella-the-pope.jpg',
+    },
+  },
+  {
+    slug: 'anjola-collect',
+    rect: { x: 1496, y: 1081, w: 61, h: 61 },
+    piece: { title: 'An Ending, A Beginning', artist: 'AnjolaDave', price: '$960' },
+    action: { kind: 'stripe', id: 'anjoladave-an-ending-a-beginning' },
+  },
+];
+
+// The on-chain mark for the collect placards: two interlocked angular
+// links on the 45° diagonal — chain as in chain-link, chain as in
+// on-chain. Thin-stroked so it stays crisp and un-chunky at placard
+// size.
+function ChainIcon({ style, color = 'currentColor' }: { style?: React.CSSProperties; color?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke={color}
+      strokeWidth="1.7"
+      strokeLinejoin="miter"
+      aria-hidden
+      style={style}
+    >
+      <path d="M8.6 4.6 14 10l-5.4 5.4L3.2 10z" />
+      <path d="M15.4 8.6 20.8 14l-5.4 5.4L10 14z" />
+    </svg>
+  );
+}
 
 type WorkSpot = {
   slug: string;
@@ -66,11 +141,13 @@ const MOBILE: {
   sub: string;
   media: { kind: 'image' | 'video' | 'vimeo'; src?: string };
   placards: string[];
+  /** COLLECT_SPOTS slug — renders the section's collect button. */
+  collect?: string;
 }[] = [
-  { title: 'Recycle Group', sub: 'Forest of Expired Links', media: { kind: 'vimeo' }, placards: ['lw-recycle-main', 'lw-recycle-quote', 'lw-recycle-qr'] },
-  { title: 'Yura Miron', sub: 'Solara Plaza', media: { kind: 'image', src: '/images/ours/loupe-yura.webp' }, placards: ['lw-yura-main', 'lw-yura-quote', 'lw-yura-qr'] },
-  { title: 'Mauricio Pommella', sub: 'The Pope', media: { kind: 'video', src: '/images/ours/pope-hd.mp4' }, placards: ['lw-mauricio-main', 'lw-manifesto', 'lw-mauricio-qr'] },
-  { title: 'AnjolaDave', sub: 'An Ending, A Beginning', media: { kind: 'image', src: '/images/ours/loupe-anjola.webp' }, placards: ['lw-anjola-main', 'lw-anjola-quote', 'lw-anjola-qr'] },
+  { title: 'Recycle Group', sub: 'Forest of Expired Links', media: { kind: 'vimeo' }, placards: ['lw-recycle-main', 'lw-recycle-quote'], collect: 'recycle-collect' },
+  { title: 'Yura Miron', sub: 'Solara Plaza', media: { kind: 'image', src: '/images/ours/loupe-yura.webp' }, placards: ['lw-yura-main', 'lw-yura-quote'], collect: 'yura-collect' },
+  { title: 'Mauricio Pommella', sub: 'The Pope', media: { kind: 'video', src: '/images/ours/pope-hd.mp4' }, placards: ['lw-mauricio-main', 'lw-manifesto'], collect: 'mauricio-collect' },
+  { title: 'AnjolaDave', sub: 'An Ending, A Beginning', media: { kind: 'image', src: '/images/ours/loupe-anjola.webp' }, placards: ['lw-anjola-main', 'lw-anjola-quote'], collect: 'anjola-collect' },
   { title: 'Nahuel Aquiles', sub: 'Self-Similar', media: { kind: 'image', src: '/images/ours/loupe-nahuel.webp' }, placards: ['lw-nahuel-main', 'lw-nahuel-genpi'] },
 ];
 
@@ -91,6 +168,8 @@ export function LedgerworksSection() {
   const [playing, setPlaying] = useState(false);
   const [hoverP, setHoverP] = useState<string | null>(null);
   const [hoverW, setHoverW] = useState<string | null>(null);
+  const [hoverC, setHoverC] = useState<string | null>(null);
+  const [openC, setOpenC] = useState<string | null>(null);
   const [cursor, setCursor] = useState({ fx: 0.5, fy: 0.5 });
   const [media, setMedia] = useState({ w: 1, h: 1 });
   const [openM, setOpenM] = useState<number | null>(null);
@@ -99,8 +178,11 @@ export function LedgerworksSection() {
 
   const spot = SPOTS.find((s) => s.slug === hoverP) ?? null;
   const wspot = WORK_SPOTS.find((s) => s.slug === hoverW) ?? null;
+  const cspot = COLLECT_SPOTS.find((c) => c.slug === hoverC) ?? null;
+  const copen = COLLECT_SPOTS.find((c) => c.slug === openC) ?? null;
   const hudLeft = spot ? spot.rect.x + spot.rect.w / 2 > IMG_W / 2 : false;
   const loupeLeft = wspot ? wspot.rect.x + wspot.rect.w / 2 > IMG_W / 2 : false;
+  const cardLeft = cspot ? cspot.rect.x + cspot.rect.w / 2 > IMG_W / 2 : false;
 
   const enterP = useCallback((slug: string) => {
     if (graceP.current) clearTimeout(graceP.current);
@@ -149,7 +231,42 @@ export function LedgerworksSection() {
           }}
         />
 
+        {/* Covers over the photographed QR placards: the printed QR
+            content is replaced on screen by the on-chain link mark. */}
+        {COLLECT_SPOTS.map((c) => (
+          <div
+            key={`${c.slug}-cover`}
+            aria-hidden
+            className="absolute flex items-center justify-center"
+            style={{
+              left: pct(c.rect.x, IMG_W), top: pct(c.rect.y, IMG_H),
+              width: pct(c.rect.w, IMG_W), height: pct(c.rect.h, IMG_H),
+              background: '#f5f3f0',
+              borderRadius: '7%',
+              boxShadow: 'inset 0 0 0 1px rgba(40,40,40,0.08), inset 0 -4px 8px rgba(40,40,40,0.05)',
+            }}
+          >
+            <ChainIcon color={OURS.ink} style={{ width: '54%', height: '54%', opacity: 0.85 }} />
+          </div>
+        ))}
+
         {/* ------- desktop interactions ------- */}
+        {COLLECT_SPOTS.map((c) => (
+          <button
+            key={c.slug}
+            onMouseEnter={() => setHoverC(c.slug)}
+            onMouseLeave={() => setHoverC((cur) => (cur === c.slug ? null : cur))}
+            onClick={() => setOpenC(c.slug)}
+            aria-label={`Collect ${c.piece.title}, by ${c.piece.artist} — ${c.piece.price}`}
+            className="absolute hidden border-0 bg-transparent p-0 lg:block"
+            style={{
+              left: pct(c.rect.x - 4, IMG_W), top: pct(c.rect.y - 4, IMG_H),
+              width: pct(c.rect.w + 8, IMG_W), height: pct(c.rect.h + 8, IMG_H),
+              cursor: 'pointer',
+            }}
+          />
+        ))}
+
         {WORK_SPOTS.map((s) => (
           <div
             key={s.slug}
@@ -210,6 +327,47 @@ export function LedgerworksSection() {
             <img src={`/images/ours/placards/${spot.img}.webp${V}`} alt="" className="block h-auto w-full" />
           )}
         </a>
+
+        {/* collect card — replaces the old QR-placard zoom for the four
+            collect spots: name, chain mark, price, click to collect. */}
+        <div
+          className="pointer-events-none absolute hidden rounded-2xl bg-white p-6 text-center lg:block"
+          style={{
+            top: '3%',
+            width: '17%',
+            ...(cardLeft ? { left: '1.6%' } : { right: '1.6%' }),
+            boxShadow: `inset 0 0 0 1px ${OURS.hair}, 0 22px 48px -18px rgba(0,0,0,0.4)`,
+            opacity: cspot ? 1 : 0,
+            transform: cspot ? 'translateY(0) scale(1)' : 'translateY(10px) scale(0.98)',
+            transition: 'opacity 220ms ease, transform 260ms ease',
+          }}
+        >
+          {cspot && (
+            <>
+              <div className="flex justify-center">
+                <ChainIcon color={OURS.orange} style={{ width: 22, height: 22 }} />
+              </div>
+              <p
+                className="mt-3 font-heading text-[15px] uppercase leading-tight"
+                style={{ color: OURS.ink }}
+              >
+                {cspot.piece.title}
+              </p>
+              <p className="mt-1 font-mono text-[9.5px] uppercase tracking-[0.12em]" style={{ color: OURS.gray }}>
+                {cspot.piece.artist}
+              </p>
+              <p className="mt-3 font-mono text-[13px]" style={{ color: OURS.ink }}>
+                {cspot.piece.price}
+              </p>
+              <p
+                className="mt-3 font-mono text-[10px] uppercase tracking-[0.14em]"
+                style={{ color: OURS.orange }}
+              >
+                Click to collect →
+              </p>
+            </>
+          )}
+        </div>
 
         {/* the loupe — video-shaped for the Vimeo, square otherwise */}
         <div
@@ -309,6 +467,20 @@ export function LedgerworksSection() {
                       // eslint-disable-next-line @next/next/no-img-element
                       <img key={p} src={`/images/ours/placards/${p}.webp${V}`} alt="" className="w-full border" style={{ borderColor: OURS.hair }} />
                     ))}
+                    {sec.collect &&
+                      (() => {
+                        const c = COLLECT_SPOTS.find((x) => x.slug === sec.collect);
+                        return c ? (
+                          <button
+                            onClick={() => setOpenC(c.slug)}
+                            className="ours-buy inline-flex items-center gap-2 border px-4 py-2 font-mono text-[10px] uppercase tracking-[0.14em] transition-colors"
+                            style={{ borderColor: OURS.orange, color: OURS.orange }}
+                          >
+                            <ChainIcon style={{ width: 14, height: 14 }} />
+                            Collect — {c.piece.price} →
+                          </button>
+                        ) : null;
+                      })()}
                   </div>
                 </div>
               </div>
@@ -324,16 +496,6 @@ export function LedgerworksSection() {
         </p>
         <hr className="mt-1.5 h-[2px] w-12 border-0" style={{ background: OURS.orange }} />
         <div className="mt-5 space-y-3">
-          {/* the room film, full width of the section */}
-          <video
-            src={GALLERY_VIDEO}
-            muted
-            loop
-            playsInline
-            autoPlay
-            preload="metadata"
-            className="block w-full overflow-hidden rounded-xl"
-          />
           {/* the stills: portrait frame centred, three landscape shots a
               side. The side stacks set the row height; the portrait
               cover-fills it. On mobile everything stacks, portrait first. */}
@@ -372,8 +534,163 @@ export function LedgerworksSection() {
               ))}
             </div>
           </div>
+          {/* the room film — full width, beneath the stills */}
+          <video
+            src={GALLERY_VIDEO}
+            muted
+            loop
+            playsInline
+            autoPlay
+            preload="metadata"
+            className="block w-full overflow-hidden rounded-xl"
+          />
         </div>
       </div>
+
+      {/* ------- collect modals ------- */}
+      {COLLECT_SPOTS.map((c) => {
+        if (c.action.kind !== 'stripe') return null;
+        const artwork = ARTWORKS.find((a) => a.id === (c.action as { id: string }).id);
+        if (!artwork) return null;
+        return (
+          <BuyModal
+            key={c.slug}
+            artwork={artwork}
+            returnSection="ledgerworks"
+            open={openC === c.slug}
+            onOpenChange={(o) => {
+              if (!o) setOpenC(null);
+            }}
+          />
+        );
+      })}
+      {copen && copen.action.kind !== 'stripe' && (
+        <LWCollectModal spot={copen} onClose={() => setOpenC(null)} />
+      )}
     </div>
+  );
+}
+
+// Modal for the two collect routes the Stripe BuyModal can't carry:
+// The Pope's ETH flow (FFA wallet + QR + notify form, the same
+// EthPieceCheckout the collect page uses) and Recycle Group's
+// gallery-represented piece, which hands off to Gazelli Art House in a
+// new tab. Same visual language as BuyModal — white, rounded-2xl, thin
+// orange outline — and portaled to <body> for the same reason.
+function LWCollectModal({ spot, onClose }: { spot: CollectSpot; onClose: () => void }) {
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    document.addEventListener('keydown', onKey);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [onClose]);
+
+  const eth = spot.action.kind === 'eth' ? spot.action : null;
+  const ext = spot.action.kind === 'external' ? spot.action : null;
+
+  return createPortal(
+    <div
+      className="fixed inset-0 z-[80] overflow-y-auto"
+      onMouseDown={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+    >
+      <div
+        aria-hidden
+        className="fixed inset-0"
+        style={{
+          background: 'rgba(40,40,40,0.35)',
+          backdropFilter: 'blur(6px)',
+          WebkitBackdropFilter: 'blur(6px)',
+        }}
+        onMouseDown={onClose}
+      />
+      <div className="relative flex min-h-full items-center justify-center p-4 md:p-8">
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label={`Collect ${spot.piece.title}, by ${spot.piece.artist}`}
+          className={`relative w-full overflow-hidden rounded-2xl bg-white ${
+            eth ? 'max-w-3xl md:grid md:grid-cols-[1fr_1.1fr]' : 'max-w-md'
+          }`}
+          onMouseDown={(e) => e.stopPropagation()}
+          style={{
+            border: `1px solid ${OURS.orange}`,
+            boxShadow: '0 24px 60px -24px rgba(40,40,40,0.45)',
+          }}
+        >
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Close"
+            className="absolute right-4 top-4 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-white/85 font-mono text-sm"
+            style={{ color: OURS.ink, boxShadow: `inset 0 0 0 1px ${OURS.orange}` }}
+          >
+            ✕
+          </button>
+
+          {eth && (
+            <div className="flex items-center justify-center p-6 md:p-8" style={{ background: '#F0EEEB' }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={eth.image}
+                alt={`${spot.piece.title}, by ${spot.piece.artist}`}
+                className="h-auto w-full rounded-lg"
+                style={{ maxHeight: '52vh', width: 'auto', maxWidth: '100%' }}
+              />
+            </div>
+          )}
+
+          <div className="flex flex-col p-7 md:p-9">
+            <div className="flex items-center gap-2">
+              <ChainIcon color={OURS.orange} style={{ width: 14, height: 14 }} />
+              <p className="font-mono text-[10px] uppercase tracking-[0.16em]" style={{ color: OURS.orange }}>
+                Ledgerworks · On-chain
+              </p>
+            </div>
+            <h3 className="mt-3 text-h5 leading-tight text-ink md:text-h4">{spot.piece.title}</h3>
+            <p className="mt-1.5 text-sm uppercase tracking-[0.08em] text-sage">{spot.piece.artist}</p>
+            <p className="mt-4 text-h5 text-ink">{spot.piece.price}</p>
+
+            {ext && (
+              <>
+                <p className="mt-4 text-sm leading-relaxed text-muted">{ext.note}</p>
+                <div className="mt-7 flex flex-wrap items-center gap-3">
+                  <a
+                    href={ext.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-solid"
+                    onClick={onClose}
+                  >
+                    {ext.cta} →
+                  </a>
+                  <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted">
+                    Opens in a new tab
+                  </span>
+                </div>
+              </>
+            )}
+
+            {eth && (
+              <div className="mt-5">
+                <EthPieceCheckout
+                  artworkId={eth.id}
+                  pieceTitle={eth.title}
+                  ethAmount={eth.ethAmount}
+                />
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>,
+    document.body
   );
 }
