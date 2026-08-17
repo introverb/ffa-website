@@ -249,7 +249,9 @@ export function ProgramBook() {
   return (
     <>
       {/* ---------------- closed ---------------- */}
-      <div className="flex items-center justify-start gap-10" style={{ padding: '96px 0 104px' }}>
+      {/* Contents rail sits left; the spinning book centres itself in
+          the remaining width rather than hugging the rail. */}
+      <div className="flex items-center gap-10" style={{ padding: '96px 0 104px' }}>
         {/* Contents, on the page. Clicking opens the book already at that
             section rather than making you page there. */}
         <nav aria-label="Program contents" className="hidden shrink-0 md:block">
@@ -277,6 +279,7 @@ export function ProgramBook() {
         {/* Every level of this chain keeps preserve-3d. A plain 2-D
             transform anywhere in it flattens the cuboid, which is what made
             the book sit flat before. */}
+        <div className="flex flex-1 justify-center">
         <button
           onClick={() => setOpen(true)}
           aria-label="Open the OURS program"
@@ -361,6 +364,7 @@ export function ProgramBook() {
             </div>
           </div>
         </button>
+        </div>
       </div>
 
       {/* ---------------- open ---------------- */}
