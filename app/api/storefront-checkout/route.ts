@@ -86,7 +86,7 @@ export async function POST(req: NextRequest) {
       type: 'dropdown',
       dropdown: {
         options: [
-          { label: 'Pick up in Park Slope, Brooklyn', value: 'pickup' },
+          { label: 'Pick up in Brooklyn', value: 'pickup' },
           { label: 'Mail it to me', value: 'mail' },
         ],
       },

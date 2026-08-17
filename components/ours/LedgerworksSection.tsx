@@ -140,9 +140,7 @@ const WORK_SPOTS: WorkSpot[] = [
   { slug: 'recycle', rect: { x: 67, y: 517, w: 481, h: 408 }, kind: 'none', href: 'https://vimeo.com/1192225993' },
   { slug: 'yura', rect: { x: 615, y: 560, w: 320, h: 445 }, kind: 'image', src: '/images/ours/loupe-yura.webp', href: 'https://yuramiron.art' },
   { slug: 'pope', rect: { x: 1055, y: 380, w: 275, h: 465 }, kind: 'video', src: '/images/ours/pope-hd.mp4', href: 'https://superrare.com/mpommella' },
-  // TODO(olli): AnjolaDave's site — add href here (and artist link in
-  // his purchase modal) once we have the real URL.
-  { slug: 'anjola', rect: { x: 1443, y: 540, w: 402, h: 495 }, kind: 'image', src: '/images/ours/loupe-anjola.webp' },
+  { slug: 'anjola', rect: { x: 1443, y: 540, w: 402, h: 495 }, kind: 'image', src: '/images/ours/loupe-anjola.webp', href: 'https://anjieverselabs.com' },
   { slug: 'nahuel', rect: { x: 1955, y: 540, w: 295, h: 385 }, kind: 'image', src: '/images/ours/loupe-nahuel.webp' },
 ];
 

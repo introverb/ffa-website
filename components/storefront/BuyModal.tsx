@@ -181,6 +181,17 @@ export function BuyModal({
                 </p>
                 {artwork.medium && <p className="mt-3 text-sm text-muted">{artwork.medium}</p>}
                 {artwork.note && <p className="mt-1.5 text-sm italic text-muted">{artwork.note}</p>}
+                {artwork.artistUrl && (
+                  <a
+                    href={artwork.artistUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-2 inline-block font-mono text-[10px] uppercase tracking-[0.12em]"
+                    style={{ color: '#E8651A' }}
+                  >
+                    {artwork.artistName}&rsquo;s site →
+                  </a>
+                )}
 
                 <p className="mt-5 text-h5 text-ink">${price!.toLocaleString('en-US')}</p>
                 {remaining != null && (
@@ -193,14 +204,10 @@ export function BuyModal({
 
                 <ul className="space-y-1.5 text-xs leading-relaxed text-muted">
                   {artwork.id === 'ours-printed-program' ? (
-                    <>
-                      <li>Mailed to you — shipping included (or pick up in Park Slope, Brooklyn).</li>
-                      <li>Sales tax added at checkout. Proceeds support FFA.</li>
-                    </>
+                    <li>Mailed to you — shipping included (or pick up in Brooklyn).</li>
                   ) : (
                     <>
-                      <li>Pickup in Park Slope, Brooklyn, or delivery — chosen at checkout.</li>
-                      <li>Prices include a 20% charitable premium supporting FFA; sales tax added at checkout.</li>
+                      <li>Pickup in Brooklyn, or delivery — chosen at checkout.</li>
                       {artwork.isNFT && <li>NFT — your wallet address is collected at checkout.</li>}
                     </>
                   )}

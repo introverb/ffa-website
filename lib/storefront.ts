@@ -69,6 +69,9 @@ export interface Artwork {
    * sold-out/inventory logic always uses editionSize, never this.
    */
   fullEditionSize?: number;
+  /** Artist's own site — rendered as a link in the purchase modal's
+   *  about block. */
+  artistUrl?: string;
   /** Path under /public once a real photo exists; undefined = gray block. */
   image?: string;
   /** The photo's real pixel dimensions — lets the card size to the
@@ -351,6 +354,7 @@ export const ARTWORKS: Artwork[] = [
     id: 'anjoladave-an-ending-a-beginning',
     title: 'An Ending, A Beginning',
     artistName: 'AnjolaDave',
+    artistUrl: 'https://anjieverselabs.com',
     medium: 'Digital work, on-chain',
     note: 'Includes a 20 × 25 in physical print in the exhibition',
     isNFT: true,

@@ -70,7 +70,7 @@ async function notifySale(session: Stripe.Checkout.Session, artwork: (typeof ART
   const deliveryValue = session.custom_fields?.find((f) => f.key === 'delivery_method')?.dropdown?.value;
   const delivery =
     deliveryValue === 'pickup'
-      ? 'Pick up in Park Slope, Brooklyn'
+      ? 'Pick up in Brooklyn'
       : deliveryValue === 'mail'
         ? 'Mail'
         : null;
