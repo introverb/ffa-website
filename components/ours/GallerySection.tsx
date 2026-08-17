@@ -735,6 +735,7 @@ function GalleryBuy({ work, className = '' }: { work: Work; className?: string }
     <span className={`${className} inline-flex flex-wrap items-baseline gap-x-3 gap-y-1`}>
       <BuyModal
         artwork={artwork}
+        returnSection="gallery"
         triggerLabel="Buy →"
         triggerClassName="font-mono text-[11px] uppercase tracking-[0.12em] underline underline-offset-[3px] transition-opacity hover:opacity-70"
         triggerStyle={{ color: OURS.orange }}

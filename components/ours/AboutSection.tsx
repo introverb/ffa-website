@@ -124,7 +124,8 @@ export function AboutSection() {
             <div className="mb-2">
               <BuyModal
                 artwork={program}
-                triggerLabel="Order a copy — $7 →"
+                returnSection="about"
+                triggerLabel="Order a copy — $10 →"
                 triggerClassName="ours-buy inline-block border px-4 py-2 font-mono text-[10px] uppercase tracking-[0.14em] transition-colors"
                 triggerStyle={{ borderColor: OURS.orange, color: OURS.orange }}
               />

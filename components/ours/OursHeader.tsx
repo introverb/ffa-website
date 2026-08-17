@@ -113,16 +113,22 @@ export function OursHeader({
           }`}
         >
           {video ? (
-            <video
-              src={video}
-              poster={poster}
-              muted
-              loop
-              playsInline
-              autoPlay
-              preload="metadata"
-              className="absolute inset-0 h-full w-full object-cover"
-            />
+            // The film renders at its true 16:9 aspect — centred in the
+            // well over the frosted backdrop rather than cover-cropped
+            // to the panel's shape.
+            <div className="absolute inset-0 flex items-center justify-center p-5 md:p-8">
+              <video
+                src={video}
+                poster={poster}
+                muted
+                loop
+                playsInline
+                autoPlay
+                preload="metadata"
+                className="max-h-full w-full rounded-xl"
+                style={{ aspectRatio: '16 / 9', objectFit: 'cover' }}
+              />
+            </div>
           ) : (
             <div className="absolute inset-0">
               <Image

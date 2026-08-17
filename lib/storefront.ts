@@ -378,12 +378,15 @@ export const ARTWORKS: Artwork[] = [
     title: 'OURS — The Printed Catalog',
     artistName: 'Foundation for Future Aesthetics',
     medium: 'A6 perfect-bound program of the evening, as printed',
-    listPrice: 7,
+    note: 'Shipping included',
+    // Was $7 at launch; raised to $10 with shipping folded in
+    // (2026-08-17, after the first sale confirmed the flow).
+    listPrice: 10,
     editionSize: 500,
     unitsSold: 0,
     status: 'available',
-    image: '/images/ours/back-cover.jpg',
+    image: '/images/ours/catalog-cover.webp',
     imageWidth: 900,
-    imageHeight: 900,
+    imageHeight: 1200,
   },
 ];

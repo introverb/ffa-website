@@ -1,11 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { OURS, SECTIONS, type Section, type SectionId } from './tokens';
 import { LedgerworksSection } from './LedgerworksSection';
 import { GallerySection } from './GallerySection';
 import { AboutSection } from './AboutSection';
+import { ARTWORKS, type Artwork } from '@/lib/storefront';
 
 // ---------------------------------------------------------------------------
 // The louver wall — the OURS page's primary navigation.
@@ -41,6 +42,27 @@ const RIB_WIDTH = 76;
 
 export function LouverWall() {
   const [open, setOpen] = useState<SectionId | null>(null);
+  // Post-checkout thank-you: Stripe's success_url sends buyers back to
+  // /ours?thanks=<artworkId>&sec=<section> (see the storefront-checkout
+  // route). On mount, open the section they left, show the thank-you
+  // modal, and strip the query so a refresh doesn't replay it. Read via
+  // window.location rather than useSearchParams so the page stays
+  // static (no Suspense boundary needed for a one-shot read).
+  const [thanks, setThanks] = useState<Artwork | null>(null);
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const sec = params.get('sec') as SectionId | null;
+    const thanksId = params.get('thanks');
+    if (sec && SECTIONS.some((s) => s.id === sec) && !UNFINISHED.has(sec)) setOpen(sec);
+    if (thanksId) {
+      const art = ARTWORKS.find((a) => a.id === thanksId);
+      if (art) setThanks(art);
+    }
+    if (sec || thanksId) {
+      window.history.replaceState({}, '', window.location.pathname);
+    }
+  }, []);
+
   const toggle = (id: SectionId) => {
     if (UNFINISHED.has(id)) return;
     setOpen((cur) => (cur === id ? null : id));
@@ -49,6 +71,8 @@ export function LouverWall() {
 
   return (
     <div>
+      {thanks && <ThanksModal artwork={thanks} onClose={() => setThanks(null)} />}
+
       {/* ---------------- Desktop: the wall ---------------- */}
       <div className="hidden gap-[3px] md:flex" style={{ height: WALL_HEIGHT }}>
         {SECTIONS.map((s) => (
@@ -142,6 +166,75 @@ export function LouverWall() {
             </div>
           );
         })}
+      </div>
+    </div>
+  );
+}
+
+// Post-purchase thank-you, in the buy modal's own visual language
+// (white card, rounded-2xl, thin orange outline) so returning from
+// Stripe reads as the modal they left transformed, not a new page.
+// ✕ or backdrop dismisses back onto the section beneath.
+function ThanksModal({ artwork, onClose }: { artwork: Artwork; onClose: () => void }) {
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [onClose]);
+  const isProgram = artwork.id === 'ours-printed-program';
+  return (
+    <div
+      className="fixed inset-0 z-[80] flex items-center justify-center p-4"
+      onMouseDown={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+    >
+      <div
+        aria-hidden
+        className="fixed inset-0"
+        style={{
+          background: 'rgba(40,40,40,0.35)',
+          backdropFilter: 'blur(6px)',
+          WebkitBackdropFilter: 'blur(6px)',
+        }}
+        onMouseDown={onClose}
+      />
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-label="Order confirmed"
+        className="relative w-full max-w-md rounded-2xl bg-white p-8 md:p-10"
+        onMouseDown={(e) => e.stopPropagation()}
+        style={{
+          border: `1px solid ${OURS.orange}`,
+          boxShadow: '0 24px 60px -24px rgba(40,40,40,0.45)',
+        }}
+      >
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="Close"
+          className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full bg-white font-mono text-sm"
+          style={{ color: OURS.ink, boxShadow: `inset 0 0 0 1px ${OURS.orange}` }}
+        >
+          ✕
+        </button>
+        <p className="font-mono text-[10px] uppercase tracking-[0.16em]" style={{ color: OURS.orange }}>
+          OURS · Collect
+        </p>
+        <h3 className="mt-3 text-h4 leading-tight text-ink">Thank you!</h3>
+        <p className="mt-4 text-body leading-relaxed text-ink/85">
+          Your order of <em>{artwork.title}</em> is confirmed — a receipt is on its way to
+          your email
+          {isProgram
+            ? ', and your copy will be in the mail shortly.'
+            : ', and we’ll reach out about delivery.'}
+        </p>
+        <button type="button" onClick={onClose} className="btn-solid mt-7">
+          Back to the page
+        </button>
       </div>
     </div>
   );

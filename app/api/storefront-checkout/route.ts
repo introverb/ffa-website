@@ -34,6 +34,15 @@ export async function POST(req: NextRequest) {
   const artwork = ARTWORKS.find((a) => a.id === artworkId);
   if (!artwork) return back();
 
+  // Purchases started from the OURS page itself (the catalog button,
+  // the gallery placards) return there after payment — a thank-you
+  // modal over the section the buyer left — instead of the collect
+  // success page. Whitelisted section ids only, never a raw client
+  // URL, so this can't be turned into an open redirect.
+  const RETURN_SECTIONS = new Set(['about', 'gallery']);
+  const returnSection = String(formData.get('returnSection') ?? '');
+  const fromOurs = RETURN_SECTIONS.has(returnSection);
+
   if (!process.env.STRIPE_SECRET_KEY) {
     console.error('Storefront checkout: STRIPE_SECRET_KEY not configured');
     return back();
@@ -139,8 +148,10 @@ export async function POST(req: NextRequest) {
           },
         }
       : {}),
-    success_url: `${origin}/ours/collect/success?session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${origin}/ours/collect`,
+    success_url: fromOurs
+      ? `${origin}/ours?thanks=${encodeURIComponent(artwork.id)}&sec=${returnSection}`
+      : `${origin}/ours/collect/success?session_id={CHECKOUT_SESSION_ID}`,
+    cancel_url: fromOurs ? `${origin}/ours?sec=${returnSection}` : `${origin}/ours/collect`,
     expires_at: Math.floor(Date.now() / 1000) + RESERVATION_TTL_SECONDS,
   });
 

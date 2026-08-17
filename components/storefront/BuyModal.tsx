@@ -26,11 +26,16 @@ export function BuyModal({
   triggerLabel = 'Buy',
   triggerClassName = 'btn-solid',
   triggerStyle,
+  returnSection,
 }: {
   artwork: Artwork;
   triggerLabel?: string;
   triggerClassName?: string;
   triggerStyle?: React.CSSProperties;
+  /** Set for purchases started from the OURS page: after payment the
+   *  buyer returns to /ours with this section open and a thank-you
+   *  modal, instead of the collect success page. */
+  returnSection?: 'about' | 'gallery';
 }) {
   const [open, setOpen] = useState(false);
   const dialogRef = useRef<HTMLDivElement>(null);
@@ -168,9 +173,18 @@ export function BuyModal({
                 <hr className="my-5 h-px border-0" style={{ background: 'rgba(200,195,186,0.7)' }} />
 
                 <ul className="space-y-1.5 text-xs leading-relaxed text-muted">
-                  <li>Pickup in Park Slope, Brooklyn, or delivery — chosen at checkout.</li>
-                  <li>Prices include a 20% charitable premium supporting FFA; sales tax added at checkout.</li>
-                  {artwork.isNFT && <li>NFT — your wallet address is collected at checkout.</li>}
+                  {artwork.id === 'ours-printed-program' ? (
+                    <>
+                      <li>Mailed to you — shipping included (or pick up in Park Slope, Brooklyn).</li>
+                      <li>Sales tax added at checkout. Proceeds support FFA.</li>
+                    </>
+                  ) : (
+                    <>
+                      <li>Pickup in Park Slope, Brooklyn, or delivery — chosen at checkout.</li>
+                      <li>Prices include a 20% charitable premium supporting FFA; sales tax added at checkout.</li>
+                      {artwork.isNFT && <li>NFT — your wallet address is collected at checkout.</li>}
+                    </>
+                  )}
                 </ul>
 
                 <div className="mt-auto flex flex-wrap items-center gap-3 pt-6">
@@ -178,6 +192,9 @@ export function BuyModal({
                       storefront grid has always posted to. */}
                   <form action="/api/storefront-checkout" method="POST">
                     <input type="hidden" name="artworkId" value={artwork.id} />
+                    {returnSection && (
+                      <input type="hidden" name="returnSection" value={returnSection} />
+                    )}
                     <button type="submit" className="btn-solid">
                       Proceed to checkout →
                     </button>
