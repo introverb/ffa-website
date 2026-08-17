@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import Image from 'next/image';
 import {
   type Artwork,
@@ -89,7 +90,13 @@ export function BuyModal({
         {triggerLabel}
       </button>
 
-      {open && (
+      {/* Portal to <body>: the gallery placards sit inside a
+          backdrop-filtered card, which turns position:fixed into
+          position:relative-to-the-card (filters create a containing
+          block). Rendering at the body level keeps the overlay a true
+          full-viewport modal no matter where the trigger lives. */}
+      {open &&
+        createPortal(
         <div
           className="fixed inset-0 z-[80] overflow-y-auto"
           onMouseDown={(e) => {
@@ -210,7 +217,8 @@ export function BuyModal({
               </div>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </>
   );
