@@ -195,9 +195,10 @@ export function EthPieceCheckout({
           <button
             type="submit"
             disabled={submitting}
-            className="btn-solid self-start disabled:cursor-not-allowed disabled:opacity-60"
+            className="self-start font-mono text-[11px] uppercase tracking-[0.16em] transition-opacity hover:opacity-70 disabled:cursor-not-allowed disabled:opacity-60"
+            style={{ color: '#E8651A' }}
           >
-            {submitting ? 'Sending…' : "I've sent it — notify FFA"}
+            {submitting ? 'Sending…' : "I've sent it — notify FFA →"}
           </button>
         </form>
       )}

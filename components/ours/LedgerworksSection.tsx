@@ -16,7 +16,7 @@ import { EthPieceCheckout } from '@/components/storefront/EthPieceCheckout';
 const IMG_W = 2400;
 const IMG_H = 1528;
 const SCREEN = { x: 1069, y: 394, w: 246, h: 438 };
-const V = '?v=8';
+const V = '?v=9';
 const ZOOM = 2.34;                 // 10% less than before
 const LOUPE_W = '35%';             // 30% larger than before
 // every raised placard shares the manifesto's width (which puts the
@@ -74,7 +74,7 @@ const COLLECT_SPOTS: CollectSpot[] = [
       kind: 'external',
       href: 'https://bit.ly/forest-of-expired-links',
       cta: 'Purchase through Gazelli Art House',
-      note: 'ERC-721 video, on-chain. Includes the photographic print from the exhibition. Gallery-represented — the sale completes on Gazelli Art House’s own listing.',
+      note: 'ERC-721 video, on-chain. Gallery-represented — the sale completes on Gazelli Art House’s own listing.',
     },
   },
   {
@@ -219,7 +219,7 @@ export function LedgerworksSection() {
 
   return (
     <div className="mt-8">
-      <div className="relative mx-auto w-full max-w-[1400px] overflow-hidden rounded-[2.5rem]">
+      <div className="relative mx-auto w-full max-w-[1400px] overflow-hidden rounded-3xl">
         <picture>
           <source srcSet={`/images/ours/ledgerworks-wall.webp${V}`} type="image/webp" />
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -229,6 +229,14 @@ export function LedgerworksSection() {
             className="block h-auto w-full"
           />
         </picture>
+
+        {/* thin OURS-orange stroke around the wall, matching the header
+            panel's treatment — painted above the image, under the HUDs */}
+        <span
+          aria-hidden
+          className="pointer-events-none absolute inset-0 rounded-3xl"
+          style={{ boxShadow: `inset 0 0 0 1px ${OURS.orange}` }}
+        />
 
         <video
           src="/images/ours/pope.mp4"
@@ -503,6 +511,46 @@ export function LedgerworksSection() {
         })}
       </div>
 
+      {/* why FFA hangs on-chain work at all — the standing argument,
+          full width between the wall and the photo gallery */}
+      <div className="mt-12">
+        <p className="font-mono text-[11px] uppercase tracking-[0.14em]" style={{ color: OURS.orange }}>
+          Why on-chain
+        </p>
+        <hr className="mt-1.5 h-[2px] w-12 border-0" style={{ background: OURS.orange }} />
+        <div className="mt-5 w-full space-y-5 text-body-lg leading-relaxed text-ink/85">
+          <p>
+            The Foundation features on-chain work in all of its exhibitions as a rule,
+            not a novelty. We believe that the utility offered by web3 may be the best
+            provenance technology the art world has ever had. It creates a public,
+            permanent, tamper-proof record of a work and every hand it has passed
+            through. This produces not only proof of ownership for now, but preserves
+            the legacy of a piece forever.
+          </p>
+          <p>
+            The benefit to the artist is also indisputable. Resale royalties can be
+            written into the work itself, so when a piece appreciates and changes
+            hands, its artist shares in the upside automatically. This is a right
+            physical artists have fought for for a century. Authentication no longer
+            hinges on an expert&rsquo;s letter or a gallery&rsquo;s memory. Editions
+            are honest. The ledger enforces scarcity in a way much more verifiable
+            than a signature. And an artist&rsquo;s market stays legible to them:
+            they know where their work travels and what it trades for.
+          </p>
+          <p>
+            The blockchain widens what art can be and who can hold it. A collector
+            anywhere on earth can support an artist directly, with no gatekeeper
+            between them. The relationship outlives any platform, because the
+            on-chain record does.
+          </p>
+          <p>
+            Ledgerworks shares the same space as the oil paint and the ceramics as a
+            display of works just as impressive, but also as an educational tool and
+            a bridge to the future that more and more of the art world is exploring.
+          </p>
+        </div>
+      </div>
+
       {/* ------- the wall in the room: photos & film ------- */}
       <div className="mt-10">
         <p className="font-mono text-[11px] uppercase tracking-[0.14em]" style={{ color: OURS.orange }}>
@@ -547,43 +595,6 @@ export function LedgerworksSection() {
                 />
               ))}
             </div>
-          </div>
-        </div>
-
-        {/* why FFA hangs on-chain work at all — the standing argument */}
-        <div className="mt-12">
-          <p className="font-mono text-[11px] uppercase tracking-[0.14em]" style={{ color: OURS.orange }}>
-            Why on-chain
-          </p>
-          <hr className="mt-1.5 h-[2px] w-12 border-0" style={{ background: OURS.orange }} />
-          <div className="mt-5 max-w-[68ch] space-y-5 text-body-lg leading-relaxed text-ink/85">
-            <p>
-              The Foundation features on-chain work in its exhibitions as a rule, not
-              a novelty. Strip away the speculation headlines and what remains is the
-              best provenance technology the art world has ever had: a public,
-              permanent, tamper-proof record of a work and every hand it has passed
-              through. Ownership becomes something you can verify, not something you
-              have to trust.
-            </p>
-            <p>
-              That record works for artists in ways paper never did. Resale royalties
-              can be written into the work itself, so when a piece appreciates and
-              changes hands, its artist shares in the upside automatically &mdash; a
-              right physical artists have fought for for a century. Authentication no
-              longer hinges on an expert&rsquo;s letter or a gallery&rsquo;s memory.
-              Editions are honest, because the ledger enforces scarcity better than a
-              signature. And an artist&rsquo;s market stays legible to them: they know
-              where their work lives, and what it trades for.
-            </p>
-            <p>
-              It also widens what art can be and who can hold it. Works can carry
-              code, evolve, or generate; a collector anywhere on earth can support an
-              artist directly, with no gatekeeper between them; and the relationship
-              outlives any platform, because the record does. That&rsquo;s why
-              Ledgerworks hung on the same wall as the oil paint and the ceramics
-              &mdash; not a category apart, but part of the same argument about who
-              gets to shape what comes next.
-            </p>
           </div>
         </div>
       </div>
@@ -702,12 +713,13 @@ function LWCollectModal({ spot, onClose }: { spot: CollectSpot; onClose: () => v
             {ext && (
               <>
                 <p className="mt-4 text-sm leading-relaxed text-muted">{ext.note}</p>
-                <div className="mt-7 flex flex-wrap items-center gap-3">
+                <div className="mt-7 flex flex-wrap items-baseline gap-3">
                   <a
                     href={ext.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="btn-solid"
+                    className="font-mono text-[11px] uppercase tracking-[0.16em] transition-opacity hover:opacity-70"
+                    style={{ color: OURS.orange }}
                     onClick={onClose}
                   >
                     {ext.cta} →

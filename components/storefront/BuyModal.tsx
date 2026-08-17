@@ -22,11 +22,16 @@ import { trackEvent } from '@/lib/analytics';
 
 const ORANGE = '#E8651A';
 
+// The OURS buy-affordance type style: thin mono caps in the accent
+// orange — never a solid pill.
+export const THIN_CTA =
+  'font-mono text-[11px] uppercase tracking-[0.16em] transition-opacity hover:opacity-70';
+
 export function BuyModal({
   artwork,
-  triggerLabel = 'Buy',
-  triggerClassName = 'btn-solid',
-  triggerStyle,
+  triggerLabel = 'Buy →',
+  triggerClassName = THIN_CTA,
+  triggerStyle = { color: ORANGE },
   returnSection,
   open: controlledOpen,
   onOpenChange,
@@ -221,7 +226,7 @@ export function BuyModal({
                     {returnSection && (
                       <input type="hidden" name="returnSection" value={returnSection} />
                     )}
-                    <button type="submit" className="btn-solid">
+                    <button type="submit" className={THIN_CTA} style={{ color: ORANGE }}>
                       Proceed to checkout →
                     </button>
                   </form>

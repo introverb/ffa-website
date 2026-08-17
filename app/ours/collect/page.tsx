@@ -60,7 +60,7 @@ const LEDGERWORKS_WORKS: Array<{
     id: 'recycle-group-forest-of-expired-links',
     artist: 'Recycle Group',
     title: 'Forest of Expired Links',
-    note: 'ERC-721 video, on-chain. Includes the photographic print from the exhibition.',
+    note: 'ERC-721 video, on-chain.',
     href: 'https://bit.ly/forest-of-expired-links',
     cta: 'Purchase through Gazelli Art House',
     videoEmbed: 'https://player.vimeo.com/video/1192225993?autoplay=1&muted=1&loop=1',

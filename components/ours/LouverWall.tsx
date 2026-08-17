@@ -232,8 +232,13 @@ function ThanksModal({ artwork, onClose }: { artwork: Artwork; onClose: () => vo
             ? ', and your copy will be in the mail shortly.'
             : ', and we’ll reach out about delivery.'}
         </p>
-        <button type="button" onClick={onClose} className="btn-solid mt-7">
-          Back to the page
+        <button
+          type="button"
+          onClick={onClose}
+          className="mt-7 font-mono text-[11px] uppercase tracking-[0.16em] transition-opacity hover:opacity-70"
+          style={{ color: OURS.orange }}
+        >
+          Back to the page →
         </button>
       </div>
     </div>
