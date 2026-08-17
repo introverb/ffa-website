@@ -38,7 +38,7 @@ const SPOTS: PlacardSpot[] = [
   { slug: 'yura-main', rect: { x: 498, y: 1002, w: 92, h: 119 }, img: 'lw-yura-main', href: 'https://yuramiron.art' },
   { slug: 'yura-quote', rect: { x: 904, y: 1066, w: 93, h: 94 }, img: 'lw-yura-quote' },
   { slug: 'mauricio-main', rect: { x: 1203, y: 871, w: 92, h: 144 }, img: 'lw-mauricio-main', href: 'https://superrare.com/mpommella' },
-  { slug: 'anjola-main', rect: { x: 1681, y: 1089, w: 96, h: 114 }, img: 'lw-anjola-main' },
+  { slug: 'anjola-main', rect: { x: 1681, y: 1089, w: 96, h: 114 }, img: 'lw-anjola-main', href: 'https://anjieverselabs.com' },
   { slug: 'manifesto', rect: { x: 1265, y: 1036, w: 100, h: 177 }, img: 'lw-manifesto' },
   { slug: 'anjola-quote', rect: { x: 1835, y: 1077, w: 94, h: 95 }, img: 'lw-anjola-quote' },
   // The main placard's printed QR pointed at Nahuel's Self-Similar
@@ -294,19 +294,27 @@ export function LedgerworksSection() {
           );
         })}
 
-        {SPOTS.map((s) => (
-          <div
-            key={s.slug}
-            onMouseEnter={() => enterP(s.slug)}
-            onMouseLeave={leaveP}
-            className="absolute hidden lg:block"
-            style={{
-              left: pct(s.rect.x - 4, IMG_W), top: pct(s.rect.y - 4, IMG_H),
-              width: pct(s.rect.w + 8, IMG_W), height: pct(s.rect.h + 8, IMG_H),
-              cursor: 'zoom-in',
-            }}
-          />
-        ))}
+        {SPOTS.map((s) => {
+          // Placards with a destination are real links on the wall
+          // itself — clicking the placard goes where its raised card
+          // goes (artist site, SuperRare, Gazelli, the read/generate
+          // pages). Quote placards stay hover-only.
+          const Tag = s.href ? 'a' : 'div';
+          return (
+            <Tag
+              key={s.slug}
+              {...(s.href ? { href: s.href, target: s.href.startsWith('/') ? undefined : '_blank', rel: 'noopener noreferrer' } : {})}
+              onMouseEnter={() => enterP(s.slug)}
+              onMouseLeave={leaveP}
+              className="absolute hidden lg:block"
+              style={{
+                left: pct(s.rect.x - 4, IMG_W), top: pct(s.rect.y - 4, IMG_H),
+                width: pct(s.rect.w + 8, IMG_W), height: pct(s.rect.h + 8, IMG_H),
+                cursor: s.href ? 'pointer' : 'zoom-in',
+              }}
+            />
+          );
+        })}
 
         <a
           href={spot?.href ?? undefined}
