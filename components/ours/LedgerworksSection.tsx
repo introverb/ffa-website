@@ -127,14 +127,21 @@ function ChainIcon({ style, color = 'currentColor' }: { style?: React.CSSPropert
 type WorkSpot = {
   slug: string;
   rect: { x: number; y: number; w: number; h: number };
-  kind: 'image' | 'video' | 'vimeo';
+  /** 'none' = no hover loupe (Recycle's piece is a click-through only). */
+  kind: 'image' | 'video' | 'none';
   src?: string;
+  /** Clicking the work opens this in a new tab. */
+  href?: string;
 };
 
 const WORK_SPOTS: WorkSpot[] = [
-  { slug: 'recycle', rect: { x: 67, y: 517, w: 481, h: 408 }, kind: 'vimeo' },
-  { slug: 'yura', rect: { x: 615, y: 560, w: 320, h: 445 }, kind: 'image', src: '/images/ours/loupe-yura.webp' },
-  { slug: 'pope', rect: { x: 1055, y: 380, w: 275, h: 465 }, kind: 'video', src: '/images/ours/pope-hd.mp4' },
+  // Recycle's frame is the video piece itself: no loupe, clicking
+  // opens the film on Vimeo.
+  { slug: 'recycle', rect: { x: 67, y: 517, w: 481, h: 408 }, kind: 'none', href: 'https://vimeo.com/1192225993' },
+  { slug: 'yura', rect: { x: 615, y: 560, w: 320, h: 445 }, kind: 'image', src: '/images/ours/loupe-yura.webp', href: 'https://yuramiron.art' },
+  { slug: 'pope', rect: { x: 1055, y: 380, w: 275, h: 465 }, kind: 'video', src: '/images/ours/pope-hd.mp4', href: 'https://superrare.com/mpommella' },
+  // TODO(olli): AnjolaDave's site — add href here (and artist link in
+  // his purchase modal) once we have the real URL.
   { slug: 'anjola', rect: { x: 1443, y: 540, w: 402, h: 495 }, kind: 'image', src: '/images/ours/loupe-anjola.webp' },
   { slug: 'nahuel', rect: { x: 1955, y: 540, w: 295, h: 385 }, kind: 'image', src: '/images/ours/loupe-nahuel.webp' },
 ];
@@ -162,12 +169,9 @@ const MOBILE: {
   ] },
 ];
 
-// Photo & film gallery under the wall. The room film (graded to match
-// the photography, first/last 3s trimmed — both ends so the boomerang
-// loop stays seamless) runs full width; beneath it, the curated
-// stills: three landscape shots either side of the large portrait
-// frame. Culled from the full shoot 2026-08-17 per Olli's picks.
-const GALLERY_VIDEO = '/images/ours/lwgallery/ledgerworks-loop.mp4';
+// Photo gallery under the wall — the curated stills: three landscape
+// shots either side of the large portrait frame. Culled from the full
+// shoot per Olli's picks.
 const GALLERY_LEFT = ['ap8_2627', 'ap8_4001', 'dsc_3201'];
 const GALLERY_CENTER = 'dsc_3522';
 const GALLERY_RIGHT = ['dsc_2164', 'dsc_3276', 'dsc_3812'];
@@ -259,26 +263,30 @@ export function LedgerworksSection() {
           />
         ))}
 
-        {WORK_SPOTS.map((s) => (
-          <div
-            key={s.slug}
-            onMouseEnter={() => { setHoverW(s.slug); if (s.kind === 'video') setMedia({ w: 720, h: 1280 }); }}
-            onMouseLeave={() => setHoverW((c) => (c === s.slug ? null : c))}
-            onMouseMove={(e) => {
-              const r = e.currentTarget.getBoundingClientRect();
-              setCursor({
-                fx: Math.max(0, Math.min(1, (e.clientX - r.left) / r.width)),
-                fy: Math.max(0, Math.min(1, (e.clientY - r.top) / r.height)),
-              });
-            }}
-            className="absolute hidden lg:block"
-            style={{
-              left: pct(s.rect.x, IMG_W), top: pct(s.rect.y, IMG_H),
-              width: pct(s.rect.w, IMG_W), height: pct(s.rect.h, IMG_H),
-              cursor: 'zoom-in',
-            }}
-          />
-        ))}
+        {WORK_SPOTS.map((s) => {
+          const Tag = s.href ? 'a' : 'div';
+          return (
+            <Tag
+              key={s.slug}
+              {...(s.href ? { href: s.href, target: '_blank', rel: 'noopener noreferrer' } : {})}
+              onMouseEnter={() => { setHoverW(s.slug); if (s.kind === 'video') setMedia({ w: 720, h: 1280 }); }}
+              onMouseLeave={() => setHoverW((c) => (c === s.slug ? null : c))}
+              onMouseMove={(e: React.MouseEvent) => {
+                const r = e.currentTarget.getBoundingClientRect();
+                setCursor({
+                  fx: Math.max(0, Math.min(1, (e.clientX - r.left) / r.width)),
+                  fy: Math.max(0, Math.min(1, (e.clientY - r.top) / r.height)),
+                });
+              }}
+              className="absolute hidden lg:block"
+              style={{
+                left: pct(s.rect.x, IMG_W), top: pct(s.rect.y, IMG_H),
+                width: pct(s.rect.w, IMG_W), height: pct(s.rect.h, IMG_H),
+                cursor: s.href ? 'pointer' : 'zoom-in',
+              }}
+            />
+          );
+        })}
 
         {SPOTS.map((s) => (
           <div
@@ -371,19 +379,21 @@ export function LedgerworksSection() {
           )}
         </div>
 
-        {/* the loupe — video-shaped for the Vimeo, square otherwise */}
+        {/* the loupe — square magnifier for images, video for The Pope.
+            Recycle's piece (kind 'none') skips it: that frame is a plain
+            click-through to the film on Vimeo. */}
         <div
           ref={loupeRef}
           className="pointer-events-none absolute hidden overflow-hidden rounded-2xl lg:block"
           style={{
             top: '3%',
-            width: wspot?.kind === 'vimeo' ? '46%' : LOUPE_W,
-            aspectRatio: wspot?.kind === 'vimeo' ? '16 / 9' : '1 / 1',
+            width: LOUPE_W,
+            aspectRatio: '1 / 1',
             ...(loupeLeft ? { left: '1.6%' } : { right: '1.6%' }),
             boxShadow: `inset 0 0 0 1px ${OURS.hair}, 0 22px 48px -18px rgba(0,0,0,0.4)`,
             background: '#0d0c0b',
-            opacity: wspot ? 1 : 0,
-            transform: wspot ? 'scale(1)' : 'scale(0.98)',
+            opacity: wspot && wspot.kind !== 'none' ? 1 : 0,
+            transform: wspot && wspot.kind !== 'none' ? 'scale(1)' : 'scale(0.98)',
             transition: 'opacity 200ms ease, transform 240ms ease',
           }}
         >
@@ -399,15 +409,6 @@ export function LedgerworksSection() {
           {wspot?.kind === 'video' && (
             <video src={wspot.src} muted loop playsInline autoPlay style={loupeStyle()} />
           )}
-          {wspot?.kind === 'vimeo' && (
-            <iframe
-              src={VIMEO_SRC}
-              className="absolute inset-0 h-full w-full"
-              style={{ border: 0 }}
-              allow="autoplay; fullscreen"
-              title="Recycle Group — Forest of Expired Links"
-            />
-          )}
         </div>
       </div>
 
@@ -417,7 +418,7 @@ export function LedgerworksSection() {
       >
         The wall, as hung — Mauricio Pommella&rsquo;s{' '}
         <span style={{ color: OURS.orange }}>The Pope</span>{' '}
-        {playing ? 'playing in the screen' : 'loading…'} · hover a work to zoom · hover a placard to read it
+        {playing ? 'playing in the screen' : 'loading…'} · hover a work to zoom, click to visit it · hover a placard to read it
       </p>
 
       {/* ------- mobile: accordion, wall order left to right ------- */}
@@ -549,16 +550,43 @@ export function LedgerworksSection() {
               ))}
             </div>
           </div>
-          {/* the room film — full width, beneath the stills */}
-          <video
-            src={GALLERY_VIDEO}
-            muted
-            loop
-            playsInline
-            autoPlay
-            preload="metadata"
-            className="block w-full overflow-hidden rounded-xl"
-          />
+        </div>
+
+        {/* why FFA hangs on-chain work at all — the standing argument */}
+        <div className="mt-12">
+          <p className="font-mono text-[11px] uppercase tracking-[0.14em]" style={{ color: OURS.orange }}>
+            Why on-chain
+          </p>
+          <hr className="mt-1.5 h-[2px] w-12 border-0" style={{ background: OURS.orange }} />
+          <div className="mt-5 max-w-[68ch] space-y-5 text-body-lg leading-relaxed text-ink/85">
+            <p>
+              The Foundation features on-chain work in its exhibitions as a rule, not
+              a novelty. Strip away the speculation headlines and what remains is the
+              best provenance technology the art world has ever had: a public,
+              permanent, tamper-proof record of a work and every hand it has passed
+              through. Ownership becomes something you can verify, not something you
+              have to trust.
+            </p>
+            <p>
+              That record works for artists in ways paper never did. Resale royalties
+              can be written into the work itself, so when a piece appreciates and
+              changes hands, its artist shares in the upside automatically &mdash; a
+              right physical artists have fought for for a century. Authentication no
+              longer hinges on an expert&rsquo;s letter or a gallery&rsquo;s memory.
+              Editions are honest, because the ledger enforces scarcity better than a
+              signature. And an artist&rsquo;s market stays legible to them: they know
+              where their work lives, and what it trades for.
+            </p>
+            <p>
+              It also widens what art can be and who can hold it. Works can carry
+              code, evolve, or generate; a collector anywhere on earth can support an
+              artist directly, with no gatekeeper between them; and the relationship
+              outlives any platform, because the record does. That&rsquo;s why
+              Ledgerworks hung on the same wall as the oil paint and the ceramics
+              &mdash; not a category apart, but part of the same argument about who
+              gets to shape what comes next.
+            </p>
+          </div>
         </div>
       </div>
 
