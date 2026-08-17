@@ -84,7 +84,10 @@ export default async function OursCollectPage() {
   // Ledgerworks pieces sold through FFA's own checkout are real
   // Artwork entries (isNFT: true) — split them out so they render in
   // the Ledgerworks section below rather than the main exhibition grid.
-  const physicalArtworks = artworks.filter((a) => !a.isNFT);
+  // The printed-program catalog entry sells from the OURS page's
+  // "Order a copy" modal, not this grid — it's a $7 program, not an
+  // artwork listing.
+  const physicalArtworks = artworks.filter((a) => !a.isNFT && a.id !== 'ours-printed-program');
   const nftArtworks = artworks.filter((a) => a.isNFT);
   // Curated display order (not source order) — the sequence a visitor
   // should encounter the works in, independent of the masonry columns'

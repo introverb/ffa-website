@@ -57,7 +57,10 @@ export function BuyModal({
   }, [open, close]);
 
   const price = displayPrice(artwork);
-  const remaining = unitsRemaining(artwork);
+  // Editions of 100+ are effectively open (the printed program) — a
+  // "497 of 500 left" line would read as scarcity theater, so hide it.
+  const remaining =
+    artwork.editionSize != null && artwork.editionSize >= 100 ? null : unitsRemaining(artwork);
   const buyable =
     !isSoldOut(artwork) &&
     artwork.status === 'available' &&

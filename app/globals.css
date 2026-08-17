@@ -35,6 +35,15 @@
 }
 
 @layer components {
+  /* OURS buy affordances (gallery placards, the catalog order button):
+     orange mono trigger that fills orange on hover. Lives here rather
+     than in a component's scoped styles because it's used across
+     sections that mount independently. */
+  .ours-buy:hover {
+    background: #e8651a;
+    color: #fff !important;
+  }
+
   /* Fixed-positioned menu pill that stays equidistant from the hero panel's
      top-right corner regardless of viewport width. The panel is centered
      with `max-w-[1500px] mx-auto`, so on viewports wider than 1500px the

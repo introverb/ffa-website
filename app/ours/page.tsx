@@ -30,10 +30,10 @@ export default function OursPage() {
           </p>
         }
         meta={['August 2026', 'Space LES', 'New York City']}
-        // Swap in the event film here once the edit lands; the media well
-        // shows a placeholder until then.
-        // video="/images/ours/event-film.mp4"
-        // poster="/images/ours/event-film-poster.jpg"
+        // The event film — "Current Best" cut, re-encoded to 720p/13.5MB
+        // for the autoplaying muted header well.
+        video="/images/ours/event-film.mp4"
+        poster="/images/ours/event-film-poster.jpg"
       />
       <Panel variant="white" className="md:p-14">
         <LouverWall />

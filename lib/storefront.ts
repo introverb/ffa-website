@@ -366,4 +366,24 @@ export const ARTWORKS: Artwork[] = [
   // in app/ours/collect/page.tsx) — terms with Gazelli Art House are
   // still being negotiated (who nets what of the 20% premium), so it
   // isn't sold through FFA's own checkout for now.
+  {
+    // The printed program, sold as a $7 catalog copy from the OURS
+    // page's "Order a copy" modal. NOT an artwork: excluded from the
+    // /ours/collect grid (filtered by id there), but living in this
+    // catalog so it rides the exact same checkout route. The large
+    // editionSize keeps checkout on its edition path — no 1-of-1
+    // reservation lock — and effectively never sells out; BuyModal
+    // treats editions this large as open (no "N left" line).
+    id: 'ours-printed-program',
+    title: 'OURS — The Printed Catalog',
+    artistName: 'Foundation for Future Aesthetics',
+    medium: 'A6 perfect-bound program of the evening, as printed',
+    listPrice: 7,
+    editionSize: 500,
+    unitsSold: 0,
+    status: 'available',
+    image: '/images/ours/back-cover.jpg',
+    imageWidth: 900,
+    imageHeight: 900,
+  },
 ];

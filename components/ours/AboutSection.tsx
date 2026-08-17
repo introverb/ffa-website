@@ -1,5 +1,7 @@
 import { OURS } from './tokens';
 import { ProgramBook } from './ProgramBook';
+import { ARTWORKS } from '@/lib/storefront';
+import { BuyModal } from '@/components/storefront/BuyModal';
 
 // Photographs from the evening, running as two staggered columns down
 // the right side of the section. Sourced from
@@ -23,6 +25,8 @@ const EVENING_PHOTOS: { file: string; alt: string }[] = [
   { file: 'ap8_4131', alt: 'RERO’s A NEW CITY WILL BE BUILT… with a guest passing by.' },
   { file: 'ap8_2986', alt: 'Guest photographing Sev Gedra’s linen-wrapped figure.' },
   { file: 'ap8_4125', alt: 'Guest pointing out a detail mid-conversation at the gallery wall.' },
+  { file: 'event3', alt: 'A speaker beside the wall of triangular beadwork hangings.' },
+  { file: 'event4', alt: 'A guest holding the Little Martian ceramic beside its glass vitrine.' },
 ];
 
 // "About the Event" contents, as three numbered blocks in the left
@@ -111,11 +115,26 @@ export function AboutSection() {
         </div>
       </Block>
 
-      <Block index="02" title="The Roster" note="The program, as printed">
+      <Block index="02" title="The Catalog">
+        {/* Order a printed copy — the $7 catalog entry rides the same
+            storefront checkout as the works (lib/storefront.ts). */}
+        {(() => {
+          const program = ARTWORKS.find((a) => a.id === 'ours-printed-program');
+          return program ? (
+            <div className="mb-2">
+              <BuyModal
+                artwork={program}
+                triggerLabel="Order a copy — $7 →"
+                triggerClassName="ours-buy inline-block border px-4 py-2 font-mono text-[10px] uppercase tracking-[0.14em] transition-colors"
+                triggerStyle={{ borderColor: OURS.orange, color: OURS.orange }}
+              />
+            </div>
+          ) : null;
+        })()}
         <ProgramBook />
       </Block>
 
-      <Block index="03" title="The Manifesto" note="Frosted acrylic, entrance wall">
+      <Block index="03" title="The Manifesto">
         <div className="max-w-[68ch] space-y-5">
           {MANIFESTO.map((para) =>
             para === 'Enough.' ? (
