@@ -537,6 +537,61 @@ export function GallerySection() {
         ))}
       </div>
 
+      {/* ---------------- curatorial statement ---------------- */}
+      {/* Transcribed from the printed program's Gallery pages. */}
+      <div className="mt-14 border-t pt-10" style={{ borderColor: OURS.hair }}>
+        <p className="font-mono text-[11px] uppercase tracking-[0.14em]" style={{ color: OURS.orange }}>
+          Curatorial Statement
+        </p>
+        <hr className="mt-1.5 h-[2px] w-12 border-0" style={{ background: OURS.orange }} />
+        <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.1em]" style={{ color: OURS.gray }}>
+          From Olli Payne, Director, FFA
+        </p>
+        <div className="mt-6 max-w-[75ch] space-y-5 text-body-lg leading-relaxed text-ink/85">
+          <p>
+            I am a futurist. It&rsquo;s a simple fact. Maybe it&rsquo;s a label, but
+            more than that, it&rsquo;s something that I can feel phenomenologically,
+            in my bones and my tendons and behind my eyes; the will to see, the
+            drive to act, toward the future.
+          </p>
+          <p>
+            When I was young I adored Ray Bradbury&rsquo;s work, and in awe of the
+            worlds he built using advanced technology. The characters were
+            privileged to live in realities that had solved so many of
+            humanity&rsquo;s problems, yet there were always more plaguing them. I
+            would sit and write out what further technological innovations could be
+            introduced to save them, these vexingly and unavoidably troubled ghosts
+            on the pages.
+          </p>
+          <p>
+            Over time, I have come to understand that while there is much value in
+            advances in software and hard tech, the bottleneck is actually social
+            technology. The quagmires of Bradbury&rsquo;s characters were rooted in
+            culture. Burning books didn&rsquo;t result from installing screens into
+            walls, it emerged from demand for complacency over thinking, feeling,
+            or acting. This kind of social decay, to my horror, can be seen in the
+            cautionary science fiction tale but is also taking root in the world
+            around us.
+          </p>
+          <p>
+            I believe art to be a sacred cure &ndash; it can inform, inspire,
+            ignite, and compel us. It shatters complacency and reminds us of what
+            we find beautiful and good and shows us that it is achievable.
+            It&rsquo;s the expression and the reception, made tangible materially
+            and transferable socially and spiritually. For these reasons, the art
+            that&rsquo;s upstream of our culture&rsquo;s idea of the future will
+            shape our future.
+          </p>
+          <p>
+            The collection of works presented in this exhibit is the result of my
+            search for that cure in the creations of others. It&rsquo;s the
+            manifestation of my attempt to gather and show proof that we can make a
+            conscious choice about the future we pursue, from vision to
+            realization. Thank you for being here to experience that.
+          </p>
+        </div>
+      </div>
+
       <style jsx global>{`
         .ours-work:focus-visible {
           outline: 2px solid ${OURS.orange};
