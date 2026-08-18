@@ -8,6 +8,7 @@ import { GallerySection } from './GallerySection';
 import { AboutSection } from './AboutSection';
 import { VisionsSection } from './VisionsSection';
 import { SystemsSection } from './SystemsSection';
+import { ThanksSection } from './ThanksSection';
 import { ARTWORKS, type Artwork } from '@/lib/storefront';
 
 // ---------------------------------------------------------------------------
@@ -29,11 +30,20 @@ import { ARTWORKS, type Artwork } from '@/lib/storefront';
 // ---------------------------------------------------------------------------
 
 // Sections with real contents built; these suppress the placeholder blurb.
-const BUILT_OUT = new Set<SectionId>(['about', 'gallery', 'ledgerworks', 'visions', 'systems']);
+const BUILT_OUT = new Set<SectionId>([
+  'about',
+  'gallery',
+  'ledgerworks',
+  'visions',
+  'systems',
+  'thanks',
+]);
 
 // Sections not yet built out ship grayed out and inert — desaturated
-// slat, muted label, no expand — until their contents land.
-const UNFINISHED = new Set<SectionId>(['thanks']);
+// slat, muted label, no expand — until their contents land. All six
+// are now built; the set stays so the mechanism survives future
+// sections.
+const UNFINISHED = new Set<SectionId>([]);
 
 // The expanded panel can title itself differently from its slat: the
 // About panel opens on the manifesto, so its header names that.
@@ -423,6 +433,9 @@ function SectionContents({ section }: { section: Section }) {
   }
   if (section.id === 'systems') {
     return <SystemsSection />;
+  }
+  if (section.id === 'thanks') {
+    return <ThanksSection />;
   }
   return (
     <div
