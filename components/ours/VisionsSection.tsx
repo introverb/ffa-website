@@ -14,8 +14,8 @@ import { OURS } from './tokens';
 // (VISIONS_Tickets_001-200_DUPLEX.pdf, ticket N° 001).
 const VIDEO_ID = '4LgqHTmZg1M';
 
-const TICKET_W = 210;
-const TICKET_H = Math.round(TICKET_W * (1368 / 648)); // 443 — the die-cut's real aspect
+const TICKET_W = 252;
+const TICKET_H = Math.round(TICKET_W * (1368 / 648)); // 532 — the die-cut's real aspect
 const TICKET_D = 6; // thickness — reads as heavy card stock
 
 const LINEUP: { name: string; detail: string }[] = [
@@ -58,8 +58,11 @@ export function VisionsSection() {
             notches included), turning upright on the vertical axis over
             a slow bob. Edge faces give it the thickness of real card
             stock. Hovering anywhere over it pauses the motion. */}
+        {/* pt-10 mirrors the video's mt-10 below, so the ticket centres
+            on the full visual span from the top of the copy to the top
+            of the video — not just the copy row. */}
         <div
-          className="ours-ticket hidden items-center justify-center self-stretch md:flex"
+          className="ours-ticket hidden items-center justify-center self-stretch pt-10 md:flex"
           style={{ perspective: 1800 }}
         >
           <div className="ours-ticket-bob">
