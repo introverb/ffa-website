@@ -43,7 +43,7 @@ const SPOTS: PlacardSpot[] = [
   { slug: 'anjola-quote', rect: { x: 1835, y: 1077, w: 94, h: 95 }, img: 'lw-anjola-quote' },
   // The main placard's printed QR pointed at Nahuel's Self-Similar
   // writeup — the raised card now says so and clicks through.
-  { slug: 'nahuel-main', rect: { x: 2143, y: 976, w: 94, h: 108 }, img: 'lw-nahuel-main', href: 'https://tinyurl.com/nahueldna', cta: 'Click to read →' },
+  { slug: 'nahuel-main', rect: { x: 2143, y: 976, w: 94, h: 108 }, img: 'lw-nahuel-main', href: 'https://tinyurl.com/nahueldna', cta: 'Click to read “DNA as a Quantum System in Evolution” →' },
   // The "two ways" placard — its raised card carries the generate CTA
   // and clicks through to Nahuel's mint platform.
   { slug: 'nahuel-genpi', rect: { x: 2143, y: 1096, w: 94, h: 113 }, img: 'lw-nahuel-genpi', href: 'https://genpi.org', cta: 'Click here to generate yours →' },
@@ -162,7 +162,7 @@ const MOBILE: {
   { title: 'Mauricio Pommella', sub: 'The Pope', media: { kind: 'video', src: '/images/ours/pope-hd.mp4' }, placards: ['lw-mauricio-main', 'lw-manifesto'], collect: 'mauricio-collect' },
   { title: 'AnjolaDave', sub: 'An Ending, A Beginning', media: { kind: 'image', src: '/images/ours/loupe-anjola.webp' }, placards: ['lw-anjola-main', 'lw-anjola-quote'], collect: 'anjola-collect' },
   { title: 'Nahuel Aquiles', sub: 'Self-Similar', media: { kind: 'image', src: '/images/ours/loupe-nahuel.webp' }, placards: ['lw-nahuel-main', 'lw-nahuel-genpi'], external: [
-    { href: 'https://tinyurl.com/nahueldna', label: 'Click to read →' },
+    { href: 'https://tinyurl.com/nahueldna', label: 'Click to read “DNA as a Quantum System in Evolution” →' },
     { href: 'https://genpi.org', label: 'Click here to generate yours →' },
   ] },
 ];
