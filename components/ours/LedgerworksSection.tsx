@@ -226,10 +226,12 @@ export function LedgerworksSection() {
           <img
             src={`/images/ours/ledgerworks-wall.png${V}`}
             alt="The Ledgerworks wall as hung at OURS: five framed works and a backlit screen, wired together with black circuit-trace vinyl beneath the Ledgerworks sign."
-            // rounded on the image itself, matching the orange ring's
-            // radius exactly — the container clip alone let the image
-            // corners square past the stroke
+            // Scaled 2% past the frame so the asset's baked edge rim
+            // crops away outside the orange ring. Centre-origin, so the
+            // Pope screen and the hotspot geometry (all near-centre in
+            // percentage space) stay aligned within a pixel.
             className="block h-auto w-full rounded-3xl"
+            style={{ transform: 'scale(1.02)' }}
           />
         </picture>
 

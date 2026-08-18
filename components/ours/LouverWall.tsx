@@ -70,7 +70,13 @@ export function LouverWall({ initialOpen }: { initialOpen?: SectionId }) {
 
   const toggle = (id: SectionId) => {
     if (UNFINISHED.has(id)) return;
-    setOpen((cur) => (cur === id ? null : id));
+    const next = open === id ? null : id;
+    setOpen(next);
+    // Keep the URL in step with the open section so any state is
+    // shareable — /ours/<section> while open, /ours when closed.
+    // replaceState (not push) so slat-hopping doesn't pile up history;
+    // Next's app router syncs its pathname from this.
+    window.history.replaceState({}, '', next ? `/ours/${next}` : '/ours');
   };
   const openSection = SECTIONS.find((s) => s.id === open) ?? null;
 
