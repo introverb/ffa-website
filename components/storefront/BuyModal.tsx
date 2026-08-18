@@ -43,7 +43,7 @@ export function BuyModal({
   /** Set for purchases started from the OURS page: after payment the
    *  buyer returns to /ours with this section open and a thank-you
    *  modal, instead of the collect success page. */
-  returnSection?: 'about' | 'gallery' | 'ledgerworks';
+  returnSection?: 'about' | 'gallery' | 'ledgerworks' | 'systems';
   /** Controlled mode: pass `open` + `onOpenChange` and no trigger is
    *  rendered — the caller owns opening (e.g. the Ledgerworks wall's
    *  collect placards). Omit both for the normal self-triggering mode. */
