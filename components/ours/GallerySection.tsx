@@ -544,12 +544,9 @@ export function GallerySection() {
           Curatorial Statement
         </p>
         <hr className="mt-1.5 h-[2px] w-12 border-0" style={{ background: OURS.orange }} />
-        <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.1em]" style={{ color: OURS.gray }}>
-          From Olli Payne, Director, FFA
-        </p>
         <div className="mt-6 max-w-[75ch] space-y-5 text-body-lg leading-relaxed text-ink/85">
           <p>
-            I am a futurist. It&rsquo;s a simple fact. Maybe it&rsquo;s a label, but
+            &ldquo;I am a futurist. It&rsquo;s a simple fact. Maybe it&rsquo;s a label, but
             more than that, it&rsquo;s something that I can feel phenomenologically,
             in my bones and my tendons and behind my eyes; the will to see, the
             drive to act, toward the future.
@@ -587,7 +584,10 @@ export function GallerySection() {
             search for that cure in the creations of others. It&rsquo;s the
             manifestation of my attempt to gather and show proof that we can make a
             conscious choice about the future we pursue, from vision to
-            realization. Thank you for being here to experience that.
+            realization. Thank you for being here to experience that.&rdquo;
+          </p>
+          <p className="font-mono text-[10px] uppercase tracking-[0.1em]" style={{ color: OURS.gray }}>
+            &mdash; Olli Payne, Director, FFA
           </p>
         </div>
       </div>
