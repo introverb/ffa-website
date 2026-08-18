@@ -1,46 +1,18 @@
 'use client';
 
-import { useCallback, useRef } from 'react';
 import { OURS } from './tokens';
 import { ARTWORKS, isSoldOut } from '@/lib/storefront';
 import { BuyModal } from '@/components/storefront/BuyModal';
 
 // Systems of Power — Anyanwu's pyramid: the blueprint, the game, and
 // the invitation to keep playing. "The Documents" treatment: the
-// technical plate full width with a magnifier loupe (it rewards close
-// reading), the printed rules card beside a transcribed how-to-play,
-// the online version linked, and the sculpture itself collectable
-// through the standard storefront modal. The floating pyramid beside
-// the intro is the sculpture cut from its photography.
-
-const LOUPE_SIZE = 260;
-const LOUPE_ZOOM = 2.4;
+// technical plate full width, the printed rules card beside a
+// transcribed how-to-play, the online version linked, and the
+// sculpture itself collectable through the standard storefront modal.
+// The floating pyramid beside the intro is the sculpture cut from its
+// photography, graded to the finish it wore on the night.
 
 export function SystemsSection() {
-  const loupeRef = useRef<HTMLDivElement>(null);
-  const plateRef = useRef<HTMLDivElement>(null);
-
-  const hideLoupe = useCallback(() => {
-    if (loupeRef.current) loupeRef.current.style.display = 'none';
-  }, []);
-  const onZoomMove = useCallback((e: React.MouseEvent) => {
-    const loupe = loupeRef.current;
-    const plate = plateRef.current;
-    if (!loupe || !plate) return;
-    const r = (e.currentTarget as HTMLElement).getBoundingClientRect();
-    const p = plate.getBoundingClientRect();
-    const rx = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width));
-    const ry = Math.min(1, Math.max(0, (e.clientY - r.top) / r.height));
-    loupe.style.display = 'block';
-    loupe.style.left = `${e.clientX - p.left - LOUPE_SIZE / 2}px`;
-    loupe.style.top = `${e.clientY - p.top - LOUPE_SIZE / 2}px`;
-    loupe.style.backgroundSize = `${r.width * LOUPE_ZOOM}px ${r.height * LOUPE_ZOOM}px`;
-    loupe.style.backgroundPosition = `${-(rx * r.width * LOUPE_ZOOM - LOUPE_SIZE / 2)}px ${-(
-      ry * r.height * LOUPE_ZOOM -
-      LOUPE_SIZE / 2
-    )}px`;
-  }, []);
-
   const pyramid = ARTWORKS.find((a) => a.id === 'anyanwu-pyramid');
   const pyramidBuyable = pyramid && !isSoldOut(pyramid) && pyramid.status === 'available';
 
@@ -77,15 +49,12 @@ export function SystemsSection() {
           The Blueprint
         </p>
         <hr className="mt-1.5 h-[2px] w-12 border-0" style={{ background: OURS.orange }} />
-        <div ref={plateRef} className="relative mt-5 overflow-hidden rounded-3xl">
+        <div className="relative mt-5 overflow-hidden rounded-3xl">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/images/ours/sop-blueprint.webp"
             alt="Reimagining the Pyramid — Anyanwu's technical blueprint: elevations, cross-sections, and a program key for the monument to knowledge."
             className="block h-auto w-full"
-            style={{ cursor: 'zoom-in' }}
-            onMouseMove={onZoomMove}
-            onMouseLeave={hideLoupe}
             draggable={false}
           />
           <span
@@ -93,22 +62,9 @@ export function SystemsSection() {
             className="pointer-events-none absolute inset-0 rounded-3xl"
             style={{ boxShadow: `inset 0 0 0 1px ${OURS.orange}` }}
           />
-          {/* magnifier loupe — the plate rewards close reading */}
-          <div
-            ref={loupeRef}
-            aria-hidden
-            className="pointer-events-none absolute z-10"
-            style={{
-              display: 'none',
-              width: LOUPE_SIZE,
-              height: LOUPE_SIZE,
-              border: `1px solid ${OURS.hair}`,
-              background: `#0a1f4d url(/images/ours/sop-blueprint.webp) no-repeat`,
-            }}
-          />
         </div>
         <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.14em]" style={{ color: OURS.gray }}>
-          Reimagining the Pyramid — a contemporary monument to knowledge · hover to magnify
+          Reimagining the Pyramid — a contemporary monument to knowledge
         </p>
       </div>
 
