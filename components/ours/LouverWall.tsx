@@ -28,7 +28,7 @@ import { ARTWORKS, type Artwork } from '@/lib/storefront';
 // ---------------------------------------------------------------------------
 
 // Sections with real contents built; these suppress the placeholder blurb.
-const BUILT_OUT = new Set<SectionId>(['about', 'gallery', 'ledgerworks']);
+const BUILT_OUT = new Set<SectionId>(['about', 'gallery', 'ledgerworks', 'visions']);
 
 // Sections not yet built out ship grayed out and inert — desaturated
 // slat, muted label, no expand — until their contents land.
@@ -411,8 +411,6 @@ function SectionContents({ section }: { section: Section }) {
   if (section.id === 'ledgerworks') {
     return <LedgerworksSection />;
   }
-  // Visions keeps the section header + blurb (not in BUILT_OUT) — the
-  // blurb is the right intro for the broadcast below it.
   if (section.id === 'visions') {
     return <VisionsSection />;
   }

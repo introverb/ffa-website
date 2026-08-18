@@ -36,6 +36,14 @@ export function VisionsSection() {
       {/* ---------------- framing copy + the spinning ticket ---------------- */}
       <div className="grid gap-10 md:grid-cols-[1.5fr_1fr] md:items-center">
         <div className="max-w-[68ch] space-y-5 text-body-lg leading-relaxed text-ink/85">
+          {/* the section blurb lives here (visions is BUILT_OUT in the
+              louver wall) so this grid owns the full vertical space and
+              the ticket can centre against all of it */}
+          <p>
+            We asked technologists, artists and researchers a single question about
+            the future and let the answers run on a loop, one after another, all
+            evening.
+          </p>
           <p>
             The future is imagined, argued for, competed over, collaborated on, and
             ultimately built. Everyone who contributes begins from their own vantage
@@ -58,12 +66,15 @@ export function VisionsSection() {
             notches included), turning upright on the vertical axis over
             a slow bob. Edge faces give it the thickness of real card
             stock. Hovering anywhere over it pauses the motion. */}
-        {/* pt-10 mirrors the video's mt-10 below, so the ticket centres
-            on the full visual span from the top of the copy to the top
-            of the video — not just the copy row. */}
+        {/* Centred against the PERCEIVED span — from the expanded
+            section's top rule down to the video — not just this grid
+            row. The fixed chrome above the grid (rule padding + section
+            margin, 64px) outweighs the video's 40px gap below by 24px,
+            and the row itself sits inside that asymmetry: the -9px
+            lift is the measured correction that equalises the gaps. */}
         <div
-          className="ours-ticket hidden items-center justify-center self-stretch pt-10 md:flex"
-          style={{ perspective: 1800 }}
+          className="ours-ticket hidden items-center justify-center self-stretch md:flex"
+          style={{ perspective: 1800, transform: 'translateY(-9px)' }}
         >
           <div className="ours-ticket-bob">
             <div
@@ -222,10 +233,6 @@ export function VisionsSection() {
         }
         .ours-ticket-bob {
           animation: ours-ticket-bob 5.2s ease-in-out infinite alternate;
-        }
-        .ours-ticket:hover .ours-ticket-spin,
-        .ours-ticket:hover .ours-ticket-bob {
-          animation-play-state: paused;
         }
         @media (prefers-reduced-motion: reduce) {
           .ours-ticket-spin {
