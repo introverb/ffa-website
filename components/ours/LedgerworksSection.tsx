@@ -33,12 +33,12 @@ type PlacardSpot = {
 };
 
 const SPOTS: PlacardSpot[] = [
-  { slug: 'recycle-main', rect: { x: 38, y: 993, w: 93, h: 127 }, img: 'lw-recycle-main', href: 'https://bit.ly/forest-of-expired-links' },
+  { slug: 'recycle-main', rect: { x: 38, y: 993, w: 93, h: 127 }, img: 'lw-recycle-main', href: 'https://bit.ly/forest-of-expired-links', cta: 'Click to view the Gazelli listing →' },
   { slug: 'recycle-quote', rect: { x: 339, y: 986, w: 94, h: 93 }, img: 'lw-recycle-quote' },
-  { slug: 'yura-main', rect: { x: 498, y: 1002, w: 92, h: 119 }, img: 'lw-yura-main', href: 'https://yuramiron.art' },
+  { slug: 'yura-main', rect: { x: 498, y: 1002, w: 92, h: 119 }, img: 'lw-yura-main', href: 'https://yuramiron.art', cta: 'Click to visit Yura Miron’s site →' },
   { slug: 'yura-quote', rect: { x: 904, y: 1066, w: 93, h: 94 }, img: 'lw-yura-quote' },
-  { slug: 'mauricio-main', rect: { x: 1203, y: 871, w: 92, h: 144 }, img: 'lw-mauricio-main', href: 'https://superrare.com/mpommella' },
-  { slug: 'anjola-main', rect: { x: 1681, y: 1089, w: 96, h: 114 }, img: 'lw-anjola-main', href: 'https://anjieverselabs.com' },
+  { slug: 'mauricio-main', rect: { x: 1203, y: 871, w: 92, h: 144 }, img: 'lw-mauricio-main', href: 'https://superrare.com/mpommella', cta: 'Click to view on SuperRare →' },
+  { slug: 'anjola-main', rect: { x: 1681, y: 1089, w: 96, h: 114 }, img: 'lw-anjola-main', href: 'https://anjieverselabs.com', cta: 'Click to visit AnjolaDave’s site →' },
   { slug: 'manifesto', rect: { x: 1265, y: 1036, w: 100, h: 177 }, img: 'lw-manifesto' },
   { slug: 'anjola-quote', rect: { x: 1835, y: 1077, w: 94, h: 95 }, img: 'lw-anjola-quote' },
   // The main placard's printed QR pointed at Nahuel's Self-Similar
