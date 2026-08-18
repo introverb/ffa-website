@@ -133,7 +133,7 @@ export function ProgramBook() {
     if (!open || pages) return;
     let cancelled = false;
     (async () => {
-      const res = await fetch('/ours-program.html?v=2');
+      const res = await fetch('/ours-program.html?v=3');
       const text = await res.text();
       if (cancelled) return;
       const doc = new DOMParser().parseFromString(text, 'text/html');
@@ -569,7 +569,12 @@ function Spread({
         {css}
         {fitPx !== null
           ? `
-.vis{font-size:${fitPx}px !important;line-height:1.45 !important;}`
+.vis{font-size:${fitPx}px !important;line-height:1.45 !important;}
+/* Speaker bios (.vis.bio, tagged in the document) get a fixed, larger
+   size independent of the global fit — the fitter bottoms out at 6px
+   because of the densest pages, but the speaker pages are mostly empty
+   and were the hardest text in the book to read. */
+.vis.bio{font-size:9.5px !important;line-height:1.5 !important;}`
           : ''}
         {`
         .ours-qr-link{position:relative;display:inline-block;flex:0 0 54px;line-height:0;}
