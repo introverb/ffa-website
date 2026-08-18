@@ -133,7 +133,7 @@ export function ProgramBook() {
     if (!open || pages) return;
     let cancelled = false;
     (async () => {
-      const res = await fetch('/ours-program.html');
+      const res = await fetch('/ours-program.html?v=2');
       const text = await res.text();
       if (cancelled) return;
       const doc = new DOMParser().parseFromString(text, 'text/html');
@@ -149,13 +149,27 @@ export function ProgramBook() {
       // reader starts at Welcome: blank verso, Welcome recto.
       // Every QR block carries its destination in the label beside it, so
       // the printed code becomes a link on screen rather than something you
-      // have to point a phone at.
-      doc.querySelectorAll('.qrow').forEach((row) => {
+      // have to point a phone at. Blocks tagged data-qr-href in the
+      // document override the label heuristic — used where the on-screen
+      // destination should differ from the printed QR (the collect QRs
+      // deep-link to the OURS page sections).
+      doc.querySelectorAll('.qrow, [data-qr-href]').forEach((row) => {
         const svg = row.querySelector('svg');
         if (!svg) return;
-        const label = row.textContent || '';
-        const domain = label.match(/[a-z0-9-]+(?:\.[a-z0-9-]+)+(?:\/[^\s,]*)?/i);
-        let href = domain ? `https://${domain[0]}` : '';
+        const explicit = row.getAttribute('data-qr-href');
+        // Find the URL in its own text node rather than regexing the
+        // block's concatenated textContent — element boundaries collapse
+        // without spaces there, which used to glue the preceding word
+        // onto the domain ("Magazinemedicimag.com").
+        const texts: string[] = [];
+        const walker = doc.createTreeWalker(row, NodeFilter.SHOW_TEXT);
+        while (walker.nextNode()) {
+          const t = (walker.currentNode.textContent || '').trim();
+          if (t) texts.push(t);
+        }
+        const urlText = texts.find((t) => /^[a-z0-9-]+(?:\.[a-z0-9-]+)+(?:\/\S*)?$/i.test(t));
+        const label = texts.join(' ');
+        let href = explicit ?? (urlText ? `https://${urlText}` : '');
         if (!href && /possibilia|pre-?order/i.test(label)) href = 'https://www.futureaesthetics.foundation/possibilia';
         if (!href) return;
         const a = doc.createElement('a');
@@ -569,7 +583,11 @@ function Spread({
       </style>
       <div style={{ position: 'relative', width: PAGE_W * 2, height: PAGE_H, perspective: 2600 }}>
         <div style={{ position: 'absolute', left: 0, top: 0, width: PAGE_W, height: PAGE_H, overflow: 'hidden', background: LEAF_PAPER }}>
-          <Leaf html={at(versoIdx)} />
+          {/* When turning BACK, the flipping leaf lifts off this side —
+              what's underneath is the PREVIOUS spread's verso, mirroring
+              the +2 the recto side does on forward turns. Showing the
+              current verso here made back-turns look stuck. */}
+          <Leaf html={at(versoIdx + (turn?.dir === 'back' ? -2 : 0))} />
           <Block side="left" n={leftLeaves} />
         </div>
         <div style={{ position: 'absolute', left: PAGE_W, top: 0, width: PAGE_W, height: PAGE_H, overflow: 'hidden', background: LEAF_PAPER }}>
