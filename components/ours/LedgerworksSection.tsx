@@ -16,7 +16,7 @@ import { EthPieceCheckout } from '@/components/storefront/EthPieceCheckout';
 const IMG_W = 2400;
 const IMG_H = 1528;
 const SCREEN = { x: 1069, y: 394, w: 246, h: 438 };
-const V = '?v=10';
+const V = '?v=11';
 const ZOOM = 2.34;                 // 10% less than before
 const LOUPE_W = '35%';             // 30% larger than before
 // every raised placard shares the manifesto's width (which puts the
