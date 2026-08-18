@@ -123,9 +123,14 @@ export function ThanksSection() {
         and create. <span style={{ color: OURS.orange }}>It&rsquo;s OURS.</span>
       </h2>
       <p className="mt-6 max-w-[62ch] text-body-lg leading-relaxed text-ink/85">
-        On August 9th, a room in Brooklyn filled with people who believe that. To everyone
-        who hung a work, gave a talk, sent a vision, played the game, collected a piece, or
-        simply showed up — thank you. OURS was made by the people below.
+        On August 9th, we packed out a gallery in Brooklyn filled with people who believe
+        that. From artists to scientists, thinkers and builders, we responded to the
+        question: what future are we each working toward realizing? To everyone who hung a
+        work, gave a talk, sent a vision, played the game, collected a piece, or simply
+        showed up, thank you.
+      </p>
+      <p className="mt-4 max-w-[62ch] text-body-lg leading-relaxed text-ink/85">
+        OURS was made by the people below.
       </p>
 
       {/* ---------------- the credits ---------------- */}
