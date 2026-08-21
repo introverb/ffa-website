@@ -26,6 +26,8 @@ export const INITIATIVES = [
     n: '02',
     title: 'Possibilia Magazine',
     status: 'In Development · Issue 0',
+    // Primary CTA, rendered above the note button on the card.
+    preorder: { label: 'Preorder Issue 0', href: '/possibilia-preorder' },
     note: 'Submissions are open!',
     noteHref: '/possibilia-submissions',
     blurb:

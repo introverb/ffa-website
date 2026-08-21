@@ -56,12 +56,21 @@ export function Initiatives() {
                       first-line + Read more so piling a CTA on top of
                       the collapsed text would crowd the layout. */}
                   {i.note && (
-                    <div className="hidden md:flex md:flex-wrap md:items-center md:gap-2">
-                      {/* Compact button sizing (px-4 py-2.5, text-xs) so up
-                          to three CTAs fit on a single row inside the
-                          initiative card's text column. Same styles as
-                          btn-solid / the frosted secondary, just tighter
-                          padding + smaller text. */}
+                    <div className="hidden md:flex md:flex-col md:items-start md:gap-3">
+                      {/* Compact button sizing (px-4 py-2.5, text-xs) so the
+                          CTAs sit lightly inside the initiative card's text
+                          column. Same styles as btn-solid / the frosted
+                          secondary, just tighter padding + smaller text.
+                          Stacked: the primary (preorder) above the note. */}
+                      {i.preorder && (
+                        <Link
+                          href={i.preorder.href}
+                          data-goatcounter-click="home:possibilia-preorder"
+                          className="inline-flex items-center justify-center rounded-md bg-flare px-4 py-2.5 text-xs uppercase tracking-[0.1em] text-white transition hover:bg-dark"
+                        >
+                          {i.preorder.label}
+                        </Link>
+                      )}
                       {i.note &&
                         (i.noteHref ? (
                           i.noteHref.startsWith('http') ? (
