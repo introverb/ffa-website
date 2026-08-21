@@ -100,38 +100,52 @@ export function Footer() {
                 </li>
               ))}
             </ul>
-            <a
-              href="https://twitter.com/possibiliamag"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Twitter / X"
-              className="mt-6 inline-block text-white/60 hover:text-white"
-            >
-              <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor">
-                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-              </svg>
-            </a>
+            <SocialLinks className="mt-6" />
           </div>
         </div>
       </div>
 
-      {/* Mobile-only bottom row — X icon + Candid seal. Hidden at md+
-          where the desktop block above carries both. */}
+      {/* Mobile-only bottom row — social icons + Candid seal. Hidden at
+          md+ where the desktop block above carries both. */}
       <div className="mt-10 flex items-center gap-6 md:hidden">
-        <a
-          href="https://twitter.com/possibiliamag"
-          target="_blank"
-          rel="noreferrer"
-          aria-label="Twitter / X"
-          className="inline-block text-white/60 hover:text-white"
-        >
-          <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor">
-            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-          </svg>
-        </a>
+        <SocialLinks />
         <CandidSeal />
       </div>
     </Panel>
+  );
+}
+
+// X + Instagram, side by side. Rendered in the desktop right block
+// (under the nav links) and the mobile bottom row.
+function SocialLinks({ className = '' }: { className?: string }) {
+  return (
+    <div className={`flex items-center gap-4 ${className}`}>
+      <a
+        href="https://twitter.com/possibiliamag"
+        target="_blank"
+        rel="noreferrer"
+        aria-label="Twitter / X"
+        className="inline-block text-white/60 hover:text-white"
+      >
+        <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor">
+          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+        </svg>
+      </a>
+      <a
+        href="https://www.instagram.com/foundfutraesth/"
+        target="_blank"
+        rel="noreferrer"
+        aria-label="Instagram"
+        data-goatcounter-click="outbound:instagram"
+        className="inline-block text-white/60 hover:text-white"
+      >
+        <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <rect x="2.5" y="2.5" width="19" height="19" rx="5" />
+          <circle cx="12" cy="12" r="4.25" />
+          <circle cx="17.4" cy="6.6" r="0.6" fill="currentColor" stroke="none" />
+        </svg>
+      </a>
+    </div>
   );
 }
 
