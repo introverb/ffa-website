@@ -47,7 +47,18 @@ export function Initiatives() {
             <div className="grid gap-12 md:grid-cols-[1.4fr_1fr] md:items-center">
               <div>
                 <p className="text-sm tracking-wide text-muted">{i.n}</p>
-                <h3 className="mt-6 text-h3 leading-[1.1] md:text-h3-lg">{i.title}</h3>
+                {/* Title links to the initiative's page when it has one
+                    (Eucatastrophe deliberately doesn't yet — see
+                    lib/content.ts). No underline; green on hover. */}
+                <h3 className="mt-6 text-h3 leading-[1.1] md:text-h3-lg">
+                  {i.href ? (
+                    <Link href={i.href} className="transition-colors hover:text-sage">
+                      {i.title}
+                    </Link>
+                  ) : (
+                    i.title
+                  )}
+                </h3>
                 <p className="mt-3 text-h6 text-muted">{i.status}</p>
                 <div className="mt-10 max-w-prose text-body leading-relaxed text-ink/90">
                   {/* Initiative CTA: shown on desktop, hidden on mobile.

@@ -15,12 +15,6 @@ const RESOURCES = [
       'Why we believe the stories we tell about tomorrow shape the world we actually build. The visionary case for an optimistic, realistic memetic infrastructure.',
   },
   {
-    href: '/possibilia-preorder',
-    title: 'Preorder Possibilia, Issue 0',
-    blurb:
-      'Reserve your copy of our debut print issue — optimistic, realistic science fiction: short stories paired with nonfiction companions and commissioned artwork. $20.',
-  },
-  {
     href: '/possibilia-submissions',
     title: 'Submit work to Possibilia',
     blurb:
