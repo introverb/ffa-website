@@ -57,10 +57,9 @@ const nextConfig = {
       // before handing off to the real Artizen checkout. /q/mag (the
       // program's presale QR, p17 + p45) now points here instead of
       // straight to Artizen — see the redirect below.
-      {
-        source: '/possibilia-preorder',
-        destination: '/possibilia-preorder.html',
-      },
+      // (The /possibilia-preorder interstitial is retired — the path now
+      // redirects straight to Artizen; see redirects() below. The static
+      // HTML is kept in /public for reference.)
       // OURS afterparty (Club Reign) — same standalone static-HTML
       // pattern as the briefs above. Reached via the /q/after QR in
       // the printed program (see the redirect below); noindexed like
@@ -144,14 +143,20 @@ const nextConfig = {
         destination: 'https://www.every.org/foundation-for-future-aesthetics/donate',
         statusCode: 302,
       },
-      // Possibilia Issue 0 pre-order (program p17 + p45). Routes through
-      // the /possibilia-preorder interstitial (screenshot + steps + the
-      // "artifact vs. magazine" warning) rather than straight to
-      // Artizen — buyers land there first and the page's own button
-      // makes the final hop.
+      // Possibilia Issue 0 pre-order: every preorder affordance on the
+      // site (the homepage card and promo modal, the Possibilia hero,
+      // the OURS sign-off, the program's /q/mag QR on p17 + p45) lands
+      // directly on the Artizen project page, where the $20 Possibilia
+      // Reward is the preorder. The interstitial that used to sit in
+      // between is retired.
+      {
+        source: '/possibilia-preorder',
+        destination: 'https://artizen.fund/index/p/possibilia-magazine?season=7',
+        statusCode: 302,
+      },
       {
         source: '/q/mag',
-        destination: '/possibilia-preorder',
+        destination: 'https://artizen.fund/index/p/possibilia-magazine?season=7',
         statusCode: 302,
       },
       // Legacy slug — catches anyone who saved/shared the old direct
