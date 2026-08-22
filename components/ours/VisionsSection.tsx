@@ -1,6 +1,7 @@
 'use client';
 
 import { OURS } from './tokens';
+import { useTilt } from './useTilt';
 
 // Visions of the Future — the broadcast that ran on loop all evening:
 // technologists, artists and researchers answering one question about
@@ -31,6 +32,7 @@ const LINEUP: { name: string; detail: string }[] = [
 ];
 
 export function VisionsSection() {
+  const tilt = useTilt(7);
   return (
     <div className="mt-8">
       {/* ---------------- framing copy + the spinning ticket ---------------- */}
@@ -72,10 +74,16 @@ export function VisionsSection() {
             margin, 64px) outweighs the video's 40px gap below by 24px,
             and the row itself sits inside that asymmetry: the -9px
             lift is the measured correction that equalises the gaps. */}
+        {/* On phones the ticket leads (order-first), scaled to ~0.68 by
+            the .ours-ticket-scale wrapper; from md up it sits beside the
+            copy at full size. The tilt wrapper follows the device /
+            pointer. */}
         <div
-          className="ours-ticket hidden items-center justify-center self-stretch md:flex"
+          className="ours-ticket order-first flex items-center justify-center self-stretch md:order-none"
           style={{ perspective: 1800, transform: 'translateY(-9px)' }}
         >
+          <div ref={tilt}>
+          <div className="ours-ticket-scale">
           <div className="ours-ticket-bob">
             <div
               className="ours-ticket-spin relative"
@@ -129,6 +137,8 @@ export function VisionsSection() {
                 />
               ))}
             </div>
+          </div>
+          </div>
           </div>
         </div>
       </div>
@@ -233,6 +243,12 @@ export function VisionsSection() {
         }
         .ours-ticket-bob {
           animation: ours-ticket-bob 5.2s ease-in-out infinite alternate;
+        }
+        @media (max-width: 767px) {
+          /* the stage shrinks with the ticket so the copy below doesn't
+             inherit the full-size ticket's height */
+          .ours-ticket { height: ${Math.round(TICKET_H * 0.68 + 28)}px; transform: none !important; }
+          .ours-ticket-scale { transform: scale(0.68); }
         }
         @media (prefers-reduced-motion: reduce) {
           .ours-ticket-spin {

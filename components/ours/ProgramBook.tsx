@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { OURS } from './tokens';
+import { useTilt } from './useTilt';
 
 // The printed program as an object you can pick up and then read.
 //
@@ -75,6 +76,7 @@ export function ProgramBook() {
   const [toc, setToc] = useState<TocEntry[]>(PROGRAM_TOC);
   const [fitPx, setFitPx] = useState<number | null>(null);
   const busy = useRef(false);
+  const tilt = useTilt(6);
   // Phone reader: one page at a time, swiped. A two-page spread scaled
   // to a phone put each page at ~170px wide with ~3px body text.
   const [mobile, setMobile] = useState(false);
@@ -323,7 +325,7 @@ export function ProgramBook() {
         {/* The stage box sizes the book in layout; on phones it shrinks
             and scales the book down with it (the 409px object overflowed
             a 375px screen), so the 3-D build below never has to change. */}
-        <div className="ours-book-stage" style={{ width: H, height: H }}>
+        <div ref={tilt} className="ours-book-stage" style={{ width: H, height: H }}>
         <button
           onClick={() => setOpen(true)}
           aria-label="Open the OURS program"

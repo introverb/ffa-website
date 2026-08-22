@@ -1,5 +1,9 @@
+'use client';
+
+import { useState } from 'react';
 import { OURS } from './tokens';
 import { ProgramBook } from './ProgramBook';
+import { Lightbox } from './Lightbox';
 import { ARTWORKS } from '@/lib/storefront';
 import { BuyModal } from '@/components/storefront/BuyModal';
 
@@ -89,6 +93,11 @@ function Block({
 }
 
 export function AboutSection() {
+  // Tapping any evening photo opens it full-screen (pinch to zoom,
+  // swipe through the set) — on phones the grid is a swipe strip of
+  // thumbnails, so the lightbox is where you actually look at them.
+  const [lb, setLb] = useState<number | null>(null);
+  const lbItems = EVENING_PHOTOS.map((p) => ({ src: `/images/ours/evening/${p.file}.webp`, alt: p.alt }));
   return (
     // Two columns from lg up: the numbered blocks (and their divider
     // rules) stay left; the right side carries the evening's photographs
@@ -160,25 +169,56 @@ export function AboutSection() {
       </Block>
       </div>
 
-      {/* The evening, in two staggered photo columns. */}
+      {/* The evening: two staggered photo columns from md up; a
+          horizontal swipe strip on phones (18 photos in two 140px
+          columns was a wall of thumbnails). Every photo opens the
+          lightbox. */}
       <aside aria-label="Photographs from the evening" className="mt-16 lg:mt-0">
-        <div className="flex gap-3">
+        <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.16em] md:hidden" style={{ color: OURS.gray }}>
+          The evening · swipe, tap to open
+        </p>
+        <div
+          className="-mx-1 flex snap-x snap-mandatory gap-3 overflow-x-auto px-1 pb-2 md:hidden"
+          style={{ scrollbarWidth: 'none' }}
+        >
+          {EVENING_PHOTOS.map((p, i) => (
+            <button
+              key={p.file}
+              type="button"
+              onClick={() => setLb(i)}
+              className="w-[82%] shrink-0 snap-center overflow-hidden rounded-lg"
+              aria-label={p.alt}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={`/images/ours/evening/${p.file}.webp`} alt={p.alt} loading="lazy" className="block h-auto w-full" />
+            </button>
+          ))}
+        </div>
+        <div className="hidden gap-3 md:flex">
           {[0, 1].map((col) => (
             <div key={col} className={`flex-1 space-y-3 ${col === 1 ? 'pt-12' : ''}`}>
-              {EVENING_PHOTOS.filter((_, i) => i % 2 === col).map((p) => (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  key={p.file}
-                  src={`/images/ours/evening/${p.file}.webp`}
-                  alt={p.alt}
-                  loading="lazy"
-                  className="block h-auto w-full"
-                />
-              ))}
+              {EVENING_PHOTOS.map((p, i) => ({ p, i }))
+                .filter(({ i }) => i % 2 === col)
+                .map(({ p, i }) => (
+                  <button
+                    key={p.file}
+                    type="button"
+                    onClick={() => setLb(i)}
+                    className="block w-full cursor-zoom-in transition-opacity hover:opacity-90"
+                    aria-label={p.alt}
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={`/images/ours/evening/${p.file}.webp`} alt={p.alt} loading="lazy" className="block h-auto w-full" />
+                  </button>
+                ))}
             </div>
           ))}
         </div>
       </aside>
+
+      {lb != null && (
+        <Lightbox items={lbItems} index={lb} onIndexChange={setLb} onClose={() => setLb(null)} />
+      )}
     </div>
   );
 }

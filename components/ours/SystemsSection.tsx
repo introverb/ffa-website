@@ -1,8 +1,11 @@
 'use client';
 
+import { useState } from 'react';
 import { OURS } from './tokens';
 import { ARTWORKS, isSoldOut } from '@/lib/storefront';
 import { BuyModal } from '@/components/storefront/BuyModal';
+import { Lightbox } from './Lightbox';
+import { useTilt } from './useTilt';
 
 // Systems of Power — Anyanwu's pyramid: the blueprint, the game, and
 // the invitation to keep playing. "The Documents" treatment: the
@@ -12,9 +15,26 @@ import { BuyModal } from '@/components/storefront/BuyModal';
 // The floating pyramid beside the intro is the sculpture cut from its
 // photography, graded to the finish it wore on the night.
 
+const PLATES = {
+  blueprint: {
+    src: '/images/ours/sop-blueprint.webp',
+    alt: 'Reimagining the Pyramid — Anyanwu’s technical blueprint: elevations, cross-sections, and a program key for the monument to knowledge.',
+    caption: 'Reimagining the Pyramid — a contemporary monument to knowledge',
+  },
+  rules: {
+    src: '/images/ours/sop-rules.webp',
+    alt: 'The printed Systems of Power rules card: objective, the six systems, flow of play, integrity scale, and the scan-to-play code.',
+    caption: 'Systems of Power — the printed rules card',
+  },
+} as const;
+
 export function SystemsSection() {
   const pyramid = ARTWORKS.find((a) => a.id === 'anyanwu-pyramid');
   const pyramidBuyable = pyramid && !isSoldOut(pyramid) && pyramid.status === 'available';
+  // Tap-to-zoom for the two plates — the blueprint rewards close reading
+  // and at phone width neither is legible in place.
+  const [plate, setPlate] = useState<keyof typeof PLATES | null>(null);
+  const tilt = useTilt(7);
 
   return (
     <div className="mt-8">
@@ -32,14 +52,18 @@ export function SystemsSection() {
             table fails together.
           </p>
         </div>
-        <div className="ours-sop-float hidden items-center justify-center md:flex">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/images/ours/sop-pyramid.webp"
-            alt="Anyanwu's Pyramid — a hand-painted stepped sculpture with terraced levels, figures, and trees on a circular base."
-            className="h-auto w-full max-w-[380px]"
-            draggable={false}
-          />
+        {/* The pyramid leads on phones (order-first), beside the copy
+            from md up. The tilt wrapper follows the device / pointer. */}
+        <div className="ours-sop-float order-first flex items-center justify-center md:order-none">
+          <div ref={tilt}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/ours/sop-pyramid.webp"
+              alt="Anyanwu's Pyramid — a hand-painted stepped sculpture with terraced levels, figures, and trees on a circular base."
+              className="h-auto w-full max-w-[250px] md:max-w-[380px]"
+              draggable={false}
+            />
+          </div>
         </div>
       </div>
 
@@ -49,20 +73,27 @@ export function SystemsSection() {
           The Blueprint
         </p>
         <hr className="mt-1.5 h-[2px] w-12 border-0" style={{ background: OURS.orange }} />
-        <div className="relative mt-5 overflow-hidden rounded-3xl">
+        <button
+          type="button"
+          onClick={() => setPlate('blueprint')}
+          className="relative mt-5 block w-full cursor-zoom-in overflow-hidden rounded-3xl text-left"
+          aria-label="Open the blueprint full-screen"
+        >
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/images/ours/sop-blueprint.webp"
-            alt="Reimagining the Pyramid — Anyanwu's technical blueprint: elevations, cross-sections, and a program key for the monument to knowledge."
-            className="block h-auto w-full"
-            draggable={false}
-          />
+          <img src="/images/ours/sop-blueprint.webp" alt={PLATES.blueprint.alt} className="block h-auto w-full" draggable={false} />
           <span
             aria-hidden
             className="pointer-events-none absolute inset-0 rounded-3xl"
             style={{ boxShadow: `inset 0 0 0 1px ${OURS.orange}` }}
           />
-        </div>
+          <span
+            aria-hidden
+            className="absolute bottom-3 right-3 rounded-full bg-white/85 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.14em]"
+            style={{ color: OURS.ink, boxShadow: `inset 0 0 0 1px ${OURS.orange}` }}
+          >
+            Tap to zoom
+          </span>
+        </button>
         <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.14em] md:text-[10px]" style={{ color: OURS.gray }}>
           Reimagining the Pyramid — a contemporary monument to knowledge
         </p>
@@ -75,15 +106,22 @@ export function SystemsSection() {
         </p>
         <hr className="mt-1.5 h-[2px] w-12 border-0" style={{ background: OURS.orange }} />
         <div className="mt-5 grid gap-8 lg:grid-cols-[1.3fr_1fr] lg:items-start">
-          <div className="overflow-hidden rounded-2xl">
+          <button
+            type="button"
+            onClick={() => setPlate('rules')}
+            className="relative block w-full cursor-zoom-in overflow-hidden rounded-2xl text-left"
+            aria-label="Open the rules card full-screen"
+          >
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/images/ours/sop-rules.webp"
-              alt="The printed Systems of Power rules card: objective, the six systems, flow of play, integrity scale, and the scan-to-play code."
-              className="block h-auto w-full"
-              draggable={false}
-            />
-          </div>
+            <img src="/images/ours/sop-rules.webp" alt={PLATES.rules.alt} className="block h-auto w-full" draggable={false} />
+            <span
+              aria-hidden
+              className="absolute bottom-3 right-3 rounded-full bg-white/85 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.14em]"
+              style={{ color: OURS.ink, boxShadow: `inset 0 0 0 1px ${OURS.orange}` }}
+            >
+              Tap to zoom
+            </span>
+          </button>
           <div className="space-y-5 text-body leading-relaxed text-ink/85">
             <div>
               <p className="font-heading text-[15px] uppercase" style={{ color: OURS.ink }}>
@@ -141,6 +179,8 @@ export function SystemsSection() {
           </div>
         </div>
       </div>
+
+      {plate && <Lightbox items={[PLATES[plate]]} index={0} onClose={() => setPlate(null)} />}
 
       <style jsx global>{`
         @keyframes ours-sop-bob {
