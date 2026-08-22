@@ -71,7 +71,7 @@ export function Panel({
       : 'bg-paper text-ink';
   const padding = full ? '' : 'p-8 md:p-14';
   return (
-    <section id={id} className={`relative overflow-hidden rounded-3xl ${bg} ${padding} ${className}`}>
+    <section id={id} className={`relative overflow-clip rounded-3xl ${bg} ${padding} ${className}`}>
       {children}
     </section>
   );

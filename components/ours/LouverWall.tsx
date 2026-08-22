@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { OURS, SECTIONS, type Section, type SectionId } from './tokens';
 import { LedgerworksSection } from './LedgerworksSection';
@@ -45,6 +45,11 @@ const BUILT_OUT = new Set<SectionId>([
 // sections.
 const UNFINISHED = new Set<SectionId>([]);
 
+// Sections whose own contents open with the blurb (Visions and Systems
+// render it as their first paragraph so their intro grids own the full
+// height). The mobile accordion must not print it a second time above.
+const SELF_BLURB = new Set<SectionId>(['visions', 'systems']);
+
 // The expanded panel can title itself differently from its slat: the
 // About panel opens on the manifesto, so its header names that.
 const PANEL_TITLE: Partial<Record<SectionId, string>> = { about: 'Manifesto' };
@@ -79,6 +84,25 @@ export function LouverWall({ initialOpen }: { initialOpen?: SectionId }) {
     }
   }, []);
 
+  const wallRef = useRef<HTMLDivElement>(null);
+  const barRefs = useRef<Partial<Record<SectionId, HTMLDivElement | null>>>({});
+
+  // Which breakpoint's copy of the open section to MOUNT. Both are
+  // rendered for the first paint (CSS decides which shows, so the
+  // server HTML hydrates cleanly); after mount only the active one
+  // stays, so a phone doesn't also load the desktop copy's videos and
+  // embeds behind display:none.
+  const [mounted, setMounted] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(true);
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 768px)');
+    const on = () => setIsDesktop(mq.matches);
+    on();
+    setMounted(true);
+    mq.addEventListener('change', on);
+    return () => mq.removeEventListener('change', on);
+  }, []);
+
   const toggle = (id: SectionId) => {
     if (UNFINISHED.has(id)) return;
     const next = open === id ? null : id;
@@ -88,12 +112,75 @@ export function LouverWall({ initialOpen }: { initialOpen?: SectionId }) {
     // replaceState (not push) so slat-hopping doesn't pile up history;
     // Next's app router syncs its pathname from this.
     window.history.replaceState({}, '', next ? `/ours/${next}` : '/ours');
+    // Mobile: the stacked bars live below the header, so an opened
+    // section's contents can start off-screen. Bring its bar up under
+    // the sticky pill row; on close, return to the top of the stack.
+    if (window.matchMedia('(max-width: 767px)').matches) {
+      window.requestAnimationFrame(() => {
+        const target = next ? barRefs.current[next] : wallRef.current;
+        if (!target) return;
+        const y = target.getBoundingClientRect().top + window.scrollY - (next ? 64 : 16);
+        window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+      });
+    }
   };
   const openSection = SECTIONS.find((s) => s.id === open) ?? null;
 
+  // "Back to sections" — closes the open section and returns to the
+  // top of the wall / stack (both breakpoints).
+  const backToSections = () => {
+    if (!open) return;
+    toggle(open);
+    if (!window.matchMedia('(max-width: 767px)').matches) {
+      const top = (wallRef.current?.getBoundingClientRect().top ?? 0) + window.scrollY - 24;
+      window.requestAnimationFrame(() => window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' }));
+    }
+  };
+
   return (
-    <div>
+    <div ref={wallRef}>
       {thanks && <ThanksModal artwork={thanks} onClose={() => setThanks(null)} />}
+
+      {/* Mobile: sticky pill row with the six section numbers, shown
+          while a section is open — sections run thousands of pixels, so
+          this is how you move between them without scrolling back up.
+          Sits top-left, clear of the site's floating menu pill at the
+          top-right. */}
+      {open && (
+        <div className="pointer-events-none sticky top-3 z-40 -mx-1 md:hidden">
+          <div
+            className="pointer-events-auto inline-flex items-center gap-1 rounded-full px-1.5 py-1.5"
+            style={{
+              background: 'rgba(246,244,241,0.82)',
+              backdropFilter: 'blur(10px)',
+              WebkitBackdropFilter: 'blur(10px)',
+              boxShadow: `inset 0 0 0 1px ${OURS.hair}, 0 8px 24px -12px rgba(40,40,40,0.35)`,
+            }}
+          >
+            {SECTIONS.map((s) => {
+              const active = s.id === open;
+              return (
+                <button
+                  key={s.id}
+                  type="button"
+                  onClick={() => {
+                    if (!active) toggle(s.id);
+                  }}
+                  aria-label={s.title}
+                  aria-current={active ? 'true' : undefined}
+                  className="flex h-8 min-w-[32px] items-center justify-center rounded-full px-2 font-mono text-[11px] tracking-[0.08em]"
+                  style={{
+                    background: active ? OURS.orange : 'transparent',
+                    color: active ? '#fff' : OURS.ink,
+                  }}
+                >
+                  {s.index}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       {/* ---------------- Desktop: the wall ---------------- */}
       <div className="hidden gap-[3px] md:flex" style={{ height: WALL_HEIGHT }}>
@@ -104,19 +191,28 @@ export function LouverWall({ initialOpen }: { initialOpen?: SectionId }) {
 
       {/* Expanded contents, desktop. Rendered under the wall so the
           wall never has to host a full section inside a slat. */}
-      {openSection && (
+      {openSection && (!mounted || isDesktop) && (
         <div className="hidden md:block">
-          <ExpandedSection section={openSection} />
+          <ExpandedSection section={openSection} onBack={backToSections} />
         </div>
       )}
 
       {/* ---------------- Mobile: stacked bars ---------------- */}
+      {/* The open section's contents render as a sibling of its bar,
+          not inside the ink card — so they get the panel's full width
+          rather than losing another 40px to card padding. */}
       <div className="space-y-3 md:hidden">
         {SECTIONS.map((s) => {
           const isOpen = open === s.id;
           const unfinished = UNFINISHED.has(s.id);
           return (
-            <div key={s.id} className="overflow-hidden rounded-xl" style={{ background: OURS.ink }}>
+            <div
+              key={s.id}
+              ref={(el) => {
+                barRefs.current[s.id] = el;
+              }}
+            >
+            <div className="overflow-hidden rounded-xl" style={{ background: OURS.ink }}>
               <button
                 onClick={() => toggle(s.id)}
                 aria-expanded={isOpen}
@@ -179,16 +275,38 @@ export function LouverWall({ initialOpen }: { initialOpen?: SectionId }) {
                   )}
                 </span>
               </button>
-              {isOpen && (
-                <div className="bg-paper p-5">
-                  <p className="text-body leading-relaxed text-ink/85">{s.blurb}</p>
+            </div>
+              {isOpen && (!mounted || !isDesktop) && (
+                <div className="bg-paper pb-2 pt-5">
+                  {!SELF_BLURB.has(s.id) && (
+                    <p className="text-body leading-relaxed text-ink/85">{s.blurb}</p>
+                  )}
                   <SectionContents section={s} />
+                  <BackToSections onClick={backToSections} />
                 </div>
               )}
             </div>
           );
         })}
       </div>
+    </div>
+  );
+}
+
+// End-of-section return: closes the section and scrolls back to the
+// wall. Sections run long on every breakpoint, so the only other way
+// back was scrolling to the top.
+function BackToSections({ onClick }: { onClick: () => void }) {
+  return (
+    <div className="mt-12 border-t pt-6" style={{ borderColor: OURS.hair }}>
+      <button
+        type="button"
+        onClick={onClick}
+        className="py-3 font-mono text-[12px] uppercase tracking-[0.16em] transition-opacity hover:opacity-70 md:py-0 md:text-[11px]"
+        style={{ color: OURS.orange }}
+      >
+        ↑ Back to sections
+      </button>
     </div>
   );
 }
@@ -386,7 +504,7 @@ function Slat({
   );
 }
 
-function ExpandedSection({ section }: { section: Section }) {
+function ExpandedSection({ section, onBack }: { section: Section; onBack: () => void }) {
   return (
     <div className="pt-10">
       <div className="flex items-start justify-between gap-8 border-t pt-8" style={{ borderColor: OURS.hair }}>
@@ -408,6 +526,7 @@ function ExpandedSection({ section }: { section: Section }) {
         </div>
       </div>
       <SectionContents section={section} />
+      <BackToSections onClick={onBack} />
     </div>
   );
 }

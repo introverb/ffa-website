@@ -75,14 +75,34 @@ export function ProgramBook() {
   const [toc, setToc] = useState<TocEntry[]>(PROGRAM_TOC);
   const [fitPx, setFitPx] = useState<number | null>(null);
   const busy = useRef(false);
+  // Phone reader: one page at a time, swiped. A two-page spread scaled
+  // to a phone put each page at ~170px wide with ~3px body text.
+  const [mobile, setMobile] = useState(false);
+  const [pg, setPg] = useState(0);
+  const [pgDir, setPgDir] = useState<'fwd' | 'back'>('fwd');
+  const swipeX = useRef<number | null>(null);
 
   const total = pages?.length ?? 0;
   const maxLeaf = Math.max(0, Math.ceil(total / 2) - 1);
 
-  // ---- size the spread to the viewport ----
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 767px)');
+    const on = () => setMobile(mq.matches);
+    on();
+    mq.addEventListener('change', on);
+    return () => mq.removeEventListener('change', on);
+  }, []);
+
+  // ---- size the spread (or the single page) to the viewport ----
   useEffect(() => {
     if (!open) return;
     const fit = () => {
+      if (window.matchMedia('(max-width: 767px)').matches) {
+        const availW = window.innerWidth * 0.92;
+        const availH = window.innerHeight * 0.7;
+        setScale(Math.min(availW / PAGE_W, availH / PAGE_H));
+        return;
+      }
       const availW = window.innerWidth * 0.9;
       const availH = window.innerHeight * 0.82;
       setScale(Math.min(availW / (PAGE_W * 2), availH / PAGE_H));
@@ -91,6 +111,11 @@ export function ProgramBook() {
     window.addEventListener('resize', fit);
     return () => window.removeEventListener('resize', fit);
   }, [open]);
+
+  const goPage = useCallback((d: -1 | 1) => {
+    setPgDir(d > 0 ? 'fwd' : 'back');
+    setPg((p) => Math.max(0, Math.min(Math.max(0, total - 1), p + d)));
+  }, [total]);
 
   // ---- page turn: mount at 0deg, then animate on the NEXT frame ----
   const start = useCallback((dir: 'fwd' | 'back') => {
@@ -121,6 +146,7 @@ export function ProgramBook() {
   // list that sits beside the closed book.
   const openAt = useCallback((page: number) => {
     setLeaf(Math.ceil(page / 2));
+    setPg(page);
     setOpen(true);
   }, []);
 
@@ -246,8 +272,8 @@ export function ProgramBook() {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') close();
-      if (e.key === 'ArrowRight') next();
-      if (e.key === 'ArrowLeft') prev();
+      if (e.key === 'ArrowRight') (mobile ? goPage(1) : next());
+      if (e.key === 'ArrowLeft') (mobile ? goPage(-1) : prev());
     };
     document.addEventListener('keydown', onKey);
     const prevOverflow = document.body.style.overflow;
@@ -256,7 +282,7 @@ export function ProgramBook() {
       document.removeEventListener('keydown', onKey);
       document.body.style.overflow = prevOverflow;
     };
-  }, [open, close, next, prev]);
+  }, [open, close, next, prev, mobile, goPage]);
 
   const face: React.CSSProperties = { position: 'absolute', left: '50%', top: '50%', backfaceVisibility: 'hidden' };
 
@@ -265,7 +291,7 @@ export function ProgramBook() {
       {/* ---------------- closed ---------------- */}
       {/* Contents rail sits left; the spinning book centres itself in
           the remaining width rather than hugging the rail. */}
-      <div className="flex items-center gap-10" style={{ padding: '96px 0 104px' }}>
+      <div className="ours-book-row flex items-center gap-10">
         {/* Contents, on the page. Clicking opens the book already at that
             section rather than making you page there. */}
         <nav aria-label="Program contents" className="hidden shrink-0 md:block">
@@ -294,6 +320,10 @@ export function ProgramBook() {
             transform anywhere in it flattens the cuboid, which is what made
             the book sit flat before. */}
         <div className="flex flex-1 justify-center">
+        {/* The stage box sizes the book in layout; on phones it shrinks
+            and scales the book down with it (the 409px object overflowed
+            a 375px screen), so the 3-D build below never has to change. */}
+        <div className="ours-book-stage" style={{ width: H, height: H }}>
         <button
           onClick={() => setOpen(true)}
           aria-label="Open the OURS program"
@@ -379,6 +409,7 @@ export function ProgramBook() {
           </div>
         </button>
         </div>
+        </div>
       </div>
 
       {/* ---------------- open ---------------- */}
@@ -401,9 +432,88 @@ export function ProgramBook() {
             Close ✕
           </button>
 
-          {/* Shifted right of centre so the contents rail has room, with
-              the arrows sitting immediately beside the book rather than out
-              at the window edges. */}
+          {/* Phone: one page, swiped or tapped through, with the contents
+              as a chip row beneath. */}
+          {mobile ? (
+            <div
+              onClick={(e) => e.stopPropagation()}
+              className="flex w-full flex-col items-center px-4"
+            >
+              <div
+                style={{
+                  width: PAGE_W * scale,
+                  height: PAGE_H * scale,
+                  position: 'relative',
+                  overflow: 'hidden',
+                  opacity: shown ? 1 : 0,
+                  transition: 'opacity 320ms ease',
+                  boxShadow: '0 22px 48px -18px rgba(0,0,0,0.45)',
+                  background: LEAF_PAPER,
+                  touchAction: 'pan-y',
+                }}
+                onTouchStart={(e) => { swipeX.current = e.touches[0].clientX; }}
+                onTouchEnd={(e) => {
+                  const x0 = swipeX.current;
+                  swipeX.current = null;
+                  if (x0 == null) return;
+                  const dx = e.changedTouches[0].clientX - x0;
+                  if (dx < -40) goPage(1);
+                  else if (dx > 40) goPage(-1);
+                }}
+                onClick={(e) => {
+                  // tap the right third to go forward, the left third back
+                  const r = e.currentTarget.getBoundingClientRect();
+                  const fx = (e.clientX - r.left) / r.width;
+                  if (fx > 0.66) goPage(1);
+                  else if (fx < 0.34) goPage(-1);
+                }}
+              >
+                <div
+                  key={pg}
+                  className={pgDir === 'fwd' ? 'ours-page-in-fwd' : 'ours-page-in-back'}
+                  style={{
+                    position: 'absolute', left: '50%', top: '50%',
+                    width: PAGE_W, height: PAGE_H,
+                    transform: `translate(-50%,-50%) scale(${scale})`,
+                    transformOrigin: 'center center',
+                  }}
+                >
+                  <SinglePage pages={pages} css={css} index={pg} fitPx={fitPx} />
+                </div>
+              </div>
+              <div className="mt-4 flex items-center gap-8">
+                <Arrow dir="prev" onClick={() => goPage(-1)} disabled={pg <= 0} />
+                <span className="font-mono text-[11px] uppercase tracking-[0.14em]" style={{ color: 'rgba(40,40,40,0.6)' }}>
+                  {pages ? `${pg + 1} / ${total}` : '…'}
+                </span>
+                <Arrow dir="next" onClick={() => goPage(1)} disabled={!pages || pg >= total - 1} />
+              </div>
+              {toc.length > 0 && (
+                <div className="mt-4 flex w-full gap-2 overflow-x-auto pb-1" style={{ scrollbarWidth: 'none' }}>
+                  {toc.map((t) => {
+                    const active = pg >= t.page && (toc.find((u) => u.page > t.page)?.page ?? Infinity) > pg;
+                    return (
+                      <button
+                        key={t.page}
+                        onClick={() => { setPgDir(t.page > pg ? 'fwd' : 'back'); setPg(Math.min(t.page, Math.max(0, total - 1))); }}
+                        className="shrink-0 rounded-full px-3 py-2 font-mono text-[10px] uppercase tracking-[0.1em]"
+                        style={{
+                          background: active ? OURS.orange : 'rgba(255,255,255,0.7)',
+                          color: active ? '#fff' : OURS.ink,
+                          boxShadow: active ? 'none' : `inset 0 0 0 1px ${OURS.hair}`,
+                        }}
+                      >
+                        {t.label}
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          ) : (
+          /* Shifted right of centre so the contents rail has room, with
+             the arrows sitting immediately beside the book rather than out
+             at the window edges. */
           <div
             onClick={(e) => e.stopPropagation()}
             className="flex items-center"
@@ -433,8 +543,9 @@ export function ProgramBook() {
             </div>
             <Arrow dir="next" onClick={next} disabled={!pages || leaf >= maxLeaf} />
           </div>
+          )}
 
-          {toc.length > 0 && (
+          {toc.length > 0 && !mobile && (
             <nav
               onClick={(e) => e.stopPropagation()}
               className="absolute left-8 top-1/2 hidden md:flex md:flex-col md:justify-center"
@@ -476,7 +587,7 @@ export function ProgramBook() {
             </nav>
           )}
 
-          {pages && (
+          {pages && !mobile && (
             <p
               className="absolute bottom-6 font-mono text-[10px] uppercase tracking-[0.14em]"
               style={{ color: 'rgba(40,40,40,0.55)' }}
@@ -493,6 +604,18 @@ export function ProgramBook() {
           to   { transform: rotateX(4deg) rotateY(360deg); }
         }
         .ours-book-spin { animation: ours-book-spin 11s linear infinite; }
+        .ours-book-row { padding: 96px 0 104px; }
+        @media (max-width: 767px) {
+          .ours-book-row { padding: 28px 0 36px; }
+          /* 409px object on a phone: scale the whole 3-D build to 0.6 */
+          .ours-book-stage { width: ${Math.round(H * 0.6)}px !important; height: ${Math.round(H * 0.6)}px !important; }
+          .ours-book-stage > .ours-book { transform: scale(0.6); transform-origin: top left; }
+        }
+        @keyframes ours-page-fade {
+          from { opacity: 0; }
+          to   { opacity: 1; }
+        }
+        .ours-page-in-fwd, .ours-page-in-back { animation: ours-page-fade 220ms ease; }
         @media (prefers-reduced-motion: reduce) {
           .ours-book-spin { animation: none; transform: rotateX(4deg) rotateY(-28deg); }
         }
@@ -565,27 +688,7 @@ function Spread({
 
   return (
     <>
-      <style>
-        {css}
-        {fitPx !== null
-          ? `
-.vis{font-size:${fitPx}px !important;line-height:1.45 !important;}
-/* Speaker bios (.vis.bio, tagged in the document) get a fixed, larger
-   size independent of the global fit — the fitter bottoms out at 6px
-   because of the densest pages, but the speaker pages are mostly empty
-   and were the hardest text in the book to read. */
-.vis.bio{font-size:9.5px !important;line-height:1.5 !important;}`
-          : ''}
-        {`
-        .ours-qr-link{position:relative;display:inline-block;flex:0 0 54px;line-height:0;}
-        .ours-qr-link svg{display:block;}
-        .ours-qr-chip{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
-          background:#fff;color:#e8651a;font-family:'DM Mono',monospace;font-size:6.2px;
-          letter-spacing:.04em;text-transform:uppercase;padding:2px 3px;white-space:nowrap;
-          box-shadow:0 0 0 1.5px #fff;border-radius:1px;line-height:1.1;}
-        .ours-qr-link:hover .ours-qr-chip{background:#e8651a;color:#fff;box-shadow:0 0 0 1.5px #fff;}
-        `}
-      </style>
+      <ReaderStyles css={css} fitPx={fitPx} />
       <div style={{ position: 'relative', width: PAGE_W * 2, height: PAGE_H, perspective: 2600 }}>
         <div style={{ position: 'absolute', left: 0, top: 0, width: PAGE_W, height: PAGE_H, overflow: 'hidden', background: LEAF_PAPER }}>
           {/* When turning BACK, the flipping leaf lifts off this side —
@@ -632,6 +735,57 @@ function Spread({
           }}
         />
       </div>
+    </>
+  );
+}
+
+// The document's own stylesheet plus the reader's overrides: the single
+// fitted body size, the speaker-bio floor, and the QR click-chips.
+// Shared by the desktop spread and the phone's single page.
+function ReaderStyles({ css, fitPx }: { css: string; fitPx: number | null }) {
+  return (
+    <style>
+      {css}
+      {fitPx !== null
+        ? `
+.vis{font-size:${fitPx}px !important;line-height:1.45 !important;}
+/* Speaker bios (.vis.bio, tagged in the document) get a fixed, larger
+   size independent of the global fit — the fitter bottoms out at 6px
+   because of the densest pages, but the speaker pages are mostly empty
+   and were the hardest text in the book to read. */
+.vis.bio{font-size:9.5px !important;line-height:1.5 !important;}`
+        : ''}
+      {`
+      .ours-qr-link{position:relative;display:inline-block;flex:0 0 54px;line-height:0;}
+      .ours-qr-link svg{display:block;}
+      .ours-qr-chip{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+        background:#fff;color:#e8651a;font-family:'DM Mono',monospace;font-size:6.2px;
+        letter-spacing:.04em;text-transform:uppercase;padding:2px 3px;white-space:nowrap;
+        box-shadow:0 0 0 1.5px #fff;border-radius:1px;line-height:1.1;}
+      .ours-qr-link:hover .ours-qr-chip{background:#e8651a;color:#fff;box-shadow:0 0 0 1.5px #fff;}
+      `}
+    </style>
+  );
+}
+
+// Phone reader: one page at its full PAGE_W × PAGE_H, scaled by the
+// parent to fit the screen width — roughly 4.5× the size a spread
+// reached on the same phone.
+function SinglePage({ pages, css, index, fitPx }: { pages: Page[] | null; css: string; index: number; fitPx: number | null }) {
+  if (!pages) {
+    return (
+      <div className="flex items-center justify-center" style={{ width: PAGE_W, height: PAGE_H, background: LEAF_PAPER }}>
+        <span className="font-mono text-[11px] uppercase tracking-[0.14em]" style={{ color: OURS.gray }}>
+          Opening the program…
+        </span>
+      </div>
+    );
+  }
+  const html = index >= 0 && index < pages.length ? pages[index].html : '';
+  return (
+    <>
+      <ReaderStyles css={css} fitPx={fitPx} />
+      <div style={{ width: PAGE_W, height: PAGE_H, background: LEAF_PAPER, overflow: 'hidden' }} dangerouslySetInnerHTML={{ __html: html }} />
     </>
   );
 }

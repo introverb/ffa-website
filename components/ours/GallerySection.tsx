@@ -392,38 +392,48 @@ export function GallerySection() {
                             isHovered || selected != null ? 'paused' : 'running',
                         }}
                       >
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={`/images/ours/works/${w.slug}.webp`}
-                          alt={w.alt}
-                          draggable={false}
-                          loading={w.eager ? 'eager' : 'lazy'}
-                          className="block h-auto w-full"
-                          style={w.dustBottom ? DUST_STYLE : undefined}
-                        />
+                        {/* The image and its caption share one box so the
+                            caption rides the drift + parallax with the
+                            work — as a sibling outside these layers it
+                            floated free of the image by up to the full
+                            parallax offset, which read as random. */}
+                        <div className="relative">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={`/images/ours/works/${w.slug}.webp`}
+                            alt={w.alt}
+                            draggable={false}
+                            loading={w.eager ? 'eager' : 'lazy'}
+                            className="block h-auto w-full"
+                            style={w.dustBottom ? DUST_STYLE : undefined}
+                          />
+                          {/* hover caption, a fixed 10px under the last
+                              visible pixel of the work (captionBottom for
+                              files with baked-in margin; the edge otherwise) */}
+                          <span
+                            aria-hidden
+                            className="pointer-events-none absolute left-1/2 block -translate-x-1/2 whitespace-nowrap text-center"
+                            style={{
+                              top: `calc(${(w.captionBottom ?? 1) * 100}% + 10px)`,
+                              opacity: isHovered ? 1 : 0,
+                              transition: 'opacity 160ms ease',
+                            }}
+                          >
+                            <span
+                              className="block font-mono text-[10px] uppercase tracking-[0.12em]"
+                              style={{ color: OURS.ink }}
+                            >
+                              {w.artist}
+                            </span>
+                            {w.title && (
+                              <span className="block text-[11px] italic" style={{ color: OURS.gray }}>
+                                {w.title}
+                              </span>
+                            )}
+                          </span>
+                        </div>
                       </div>
                     </div>
-                    {/* hover caption, directly beneath the work */}
-                    <span
-                      aria-hidden
-                      className="pointer-events-none absolute left-1/2 top-full block -translate-x-1/2 whitespace-nowrap pt-2 text-center"
-                      style={{
-                        opacity: isHovered ? 1 : 0,
-                        transition: 'opacity 160ms ease',
-                      }}
-                    >
-                      <span
-                        className="block font-mono text-[10px] uppercase tracking-[0.12em]"
-                        style={{ color: OURS.ink }}
-                      >
-                        {w.artist}
-                      </span>
-                      {w.title && (
-                        <span className="block text-[11px] italic" style={{ color: OURS.gray }}>
-                          {w.title}
-                        </span>
-                      )}
-                    </span>
                   </button>
                 );
               })}

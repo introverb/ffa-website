@@ -100,7 +100,7 @@ function CreditGroup({ label, credits }: { label: string; credits: Credit[] }) {
           <li key={c.name}>
             <CreditName credit={c} />
             {c.detail && (
-              <p className="mt-0.5 font-mono text-[10px] leading-snug" style={{ color: OURS.gray }}>
+              <p className="mt-0.5 font-mono text-[11px] leading-snug md:text-[10px]" style={{ color: OURS.gray }}>
                 {c.detail}
               </p>
             )}
@@ -158,7 +158,7 @@ export function ThanksSection() {
               <div key={c.name}>
                 <CreditName credit={c} />
                 {c.detail && (
-                  <p className="mt-0.5 font-mono text-[10px] leading-snug" style={{ color: OURS.gray }}>
+                  <p className="mt-0.5 font-mono text-[11px] leading-snug md:text-[10px]" style={{ color: OURS.gray }}>
                     {c.detail}
                   </p>
                 )}
@@ -238,7 +238,7 @@ export function ThanksSection() {
           style={{ boxShadow: `inset 0 0 0 1px ${OURS.orange}` }}
         />
       </div>
-      <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.14em]" style={{ color: OURS.gray }}>
+      <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.14em] md:text-[10px]" style={{ color: OURS.gray }}>
         RERO — A New City Will Be Built… · OURS, August 9, 2026
       </p>
     </div>

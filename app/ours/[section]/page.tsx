@@ -46,7 +46,7 @@ export default function OursSectionPage({ params }: { params: { section: string 
         video="/images/ours/event-film.mp4"
         poster="/images/ours/event-film-poster.jpg"
       />
-      <Panel variant="white" className="md:p-14">
+      <Panel variant="white" full className="p-4 md:p-14">
         <LouverWall initialOpen={sec.id} />
       </Panel>
     </>

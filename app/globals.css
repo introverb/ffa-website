@@ -43,6 +43,17 @@
     background: #e8651a;
     color: #fff !important;
   }
+  /* Phone: the pills grow to a real tap target (44px) with 11.5px type;
+     desktop sizing above 768px is untouched. */
+  @media (max-width: 767px) {
+    .ours-buy {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      padding: 10px 18px;
+      font-size: 11.5px !important;
+    }
+  }
 
   /* Fixed-positioned menu pill that stays equidistant from the hero panel's
      top-right corner regardless of viewport width. The panel is centered

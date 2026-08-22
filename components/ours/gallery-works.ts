@@ -43,6 +43,10 @@ export type Work = {
   eager?: boolean;
   /** dissolve the bottom ~5% of the image into pixel dust */
   dustBottom?: boolean;
+  /** Where the visible work ends, as a fraction of the image height —
+   *  only for files carrying baked-in margin (the hover caption hangs
+   *  from this line rather than the file's edge). Omit when edge-to-edge. */
+  captionBottom?: number;
   /** matching Artwork id in lib/storefront.ts — wires the Buy button
    *  to the storefront's Stripe checkout. Unset = not for sale. */
   storeId?: string;
@@ -84,6 +88,7 @@ export const WORKS: Work[] = [
   },
   {
     slug: 'anyanwu', artist: 'Anyanwu', title: 'Pyramid',
+    captionBottom: 0.887, // white margin under the pyramid in the file
     medium: ['Sculpture + interactive game · edition 1/5', 'Commissioned for OURS'], price: '$6,000',
     aspect: 1.5,
     alt: 'Stepped pyramid sculpture with tiered levels, photographed against a dark ground.',

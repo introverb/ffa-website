@@ -63,7 +63,7 @@ export function SystemsSection() {
             style={{ boxShadow: `inset 0 0 0 1px ${OURS.orange}` }}
           />
         </div>
-        <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.14em]" style={{ color: OURS.gray }}>
+        <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.14em] md:text-[10px]" style={{ color: OURS.gray }}>
           Reimagining the Pyramid — a contemporary monument to knowledge
         </p>
       </div>

@@ -25,7 +25,7 @@ const ORANGE = '#E8651A';
 // The OURS buy-affordance type style: thin mono caps in the accent
 // orange — never a solid pill.
 export const THIN_CTA =
-  'font-mono text-[11px] uppercase tracking-[0.16em] transition-opacity hover:opacity-70';
+  'font-mono text-[12px] uppercase tracking-[0.16em] transition-opacity hover:opacity-70 py-2 md:py-0 md:text-[11px]';
 
 export function BuyModal({
   artwork,

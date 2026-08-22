@@ -153,7 +153,7 @@ export function VisionsSection() {
         />
       </div>
       <p
-        className="mt-4 font-mono text-[10px] uppercase tracking-[0.14em]"
+        className="mt-4 font-mono text-[11px] uppercase tracking-[0.14em] md:text-[10px]"
         style={{ color: OURS.gray }}
       >
         The full broadcast — 33 minutes, as it ran in the room · unmute in the player
@@ -182,7 +182,7 @@ export function VisionsSection() {
               <p className="font-heading text-[15px] uppercase leading-tight" style={{ color: OURS.ink }}>
                 {p.name}
               </p>
-              <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.08em]" style={{ color: OURS.gray }}>
+              <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.08em] md:text-[10px]" style={{ color: OURS.gray }}>
                 {p.detail}
               </p>
             </div>
@@ -199,7 +199,7 @@ export function VisionsSection() {
         <p className="mt-4 font-heading text-h5 uppercase leading-tight" style={{ color: OURS.ink }}>
           Dear Human, My Muse (2024)
         </p>
-        <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.08em]" style={{ color: OURS.gray }}>
+        <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.08em] md:text-[10px]" style={{ color: OURS.gray }}>
           A short film by Vanessa Rosa
         </p>
         <p className="mt-3 max-w-[68ch] text-body italic leading-relaxed text-ink/80">
