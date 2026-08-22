@@ -540,12 +540,8 @@ export function GallerySection() {
         </div>
       )}
 
-      {/* ---------------- <768px: single column ---------------- */}
-      <div className="space-y-16 md:hidden">
-        {WORKS.map((w) => (
-          <MobileWork key={w.slug} work={w} />
-        ))}
-      </div>
+      {/* ---------------- <768px: the carousel ---------------- */}
+      <MobileCarousel />
 
       {/* ---------------- curatorial statement ---------------- */}
       {/* Transcribed from the printed program's Gallery pages. */}
@@ -754,7 +750,7 @@ function Placard({ work }: { work: Work }) {
         {work.medium.map((m) => (
           <p
             key={m}
-            className="font-mono text-[9.5px] uppercase tracking-[0.1em]"
+            className="font-mono text-[11px] uppercase tracking-[0.1em] md:text-[9.5px]"
             style={{ color: 'rgba(100,100,100,0.9)', ...ETCH }}
           >
             {m}
@@ -807,7 +803,7 @@ function GalleryBuy({ work, className = '' }: { work: Work; className?: string }
       />
       {remaining != null && (
         <span
-          className="font-mono text-[9.5px] uppercase tracking-[0.1em]"
+          className="font-mono text-[11px] uppercase tracking-[0.1em] md:text-[9.5px]"
           style={{ color: 'rgba(100,100,100,0.9)', ...ETCH }}
         >
           {remaining} of {artwork.fullEditionSize ?? artwork.editionSize} available
@@ -859,75 +855,135 @@ function PanelCard({ panel }: { panel: WorkPanel }) {
   );
 }
 
-// <768px: one work per screen, caption beneath, placard panels opening
-// inline as an accordion. No drift, no parallax — the scatter does not
-// try to survive a phone.
-function MobileWork({ work }: { work: Work }) {
-  const [open, setOpen] = useState(false);
+// <768px: a swipe carousel — one work per slide, the frosted placard
+// (with the Buy route) first beneath the image, then the text panels.
+// Swipe or the arrows move between works; scroll down within a slide to
+// read. The rail's height follows the active slide, so a short work
+// doesn't leave a hole above the curatorial statement. No drift, no
+// parallax — the scatter does not try to survive a phone.
+function MobileCarousel() {
+  const railRef = useRef<HTMLDivElement>(null);
+  const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [active, setActive] = useState(0);
+  const [railH, setRailH] = useState<number | undefined>(undefined);
+
+  // the centred slide is the active one
+  useEffect(() => {
+    const rail = railRef.current;
+    if (!rail) return;
+    const onScroll = () => {
+      const i = Math.round(rail.scrollLeft / Math.max(1, rail.clientWidth));
+      setActive(Math.max(0, Math.min(N - 1, i)));
+    };
+    rail.addEventListener('scroll', onScroll, { passive: true });
+    return () => rail.removeEventListener('scroll', onScroll);
+  }, []);
+
+  // rail height follows the active slide (placard + panels differ a lot)
+  useEffect(() => {
+    const el = slideRefs.current[active];
+    if (!el) return;
+    const measure = () => setRailH(el.offsetHeight);
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [active]);
+
+  const go = (i: number) => {
+    const rail = railRef.current;
+    if (!rail) return;
+    rail.scrollTo({ left: wrap(i) * rail.clientWidth, behavior: 'smooth' });
+  };
+
+  const arrow =
+    'flex h-11 w-11 items-center justify-center rounded-full font-mono text-lg leading-none transition-colors';
+
   return (
-    <div>
-      <button
-        onClick={() => setOpen((o) => !o)}
-        aria-expanded={open}
-        aria-label={`${work.title ?? 'Untitled'}, ${work.artist}`}
-        className="ours-work block w-full"
-      >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={`/images/ours/works/${work.slug}.webp`}
-          alt={work.alt}
-          draggable={false}
-          loading="lazy"
-          className="mx-auto block h-auto max-w-full"
-          style={{ maxHeight: '62vh', width: 'auto', ...(work.dustBottom ? DUST_STYLE : null) }}
-        />
-        <span className="mt-4 flex items-start justify-between gap-4 text-left">
-          <span>
-            <span
-              className="block font-heading text-[15px] uppercase leading-tight"
-              style={{ color: OURS.ink }}
-            >
-              {work.artist}
-            </span>
-            {work.title && (
-              <span className="block text-[13px] italic leading-snug" style={{ color: OURS.ink }}>
-                {work.title}
-              </span>
-            )}
-            {work.medium.map((m) => (
-              <span
-                key={m}
-                className="mt-1 block font-mono text-[9px] uppercase tracking-[0.08em]"
-                style={{ color: OURS.gray }}
-              >
-                {m}
-              </span>
-            ))}
-            {work.price && (
-              <span className="mt-1.5 block font-mono text-[11px]" style={{ color: OURS.ink }}>
-                {work.price}
-              </span>
-            )}
-          </span>
-          <span
-            aria-hidden
-            className="font-mono text-lg leading-none transition-transform duration-300"
-            style={{ color: OURS.orange, transform: open ? 'rotate(45deg)' : 'none' }}
+    <div className="md:hidden">
+      <div className="mb-4 flex items-center justify-between">
+        <p className="font-mono text-[11px] uppercase tracking-[0.14em]" style={{ color: OURS.gray }}>
+          {active + 1} / {N} · swipe
+        </p>
+        <div className="flex gap-2">
+          <button
+            type="button"
+            onClick={() => go(active - 1)}
+            aria-label="Previous work"
+            className={arrow}
+            style={{ color: OURS.ink, boxShadow: `inset 0 0 0 1px ${OURS.hair}` }}
           >
-            +
-          </span>
-        </span>
-      </button>
-      {/* Buy control lives outside the accordion toggle — interactive
-          content inside the <button> would be invalid and unreachable. */}
-      <GalleryBuy work={work} className="mt-3" />
-      {open && (
-        <div className="mt-5 space-y-4">
-          {work.panels.map((p) => (
-            <PanelCard key={p.heading} panel={p} />
-          ))}
+            ‹
+          </button>
+          <button
+            type="button"
+            onClick={() => go(active + 1)}
+            aria-label="Next work"
+            className={arrow}
+            style={{ color: OURS.ink, boxShadow: `inset 0 0 0 1px ${OURS.hair}` }}
+          >
+            ›
+          </button>
         </div>
-      )}
+      </div>
+
+      <div
+        ref={railRef}
+        className="-mx-1 flex snap-x snap-mandatory overflow-x-auto"
+        style={{
+          scrollbarWidth: 'none',
+          overflowY: 'hidden',
+          height: railH,
+          transition: 'height 320ms ease',
+          alignItems: 'flex-start',
+        }}
+      >
+        {WORKS.map((w, i) => (
+          <div
+            key={w.slug}
+            ref={(el) => {
+              slideRefs.current[i] = el;
+            }}
+            className="w-full shrink-0 snap-center px-1"
+            aria-hidden={i !== active ? true : undefined}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={`/images/ours/works/${w.slug}.webp`}
+              alt={w.alt}
+              draggable={false}
+              loading={Math.abs(i - active) <= 1 ? 'eager' : 'lazy'}
+              className="mx-auto block h-auto max-w-full"
+              style={{ maxHeight: '56vh', width: 'auto', ...(w.dustBottom ? DUST_STYLE : null) }}
+            />
+            <div className="mt-5">
+              <Placard work={w} />
+            </div>
+            <div className="mt-4 space-y-4 pb-2">
+              {w.panels.map((p) => (
+                <PanelCard key={p.heading} panel={p} />
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-4 flex justify-center gap-1.5">
+        {WORKS.map((w, i) => (
+          <button
+            key={w.slug}
+            type="button"
+            onClick={() => go(i)}
+            aria-label={`${w.title ?? 'Untitled'}, ${w.artist}`}
+            className="h-2 rounded-full"
+            style={{
+              width: i === active ? 18 : 6,
+              background: i === active ? OURS.orange : OURS.hair,
+              transition: 'width 200ms ease, background 200ms ease',
+            }}
+          />
+        ))}
+      </div>
     </div>
   );
 }

@@ -6,6 +6,7 @@ import { OURS } from './tokens';
 import { ARTWORKS } from '@/lib/storefront';
 import { BuyModal } from '@/components/storefront/BuyModal';
 import { EthPieceCheckout } from '@/components/storefront/EthPieceCheckout';
+import { Lightbox } from './Lightbox';
 
 // Ledgerworks — the wall as hung. Desktop: the screen plays The Pope,
 // hovering a placard raises it legibly (all placards standardised to the
@@ -185,7 +186,6 @@ export function LedgerworksSection() {
   const [openC, setOpenC] = useState<string | null>(null);
   const [cursor, setCursor] = useState({ fx: 0.5, fy: 0.5 });
   const [media, setMedia] = useState({ w: 1, h: 1 });
-  const [openM, setOpenM] = useState<number | null>(null);
   const loupeRef = useRef<HTMLDivElement>(null);
   const graceP = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -219,7 +219,7 @@ export function LedgerworksSection() {
 
   return (
     <div className="mt-8">
-      <div className="relative mx-auto w-full max-w-[1400px] overflow-hidden rounded-3xl">
+      <div className="relative mx-auto hidden w-full max-w-[1400px] overflow-hidden rounded-3xl lg:block">
         <picture>
           <source srcSet={`/images/ours/ledgerworks-wall.webp${V}`} type="image/webp" />
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -440,89 +440,8 @@ export function LedgerworksSection() {
         {playing ? 'playing in the screen' : 'loading…'} · hover a work to zoom, click to visit it · hover a placard to read it
       </p>
 
-      {/* ------- mobile: accordion, wall order left to right ------- */}
-      <div className="mt-6 space-y-3 lg:hidden">
-        {MOBILE.map((sec, i) => {
-          const open = openM === i;
-          return (
-            <div key={sec.title} className="overflow-hidden rounded-xl border" style={{ borderColor: OURS.hair }}>
-              <button
-                onClick={() => setOpenM(open ? null : i)}
-                aria-expanded={open}
-                className="flex w-full items-center justify-between px-5 py-4 text-left"
-                style={{ background: OURS.cream }}
-              >
-                <span>
-                  <span className="block font-heading text-[14px] uppercase leading-tight" style={{ color: OURS.ink }}>
-                    {sec.title}
-                  </span>
-                  <span className="block text-[12px] italic" style={{ color: OURS.gray }}>
-                    {sec.sub}
-                  </span>
-                </span>
-                <span
-                  className="font-mono text-lg leading-none transition-transform duration-300"
-                  style={{ color: OURS.orange, transform: open ? 'rotate(45deg)' : 'none' }}
-                >
-                  +
-                </span>
-              </button>
-              <div
-                className="grid transition-[grid-template-rows] duration-500 ease-out"
-                style={{ gridTemplateRows: open ? '1fr' : '0fr' }}
-              >
-                <div className="overflow-hidden">
-                  <div className="space-y-4 bg-white p-4">
-                    {open && sec.media.kind === 'vimeo' && (
-                      <div className="overflow-hidden rounded-lg" style={{ aspectRatio: '16 / 9' }}>
-                        <iframe src={VIMEO_SRC} className="h-full w-full" style={{ border: 0 }} allow="autoplay; fullscreen" title={sec.sub} />
-                      </div>
-                    )}
-                    {open && sec.media.kind === 'video' && (
-                      <video src={sec.media.src} muted loop playsInline autoPlay className="w-full rounded-lg" />
-                    )}
-                    {sec.media.kind === 'image' && (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img src={sec.media.src} alt={`${sec.title} — ${sec.sub}`} className="w-full rounded-lg" />
-                    )}
-                    {sec.placards.map((p) => (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img key={p} src={`/images/ours/placards/${p}.webp${V}`} alt="" className="w-full border" style={{ borderColor: OURS.hair }} />
-                    ))}
-                    {sec.collect &&
-                      (() => {
-                        const c = COLLECT_SPOTS.find((x) => x.slug === sec.collect);
-                        return c ? (
-                          <button
-                            onClick={() => setOpenC(c.slug)}
-                            className="ours-buy inline-flex items-center gap-2 border px-4 py-2 font-mono text-[10px] uppercase tracking-[0.14em] transition-colors"
-                            style={{ borderColor: OURS.orange, color: OURS.orange }}
-                          >
-                            <ChainIcon style={{ width: 14, height: 14 }} />
-                            Collect — {c.piece.price} →
-                          </button>
-                        ) : null;
-                      })()}
-                    {sec.external?.map((ext) => (
-                      <a
-                        key={ext.href}
-                        href={ext.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="ours-buy mr-2 inline-flex items-center gap-2 border px-4 py-2 font-mono text-[10px] uppercase tracking-[0.14em] transition-colors"
-                        style={{ borderColor: OURS.orange, color: OURS.orange }}
-                      >
-                        <ChainIcon style={{ width: 14, height: 14 }} />
-                        {ext.label}
-                      </a>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          );
-        })}
-      </div>
+      {/* ------- <lg: the wall, pannable, with the work beneath ------- */}
+      <MobileWall onCollect={(slug) => setOpenC(slug)} />
 
       {/* why FFA hangs on-chain work at all — the standing argument,
           full width between the wall and the photo gallery */}
@@ -632,6 +551,179 @@ export function LedgerworksSection() {
       {copen && copen.action.kind !== 'stripe' && (
         <LWCollectModal spot={copen} onClose={() => setOpenC(null)} />
       )}
+    </div>
+  );
+}
+
+// <lg: the wall as hung, rendered wider than the screen and panned by
+// hand, with every work a tappable hotspot. Tapping a work (or its chip
+// beneath the wall) opens it under the wall: the work itself (the film
+// for The Pope, the Vimeo embed for Recycle Group), its placard, the
+// route to collect it, then its vision-of-the-future placard — the
+// order the wall itself reads in. Placards open full-screen on tap.
+function MobileWall({ onCollect }: { onCollect: (slug: string) => void }) {
+  const [sel, setSel] = useState<number | null>(null);
+  const [zoom, setZoom] = useState<string | null>(null);
+  const railRef = useRef<HTMLDivElement>(null);
+  const detailRef = useRef<HTMLDivElement>(null);
+
+  // open on the middle of the wall (The Pope's screen), not the left edge
+  useEffect(() => {
+    const rail = railRef.current;
+    if (!rail) return;
+    rail.scrollLeft = (rail.scrollWidth - rail.clientWidth) / 2;
+  }, []);
+
+  const pick = (i: number) => {
+    const next = sel === i ? null : i;
+    setSel(next);
+    if (next == null) return;
+    const rail = railRef.current;
+    const s = WORK_SPOTS[next];
+    if (rail && s) {
+      const cx = ((s.rect.x + s.rect.w / 2) / IMG_W) * rail.scrollWidth;
+      rail.scrollTo({ left: Math.max(0, cx - rail.clientWidth / 2), behavior: 'smooth' });
+    }
+    window.setTimeout(() => detailRef.current?.scrollIntoView({ block: 'nearest', behavior: 'smooth' }), 80);
+  };
+
+  const work = sel != null ? MOBILE[sel] : null;
+  const collect = work?.collect ? COLLECT_SPOTS.find((x) => x.slug === work.collect) : null;
+  const placard = (name: string) => `/images/ours/placards/${name}.webp${V}`;
+
+  return (
+    <div className="lg:hidden">
+      <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.16em]" style={{ color: OURS.gray }}>
+        The wall, as hung · drag to pan · tap a work
+      </p>
+      <div
+        ref={railRef}
+        className="-mx-1 overflow-x-auto px-1"
+        style={{ scrollbarWidth: 'none', WebkitOverflowScrolling: 'touch' }}
+      >
+        <div className="relative overflow-hidden rounded-2xl" style={{ width: '190%' }}>
+          <picture>
+            <source srcSet={`/images/ours/ledgerworks-wall.webp${V}`} type="image/webp" />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={`/images/ours/ledgerworks-wall.png${V}`}
+              alt="The Ledgerworks wall as hung at OURS: five framed works and a backlit screen, wired together with black circuit-trace vinyl beneath the Ledgerworks sign."
+              className="block h-auto w-full"
+              style={{ transform: 'scale(1.02)' }}
+              draggable={false}
+            />
+          </picture>
+          <span aria-hidden className="pointer-events-none absolute inset-0 rounded-2xl" style={{ boxShadow: `inset 0 0 0 1px ${OURS.orange}` }} />
+          {WORK_SPOTS.map((s, i) => (
+            <button
+              key={s.slug}
+              type="button"
+              onClick={() => pick(i)}
+              aria-label={`${MOBILE[i].title} — ${MOBILE[i].sub}`}
+              aria-pressed={sel === i}
+              className="absolute rounded-md transition-shadow"
+              style={{
+                left: pct(s.rect.x, IMG_W), top: pct(s.rect.y, IMG_H),
+                width: pct(s.rect.w, IMG_W), height: pct(s.rect.h, IMG_H),
+                boxShadow: sel === i ? `0 0 0 2px ${OURS.orange}, 0 0 0 6px rgba(232,101,26,0.18)` : `0 0 0 1px rgba(232,101,26,0.45)`,
+                background: sel === i ? 'rgba(232,101,26,0.08)' : 'transparent',
+              }}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* the same five, as chips — for anyone who'd rather not hunt the hotspots */}
+      <div className="mt-3 flex gap-2 overflow-x-auto pb-1" style={{ scrollbarWidth: 'none' }}>
+        {MOBILE.map((m, i) => (
+          <button
+            key={m.title}
+            type="button"
+            onClick={() => pick(i)}
+            className="shrink-0 rounded-full px-3.5 py-2.5 font-mono text-[10.5px] uppercase tracking-[0.1em]"
+            style={{
+              background: sel === i ? OURS.orange : 'transparent',
+              color: sel === i ? '#fff' : OURS.ink,
+              boxShadow: sel === i ? 'none' : `inset 0 0 0 1px ${OURS.hair}`,
+            }}
+          >
+            {m.title}
+          </button>
+        ))}
+      </div>
+
+      {work && (
+        <div ref={detailRef} className="mt-6 scroll-mt-20 space-y-4">
+          <div>
+            <p className="font-heading text-[18px] uppercase leading-tight" style={{ color: OURS.ink }}>
+              {work.title}
+            </p>
+            <p className="text-[14px] italic" style={{ color: OURS.gray }}>
+              {work.sub}
+            </p>
+          </div>
+
+          {work.media.kind === 'vimeo' && (
+            <div className="overflow-hidden rounded-xl" style={{ aspectRatio: '16 / 9' }}>
+              <iframe src={VIMEO_SRC} className="h-full w-full" style={{ border: 0 }} allow="autoplay; fullscreen" title={work.sub} />
+            </div>
+          )}
+          {work.media.kind === 'video' && (
+            <video src={work.media.src} muted loop playsInline autoPlay className="w-full rounded-xl" />
+          )}
+          {work.media.kind === 'image' && (
+            <button type="button" onClick={() => setZoom(work.media.src ?? null)} className="block w-full cursor-zoom-in" aria-label="Open the work full-screen">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={work.media.src} alt={`${work.title} — ${work.sub}`} className="w-full rounded-xl" />
+            </button>
+          )}
+
+          {/* about the work */}
+          {work.placards[0] && (
+            <button type="button" onClick={() => setZoom(placard(work.placards[0]))} className="block w-full cursor-zoom-in" aria-label="Read the placard full-screen">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={placard(work.placards[0])} alt={`${work.title} — placard`} className="w-full rounded-lg border" style={{ borderColor: OURS.hair }} />
+            </button>
+          )}
+
+          {/* collect */}
+          <div className="flex flex-wrap gap-2">
+            {collect && (
+              <button
+                onClick={() => onCollect(collect.slug)}
+                className="ours-buy inline-flex items-center gap-2 border px-4 py-2 font-mono text-[10px] uppercase tracking-[0.14em] transition-colors"
+                style={{ borderColor: OURS.orange, color: OURS.orange }}
+              >
+                <ChainIcon style={{ width: 14, height: 14 }} />
+                Collect — {collect.piece.price} →
+              </button>
+            )}
+            {work.external?.map((ext) => (
+              <a
+                key={ext.href}
+                href={ext.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="ours-buy inline-flex items-center gap-2 border px-4 py-2 font-mono text-[10px] uppercase tracking-[0.14em] transition-colors"
+                style={{ borderColor: OURS.orange, color: OURS.orange }}
+              >
+                <ChainIcon style={{ width: 14, height: 14 }} />
+                {ext.label}
+              </a>
+            ))}
+          </div>
+
+          {/* vision of the future */}
+          {work.placards[1] && (
+            <button type="button" onClick={() => setZoom(placard(work.placards[1]))} className="block w-full cursor-zoom-in" aria-label="Read the vision placard full-screen">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={placard(work.placards[1])} alt={`${work.title} — vision of the future`} className="w-full rounded-lg border" style={{ borderColor: OURS.hair }} />
+            </button>
+          )}
+        </div>
+      )}
+
+      {zoom && <Lightbox items={[{ src: zoom, alt: work ? `${work.title} — ${work.sub}` : '' }]} index={0} onClose={() => setZoom(null)} />}
     </div>
   );
 }
