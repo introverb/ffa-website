@@ -30,7 +30,7 @@ export default function OursPage() {
           </p>
         }
         meta={['August 2026', 'Space LES', 'New York City']}
-        // The event film — "Current Best" cut, re-encoded to 720p/13.5MB
+        // The event film — "Current Best" cut (Claude Sizzles), re-encoded to 720p/~13MB
         // for the autoplaying muted header well.
         video="/images/ours/event-film.mp4"
         poster="/images/ours/event-film-poster.jpg"
