@@ -9,8 +9,8 @@ import { OURS } from './tokens';
 //      paper veil. Here it's 32px behind ~18%, so the astronaut/alpine
 //      collage stays legible as an image instead of an atmospheric wash.
 //   2. A 1px OURS-orange stroke around the panel.
-//   3. The real OURS wordmark as the title, rather than type set in a
-//      substitute face.
+//   3. The title set in the site's display face, as on every other page
+//      (it carried the branded wordmark image for the event run).
 //   4. A media half — video once the edit lands, a placeholder until then.
 //
 // Layout: title + summary + the event's facts stack in one column; the
@@ -70,19 +70,14 @@ export function OursHeader({
           }`}
         >
           <p className="text-xs uppercase tracking-[0.18em] text-ink/70">
-            Foundation for Future Aesthetics
+            Foundation for Future Aesthetics is proud to present
           </p>
           <hr className="mt-3 h-px border-0" style={{ background: OURS.orange }} />
 
-          {/* The wordmark itself — the OURS letterforms, not a stand-in. */}
-          <Image
-            src="/images/ours/wordmark.png"
-            alt="OURS"
-            width={427}
-            height={141}
-            priority
-            className="mt-8 h-auto w-[220px] md:w-[300px]"
-          />
+          {/* Title set in the site's display face, like every other page
+              header (the branded wordmark + its orange rule used to sit
+              here). */}
+          <h1 className="mt-6 text-h2 leading-[1.05] md:text-h2-lg">OURS</h1>
 
           <div className="mt-7 max-w-prose text-body-lg leading-relaxed text-ink/85">
             {summary}
