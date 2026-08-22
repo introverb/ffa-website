@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
 import { FormDialog } from './FormDialog';
 
 // Entry promo for the Possibilia Issue 0 preorder — shown once per
@@ -12,6 +11,10 @@ import { FormDialog } from './FormDialog';
 // itself paint first, so the modal doesn't flash in ahead of the page
 // it's sitting on top of.
 const DISMISSED_KEY = 'ffa:preorder-promo-dismissed';
+// The Possibilia project page on Artizen — the $20 Possibilia Reward
+// there is the preorder (same destination the /possibilia-preorder
+// interstitial hands off to).
+const ARTIZEN_URL = 'https://artizen.fund/index/p/possibilia-magazine?season=7';
 const OPEN_DELAY_MS = 700;
 
 export function PreorderPromoModal() {
@@ -29,20 +32,27 @@ export function PreorderPromoModal() {
   }
 
   return (
-    <FormDialog open={open} onClose={close} title="The first 50 orders get something extra.">
+    <FormDialog open={open} onClose={close} title="Possibilia, Issue 0 — preorder the print magazine.">
       <p className="text-body leading-relaxed text-ink/80">
-        Preorder Possibilia Issue 0 now and you&rsquo;ll receive an exclusive short story
-        &mdash; one that never made it into the printed issue &mdash; available only to the
-        first 50 collectors.
+        Possibilia is a print magazine of optimistic, realistic science fiction; nonfiction
+        companion pieces by field and industry experts; and commissioned original artwork.
+        Issue 0 is available to preorder now.
       </p>
-      <Link
-        href="/possibilia-preorder"
+      <p className="mt-4 text-body leading-relaxed text-ink/80">
+        Preorders run through Artizen: on the page, collect the{' '}
+        <strong className="font-heading">Possibilia Reward for $20</strong> to reserve your copy.
+      </p>
+      <a
+        href={ARTIZEN_URL}
+        target="_blank"
+        rel="noopener noreferrer"
         onClick={close}
         data-goatcounter-click="possibilia:preorder-promo-modal"
         className="btn-solid mt-8 inline-flex bg-flare px-8 py-3.5 text-base"
       >
-        Preorder Issue 0 &mdash; $20
-      </Link>
+        Preorder on Artizen &mdash; $20
+      </a>
+      <p className="mt-3 text-xs text-muted">Opens in a new tab.</p>
     </FormDialog>
   );
 }
