@@ -562,15 +562,16 @@ export function LedgerworksSection() {
 // a charcoal panel under the wall, in the wall's own reading order: the
 // work (film for The Pope, Vimeo for Recycle Group, the print
 // otherwise), its placard, the route to collect it, then its vision-
-// of-the-future placard — with a close button so the page keeps moving.
+// of-the-future placard. Tapping the work or its chip again collapses it.
 // The page itself does not scroll when a work opens; only the wall pans
 // to bring the work into view. Placards open full-screen on tap.
 function MobileWall({ onCollect }: { onCollect: (slug: string) => void }) {
   const [sel, setSel] = useState<number | null>(null);
   const [zoom, setZoom] = useState<string | null>(null);
-  const [cued, setCued] = useState(true); // the swipe hint
+  const [cued, setCued] = useState(true); // the swipe hint — until the first real swipe
   const railRef = useRef<HTMLDivElement>(null);
-  const touched = useRef(false);
+  const touched = useRef(false); // any interaction: stop re-centring
+  const programmaticUntil = useRef(0); // ignore our own pans for the cue
 
   // Open on the middle of the wall (The Pope's screen), not the left
   // edge. Centred again once the image has its real height, and on
@@ -590,15 +591,15 @@ function MobileWall({ onCollect }: { onCollect: (slug: string) => void }) {
     };
   }, [centre]);
 
-  const onUserPan = () => {
-    if (touched.current) return;
+  // a scroll that isn't one of our own pans = the visitor swiped
+  const onRailScroll = () => {
     touched.current = true;
+    if (Date.now() < programmaticUntil.current) return;
     setCued(false);
   };
 
   const pick = (i: number) => {
     touched.current = true;
-    setCued(false);
     const next = sel === i ? null : i;
     setSel(next);
     if (next == null) return;
@@ -606,6 +607,7 @@ function MobileWall({ onCollect }: { onCollect: (slug: string) => void }) {
     const rail = railRef.current;
     const s = WORK_SPOTS[next];
     if (rail && s) {
+      programmaticUntil.current = Date.now() + 900;
       const cx = ((s.rect.x + s.rect.w / 2) / IMG_W) * rail.scrollWidth;
       rail.scrollTo({ left: Math.max(0, cx - rail.clientWidth / 2), behavior: 'smooth' });
     }
@@ -627,8 +629,7 @@ function MobileWall({ onCollect }: { onCollect: (slug: string) => void }) {
           ref={railRef}
           className="-mx-1 overflow-x-auto px-1"
           style={{ scrollbarWidth: 'none', WebkitOverflowScrolling: 'touch' }}
-          onScroll={onUserPan}
-          onTouchStart={onUserPan}
+          onScroll={onRailScroll}
         >
           <div className="relative overflow-hidden rounded-2xl" style={{ width: '190%' }}>
             <picture>
@@ -655,7 +656,7 @@ function MobileWall({ onCollect }: { onCollect: (slug: string) => void }) {
                 style={{
                   left: pct(s.rect.x, IMG_W), top: pct(s.rect.y, IMG_H),
                   width: pct(s.rect.w, IMG_W), height: pct(s.rect.h, IMG_H),
-                  boxShadow: sel === i ? `0 0 0 2px ${OURS.orange}, 0 0 0 6px rgba(232,101,26,0.18)` : `0 0 0 1px rgba(232,101,26,0.45)`,
+                  boxShadow: sel === i ? `0 0 0 2px ${OURS.orange}, 0 0 0 6px rgba(232,101,26,0.18)` : 'none',
                   background: sel === i ? 'rgba(232,101,26,0.08)' : 'transparent',
                 }}
               />
@@ -663,7 +664,7 @@ function MobileWall({ onCollect }: { onCollect: (slug: string) => void }) {
           </div>
         </div>
         {/* swipe cue — sits over the wall's top-right corner, blinks
-            until the first pan or tap */}
+            until the visitor actually swipes the wall */}
         {cued && (
           <div
             aria-hidden
@@ -699,16 +700,7 @@ function MobileWall({ onCollect }: { onCollect: (slug: string) => void }) {
           className="relative mt-5 space-y-4 rounded-2xl p-4 pt-5"
           style={{ background: OURS.ink, boxShadow: `inset 0 0 0 1px rgba(232,101,26,0.55)` }}
         >
-          <button
-            type="button"
-            onClick={() => setSel(null)}
-            aria-label="Close"
-            className="absolute right-3 top-3 flex h-10 w-10 items-center justify-center rounded-full font-mono text-sm"
-            style={{ color: OURS.cream, boxShadow: `inset 0 0 0 1px ${OURS.orange}`, background: 'rgba(40,40,40,0.6)' }}
-          >
-            ✕
-          </button>
-          <div className="pr-12">
+          <div>
             <p className="font-heading text-[18px] uppercase leading-tight" style={{ color: OURS.cream }}>
               {work.title}
             </p>
@@ -723,7 +715,20 @@ function MobileWall({ onCollect }: { onCollect: (slug: string) => void }) {
             </div>
           )}
           {work.media.kind === 'video' && (
-            <video src={work.media.src} muted loop playsInline autoPlay className="w-full rounded-xl" />
+            <video
+              src={work.media.src}
+              poster="/images/ours/pope-poster.jpg"
+              muted
+              loop
+              playsInline
+              autoPlay
+              preload="auto"
+              onClick={(e) => {
+                const v = e.currentTarget;
+                if (v.paused) v.play().catch(() => {});
+              }}
+              className="w-full rounded-xl"
+            />
           )}
           {work.media.kind === 'image' && (
             <button type="button" onClick={() => setZoom(work.media.src ?? null)} className="block w-full cursor-zoom-in" aria-label="Open the work full-screen">
@@ -764,16 +769,6 @@ function MobileWall({ onCollect }: { onCollect: (slug: string) => void }) {
             </button>
           )}
 
-          <div className="pt-1 text-center">
-            <button
-              type="button"
-              onClick={() => setSel(null)}
-              className="py-2 font-mono text-[11px] uppercase tracking-[0.16em]"
-              style={{ color: OURS.orange }}
-            >
-              Close ✕
-            </button>
-          </div>
         </div>
       )}
 
