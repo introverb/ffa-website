@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
 
     // Drop spam silently — return the same success-shaped response a
     // real submission gets, so the bot thinks it landed. See lib/spam.ts.
-    if (isSpam(formData)) {
+    if (await isSpam(formData, req, 'contact')) {
       return new NextResponse(null, {
         status: 303,
         headers: { Location: '/contact?sent=1' },

@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
 
     const formData = await req.formData();
 
-    if (isSpam(formData)) {
+    if (await isSpam(formData, req, 'inquiry')) {
       return NextResponse.json({ ok: true });
     }
 

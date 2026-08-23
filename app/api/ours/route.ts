@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
     // real submission gets so the bot thinks it landed. Modal flows
     // get the JSON ack; native form posts get the redirect. See
     // lib/spam.ts.
-    if (isSpam(formData)) {
+    if (await isSpam(formData, req, 'ours')) {
       if (isModal) {
         return NextResponse.json({ ok: true });
       }
