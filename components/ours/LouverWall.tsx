@@ -147,7 +147,7 @@ export function LouverWall({ initialOpen }: { initialOpen?: SectionId }) {
           Sits top-left, clear of the site's floating menu pill at the
           top-right. */}
       {open && (
-        <div className="pointer-events-none sticky top-3 z-40 -mx-1 md:hidden">
+        <div className="pointer-events-none sticky top-3 z-40 -mx-1 mb-4 md:hidden">
           <div
             className="pointer-events-auto inline-flex items-center gap-1 rounded-full px-1.5 py-1.5"
             style={{

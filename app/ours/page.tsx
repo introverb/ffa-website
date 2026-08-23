@@ -29,7 +29,7 @@ export default function OursPage() {
             Lower East Side: the works, the words, and everything that came of it.
           </p>
         }
-        meta={['August 2026', 'Space LES', 'New York City']}
+        meta={['August 2026', 'Space LES', 'NYC']}
         // The event film — "Current Best" cut (Claude Sizzles), re-encoded to 720p/~13MB
         // for the autoplaying muted header well.
         video="/images/ours/event-film.mp4"

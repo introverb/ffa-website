@@ -59,7 +59,7 @@ export function OursHeader({
       </div>
 
       <div
-        className={`relative grid gap-8 md:min-h-[430px] md:gap-0 ${
+        className={`relative grid md:min-h-[430px] ${
           mediaFirst ? 'md:grid-cols-[1fr_1.1fr]' : 'md:grid-cols-[1.1fr_1fr]'
         }`}
       >
@@ -103,15 +103,17 @@ export function OursHeader({
 
         {/* ---------------- media well ---------------- */}
         <div
-          className={`relative min-h-[240px] overflow-hidden md:min-h-full ${
+          className={`relative overflow-hidden md:min-h-full ${
             mediaFirst ? 'md:order-1' : ''
           }`}
         >
           {video ? (
             // The film renders at its true 16:9 aspect — centred in the
             // well over the frosted backdrop rather than cover-cropped
-            // to the panel's shape.
-            <div className="absolute inset-0 flex items-center justify-center p-5 md:p-8">
+            // to the panel's shape. On phones the well is exactly the
+            // film plus the same 32px the text column gets, so the
+            // spacing above and below the film matches everything else.
+            <div className="flex items-center justify-center px-8 pb-8 pt-0 md:absolute md:inset-0 md:p-8">
               <video
                 src={video}
                 poster={poster}
@@ -120,7 +122,7 @@ export function OursHeader({
                 playsInline
                 autoPlay
                 preload="metadata"
-                className="max-h-full w-full rounded-xl"
+                className="w-full rounded-xl md:max-h-full"
                 style={{ aspectRatio: '16 / 9', objectFit: 'cover' }}
               />
             </div>

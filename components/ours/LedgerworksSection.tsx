@@ -556,81 +556,123 @@ export function LedgerworksSection() {
 }
 
 // <lg: the wall as hung, rendered wider than the screen and panned by
-// hand, with every work a tappable hotspot. Tapping a work (or its chip
-// beneath the wall) opens it under the wall: the work itself (the film
-// for The Pope, the Vimeo embed for Recycle Group), its placard, the
-// route to collect it, then its vision-of-the-future placard — the
-// order the wall itself reads in. Placards open full-screen on tap.
+// hand, with every work a tappable hotspot. It opens centred on The
+// Pope's screen with a blinking "swipe" cue top-right until the first
+// pan or tap. Tapping a work (or its chip beneath the wall) opens it in
+// a charcoal panel under the wall, in the wall's own reading order: the
+// work (film for The Pope, Vimeo for Recycle Group, the print
+// otherwise), its placard, the route to collect it, then its vision-
+// of-the-future placard — with a close button so the page keeps moving.
+// The page itself does not scroll when a work opens; only the wall pans
+// to bring the work into view. Placards open full-screen on tap.
 function MobileWall({ onCollect }: { onCollect: (slug: string) => void }) {
   const [sel, setSel] = useState<number | null>(null);
   const [zoom, setZoom] = useState<string | null>(null);
+  const [cued, setCued] = useState(true); // the swipe hint
   const railRef = useRef<HTMLDivElement>(null);
-  const detailRef = useRef<HTMLDivElement>(null);
+  const touched = useRef(false);
 
-  // open on the middle of the wall (The Pope's screen), not the left edge
-  useEffect(() => {
+  // Open on the middle of the wall (The Pope's screen), not the left
+  // edge. Centred again once the image has its real height, and on
+  // resize, as long as the visitor hasn't panned yet.
+  const centre = useCallback(() => {
     const rail = railRef.current;
-    if (!rail) return;
-    rail.scrollLeft = (rail.scrollWidth - rail.clientWidth) / 2;
+    if (!rail || touched.current) return;
+    rail.scrollLeft = Math.max(0, (rail.scrollWidth - rail.clientWidth) / 2);
   }, []);
+  useEffect(() => {
+    centre();
+    const raf = requestAnimationFrame(centre);
+    window.addEventListener('resize', centre);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener('resize', centre);
+    };
+  }, [centre]);
+
+  const onUserPan = () => {
+    if (touched.current) return;
+    touched.current = true;
+    setCued(false);
+  };
 
   const pick = (i: number) => {
+    touched.current = true;
+    setCued(false);
     const next = sel === i ? null : i;
     setSel(next);
     if (next == null) return;
+    // pan the wall (not the page) so the chosen work is in view
     const rail = railRef.current;
     const s = WORK_SPOTS[next];
     if (rail && s) {
       const cx = ((s.rect.x + s.rect.w / 2) / IMG_W) * rail.scrollWidth;
       rail.scrollTo({ left: Math.max(0, cx - rail.clientWidth / 2), behavior: 'smooth' });
     }
-    window.setTimeout(() => detailRef.current?.scrollIntoView({ block: 'nearest', behavior: 'smooth' }), 80);
   };
 
   const work = sel != null ? MOBILE[sel] : null;
   const collect = work?.collect ? COLLECT_SPOTS.find((x) => x.slug === work.collect) : null;
   const placard = (name: string) => `/images/ours/placards/${name}.webp${V}`;
+  const pill =
+    'ours-buy inline-flex items-center gap-2 border px-4 py-2 font-mono text-[10px] uppercase tracking-[0.14em] transition-colors';
 
   return (
     <div className="lg:hidden">
       <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.16em]" style={{ color: OURS.gray }}>
-        The wall, as hung · drag to pan · tap a work
+        The wall, as hung · tap a work
       </p>
-      <div
-        ref={railRef}
-        className="-mx-1 overflow-x-auto px-1"
-        style={{ scrollbarWidth: 'none', WebkitOverflowScrolling: 'touch' }}
-      >
-        <div className="relative overflow-hidden rounded-2xl" style={{ width: '190%' }}>
-          <picture>
-            <source srcSet={`/images/ours/ledgerworks-wall.webp${V}`} type="image/webp" />
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={`/images/ours/ledgerworks-wall.png${V}`}
-              alt="The Ledgerworks wall as hung at OURS: five framed works and a backlit screen, wired together with black circuit-trace vinyl beneath the Ledgerworks sign."
-              className="block h-auto w-full"
-              style={{ transform: 'scale(1.02)' }}
-              draggable={false}
-            />
-          </picture>
-          <span aria-hidden className="pointer-events-none absolute inset-0 rounded-2xl" style={{ boxShadow: `inset 0 0 0 1px ${OURS.orange}` }} />
-          {WORK_SPOTS.map((s, i) => (
-            <button
-              key={s.slug}
-              type="button"
-              onClick={() => pick(i)}
-              aria-label={`${MOBILE[i].title} — ${MOBILE[i].sub}`}
-              aria-pressed={sel === i}
-              className="absolute rounded-md transition-shadow"
-              style={{
-                left: pct(s.rect.x, IMG_W), top: pct(s.rect.y, IMG_H),
-                width: pct(s.rect.w, IMG_W), height: pct(s.rect.h, IMG_H),
-                boxShadow: sel === i ? `0 0 0 2px ${OURS.orange}, 0 0 0 6px rgba(232,101,26,0.18)` : `0 0 0 1px rgba(232,101,26,0.45)`,
-                background: sel === i ? 'rgba(232,101,26,0.08)' : 'transparent',
-              }}
-            />
-          ))}
+      <div className="relative">
+        <div
+          ref={railRef}
+          className="-mx-1 overflow-x-auto px-1"
+          style={{ scrollbarWidth: 'none', WebkitOverflowScrolling: 'touch' }}
+          onScroll={onUserPan}
+          onTouchStart={onUserPan}
+        >
+          <div className="relative overflow-hidden rounded-2xl" style={{ width: '190%' }}>
+            <picture>
+              <source srcSet={`/images/ours/ledgerworks-wall.webp${V}`} type="image/webp" />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={`/images/ours/ledgerworks-wall.png${V}`}
+                alt="The Ledgerworks wall as hung at OURS: five framed works and a backlit screen, wired together with black circuit-trace vinyl beneath the Ledgerworks sign."
+                className="block h-auto w-full"
+                style={{ transform: 'scale(1.02)' }}
+                draggable={false}
+                onLoad={centre}
+              />
+            </picture>
+            <span aria-hidden className="pointer-events-none absolute inset-0 rounded-2xl" style={{ boxShadow: `inset 0 0 0 1px ${OURS.orange}` }} />
+            {WORK_SPOTS.map((s, i) => (
+              <button
+                key={s.slug}
+                type="button"
+                onClick={() => pick(i)}
+                aria-label={`${MOBILE[i].title} — ${MOBILE[i].sub}`}
+                aria-pressed={sel === i}
+                className="absolute rounded-md transition-shadow"
+                style={{
+                  left: pct(s.rect.x, IMG_W), top: pct(s.rect.y, IMG_H),
+                  width: pct(s.rect.w, IMG_W), height: pct(s.rect.h, IMG_H),
+                  boxShadow: sel === i ? `0 0 0 2px ${OURS.orange}, 0 0 0 6px rgba(232,101,26,0.18)` : `0 0 0 1px rgba(232,101,26,0.45)`,
+                  background: sel === i ? 'rgba(232,101,26,0.08)' : 'transparent',
+                }}
+              />
+            ))}
+          </div>
         </div>
+        {/* swipe cue — sits over the wall's top-right corner, blinks
+            until the first pan or tap */}
+        {cued && (
+          <div
+            aria-hidden
+            className="ours-swipe-cue pointer-events-none absolute right-2 top-2 flex items-center gap-1.5 rounded-full px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.14em]"
+            style={{ background: 'rgba(40,40,40,0.82)', color: OURS.cream, boxShadow: `inset 0 0 0 1px ${OURS.orange}` }}
+          >
+            <span aria-hidden style={{ color: OURS.orange }}>←</span> swipe
+          </div>
+        )}
       </div>
 
       {/* the same five, as chips — for anyone who'd rather not hunt the hotspots */}
@@ -653,12 +695,24 @@ function MobileWall({ onCollect }: { onCollect: (slug: string) => void }) {
       </div>
 
       {work && (
-        <div ref={detailRef} className="mt-6 scroll-mt-20 space-y-4">
-          <div>
-            <p className="font-heading text-[18px] uppercase leading-tight" style={{ color: OURS.ink }}>
+        <div
+          className="relative mt-5 space-y-4 rounded-2xl p-4 pt-5"
+          style={{ background: OURS.ink, boxShadow: `inset 0 0 0 1px rgba(232,101,26,0.55)` }}
+        >
+          <button
+            type="button"
+            onClick={() => setSel(null)}
+            aria-label="Close"
+            className="absolute right-3 top-3 flex h-10 w-10 items-center justify-center rounded-full font-mono text-sm"
+            style={{ color: OURS.cream, boxShadow: `inset 0 0 0 1px ${OURS.orange}`, background: 'rgba(40,40,40,0.6)' }}
+          >
+            ✕
+          </button>
+          <div className="pr-12">
+            <p className="font-heading text-[18px] uppercase leading-tight" style={{ color: OURS.cream }}>
               {work.title}
             </p>
-            <p className="text-[14px] italic" style={{ color: OURS.gray }}>
+            <p className="text-[14px] italic" style={{ color: OURS.hair }}>
               {work.sub}
             </p>
           </div>
@@ -682,31 +736,20 @@ function MobileWall({ onCollect }: { onCollect: (slug: string) => void }) {
           {work.placards[0] && (
             <button type="button" onClick={() => setZoom(placard(work.placards[0]))} className="block w-full cursor-zoom-in" aria-label="Read the placard full-screen">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={placard(work.placards[0])} alt={`${work.title} — placard`} className="w-full rounded-lg border" style={{ borderColor: OURS.hair }} />
+              <img src={placard(work.placards[0])} alt={`${work.title} — placard`} className="w-full rounded-lg" />
             </button>
           )}
 
           {/* collect */}
           <div className="flex flex-wrap gap-2">
             {collect && (
-              <button
-                onClick={() => onCollect(collect.slug)}
-                className="ours-buy inline-flex items-center gap-2 border px-4 py-2 font-mono text-[10px] uppercase tracking-[0.14em] transition-colors"
-                style={{ borderColor: OURS.orange, color: OURS.orange }}
-              >
+              <button onClick={() => onCollect(collect.slug)} className={pill} style={{ borderColor: OURS.orange, color: OURS.orange }}>
                 <ChainIcon style={{ width: 14, height: 14 }} />
                 Collect — {collect.piece.price} →
               </button>
             )}
             {work.external?.map((ext) => (
-              <a
-                key={ext.href}
-                href={ext.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="ours-buy inline-flex items-center gap-2 border px-4 py-2 font-mono text-[10px] uppercase tracking-[0.14em] transition-colors"
-                style={{ borderColor: OURS.orange, color: OURS.orange }}
-              >
+              <a key={ext.href} href={ext.href} target="_blank" rel="noopener noreferrer" className={pill} style={{ borderColor: OURS.orange, color: OURS.orange }}>
                 <ChainIcon style={{ width: 14, height: 14 }} />
                 {ext.label}
               </a>
@@ -717,13 +760,33 @@ function MobileWall({ onCollect }: { onCollect: (slug: string) => void }) {
           {work.placards[1] && (
             <button type="button" onClick={() => setZoom(placard(work.placards[1]))} className="block w-full cursor-zoom-in" aria-label="Read the vision placard full-screen">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={placard(work.placards[1])} alt={`${work.title} — vision of the future`} className="w-full rounded-lg border" style={{ borderColor: OURS.hair }} />
+              <img src={placard(work.placards[1])} alt={`${work.title} — vision of the future`} className="w-full rounded-lg" />
             </button>
           )}
+
+          <div className="pt-1 text-center">
+            <button
+              type="button"
+              onClick={() => setSel(null)}
+              className="py-2 font-mono text-[11px] uppercase tracking-[0.16em]"
+              style={{ color: OURS.orange }}
+            >
+              Close ✕
+            </button>
+          </div>
         </div>
       )}
 
       {zoom && <Lightbox items={[{ src: zoom, alt: work ? `${work.title} — ${work.sub}` : '' }]} index={0} onClose={() => setZoom(null)} />}
+
+      <style jsx global>{`
+        @keyframes ours-swipe-cue {
+          0%, 100% { opacity: 1; transform: translateX(0); }
+          50% { opacity: 0.35; transform: translateX(-4px); }
+        }
+        .ours-swipe-cue { animation: ours-swipe-cue 1.4s ease-in-out infinite; }
+        @media (prefers-reduced-motion: reduce) { .ours-swipe-cue { animation: none; } }
+      `}</style>
     </div>
   );
 }

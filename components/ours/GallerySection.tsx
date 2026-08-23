@@ -944,7 +944,7 @@ function MobileCarousel() {
             ref={(el) => {
               slideRefs.current[i] = el;
             }}
-            className="w-full shrink-0 snap-center px-1"
+            className="w-full shrink-0 snap-center snap-always px-1"
             aria-hidden={i !== active ? true : undefined}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}

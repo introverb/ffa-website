@@ -42,7 +42,7 @@ export default function OursSectionPage({ params }: { params: { section: string 
             Lower East Side: the works, the words, and everything that came of it.
           </p>
         }
-        meta={['August 2026', 'Space LES', 'New York City']}
+        meta={['August 2026', 'Space LES', 'NYC']}
         video="/images/ours/event-film.mp4"
         poster="/images/ours/event-film-poster.jpg"
       />

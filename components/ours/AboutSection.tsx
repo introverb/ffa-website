@@ -186,7 +186,7 @@ export function AboutSection() {
               key={p.file}
               type="button"
               onClick={() => setLb(i)}
-              className="w-[82%] shrink-0 snap-center overflow-hidden rounded-lg"
+              className="w-[82%] shrink-0 snap-center snap-always overflow-hidden rounded-lg"
               aria-label={p.alt}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
