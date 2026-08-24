@@ -2,16 +2,14 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 import { Panel } from '@/components/PageFrame';
 import { PageHeader } from '@/components/PageHeader';
-import { CommunityFund } from '@/components/CommunityFund';
 import { EthGiveButton } from '@/components/EthGiveButton';
-import { DafGrantDialog } from '@/components/DafGrantDialog';
 import { ScrollDepthMarker } from '@/components/ScrollDepthMarker';
-import { FFA_ETH_ADDRESS } from '@/lib/eth';
+import { SubscribeForm } from '@/components/SubscribeForm';
 
 export const metadata: Metadata = {
   title: 'Support',
   description:
-    'Support the Foundation for Future Aesthetics, a 501(c)(3) nonprofit. Give, partner, or open a door for us. All gifts and sponsorships are tax-deductible.',
+    'Support the Foundation for Future Aesthetics, a 501(c)(3) nonprofit. Give, become a member, or partner with us. All gifts and sponsorships are tax-deductible.',
   alternates: { canonical: '/support' },
   openGraph: {
     images: [{ url: '/images/mission.jpg', alt: 'Support FFA' }],
@@ -114,65 +112,24 @@ const INDIVIDUAL_BENEFACTORS = [
   },
 ];
 
-type OtherWay = {
-  label: string;
-  body: React.ReactNode;
-};
-
-const OTHER_WAYS: OtherWay[] = [
+// Gallery Membership — the tier copy exactly as printed on the OURS
+// membership cards (MEMBERSHIP_Cards_ALL_204_DUPLEX). The card's QR
+// resolves to /q/join, which is where the Become-a-member CTA goes.
+const MEMBERSHIP_TIERS = [
   {
-    label: 'Donor-advised funds',
-    body: (
-      <>
-        We accept grants from DAFs at Fidelity Charitable, Schwab, Vanguard,
-        and other sponsoring organizations.{' '}
-        <DafGrantDialog>Open our grant info</DafGrantDialog> to recommend a
-        grant.
-      </>
-    ),
+    name: 'Mycelium',
+    price: '$50',
+    blurb: 'Complimentary access to future events & openings.',
   },
   {
-    label: 'Stock & crypto',
-    body: (
-      <>
-        Appreciated stock and cryptocurrency are often more tax-efficient
-        than cash. Send stock via{' '}
-        <a
-          href="https://www.every.org/foundation-for-future-aesthetics/donate?paymentMethod=stocks"
-          target="_blank"
-          rel="noopener noreferrer"
-          data-goatcounter-click="outbound:every-org-stocks"
-          className="underline decoration-from-font underline-offset-4 text-ink hover:text-sage"
-        >
-          every.org
-        </a>
-        , or set up a continuous on-chain stream via{' '}
-        <a
-          href="https://app.sablier.com/create"
-          target="_blank"
-          rel="noopener noreferrer"
-          data-goatcounter-click="outbound:sablier-otherways"
-          className="underline decoration-from-font underline-offset-4 text-ink hover:text-sage"
-        >
-          Sablier
-        </a>{' '}
-        or{' '}
-        <a
-          href={`https://app.superfluid.finance/send?recipient=${FFA_ETH_ADDRESS}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          data-goatcounter-click="outbound:superfluid-otherways"
-          className="underline decoration-from-font underline-offset-4 text-ink hover:text-sage"
-        >
-          Superfluid
-        </a>
-        .
-      </>
-    ),
+    name: 'Deuterium',
+    price: '$100',
+    blurb: '+ Private viewing appointments and curated dinners.',
   },
   {
-    label: 'Workplace matching',
-    body: 'Many employers match employee gifts to 501(c)(3)s, often 1:1 or 2:1. We qualify on the major matching platforms (Benevity, YourCause, Bright Funds), so a few minutes on your company portal can double or triple your contribution.',
+    name: 'Regolith',
+    price: '$250',
+    blurb: '+ Exclusive early access and acquisition privileges for curated works.',
   },
 ];
 
@@ -186,10 +143,72 @@ export default function SupportPage() {
         body={
           <p>
             The Foundation for Future Aesthetics is a 501(c)(3) nonprofit. Give,
-            partner with us, or open a door.
+            become a member, or partner with us.
           </p>
         }
       />
+
+      {/* Future events — leads the page: the mailing list for public
+          events and updates, beside Gallery Membership for the private
+          side (tier copy verbatim from the printed OURS membership
+          card; its QR resolves to /q/join, same as the CTA here). */}
+      <Panel id="events" variant="white" full className="overflow-clip">
+        <div className="grid md:grid-cols-2 md:divide-x-[3px] md:divide-ink/20">
+          <div className="flex flex-col p-8 md:p-14">
+            <p className="text-sm uppercase tracking-[0.08em] text-sage">Future events</p>
+            <h2 className="mt-6 text-h2 leading-[1.05] md:text-h2-lg">
+              Be there for what&rsquo;s next.
+            </h2>
+            <p className="mt-6 text-body-lg leading-relaxed text-ink/80">
+              Our public events and updates — exhibitions, openings, releases, and
+              what the foundation is building next, straight to your inbox.
+            </p>
+            <div className="mt-auto max-w-md pt-10">
+              <SubscribeForm
+                variant="light"
+                label="Public events & updates"
+                eventName="subscribe:support-events"
+              />
+            </div>
+          </div>
+
+          <div className="flex flex-col p-8 md:p-14">
+            <p className="text-sm uppercase tracking-[0.08em] text-sage">
+              Gallery Membership
+            </p>
+            <h2 className="mt-6 text-h2 leading-[1.05] md:text-h2-lg">
+              Private events &amp; sneak peeks.
+            </h2>
+            <ul className="mt-8 divide-y divide-rule border-y border-rule">
+              {MEMBERSHIP_TIERS.map((t) => (
+                <li key={t.name} className="py-5">
+                  <div className="flex items-baseline justify-between gap-6">
+                    <p className="font-heading text-h6 uppercase tracking-[0.02em] text-ink">
+                      {t.name}
+                    </p>
+                    <p className="whitespace-nowrap font-mono text-sm text-ink/80">
+                      {t.price} <span className="text-muted">/ mo</span>
+                    </p>
+                  </div>
+                  <p className="mt-1.5 text-body leading-relaxed text-ink/80">{t.blurb}</p>
+                </li>
+              ))}
+            </ul>
+            <div className="mt-auto flex flex-wrap items-center gap-5 pt-10">
+              <Link
+                href="/q/join"
+                data-goatcounter-click="membership:support-panel"
+                className="btn-solid"
+              >
+                Become a member
+              </Link>
+              <p className="text-xs uppercase tracking-[0.1em] text-muted">
+                Sign-ups open · limited availability
+              </p>
+            </div>
+          </div>
+        </div>
+      </Panel>
 
       {/* Benefactors — quiet credit roll for the foundations, grant
           programs, and founding patrons backing FFA. Leads the page,
@@ -346,6 +365,17 @@ export default function SupportPage() {
                 work forward — and we&rsquo;ll write back personally.
               </p>
             </div>
+            <p className="mt-5 text-sm text-muted">
+              We also accept DAF grants, appreciated stock, and workplace
+              matching (Benevity, YourCause, Bright Funds) —{' '}
+              <Link
+                href="/contact?topic=Partnership"
+                className="underline decoration-from-font underline-offset-4 text-ink hover:text-sage"
+              >
+                send a note
+              </Link>{' '}
+              and we&rsquo;ll route you.
+            </p>
             <div className="mt-auto flex flex-col gap-3 pt-10 sm:flex-row">
               <a
                 href="https://www.every.org/foundation-for-future-aesthetics/donate"
@@ -363,157 +393,38 @@ export default function SupportPage() {
             </div>
           </div>
 
-          {/* Right half — Other ways. Definition-list rhythm: bold
-              ink label + body. Quieter than sage-eyebrow per-item
-              labels so the section's own "Other ways" eyebrow stays
-              the dominant marker on this side. */}
-          <div className="flex flex-col p-8 md:p-14">
-            <p className="text-sm uppercase tracking-[0.08em] text-sage">Other ways</p>
+          {/* Right half — Patronage. The Patron / Sponsor paths sit
+              beside Give (they used to hold their own panel further
+              down): each card links to its standalone brief, because
+              the patron relationship starts with a conversation, not
+              a checkout. id="partner" preserved for inbound anchors. */}
+          <div id="partner" className="flex flex-col p-8 md:p-14">
+            <ScrollDepthMarker eventName="scroll:support:partner-visible" />
+            <p className="text-sm uppercase tracking-[0.08em] text-sage">Patronage</p>
             <h2 className="mt-6 text-h2 leading-[1.05] md:text-h2-lg">
-              Or give another way.
+              Fund a more optimistic future.
             </h2>
-            <ul className="mt-8 space-y-6 text-body leading-relaxed text-ink/80">
-              {OTHER_WAYS.map((w) => (
-                <li key={w.label}>
-                  <p className="font-medium text-ink">{w.label}</p>
-                  <p className="mt-1.5">{w.body}</p>
-                </li>
+            <div className="mt-8 space-y-6">
+              {PATRONAGE.map((p) => (
+                <div key={p.name} className="rounded-2xl bg-cream p-6 md:p-8">
+                  <div className="flex items-baseline justify-between gap-6">
+                    <p className="text-sm uppercase tracking-[0.08em] text-sage">{p.name}</p>
+                    <p className="whitespace-nowrap font-mono text-sm text-ink/80">{p.amount}</p>
+                  </div>
+                  <p className="mt-3 text-body leading-relaxed text-ink/80">{p.blurb}</p>
+                  {/* New tab — the brief is a standalone shareable
+                      document, so the visitor's place here is kept. */}
+                  <Link
+                    href={p.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    data-goatcounter-click={`patron:${p.slug}-brief`}
+                    className="mt-5 inline-block text-sm uppercase tracking-[0.1em] underline decoration-from-font underline-offset-4 text-ink transition-colors hover:text-sage"
+                  >
+                    View the brief
+                  </Link>
+                </div>
               ))}
-            </ul>
-            <p className="mt-auto pt-8 text-sm text-muted">
-              For any of these, start with a note via{' '}
-              <Link
-                href="/contact"
-                className="underline decoration-from-font underline-offset-4 text-ink hover:text-sage"
-              >
-                our contact form
-              </Link>{' '}
-              and we&rsquo;ll route you to the right place.
-            </p>
-          </div>
-        </div>
-      </Panel>
-
-      {/* Patronage — the two patron paths (Private / Corporate). Each
-          card links to its standalone brief in /public; the patron
-          relationship starts with a conversation, not a checkout, so
-          the card CTAs route to the brief rather than every.org.
-          Below the cards, the issue-underwriter callout (slow-
-          conversation $20k commitment) lives in this panel too — it's
-          another shape of partner support beyond patronage proper.
-          id="partner" retained so any inbound anchor links from
-          elsewhere on the site still land here. */}
-      <Panel id="partner" variant="white" className="md:p-16">
-        <ScrollDepthMarker eventName="scroll:support:partner-visible" />
-        <p className="text-sm uppercase tracking-[0.08em] text-sage">Patronage</p>
-        <h2 className="mt-6 max-w-4xl text-h2 leading-[1.05] md:text-h2-lg">
-          Fund a more optimistic future.
-        </h2>
-
-        <div className="mt-12 grid gap-10 md:grid-cols-2">
-          {PATRONAGE.map((p) => (
-            <div
-              key={p.name}
-              className="flex flex-col justify-between rounded-2xl bg-cream p-6 md:p-10"
-            >
-              <div>
-                <p className="text-sm uppercase tracking-[0.08em] text-sage">{p.name}</p>
-                <p className="mt-5 text-h2 md:text-h2-lg">{p.amount}</p>
-                <p className="mt-5 text-body leading-relaxed text-ink/80">{p.blurb}</p>
-              </div>
-              <div className="mt-8">
-                {/* Opens in a new tab — the brief is a standalone
-                    shareable document (its own typography, full
-                    print styles, no SiteNav around it), so popping
-                    a new tab keeps the visitor's place on /support
-                    when they close the brief. */}
-                <Link
-                  href={p.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  data-goatcounter-click={`patron:${p.slug}-brief`}
-                  className="btn-solid"
-                >
-                  View the brief
-                </Link>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Issue-underwriter callout — bordered card with no fill
-            distinguishes it from the solid cream tier cards above:
-            "different kind of offer" (a relationship) rather than a
-            fourth tier (a click). Lead with the dollar figure so the
-            commitment is explicit. */}
-        <div className="mt-12 rounded-2xl border-[3px] border-ink/20 p-6 md:p-10">
-          <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between md:gap-10">
-            <div className="md:max-w-2xl">
-              <p className="text-sm uppercase tracking-[0.08em] text-sage">
-                Fund your vision
-              </p>
-              <p className="mt-5 text-h2 leading-[1.05] md:text-h2-lg">
-                Underwrite a complete issue of Possibilia Magazine.
-              </p>
-              <p className="mt-5 text-body leading-relaxed text-ink/80">
-                Pick the futures you want to see come to life. Choose the
-                concepts for ten short stories, the scientific fields and
-                technological innovations to explore, and the direction of the
-                artwork commissioned around them. If you&rsquo;d like to
-                underwrite a full issue, we&rsquo;d love to start a conversation.
-              </p>
-            </div>
-            <Link
-              href="/contact?topic=Underwrite a Possibilia issue"
-              data-goatcounter-click="partner:issue-underwriter"
-              className="btn-solid shrink-0"
-            >
-              Start the conversation
-            </Link>
-          </div>
-        </div>
-      </Panel>
-
-      {/* Community Fund — FFA's match fund on Artizen, surfaced live.
-          Now sits after Patronage (swapped with the Give panel, which
-          leads right after Benefactors instead). Artizen blocks
-          iframing, so this is a native panel that reads the live
-          numbers from their public API (see CommunityFund.tsx). */}
-      <CommunityFund />
-
-      {/* Refer Us — pulled out into its own standalone panel (used to
-          be a third section folded into the Give panel below the
-          Give | Other Ways row). Sits last before the catch-all soft
-          off-ramp. id="refer" retained so any anchor links to #refer
-          from elsewhere on the site still land here. */}
-      <Panel id="refer" variant="white" className="md:p-16">
-        <div className="grid gap-12 md:grid-cols-[1fr_1.6fr]">
-          <div>
-            <p className="text-sm uppercase tracking-[0.08em] text-sage">Refer us</p>
-            <h2 className="mt-6 text-h2 leading-[1.05] md:text-h2-lg">
-              Open a door for us.
-            </h2>
-          </div>
-          <div className="flex flex-col text-body-lg leading-relaxed text-ink/85">
-            <p>
-              If you sit on a foundation board, advise a grant program, or have ties to a
-              donor, fund, or competition that supports the arts, science writing, or
-              future-oriented media, we&rsquo;d love an introduction. We&rsquo;re a
-              501(c)(3) actively building the grant pipeline for Possibilia, the OURS
-              exhibition, and the Industrial Garden initiative.
-            </p>
-            <p className="mt-5">
-              We can prepare a tailored brief for your contact within a week. Send a name,
-              an email, and a sentence about why you think it&rsquo;s a fit.
-            </p>
-            <div className="mt-auto pt-10">
-              <Link
-                href="/contact?topic=Refer a donor or foundation"
-                data-goatcounter-click="refer:make-introduction"
-                className="btn-solid"
-              >
-                Make an introduction
-              </Link>
             </div>
           </div>
         </div>
