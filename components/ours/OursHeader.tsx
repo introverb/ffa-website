@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { OURS } from './tokens';
+import { HeaderFilm } from './HeaderFilm';
 
 // OURS page header. Deliberately separate from the shared <PageHeader>,
 // because this page departs from the site default in ways the shared
@@ -114,17 +115,7 @@ export function OursHeader({
             // film plus the same 32px the text column gets, so the
             // spacing above and below the film matches everything else.
             <div className="flex items-center justify-center px-8 pb-8 pt-0 md:absolute md:inset-0 md:p-8">
-              <video
-                src={video}
-                poster={poster}
-                muted
-                loop
-                playsInline
-                autoPlay
-                preload="metadata"
-                className="w-full rounded-xl md:max-h-full"
-                style={{ aspectRatio: '16 / 9', objectFit: 'cover' }}
-              />
+              <HeaderFilm src={video} poster={poster} />
             </div>
           ) : (
             <div className="absolute inset-0">
