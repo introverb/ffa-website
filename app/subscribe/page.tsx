@@ -18,12 +18,11 @@ export default function SubscribePage() {
   return (
     <Panel variant="white" className="md:p-16">
       <div className="mx-auto max-w-xl py-10 text-center md:py-20">
-        <p className="text-sm uppercase tracking-[0.08em] text-sage">Mailing list</p>
+        <p className="text-sm uppercase tracking-[0.08em] text-flare">Mailing list</p>
         <h1 className="mt-6 text-h2 leading-[1.05] md:text-h2-lg">Stay close.</h1>
         <p className="mt-6 text-body-lg leading-relaxed text-ink/80">
           Public events, openings, and updates from the Foundation for Future
-          Aesthetics — the occasional note, only when there&rsquo;s something
-          worth your evening.
+          Aesthetics.
         </p>
         <div className="mx-auto mt-10 max-w-md text-left">
           <SubscribeForm
