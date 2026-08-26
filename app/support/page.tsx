@@ -112,24 +112,26 @@ const INDIVIDUAL_BENEFACTORS = [
   },
 ];
 
-// Gallery Membership — the tier copy exactly as printed on the OURS
-// membership cards (MEMBERSHIP_Cards_ALL_204_DUPLEX). The card's QR
-// resolves to /q/join, which is where the Become-a-member CTA goes.
+// Gallery Membership — the 2027-season tier copy (kept in step with
+// public/membership.html, where the Become-a-member CTA lands via
+// /q/join). Each tier includes the ones before it.
 const MEMBERSHIP_TIERS = [
   {
     name: 'Mycelium',
     price: '$50',
-    blurb: 'Complimentary access to future events & openings.',
+    blurb:
+      'Complimentary entry to all public FFA events and openings, including both 2027 exhibitions and the events around them.',
   },
   {
     name: 'Deuterium',
     price: '$100',
-    blurb: '+ Private viewing appointments and curated dinners.',
+    blurb: '+ Workshops, salons, and private viewing appointments.',
   },
   {
     name: 'Regolith',
     price: '$250',
-    blurb: '+ Exclusive early access and acquisition privileges for curated works.',
+    blurb:
+      '+ Exclusive dinners and the Curator’s Newsletter: see work as it’s made and selected for our events and the FFA gallery, with first chance to acquire.',
   },
 ];
 
@@ -179,7 +181,11 @@ export default function SupportPage() {
             <h2 className="mt-6 text-h2 leading-[1.05] md:text-h2-lg">
               Private events &amp; sneak peeks.
             </h2>
-            <ul className="mt-8 divide-y divide-rule border-y border-rule">
+            <p className="mt-4 text-sm leading-relaxed text-muted">
+              Membership covers the 2027 season and renews yearly. Each tier
+              includes the ones before it.
+            </p>
+            <ul className="mt-6 divide-y divide-rule border-y border-rule">
               {MEMBERSHIP_TIERS.map((t) => (
                 <li key={t.name} className="py-5">
                   <div className="flex items-baseline justify-between gap-6">
