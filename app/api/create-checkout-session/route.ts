@@ -39,6 +39,10 @@ export async function POST(req: NextRequest) {
     }
 
     const origin = SITE_URL ?? req.nextUrl.origin;
+    // The Support page's per-tier buttons start checkout directly; a
+    // cancel there should land back on the Support panel, not on
+    // /q/join. Whitelisted value, never a raw client URL.
+    const fromSupport = body?.from === 'support';
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
     const session = await stripe.checkout.sessions.create({
@@ -52,7 +56,7 @@ export async function POST(req: NextRequest) {
       // to know which membership level it is.
       subscription_data: { metadata: { tier } },
       success_url: `${origin}/q/join/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${origin}/q/join?canceled=1`,
+      cancel_url: fromSupport ? `${origin}/support#events` : `${origin}/q/join?canceled=1`,
     });
 
     if (!session.url) {

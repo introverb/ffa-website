@@ -5,6 +5,7 @@ import { PageHeader } from '@/components/PageHeader';
 import { EthGiveButton } from '@/components/EthGiveButton';
 import { ScrollDepthMarker } from '@/components/ScrollDepthMarker';
 import { SubscribeForm } from '@/components/SubscribeForm';
+import { MembershipCheckoutButton } from '@/components/MembershipCheckoutButton';
 
 export const metadata: Metadata = {
   title: 'Support',
@@ -117,17 +118,21 @@ const INDIVIDUAL_BENEFACTORS = [
 // /q/join). Each tier includes the ones before it.
 const MEMBERSHIP_TIERS = [
   {
+    tier: 'mycelium',
     name: 'Mycelium',
     price: '$50',
     blurb:
       'Complimentary entry to all public FFA events and openings, including both 2027 exhibitions and the events around them.',
   },
   {
+    tier: 'deuterium',
     name: 'Deuterium',
     price: '$100',
-    blurb: '+ Workshops, salons, and private viewing appointments.',
+    blurb:
+      '+ Access to monthly events like workshops, salons, meetups, and access to private viewing appointments.',
   },
   {
+    tier: 'regolith',
     name: 'Regolith',
     price: '$250',
     blurb:
@@ -197,21 +202,18 @@ export default function SupportPage() {
                     </p>
                   </div>
                   <p className="mt-1.5 text-body leading-relaxed text-ink/80">{t.blurb}</p>
+                  <div className="mt-4">
+                    {/* Straight into Stripe Checkout for this tier — no
+                        /q/join hop (that page stays as the card QR's
+                        landing and the fallback if checkout errors). */}
+                    <MembershipCheckoutButton tier={t.tier} label={`Choose ${t.name}`} />
+                  </div>
                 </li>
               ))}
             </ul>
-            <div className="mt-auto flex flex-wrap items-center gap-5 pt-10">
-              <Link
-                href="/q/join"
-                data-goatcounter-click="membership:support-panel"
-                className="btn-solid"
-              >
-                Become a member
-              </Link>
-              <p className="text-xs uppercase tracking-[0.1em] text-muted">
-                Sign-ups open · limited availability
-              </p>
-            </div>
+            <p className="mt-auto pt-8 text-xs uppercase tracking-[0.1em] text-muted">
+              Sign-ups open · limited availability
+            </p>
           </div>
         </div>
       </Panel>
