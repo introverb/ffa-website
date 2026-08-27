@@ -170,13 +170,22 @@ export default function SupportPage() {
               Our public events and updates — exhibitions, openings, releases, and
               what the foundation is building next, straight to your inbox.
             </p>
-            <div className="mt-auto max-w-md pt-10">
+            {/* Sits directly under its copy rather than bottom-pinned:
+                the membership column beside it is three tiers tall, so
+                sinking the form left a screen of dead space between the
+                paragraph and the field. */}
+            <div className="mt-8 max-w-md">
               <SubscribeForm
                 variant="light"
                 label="Public events & updates"
                 eventName="subscribe:support-events"
               />
             </div>
+            <p className="mt-6 max-w-md text-sm leading-relaxed text-muted">
+              One note at a time, only when there&rsquo;s something on. Members
+              get everything here plus the private calendar &mdash; the tiers
+              are alongside.
+            </p>
           </div>
 
           <div className="flex flex-col p-8 md:p-14">
