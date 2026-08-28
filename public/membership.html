@@ -32,6 +32,10 @@ a{color:var(--orange);text-decoration:none;}
 .hero h1{font-family:var(--cond);font-weight:700;text-transform:uppercase;letter-spacing:.01em;line-height:.98;
   font-size:clamp(38px,7vw,72px);margin:14px 0 0;text-shadow:0 2px 18px rgba(0,0,0,.4);}
 .hero .rule{width:46px;height:2px;background:var(--orange);margin:18px auto 0;}
+.hero .cta{display:inline-block;margin:28px auto 0;font-family:var(--mono);font-weight:500;font-size:13.5px;letter-spacing:.1em;
+  text-transform:uppercase;background:var(--orange);color:#fff;border-radius:2px;padding:17px 34px;
+  box-shadow:0 10px 30px rgba(0,0,0,.28);transition:background .15s ease,color .15s ease;}
+.hero .cta:hover{background:#fff;color:var(--ink);}
 
 /* ---------- TIERS ---------- */
 .tiers-sec{padding:64px 0 24px;}
@@ -68,6 +72,7 @@ footer .fsub{font-family:var(--mono);font-weight:400;font-size:11px;letter-spaci
 @media(max-width:760px){
   .tiers{grid-template-columns:1fr;}
   .hero .frame{inset:16px;}
+  .hero .cta{display:block;padding:16px 20px;font-size:13px;}
 }
 </style>
 </head>
@@ -80,6 +85,7 @@ footer .fsub{font-family:var(--mono);font-weight:400;font-size:11px;letter-spaci
     <div class="eyebrow">Foundation for Future Aesthetics</div>
     <h1>Gallery Membership</h1>
     <div class="rule"></div>
+    <a class="cta" href="/ours">Head to the OURS page</a>
   </div>
 </header>
 
@@ -98,7 +104,7 @@ footer .fsub{font-family:var(--mono);font-weight:400;font-size:11px;letter-spaci
       <div class="tier">
         <div class="tn">Mycelium</div>
         <div class="price"><b>$50</b> / mo</div>
-        <div class="desc">Complimentary entry to all public FFA events and openings, including both 2027 exhibitions and the events around them.</div>
+        <div class="desc">Complimentary entry and early registration for all public FFA events and openings, including both 2027 exhibitions and the events around them.</div>
         <button type="button" data-tier="mycelium">Choose Mycelium</button>
       </div>
       <!-- DEUTERIUM -->

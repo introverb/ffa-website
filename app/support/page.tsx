@@ -122,7 +122,7 @@ const MEMBERSHIP_TIERS = [
     name: 'Mycelium',
     price: '$50',
     blurb:
-      'Complimentary entry to all public FFA events and openings, including both 2027 exhibitions and the events around them.',
+      'Complimentary entry and early registration for all public FFA events and openings, including both 2027 exhibitions and the events around them.',
   },
   {
     tier: 'deuterium',
