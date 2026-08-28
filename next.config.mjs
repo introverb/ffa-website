@@ -54,12 +54,15 @@ const nextConfig = {
       // static-HTML pattern as the briefs above. Walks a buyer through
       // Artizen's Rewards section (screenshot + 3 steps + the "the big
       // support bar mints an artifact, not the magazine" warning)
-      // before handing off to the real Artizen checkout. /q/mag (the
-      // program's presale QR, p17 + p45) now points here instead of
-      // straight to Artizen — see the redirect below.
-      // (The /possibilia-preorder interstitial is retired — the path now
-      // redirects straight to Artizen; see redirects() below. The static
-      // HTML is kept in /public for reference.)
+      // before handing off to the real Artizen checkout. Every preorder
+      // affordance on the site (the homepage card and promo modal, the
+      // Possibilia hero, the OURS sign-off, and the program's /q/mag QR
+      // on p17 + p45) lands here rather than on Artizen directly, so
+      // nobody buys the support-bar artifact by mistake.
+      {
+        source: '/possibilia-preorder',
+        destination: '/possibilia-preorder.html',
+      },
       // OURS afterparty (Club Reign) — same standalone static-HTML
       // pattern as the briefs above. Reached via the /q/after QR in
       // the printed program (see the redirect below); noindexed like
@@ -143,20 +146,14 @@ const nextConfig = {
         destination: 'https://www.every.org/foundation-for-future-aesthetics/donate',
         statusCode: 302,
       },
-      // Possibilia Issue 0 pre-order: every preorder affordance on the
-      // site (the homepage card and promo modal, the Possibilia hero,
-      // the OURS sign-off, the program's /q/mag QR on p17 + p45) lands
-      // directly on the Artizen project page, where the $20 Possibilia
-      // Reward is the preorder. The interstitial that used to sit in
-      // between is retired.
-      {
-        source: '/possibilia-preorder',
-        destination: 'https://artizen.fund/index/p/possibilia-magazine?season=7',
-        statusCode: 302,
-      },
+      // Possibilia Issue 0 pre-order QR (program p17 + p45). Points at
+      // the /possibilia-preorder interstitial, not Artizen directly —
+      // the printed code can't be changed, so the hop is what keeps
+      // scanners landing on the instructions. The interstitial itself
+      // is served by the rewrite in rewrites() above.
       {
         source: '/q/mag',
-        destination: 'https://artizen.fund/index/p/possibilia-magazine?season=7',
+        destination: '/possibilia-preorder',
         statusCode: 302,
       },
       // Legacy slug — catches anyone who saved/shared the old direct

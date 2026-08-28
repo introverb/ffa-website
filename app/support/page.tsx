@@ -29,7 +29,7 @@ const PATRONAGE = [
     slug: 'private-patron',
     amount: 'From $1,000',
     blurb:
-      'For individuals backing the foundation itself — recognized in Possibilia, with a standing invitation to OURS and FFA events.',
+      'For individuals backing the foundation itself. Recognized in Possibilia, with a standing invitation to OURS and FFA events.',
     href: '/patrons/private',
   },
   {
@@ -37,7 +37,7 @@ const PATRONAGE = [
     slug: 'corporate-patron',
     amount: 'From $5,000',
     blurb:
-      'For companies building toward a future worth wanting — named credit, a presence at OURS, and a commissioned Possibilia story.',
+      'For companies building toward a future worth wanting. Named credit, a presence at OURS, and a commissioned Possibilia story.',
     href: '/patrons/corporate',
   },
 ];
@@ -167,8 +167,8 @@ export default function SupportPage() {
               Be there for what&rsquo;s next.
             </h2>
             <p className="mt-6 text-body-lg leading-relaxed text-ink/80">
-              Our public events and updates — exhibitions, openings, releases, and
-              what the foundation is building next, straight to your inbox.
+              Exhibitions, openings, releases, and whatever we&rsquo;re building
+              next. We write when there is something to say, which is not often.
             </p>
             {/* Sits directly under its copy rather than bottom-pinned:
                 the membership column beside it is three tiers tall, so
@@ -182,9 +182,8 @@ export default function SupportPage() {
               />
             </div>
             <p className="mt-6 max-w-md text-sm leading-relaxed text-muted">
-              One note at a time, only when there&rsquo;s something on. Members
-              get everything here plus the private calendar &mdash; the tiers
-              are alongside.
+              No schedule, no drip, no digest. Members get all of this plus the
+              private calendar; the tiers are alongside.
             </p>
           </div>
 
@@ -351,47 +350,44 @@ export default function SupportPage() {
             {/* Body shifted from sales-pitch ("fast, no-strings,
                 tax-deductible") to FFA's three-role philosophy +
                 stewardship close.
-                First paragraph: artists imagine, scientists discover,
-                technologists build — three distinct roles, each
-                carrying a piece of "a future worth having." Names the
+                First paragraph: artists imagine, scientists work out
+                what is possible, technologists build. Names the
                 current misalignment (art toward dystopia, tech toward
                 power, science toward whatever's fundable), then
-                positions FFA as the corrective: funding the version
-                where all three pull together, aligned toward human
-                flourishing.
+                positions FFA as the corrective: paying for the version
+                where the three work together.
                 Second paragraph: today's flagship initiatives named
                 concretely + the granting-program ambition for all
                 three groups + personal-note close instead of
                 transactional thanks. */}
             <div className="mt-6 space-y-4 text-body-lg leading-relaxed text-ink/80">
               <p>
-                Artists imagine a future worth having. Scientists
-                discover how it&rsquo;s possible. Technologists build
-                the pieces. Right now those three pull in different
-                directions — art toward dystopia, tech toward power,
-                science toward whatever&rsquo;s fundable. FFA funds the
-                version where they pull together, aligned toward human
-                flourishing.
+                Artists imagine what a good future looks like.
+                Scientists work out whether it is possible.
+                Technologists build the parts. Right now the three
+                barely talk: art drifts toward dystopia, tech toward
+                power, science toward whatever happens to be fundable.
+                We pay for the version where they work together.
               </p>
               <p>
-                <strong>Today:</strong> Possibilia stories, OURS
-                exhibitions, the Industrial Garden initiative.{' '}
-                <strong>Next:</strong> granting programs for the
-                artists, scientists, and technologists building futures
-                of their own. Every gift, no matter the size, moves the
-                work forward — and we&rsquo;ll write back personally.
+                <strong>Today</strong> that means Possibilia stories,
+                the OURS exhibitions, and the Industrial Garden.{' '}
+                <strong>Next</strong> it means grants, so that artists,
+                scientists, and technologists can build futures of their
+                own. At our size there is no such thing as a gift too
+                small to matter. We read every one, and we write back.
               </p>
             </div>
             <p className="mt-5 text-sm text-muted">
-              We also accept DAF grants, appreciated stock, and workplace
-              matching (Benevity, YourCause, Bright Funds) —{' '}
+              DAF grants, appreciated stock, and workplace matching
+              (Benevity, YourCause, Bright Funds) all work here too.{' '}
               <Link
                 href="/contact?topic=Partnership"
                 className="underline decoration-from-font underline-offset-4 text-ink hover:text-sage"
               >
                 send a note
               </Link>{' '}
-              and we&rsquo;ll route you.
+              and we&rsquo;ll point you the right way.
             </p>
             <div className="mt-auto flex flex-col gap-3 pt-10 sm:flex-row">
               <a
@@ -455,9 +451,9 @@ export default function SupportPage() {
         <ScrollDepthMarker eventName="scroll:support:catch-all-visible" />
         <h2 className="text-h2 leading-[1.05] md:text-h2-lg">Not sure where you fit?</h2>
         <p className="mt-6 max-w-prose text-body-lg leading-relaxed text-white/85">
-          Tell us about your project and what you&rsquo;re trying to get out into the
-          world. We&rsquo;ll come back with the shape that fits, or the honest answer
-          that we&rsquo;re not the right home for it.
+          Tell us what you&rsquo;re making and what it needs to get out into the
+          world. We&rsquo;ll tell you what we can do, or we&rsquo;ll tell you
+          we&rsquo;re the wrong people. Either answer comes quickly.
         </p>
         <Link
           href="/contact?topic=Partnership"
