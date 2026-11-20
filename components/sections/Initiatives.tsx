@@ -71,17 +71,7 @@ export function Initiatives() {
                       {/* Compact button sizing (px-4 py-2.5, text-xs) so the
                           CTAs sit lightly inside the initiative card's text
                           column. Same styles as btn-solid / the frosted
-                          secondary, just tighter padding + smaller text.
-                          Stacked: the primary (preorder) above the note. */}
-                      {i.preorder && (
-                        <Link
-                          href={i.preorder.href}
-                          data-goatcounter-click="home:possibilia-preorder"
-                          className="inline-flex items-center justify-center rounded-md bg-flare px-4 py-2.5 text-xs uppercase tracking-[0.1em] text-white transition hover:bg-dark"
-                        >
-                          {i.preorder.label}
-                        </Link>
-                      )}
+                          secondary, just tighter padding + smaller text. */}
                       {i.note &&
                         (i.noteHref ? (
                           i.noteHref.startsWith('http') ? (

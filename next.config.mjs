@@ -50,19 +50,6 @@ const nextConfig = {
         source: '/patrons/corporate',
         destination: '/patrons-corporate.html',
       },
-      // Possibilia Issue 0 pre-order interstitial — same standalone
-      // static-HTML pattern as the briefs above. Walks a buyer through
-      // Artizen's Rewards section (screenshot + 3 steps + the "the big
-      // support bar mints an artifact, not the magazine" warning)
-      // before handing off to the real Artizen checkout. Every preorder
-      // affordance on the site (the homepage card and promo modal, the
-      // Possibilia hero, the OURS sign-off, and the program's /q/mag QR
-      // on p17 + p45) lands here rather than on Artizen directly, so
-      // nobody buys the support-bar artifact by mistake.
-      {
-        source: '/possibilia-preorder',
-        destination: '/possibilia-preorder.html',
-      },
       // OURS afterparty (Club Reign) — same standalone static-HTML
       // pattern as the briefs above. Reached via the /q/after QR in
       // the printed program (see the redirect below); noindexed like
@@ -146,21 +133,27 @@ const nextConfig = {
         destination: 'https://www.every.org/foundation-for-future-aesthetics/donate',
         statusCode: 302,
       },
-      // Possibilia Issue 0 pre-order QR (program p17 + p45). Points at
-      // the /possibilia-preorder interstitial, not Artizen directly —
-      // the printed code can't be changed, so the hop is what keeps
-      // scanners landing on the instructions. The interstitial itself
-      // is served by the rewrite in rewrites() above.
+      // Possibilia Issue 0 QR (program p17 + p45). The Artizen
+      // pre-order (and its /possibilia-preorder interstitial) was
+      // retired in Nov 2026 when Artizen went down; the printed code
+      // can't be changed, so it now lands on the magazine page.
+      // Repoint here when ordering reopens somewhere else.
       {
         source: '/q/mag',
-        destination: '/possibilia-preorder',
+        destination: '/possibilia',
         statusCode: 302,
       },
-      // Legacy slug — catches anyone who saved/shared the old direct
-      // URL before it was renamed to /possibilia-preorder.
+      // Retired pre-order URLs — the interstitial page is gone, but
+      // both slugs were shared/printed, so they land on the magazine
+      // page instead of a 404.
+      {
+        source: '/possibilia-preorder',
+        destination: '/possibilia',
+        statusCode: 302,
+      },
       {
         source: '/preorder',
-        destination: '/possibilia-preorder',
+        destination: '/possibilia',
         statusCode: 302,
       },
       // Sponsor credit, program p18.

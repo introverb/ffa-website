@@ -184,8 +184,8 @@ export function ThanksSection() {
               wanting, and the craft it takes to get there.
             </p>
             <p className="mt-3 pt-1">
-              <a href="/possibilia-preorder" className={THIN_CTA} style={{ color: OURS.orange }}>
-                Preorder Issue 0 →
+              <a href="/possibilia" className={THIN_CTA} style={{ color: OURS.orange }}>
+                Read Possibilia →
               </a>
             </p>
           </div>
